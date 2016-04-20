@@ -1,0 +1,2 @@
+Sprites do labirinto
+:q
