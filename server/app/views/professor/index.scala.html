@@ -1,0 +1,180 @@
+@content = {
+
+		 @navbar()
+		  
+		 <!-- CARD MAIN -->
+          <div class="row">
+            <div class="col s12 offset-m1 m10">
+              <div class="card defaultCard default-page-margin-top">
+                <div class="card-content">
+
+                  <div class="row">
+                    <div class="card-title color-vermelho" style="line-height: 80%; letter-spacing: 3px;">
+
+                      <div class="col s12 m4 hide-on-small-only"><i class="medium material-icons">insert_chart</i></div>
+                      <div class="col s12 m4 center-align" style="margin-top: 15px;"><span style="font-size: 40px;">Dashboard</span></div>
+
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col s12 offset-m1 m10">
+                      <div class="row">
+                        <h4><i class="small material-icons">account_circle</i> Teacher Name.</h4>
+                      </div>
+                      <div class="row center-align">
+                        <div class="col s12 m3">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">class</i> 3 Turmas
+                          </div>
+                        </div>
+                        <div class="col s12 m3">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">supervisor_account</i> 18 Alunos
+                          </div>
+                        </div>
+                        <div class="col s12 m3">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">label</i> 8 Assuntos
+                          </div>
+                        </div>
+                        <div class="col s12 m3">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">mode_edit</i> 43 Questões
+                          </div>
+                        </div>    
+                      </div>
+                      <div class="row center-align">
+                        <div class="col s6 m6">
+                          <a onclick="movimento('andamentoPorTurma', 90)" class="waves-effect waves-light">andamento por turma</a>
+                        </div>
+                        <div class="col s6 m6">
+                          <a onclick="movimento('rank', 90)" class="waves-effect waves-light">rank</a>
+                        </div>
+                      </div>
+                      <hr>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col s12 offset-m1 m10">
+                      <div id="andamentoPorTurma"><h5>Andamento por turma:</h5></div>
+                      <div id="line-chart"></div>
+                      <hr>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col s12 offset-m1 m10">
+                      <div id="rank"><h5>Rank:</h5></div>
+                        <table data-sort-name="classroom" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="false" data-pagination="false" data-page-list="[5, 10, 15, 20]" data-cache="false" class="students-table">
+                          <thead>
+                            <tr>
+                              <th>Position</th>
+                              <th>Name</th>
+                              <th>Classroom</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                1
+                              </td>
+                              <td>
+                                <a class="waves-effect waves-light">Bruno</a>
+                              </td>
+                              <td>
+                                A
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                2
+                              </td>
+                              <td>
+                                <a class=" waves-effect waves-light">Rodrigo</a>
+                              </td>
+                              <td>
+                                B
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                3
+                              </td>
+                              <td>
+                                <a class="waves-effect waves-light">Euclides</a>
+                              </td>
+                              <td>
+                                A
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                4
+                              </td>
+                              <td>
+                                <a class="waves-effect waves-light">Daniel</a>
+                              </td>
+                              <td>
+                                A
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                5
+                              </td>
+                              <td>
+                                <a class="waves-effect waves-light">Allysson</a>
+                              </td>
+                              <td>
+                                B
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      <hr>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div><!-- FIM card -->
+          
+          <script type="text/javascript">
+		  $(document).ready(function(){
+		    drawChart();
+		  });
+		
+		    function randomIntFromInterval(){   
+		      var min = 50;
+		      var max = 100;
+		      return Math.floor(Math.random()*(max-min+1)+min);
+		    }
+		
+		    function drawChart(){
+		      $('#line-chart').html("loading");
+		      setTimeout(function(){
+		        $('#line-chart').html("");
+		        Morris.Line({
+		          element: 'line-chart',
+		          data: [
+		            { y: 'Desafio 1', a: randomIntFromInterval(), b: randomIntFromInterval(), c: randomIntFromInterval()},
+		            { y: 'Desafio 2', a: randomIntFromInterval(),  b: randomIntFromInterval(), c: randomIntFromInterval()},
+		            { y: 'Desafio 3', a: randomIntFromInterval(),  b: randomIntFromInterval()},
+		            { y: 'Desafio 4', a: randomIntFromInterval()}
+		          ],
+		          parseTime: false,
+		          xkey: 'y',
+		          ykeys: ['a', 'b', 'c'],
+		          labels: ['Turma A', 'Turma B', 'Turma C'],
+		          resize: true
+		
+		        });
+		      }, 1000);
+		    }
+		  </script>
+}
+
+@main("Teacher, e-Lessons")(content)

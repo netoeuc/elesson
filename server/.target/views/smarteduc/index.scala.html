@@ -1,7 +1,254 @@
-@(message: String)
+@content = {
 
-@main("Welcome to Play 2.1") {
-    
-    @play20.welcome(message, style = "Java")
-    
+		  @navbar()
+		  
+		  <!-- CARD CONTENT -->
+          <div class="row">
+            <div class="col s12 offset-m1 m10">
+              <div class="card defaultCard default-page-margin-top">
+                <div class="card-content">
+
+                  <div class="row">
+                    <div class="card-title color-vermelho" style="line-height: 80%;">
+
+                      <div class="col s12 m4 hide-on-small-only"><i class="medium material-icons">work</i></div>
+
+                      <div class="col s12 m4 center-align" style="letter-spacing: 3px; margin-top: 15px;"><span style="font-size: 40px;">Clients</span></div>
+
+                    </div>
+                  </div>
+
+                  <div class="row">
+                          <table data-sort-name="classroom" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="true" data-page-list="[5, 10, 15, 20]" data-cache="false" class="students-table">
+                            <thead>
+                              <tr>
+                                <th data-field="name" data-sortable="true">Name</th>
+                                <th data-field="license" data-sortable="true">License</th>
+                                <th data-field="actions" data-sortable="false">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td><a id="showDetails" onclick="mostrarInstituicao('UNICAP', 'Premium', '1')" class="modal-trigger waves-effect waves-light">UNICAP</a></td>
+                                <td>Premium</td>
+                                <td>
+                                  <i onclick="mostrarEditarInstituicao('UNICAP', 'Premium', '1');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+                                  <i onclick="removerInstituicao('1');" id="rem-1" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><a id="showDetails" onclick="mostrarInstituicao('Open English', 'Test', '2')" class="modal-trigger waves-effect waves-light">Open English</a></td>
+                                <td>Test</td>
+                                <td>
+                                  <i onclick="mostrarEditarInstituicao('Open English', 'Test', '2');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+                                  <i onclick="removerInstituicao('2');" id="rem-2" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><a id="showDetails" onclick="mostrarInstituicao('Wizard', 'Silver', '3')" class="modal-trigger waves-effect waves-light">Wizard</a></td>
+                                <td>Silver</td>
+                                <td>
+                                  <i onclick="mostrarEditarInstituicao('Wizard', 'Silver', '3');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+                                  <i onclick="removerInstituicao('3');" id="rem-3" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+
+                    <div class="row">
+                      <div class="col s12 m12">
+                        <a onclick="mostrarNovaInstituicao();" class="col s12 offset-m3 m6 waves-effect waves-light btn bg-azul">new client<a>
+                      </div>
+                    </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div><!-- FIM card -->
+
+          <!-- Modal Structure -->
+          <div id="modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+              <h4 id="namebusiness"></h4>
+              <div class="col s12 m12">
+
+                  <div class="row" style="margin-bottom: 0px !important;">
+                    <div class="col s12 offset-m1 m10">
+                      <div class="row center-align">
+                        <div id="donut-chart" style="width: 100%; height:200px;"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col s12 offset-m1 m10">
+                      <div class="row center-align">
+                        <div class="col s12 m6">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">class</i> 3 Turmas
+                          </div>
+                        </div>
+                        <div class="col s12 m6">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">supervisor_account</i> 18 Alunos
+                          </div>
+                        </div>
+                        <div class="col s12 m6">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">label</i> 8 Assuntos
+                          </div>
+                        </div>
+                        <div class="col s12 m6">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">mode_edit</i> 43 Questões
+                          </div>
+                        </div>    
+                      </div>
+                      <hr>
+                    </div>
+                  </div>
+
+                  <div class="row" style="margin-bottom: -20px !important;">
+                    <div class="col s12 offset-m1 m10">
+                      <div class="row center-align">
+                        <div class="col s12">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">phone</i> 88 8888-8888
+                          </div>
+                        </div>
+                        <div class="col s12">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">location_on</i> Av. Lorem Ipsum, 888
+                          </div>
+                        </div>
+                        <div class="col s12">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">business</i> 88.8888.8888/8888
+                          </div>
+                        </div>
+                        <div class="col s12">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">email</i> lorem@@ipsum.com
+                          </div>
+                        </div>    
+                      </div>
+                    </div>
+                  </div>
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">close</a>
+            </div>
+          </div>
+
+          <!-- Modal Structure -->
+          <div id="modal-fields" class="modal modal-fixed-footer">
+            <div class="modal-content">
+              <h4 id="namebusiness"></h4>
+              <div class="col s12 m12">
+
+                  <div class="row" style="margin-bottom: 0px !important;">
+                    <div class="col s12 offset-m1 m10">
+                      
+                      <div class="row">
+                        <form class="col s12">
+
+                          <div class="row">
+                            <div class="input-field col s12 offset-m1 m10">
+                              <input id="name" autocomplete="off" type="text">
+                              <label for="name">Client name</label>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="input-field col s12 offset-m1 m10">
+                              <input id="phone" autocomplete="off" type="text">
+                              <label for="phone">Phone</label>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="input-field col s12 offset-m1 m10">
+                              <input id="address" autocomplete="off" type="text">
+                              <label for="address">Address</label>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="input-field col s12 offset-m1 m10">
+                              <input id="cnpj" autocomplete="off" type="text">
+                              <label for="cnpj">CNPJ</label>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="input-field col s12 offset-m1 m10">
+                              <input id="email" autocomplete="off" type="email">
+                              <label for="email">Email</label>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="input-field col s12 offset-m1 m10">
+                              <select class="browser-default color-vermelho" id="license">
+                                <option value="0" disabled selected>Choose one license</option>
+                                <option value="1">Test</option>
+                                <option value="2">Bronze</option>
+                                <option value="3">Silver</option>
+                                <option value="4">Gold</option>
+                                <option value="5">Premium</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="input-field col s12 offset-m1 m10">
+                             <a class="waves-effect waves-light btn bg-azul">submit</a>
+                            </div>
+                          </div>
+
+                        </form>
+                      </div>
+
+                    </div>
+                  </div>
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">close</a>
+            </div>
+          </div>    
+          
+     <script type="text/javascript">
+	    function randomIntFromInterval(){   
+	      var min = 50;
+	      var max = 100;
+	      return Math.floor(Math.random()*(max-min+1)+min);
+	    }
+	
+	    function drawChart(){
+	      $('#donut-chart').html("loading");
+	      setTimeout(function(){
+	        $('#donut-chart').html("");
+	        var valor = randomIntFromInterval();
+	        Morris.Donut({
+	          element: 'donut-chart',
+	          resize: true,
+	          data: [
+	            {label: "Usada", value: valor},
+	            {label: "Disponível", value: 100-valor},
+	          ],
+	          colors: ['#AD1414', '#00773C']
+	        });
+	      }, 1000);
+	    }
+  	</script>
 }
+
+@main("e-Lessons")(content)

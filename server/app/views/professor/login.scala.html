@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="description" content="Descricao">
+	    <title>Teacher, e-Lessons</title>
+      
+	    @views.html.cssimports()	    
+	    @views.html.jsimports()
+	    
+	</head>
+	<body class="bg-aula">
+		<main>
+			<div class="container">
+			
+				@views.html.navbarlogin()
+		        
+				<!-- CARD LOGIN -->
+		        <div class="row" style="margin-bottom:0px !important;">
+		          <div class="col s12 offset-m3 m6">
+		            <div class="card defaultCard default-page-margin-top hoverable">
+		              <div class="card-content center-align">
+		
+		                <i class="large material-icons">perm_identity</i><br/>
+		                <span class="card-title" style="line-height: 80%; letter-spacing: 3px;">Teacher</span>
+		
+		                <div class="row">
+		                  <form class="col s12">
+		
+		                    <div class="row">
+		                      <div class="input-field col s12 offset-m1 m10">
+		                        <input id="login" type="text">
+		                        <label for="login">Login</label>
+		                      </div>
+		                    </div>
+		
+		                    <div class="row">
+		                      <div class="input-field col s12 offset-m1 m10">
+		                        <input id="password" type="password">
+		                        <label for="password">Password</label>
+		                      </div>
+		                    </div>
+		
+		                    <div class="row">
+		                      <div class="input-field col s12">
+		                       <a class="waves-effect waves-light btn btn-medium bg-vermelho">go</a>
+		                      </div>
+		                    </div>
+		
+		                    <div class="card-action" style="margin-bottom: -35px !important;">
+		                      <a href="#">Forgot your password?</a>
+		                    </div>
+		
+		                  </form>
+		                </div>
+		
+		              </div>
+		            </div>
+		          </div>
+		        </div><!-- FIM card -->
+	
+			</div>
+	    </main>
+	</body>
+</html>

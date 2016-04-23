@@ -1,5 +1,4 @@
 @(title: String)(content: Html)
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,10 +9,7 @@
 	    <title>@title</title>
       
 	    @views.html.cssimports()
-	    @views.html.cssextraimports()
-	    
 	    @views.html.jsimports()
-	    @views.html.jsextraimports()
 	    
 	</head>
 
@@ -23,7 +19,6 @@
 	    		@content
 	    	</div>
     	</main>
-    	@views.html.footer()
+    	@footer()
     </body>
-    
 </html>
