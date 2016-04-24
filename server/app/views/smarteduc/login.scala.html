@@ -4,8 +4,8 @@
 	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="description" content="Descricao">
-	    <title>Teacher, e-Lessons</title>
+	    <link rel="icon" href="@routes.Assets.at("images/favicon.png")" type="image/x-icon">
+	    <title>SmartEduc, e-Lessons</title>
       
 	    @views.html.cssimports()	    
 	    @views.html.jsimports()
@@ -27,30 +27,26 @@
 		                <span class="card-title" style="line-height: 80%; letter-spacing: 3px;">Smart Educ</span>
 		
 		                <div class="row">
-		                  <form class="col s12">
+		                  <form action="@routes.SmartEducController.logar()" method="post" class="col s12">
 		
 		                    <div class="row">
 		                      <div class="input-field col s12 offset-m1 m10">
-		                        <input id="login" type="text">
+		                        <input id="login" name="login" autocomplete="off" type="text">
 		                        <label for="login">Login</label>
 		                      </div>
 		                    </div>
 		
 		                    <div class="row">
 		                      <div class="input-field col s12 offset-m1 m10">
-		                        <input id="password" type="password">
+		                        <input id="password" name="password" type="password">
 		                        <label for="password">Password</label>
 		                      </div>
 		                    </div>
 		
 		                    <div class="row">
 		                      <div class="input-field col s12">
-		                       <a class="waves-effect waves-light btn btn-medium bg-vermelho">go</a>
+		                       <button type="submit" class="waves-effect waves-light btn btn-medium bg-vermelho">go</button>
 		                      </div>
-		                    </div>
-		
-		                    <div class="card-action" style="margin-bottom: -35px !important;">
-		                      <a href="#">Forgot your password?</a>
 		                    </div>
 		
 		                  </form>
@@ -64,4 +60,12 @@
 			</div>
 	    </main>
 	</body>
+	@if(flash().get("erro") != null){		
+	<script>
+		$(document).ready(function(){
+			var $toastContent = $('<span>@flash().get("erro")</span>');
+			Materialize.toast($toastContent, 5000);
+		});
+	</script>
+	}
 </html>

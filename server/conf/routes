@@ -10,18 +10,21 @@ GET     /                           controllers.Application.index()
 ###################################
 GET     /panel/smarteduc			controllers.SmartEducController.index()
 GET     /panel/smarteduc/login		controllers.SmartEducController.login()
+GET     /panel/smarteduc/auth		controllers.SmartEducController.logar()
 
 ###################################
 # INSTITUICAO PAINEL
 ###################################
 GET     /panel/business				controllers.InstituicaoController.index()
 GET     /panel/business/login		controllers.InstituicaoController.login()
+GET     /panel/business/auth		controllers.InstituicaoController.logar()
 
 ###################################
 # PROFESSOR PAINEL
 ###################################
 GET     /panel/teacher				controllers.ProfessorController.index()
 GET     /panel/teacher/login		controllers.ProfessorController.login()
+GET     /panel/teacher/auth			controllers.ProfessorController.logar()
 GET     /panel/teacher/classrooms	controllers.ProfessorController.salas()
 GET     /panel/teacher/students		controllers.ProfessorController.alunos()
 

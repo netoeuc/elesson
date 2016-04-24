@@ -4,7 +4,7 @@
 	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="description" content="Descricao">
+	    <link rel="icon" href="@routes.Assets.at("images/favicon.png")" type="image/x-icon">
 	    <title>Teacher, e-Lessons</title>
       
 	    @views.html.cssimports()	    
@@ -27,27 +27,38 @@
 		                <span class="card-title" style="line-height: 80%; letter-spacing: 3px;">Teacher</span>
 		
 		                <div class="row">
-		                  <form class="col s12">
-		
-		                    <div class="row">
+		                  <form action="@routes.ProfessorController.logar()" method="post" class="col s12">
+		                  		
+		                    <div class="row" style="margin-bottom: 10px !important;">
 		                      <div class="input-field col s12 offset-m1 m10">
-		                        <input id="login" type="text">
+		                        <input id="login" name="login" autocomplete="off" type="text">
 		                        <label for="login">Login</label>
 		                      </div>
 		                    </div>
 		
-		                    <div class="row">
+		                    <div class="row" style="margin-bottom: 10px !important;">
 		                      <div class="input-field col s12 offset-m1 m10">
-		                        <input id="password" type="password">
+		                        <input id="password" name="password" type="password">
 		                        <label for="password">Password</label>
 		                      </div>
 		                    </div>
-		
-		                    <div class="row">
-		                      <div class="input-field col s12">
-		                       <a class="waves-effect waves-light btn btn-medium bg-vermelho">go</a>
-		                      </div>
+		                    
+		                  	<div class="row" style="margin-bottom: 3px !important;">
+		                  	  <div class="col s12 offset-m1 m10">
+								<select name="inst" class="browser-default color-vermelho">
+								  <option disabled selected>Choose your institute</option>
+								  <option value="1">UNICAP</option>
+								  <option value="2">Open English</option>
+								  <option value="3">Wizard</option>
+								</select>
+							  </div>
 		                    </div>
+		
+				            <div class="row">
+				            	<div class="input-field col s12">
+				                	<button type="submit" class="waves-effect waves-light btn btn-medium bg-vermelho">go</button>
+								</div>
+							</div>
 		
 		                    <div class="card-action" style="margin-bottom: -35px !important;">
 		                      <a href="#">Forgot your password?</a>
@@ -64,4 +75,12 @@
 			</div>
 	    </main>
 	</body>
+	@if(flash().get("erro") != null){		
+	<script>
+		$(document).ready(function(){
+			var $toastContent = $('<span>@flash().get("erro")</span>');
+			Materialize.toast($toastContent, 5000);
+		});
+	</script>
+	}
 </html>
