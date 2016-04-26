@@ -12,7 +12,6 @@ import play.mvc.Result;
 import play.mvc.With;
 import util.Constantes;
 import util.Seguranca;
-import views.html.instituicao.*;
 
 public class InstituicaoController extends Controller{
 	
@@ -51,12 +50,12 @@ public class InstituicaoController extends Controller{
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result index(){
-		return ok(login.render());
+		return ok(views.html.instituicao.login.render());
 	}
 	
 	@Transactional
 	public static Result login(){
-		return ok(login.render());
+		return ok(views.html.instituicao.login.render());
 	}
 	
 	@Transactional

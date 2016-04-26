@@ -15,7 +15,6 @@ import play.mvc.Result;
 import play.mvc.With;
 import util.Constantes;
 import util.Seguranca;
-import views.html.professor.*;
 
 public class ProfessorController extends Controller{
 	
@@ -61,11 +60,11 @@ public class ProfessorController extends Controller{
 	@Transactional
 	@With({ ProfessorInterceptor.class })
 	public static Result index(){
-		return ok(index.render());
+		return ok(views.html.professor.index.render());
 	}
 	
 	public static Result login(){
-		return ok(login.render());
+		return ok(views.html.professor.login.render());
 	}
 	
 	@Transactional
@@ -112,12 +111,12 @@ public class ProfessorController extends Controller{
 	@Transactional
 	@With({ ProfessorInterceptor.class })
 	public static Result alunos(){
-		return ok(alunos.render());
+		return ok(views.html.professor.alunos.render());
 	}
 	
 	@Transactional
 	@With({ ProfessorInterceptor.class })
 	public static Result salas(){
-		return ok(salas.render());
+		return ok(views.html.professor.salas.render());
 	}
 }

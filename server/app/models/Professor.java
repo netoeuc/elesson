@@ -23,7 +23,7 @@ public class Professor {
 	@Id
 	private String cnpjInst;
 	
-	@Column
+	@Column(nullable = false)
 	private String nome;
 
 	@Column

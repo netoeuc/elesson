@@ -12,8 +12,6 @@ import play.mvc.Result;
 import play.mvc.With;
 import util.Constantes;
 import util.Seguranca;
-import views.html.index;
-import views.html.smarteduc.*;
 
 public class SmartEducController extends Controller{
 	
@@ -53,12 +51,12 @@ public class SmartEducController extends Controller{
 	@Transactional
 	@With({ UsuarioSmartInterceptor.class })
 	public static Result index(){
-		return ok(index.render());
+		return ok(views.html.smarteduc.index.render());
 	}
 	
 	@Transactional
 	public static Result login() {
-		return ok(login.render());
+		return ok(views.html.smarteduc.login.render());
 	}
 	
 	@Transactional
