@@ -11,6 +11,7 @@ GET     /                           controllers.Application.index()
 GET     /panel/smarteduc			controllers.SmartEducController.index()
 GET     /panel/smarteduc/login		controllers.SmartEducController.login()
 POST     /panel/smarteduc/auth		controllers.SmartEducController.logar()
+GET     /panel/smarteduc/logoff		controllers.SmartEducController.logoff()
 
 ###################################
 # INSTITUICAO PAINEL
@@ -18,13 +19,15 @@ POST     /panel/smarteduc/auth		controllers.SmartEducController.logar()
 GET     /panel/business				controllers.InstituicaoController.index()
 GET     /panel/business/login		controllers.InstituicaoController.login()
 POST     /panel/business/auth		controllers.InstituicaoController.logar()
+GET     /panel/business/logoff		controllers.InstituicaoController.logoff()
 
 ###################################
 # PROFESSOR PAINEL
 ###################################
 GET     /panel/teacher				controllers.ProfessorController.index()
 GET     /panel/teacher/login		controllers.ProfessorController.login()
-POST     /panel/teacher/auth			controllers.ProfessorController.logar()
+POST     /panel/teacher/auth		controllers.ProfessorController.logar()
+GET     /panel/business/logoff		controllers.ProfessorController.logoff()
 GET     /panel/teacher/classrooms	controllers.ProfessorController.salas()
 GET     /panel/teacher/students		controllers.ProfessorController.alunos()
 

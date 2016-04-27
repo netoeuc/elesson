@@ -26,10 +26,10 @@ public class Professor {
 	@Column(nullable = false)
 	private String nome;
 
-	@Column
+	@Column(nullable = false)
 	private String senha;
 	
-	@Column
+	@Column(nullable = false)
 	private int status;
 	
 	public Professor(){}

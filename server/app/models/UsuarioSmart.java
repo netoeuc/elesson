@@ -2,18 +2,24 @@ package models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.Index;
 
 @Entity
 public class UsuarioSmart {
 	
 	@Id	
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Column
+	@Column(nullable = false)
+	@Index(name = "email")
 	private String email;
 	
-	@Column
+	@Column(nullable = false)
 	private String senha;
 	
 	public UsuarioSmart(){}

@@ -59,6 +59,12 @@ public class InstituicaoController extends Controller{
 	}
 	
 	@Transactional
+	public static Result logoff() {
+		session().clear();
+		return redirect(routes.InstituicaoController.login());
+	}
+	
+	@Transactional
 	public static Result logar(){
 		try {
 			DynamicForm dynamicForm = form().bindFromRequest();

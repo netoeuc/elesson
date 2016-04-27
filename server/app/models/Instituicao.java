@@ -14,26 +14,26 @@ public class Instituicao {
 	@Id
 	private String cnpj;
 	
-	@Column
+	@Column(nullable = false)
 	private String nome;
 	
-	@Column
+	@Column(nullable = false)
 	private String telefone;
 
-	@Column
+	@Column(nullable = false)
 	private String endereco;
 
-	@Column
+	@Column(nullable = false)
 	@Index(name = "email")
 	private String email;
 
-	@Column
+	@Column(nullable = false)
 	private ELicenca licenca;
 
-	@Column
+	@Column(nullable = false)
 	private String senha;
 	
-	@Column
+	@Column(nullable = false)
 	private int status;
 	
 	public Instituicao(){}

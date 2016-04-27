@@ -60,6 +60,12 @@ public class SmartEducController extends Controller{
 	}
 	
 	@Transactional
+	public static Result logoff() {
+		session().clear();
+		return redirect(routes.SmartEducController.login());
+	}
+	
+	@Transactional
 	public static Result logar() {
 		try {
 			DynamicForm dynamicForm = form().bindFromRequest();
