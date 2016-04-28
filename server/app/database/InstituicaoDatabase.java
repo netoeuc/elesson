@@ -33,4 +33,12 @@ public class InstituicaoDatabase {
 			return li.get(0);
 		}
 	}
+	
+	@Transactional
+	public static List<Instituicao> selectInstituicao()throws Exception{
+		String query = "FROM Instituicao";
+		List<Instituicao> li = JPA.em().createQuery(query)
+								.getResultList();
+		return li;
+	}
 }
