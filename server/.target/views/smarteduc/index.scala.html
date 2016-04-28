@@ -1,3 +1,4 @@
+@(listaInstituicao:List[Instituicao])
 @content = {
 
 		  @navbar()
@@ -28,30 +29,18 @@
                               </tr>
                             </thead>
                             <tbody>
+                            <!-- for a partir daqui -->
+                            @for(i<-listaInstituicao){
                               <tr>
-                                <td><a id="showDetails" onclick="mostrarInstituicao('UNICAP', 'Premium', '1')" class="modal-trigger waves-effect waves-light">UNICAP</a></td>
-                                <td>Premium</td>
+                                <td><a id="showDetails" onclick="mostrarInstituicao('@i.getNome()', '@i.getLicenca()', '@i.getCnpj()')" class="modal-trigger waves-effect waves-light">@i.getNome()</a></td>
+                                <td>@i.getLicenca().toString()</td>
                                 <td>
-                                  <i onclick="mostrarEditarInstituicao('UNICAP', 'Premium', '1');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-                                  <i onclick="removerInstituicao('1');" id="rem-1" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+                                  <i onclick="mostrarEditarInstituicao('@i.getNome()', '@i.getLicenca()', '@i.getCnpj()');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+                                  <i onclick="removerInstituicao('@i.getCnpj()');" id="rem-1" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
                                 </td>
                               </tr>
-                              <tr>
-                                <td><a id="showDetails" onclick="mostrarInstituicao('Open English', 'Test', '2')" class="modal-trigger waves-effect waves-light">Open English</a></td>
-                                <td>Test</td>
-                                <td>
-                                  <i onclick="mostrarEditarInstituicao('Open English', 'Test', '2');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-                                  <i onclick="removerInstituicao('2');" id="rem-2" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td><a id="showDetails" onclick="mostrarInstituicao('Wizard', 'Silver', '3')" class="modal-trigger waves-effect waves-light">Wizard</a></td>
-                                <td>Silver</td>
-                                <td>
-                                  <i onclick="mostrarEditarInstituicao('Wizard', 'Silver', '3');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-                                  <i onclick="removerInstituicao('3');" id="rem-3" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
-                                </td>
-                              </tr>
+                              }
+                              <!-- for fecha aqui -->
                             </tbody>
                           </table>
                       </div>

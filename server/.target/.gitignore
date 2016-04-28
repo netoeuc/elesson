@@ -1,6 +1,3 @@
-/views/
-/controllers/
-/models/
 /database/
-/interceptors/
-/util/
+/controllers/
+/views/

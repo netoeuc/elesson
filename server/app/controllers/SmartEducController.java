@@ -1,8 +1,13 @@
 package controllers;
 
 import static play.data.Form.form;
+
+import java.util.List;
+
 import interceptors.UsuarioSmartInterceptor;
+import database.InstituicaoDatabase;
 import database.SmartEducDatabase;
+import models.Instituicao;
 import models.UsuarioSmart;
 import play.Logger;
 import play.data.DynamicForm;
@@ -51,7 +56,13 @@ public class SmartEducController extends Controller{
 	@Transactional
 	@With({ UsuarioSmartInterceptor.class })
 	public static Result index(){
-		return ok(views.html.smarteduc.index.render());
+		try {
+			List<Instituicao> li = InstituicaoDatabase.selectInstituicao();
+			return ok(views.html.smarteduc.index.render(li));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return redirect(routes.SmartEducController.logoff());
 	}
 	
 	@Transactional
@@ -68,7 +79,7 @@ public class SmartEducController extends Controller{
 	@Transactional
 	public static Result logar() {
 		try {
-			DynamicForm dynamicForm = form().bindFromRequest();
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
 			String email = dynamicForm.get("login") == null || dynamicForm.get("login").trim().isEmpty()? null : dynamicForm.get("login").toLowerCase();
 			String senha = dynamicForm.get("password") == null || dynamicForm.get("password").trim().isEmpty()? null : Seguranca.md5(dynamicForm.get("password"));
 			
