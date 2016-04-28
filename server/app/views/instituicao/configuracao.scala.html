@@ -1,0 +1,97 @@
+@content = {
+
+		 @navbar()
+		 
+		 <!-- CARD CONTENT -->
+          <div class="row">
+            <div class="col s12 offset-m1 m10">
+              <div class="card defaultCard default-page-margin-top">
+                <div class="card-content">
+
+                  <div class="row">
+                    <div class="card-title color-vermelho" style="line-height: 80%;">
+
+                      <div class="col s12 m4 hide-on-small-only"><i class="medium material-icons">edit</i></div>
+
+                      <div class="col s12 m4 center-align" style="letter-spacing: 3px; margin-top: 15px;"><span style="font-size: 40px;">Configuration</span></div>
+
+                    </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col s12 m12">
+		                  
+		                  <div class="row">
+	                        <form class="col s12">
+	
+	                          <div class="row">
+	                            <div class="input-field col s12 offset-m1 m10">
+	                              <input id="name" autocomplete="off" type="text" value="Client name">
+	                              <label for="name">Client name</label>
+	                            </div>
+	                          </div>
+	
+	                          <div class="row">
+	                            <div class="input-field col s12 offset-m1 m10">
+	                              <input id="phone" autocomplete="off" type="text" value="88 8888-8888">
+	                              <label for="phone">Phone</label>
+	                            </div>
+	                          </div>
+	
+	                          <div class="row">
+	                            <div class="input-field col s12 offset-m1 m10">
+	                              <input id="address" autocomplete="off" type="text" value="Av. Lorem Ipsum, 888">
+	                              <label for="address">Address</label>
+	                            </div>
+	                          </div>
+	
+	                          <div class="row">
+	                            <div class="input-field col s12 offset-m1 m10">
+	                              <input id="cnpj" autocomplete="off" type="text" value="88.8888.8888/8888">
+	                              <label for="cnpj">CNPJ</label>
+	                            </div>
+	                          </div>
+	
+	                          <div class="row">
+	                            <div class="input-field col s12 offset-m1 m10">
+	                              <input id="email" autocomplete="off" type="email" value="lorem@@ipsum.com">
+	                              <label for="email">Email</label>
+	                            </div>
+	                          </div>
+	
+	                          <div class="row">
+	                            <div class="input-field col s12 offset-m1 m10">
+	                              <select class="browser-default color-vermelho" id="license">
+	                                <option value="0" disabled>Choose one license</option>
+	                                <option value="1">Test</option>
+	                                <option value="2">Bronze</option>
+	                                <option value="3">Silver</option>
+	                                <option value="4">Gold</option>
+	                                <option value="5" selected>Premium</option>
+	                              </select>
+	                            </div>
+	                          </div>
+	
+	                          <div class="row">
+	                            <div class="input-field col s12 offset-m1 m10">
+	                             <a class="waves-effect waves-light btn bg-azul">submit</a>
+	                            </div>
+	                          </div>
+	
+	                        </form>
+	                      </div>
+		
+		              </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div><!-- FIM card --> 
+		 
+}
+
+@main("Business, e-Lessons")(content)

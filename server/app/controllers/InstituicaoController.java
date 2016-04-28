@@ -6,6 +6,7 @@ import models.Instituicao;
 import database.InstituicaoDatabase;
 import play.Logger;
 import play.data.DynamicForm;
+import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -48,9 +49,9 @@ public class InstituicaoController extends Controller{
 	}
 	
 	@Transactional
-	@With({ InstituicaoInterceptor.class })
+	//@With({ InstituicaoInterceptor.class })
 	public static Result index(){
-		return ok(views.html.instituicao.login.render());
+		return ok(views.html.instituicao.index.render());
 	}
 	
 	@Transactional
@@ -62,6 +63,12 @@ public class InstituicaoController extends Controller{
 	public static Result logoff() {
 		session().clear();
 		return redirect(routes.InstituicaoController.login());
+	}
+	
+	@Transactional
+	public static Result configuracao() {
+		// TODO pegar informacoes da instituicao no banco
+		return ok(views.html.instituicao.configuracao.render());
 	}
 	
 	@Transactional

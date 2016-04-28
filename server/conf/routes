@@ -20,6 +20,7 @@ GET     /panel/business				controllers.InstituicaoController.index()
 GET     /panel/business/login		controllers.InstituicaoController.login()
 POST     /panel/business/auth		controllers.InstituicaoController.logar()
 GET     /panel/business/logoff		controllers.InstituicaoController.logoff()
+GET     /panel/business/edit		controllers.InstituicaoController.configuracao()
 
 ###################################
 # PROFESSOR PAINEL
