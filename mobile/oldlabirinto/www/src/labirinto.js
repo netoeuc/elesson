@@ -36,7 +36,7 @@ var Maze = cc.Node.extend({
 	    }
 	}
                           
-    this.setAnchorPoint( cc.p( 0, 0 ) );
+    
                         
 });
 
@@ -144,9 +144,9 @@ var labirintoScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
         var layer = new MenuLayer();
-        this.addChild(layer);
-        var labirintolayer = new MenuLayer();
-        this.addChild(labirintolayer);
+//        this.addChild(layer);
+//        var labirintolayer = new MenuLayer();
+        this.addChild(Maze);
         
         
     }
