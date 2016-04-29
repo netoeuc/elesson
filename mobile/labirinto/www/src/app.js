@@ -19,19 +19,13 @@ var HelloWorldLayer = cc.Layer.extend({
         var closeMenu = new cc.MenuItemImage(asset.CloseNormal_png, asset.CloseSelected_png, closeGame); // Adicionando o botão
         closeMenu.setAnchorPoint(cc.p(0,0));                                                            // de fechar o jogo
         closeMenu.setPosition(cc.p(size.width-40, size.height-40));
-        this.addChild(closeMenu, 1);
+        this.addChild(closeMenu, 12);
         
         var topMenu = new cc.Sprite.create(asset.wood_jpg); // Adicionando a barra superior para o menu
         topMenu.setAnchorPoint(cc.p( 0, 0 ));
         topMenu.setPosition(cc.p(0, size.height-40));
-        this.addChild(topMenu, -1);
+        this.addChild(topMenu, 11);
         
-        
-        
-//        var background = new cc.Sprite.create(asset.blue_background_jpg);
-//        background.setAnchorPoint(cc.p( 0, 0 ));
-//        background.setPosition(cc.p(0, size.height-40));
-//        this.addChild(background, 10);
         
         
         
@@ -40,21 +34,35 @@ var HelloWorldLayer = cc.Layer.extend({
         var sprite = new cc.Sprite.create(asset.char_gif); // Carregando imagem do personagem.
         sprite.setAnchorPoint( cc.p( 0, 0 ) );             // Será inserido posteriormente
         
+        var sombra = new cc.Sprite.create(asset.sombra_png); // Carregando imagem do personagem.
+//        sombra.setAnchorPoint( cc.p( 429, 810 ) );             // Será inserido posteriormente
+        sombra.setAnchorPoint( cc.p( 0.462, 0.485 ) ); // Valores da sombra testados
         
         
         
         var rectSprite = sprite.getBoundingBox(); // tratamento de colisão (não está sendo utilizado)
-        var spriteMoveUp = new cc.MoveBy( 0.1, cc.p( 0, 40 ) );
+        var spriteMoveUp = new cc.MoveBy( 0.08, cc.p( 0, 40 ) );
         var sequenceMoveUp = cc.Sequence.create(spriteMoveUp);
+        var sombraMoveUp = new cc.MoveBy( 0.08, cc.p( 0, 40 ) );
+        var sequenceSombraMoveUp = cc.Sequence.create(sombraMoveUp);
         
-        var spriteMoveDown = new cc.MoveBy( 0.1, cc.p( 0, -40 ) );
+        
+        var spriteMoveDown = new cc.MoveBy( 0.08, cc.p( 0, -40 ) );
         var sequenceMoveDown = cc.Sequence.create(spriteMoveDown);
+        var sombraMoveDown = new cc.MoveBy( 0.08, cc.p( 0, -40 ) );
+        var sequenceSombraMoveDown = cc.Sequence.create(sombraMoveDown);
         
-        var spriteMoveRight = new cc.MoveBy( 0.1, cc.p( 40, 0 ) );
+        
+        var spriteMoveRight = new cc.MoveBy( 0.08, cc.p( 40, 0 ) );
         var sequenceMoveRight = cc.Sequence.create(spriteMoveRight);
+        var sombraMoveRight = new cc.MoveBy( 0.08, cc.p( 40, 0 ) );
+        var sequenceSombraMoveRight = cc.Sequence.create(sombraMoveRight);
         
-        var spriteMoveLeft = new cc.MoveBy( 0.1, cc.p( -40, 0 ) );
+        
+        var spriteMoveLeft = new cc.MoveBy( 0.08, cc.p( -40, 0 ) );
         var sequenceMoveLeft = cc.Sequence.create(spriteMoveLeft);
+        var sombraMoveLeft = new cc.MoveBy( 0.08, cc.p( -40, 0 ) );
+        var sequenceSombraMoveLeft = cc.Sequence.create(sombraMoveLeft);
         
         
         
@@ -104,13 +112,17 @@ var HelloWorldLayer = cc.Layer.extend({
         
         var currentSpritePosition = [2,2];
         var wallSpritesArray = [];
-        var wallSpritesSet = new cc.Sprite();
+        var objectsSpritesArray = [];
+        
+        
         
         // 0 -> Caminho Aberto
         // 1 -> Parede
         // 2 -> Pergunta
         // 3 -> Saída
         // 5 -> Posição do personagem
+        
+        
         
         
         var s = 0;
@@ -122,6 +134,8 @@ var HelloWorldLayer = cc.Layer.extend({
                     back.setPosition(cc.p(elemento * 40, linha * 40));
                     back.zPosition = -1;
                     this.addChild(back);
+                    // Escurecendo o background
+//                    back.runAction(escurecer);
                 if ( string[ linha ][ elemento ] == 1 ) {
                     s = new cc.Sprite.create( asset.wall_jpg );
                     s.setAnchorPoint( cc.p( 0, 0 ) );
@@ -129,6 +143,9 @@ var HelloWorldLayer = cc.Layer.extend({
                     
                     this.addChild( s, 0);
                     wallSpritesArray.push([s, [elemento, linha]]);
+                    // Escurecer tile
+//                    s.runAction(escurecer);
+                    //
                 }
                 
                 else {
@@ -137,7 +154,12 @@ var HelloWorldLayer = cc.Layer.extend({
                         s = new cc.Sprite.create( asset.question_png );
                         s.setAnchorPoint( cc.p( 0, 0 ) );
                         s.setPosition( cc.p( elemento * 40, linha * 40 ) );
+                        objectsSpritesArray.push([s, [elemento, linha]]);
                         this.addChild( s, 1 );
+                        objectsSpritesArray.push([s, [elemento, linha]]);
+//                        // Escurecer tile
+//                        s.runAction(escurecer);
+                        //
                     }
                     else{
                         if ( string[ linha ][ elemento ] == 3 ) { // Adicionando saída
@@ -145,6 +167,10 @@ var HelloWorldLayer = cc.Layer.extend({
                             s.setAnchorPoint( cc.p( 0, 0 ) );
                             s.setPosition( cc.p( elemento * 40, linha * 40 ) );
                             this.addChild( s, 1 );
+                            objectsSpritesArray.push([s, [elemento, linha]]);
+                            // Escurecer tile
+//                            s.runAction(escurecer);
+                            //
                     
                         }
                         else{
@@ -154,6 +180,8 @@ var HelloWorldLayer = cc.Layer.extend({
                                     INITTIALAZED = true;
                                     sprite.setPosition(cc.p(elemento*40, linha*40));
                                     this.addChild(sprite, 10);
+                                    sombra.setPosition(cc.p(elemento*40, linha*40));
+                                    this.addChild(sombra, 10);
                                 }
                                 
                             }
@@ -188,10 +216,10 @@ var HelloWorldLayer = cc.Layer.extend({
             HelloWorldLayer.addChild(newBackgroundTile, 2);    
         }
         
-        function objectAction(value){
+        function objectAction(value, old){
             if(value===2){
 //                removeObjectSprite(); // Background por cima do sprite do objeto
-//              play();
+                play();
                 cc.log("play!");
             }else{
                 if (value==3){
@@ -261,9 +289,9 @@ var HelloWorldLayer = cc.Layer.extend({
                                 cc.log("Move Left!");
                                 if( (currentSpritePosition[1]>0) && 
                                     (string[currentSpritePosition[0]][currentSpritePosition[1]-1]!==1) ){
-                                        
                                     cc.log("Pode mover para a esquerda!");
                                     sprite.runAction(sequenceMoveLeft);
+                                    sombra.runAction(sequenceSombraMoveLeft);
                                     moveLeft(); // Move left in the string
                                 }else{
                                     cc.log("Impossível mover para a esquerda!");
@@ -279,6 +307,7 @@ var HelloWorldLayer = cc.Layer.extend({
                                     (string[currentSpritePosition[0]][currentSpritePosition[1]+1]!==1) ){
                                         cc.log("Pode mover para a direita!");
                                         sprite.runAction(sequenceMoveRight);
+                                        sombra.runAction(sequenceSombraMoveRight);  
                                         moveRight(); // Move right in the string
                                         
                                     
@@ -294,6 +323,7 @@ var HelloWorldLayer = cc.Layer.extend({
                                     (string[currentSpritePosition[0]-1][currentSpritePosition[1]]!==1) ){
                                     cc.log("Pode mover para a baixo!");  
                                     sprite.runAction(sequenceMoveDown);
+                                    sombra.runAction(sequenceSombraMoveDown);
                                     moveDown(); // Move down in the string
                                     
                                 }else{
@@ -310,6 +340,7 @@ var HelloWorldLayer = cc.Layer.extend({
                                         
                                     cc.log("Pode mover para a cima!");
                                     sprite.runAction(sequenceMoveUp);
+                                    sombra.runAction(sequenceSombraMoveUp);
                                     moveUp(); // Move up in the string
                                 }else{
                                     cc.log("Impossível mover para a Cima!!");
@@ -344,7 +375,10 @@ function play(){
     var scene = new QuestionScene();
     delay(500);
     cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,scene));    
-    
+//    var newBackgroundTile = new cc.Sprite.create(asset.grass_gif); // Adicionando background
+//    newBackgroundTile.setAnchorPoint(cc.p( 0, 0 ));
+//    newBackgroundTile.setPosition(cc.p(0*40, 1*40));
+//    HelloWorldLayer.addChild(newBackgroundTile, 2); 
 }
 
 function endGame(){
@@ -365,12 +399,13 @@ var closeGame = function(){
 
 var HelloWorldScene = cc.Scene.extend({
     onEnter:function () {
-//        if (INITTIALAZED===false){
+        this._super();
+        if (INITTIALAZED===false){
 //            INITTIALAZED = true;
             this._super();
             var layer = new HelloWorldLayer();
             this.addChild(layer);
-//        }
+        }
     }
 });
 
