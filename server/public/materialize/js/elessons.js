@@ -9,12 +9,20 @@ $( document ).ready(function(){
 	$("#logo").fadeIn(2000);
 })
 
+function movimento(para, recuo) {
+	$('html,body').animate(
+	{scrollTop: $("#"+para).offset().top-recuo}
+	, 500);	 
+}
+
+/* ALUNO JS */
 function mostrarAluno(nome, classe, codigo){
 	$('#modal #namestudent').html(nome);
     $('#modal').openModal();
     drawChart(classe);
 }
 
+/* INSTITUICAO JS */
 function mostrarInstituicao(nome, licenca, codigo){
 	$('#modal #namebusiness').html(nome +' - '+ licenca);
     $('#modal').openModal();
@@ -42,8 +50,29 @@ function removerInstituicao(codigo){
 	}
 }
 
-function movimento(para, recuo) {
-	$('html,body').animate(
-	{scrollTop: $("#"+para).offset().top-recuo}
-	, 500);	 
+/* PROFESSOR JS */
+function mostrarProfessor(nome, codigo){
+	$('#modal #nameteacher').html(nome);
+    $('#modal').openModal();
+}
+
+function mostrarNovoProfessor(){
+	$('#modal-fields #nameteacher').html('New Teacher');
+    $('#modal-fields').openModal();
+}
+
+function mostrarEditarProfessor(nome, codigo){
+	$('#modal-fields #nameteacher').html(nome);
+    $('#modal-fields').openModal();
+}
+
+function removerProfessor(codigo){
+	var rem = $('td i#rem-'+codigo).html();
+	if(rem == 'delete'){
+		$('td i#rem-'+codigo).html('done');
+	}else if(rem == 'done'){
+		alert("Removido!");
+		// removerInstituicaoConfirm(codigo);
+		location.reload();
+	}
 }

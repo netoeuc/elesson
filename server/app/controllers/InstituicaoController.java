@@ -1,16 +1,13 @@
 package controllers;
 
 import static play.data.Form.form;
-import interceptors.InstituicaoInterceptor;
 import models.Instituicao;
 import database.InstituicaoDatabase;
 import play.Logger;
 import play.data.DynamicForm;
-import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.With;
 import util.Constantes;
 import util.Seguranca;
 
@@ -69,6 +66,36 @@ public class InstituicaoController extends Controller{
 	public static Result configuracao() {
 		// TODO pegar informacoes da instituicao no banco
 		return ok(views.html.instituicao.configuracao.render());
+	}
+	
+	@Transactional
+	public static Result professores() {
+		try{
+			String cnpj = getUsuarioSession();
+			if(cnpj != null){
+				// TODO pegar lista de professores de acordo com o cnpj no banco e passar como parametro pra pagina
+				return ok(views.html.instituicao.professores.render());
+			}
+			return ok(views.html.instituicao.professores.render());
+		}catch(Exception e){
+			Logger.error("ERRO - ProfessorController/professores(): "+ e.getMessage());
+		}
+		return redirect(routes.InstituicaoController.index());
+	}
+	
+	@Transactional
+	public static Result alunos() {
+		try{
+			String cnpj = getUsuarioSession();
+			if(cnpj != null){
+				// TODO pegar lista de alunos de acordo com o cnpj no banco e passar como parametro pra pagina
+				return ok(views.html.instituicao.alunos.render());
+			}
+			return ok(views.html.instituicao.alunos.render());
+		}catch(Exception e){
+			Logger.error("ERRO - ProfessorController/alunos(): "+ e.getMessage());
+		}
+		return redirect(routes.InstituicaoController.index());
 	}
 	
 	@Transactional

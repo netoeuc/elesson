@@ -21,6 +21,8 @@ GET     /panel/business/login		controllers.InstituicaoController.login()
 POST     /panel/business/auth		controllers.InstituicaoController.logar()
 GET     /panel/business/logoff		controllers.InstituicaoController.logoff()
 GET     /panel/business/edit		controllers.InstituicaoController.configuracao()
+GET     /panel/business/teacher		controllers.InstituicaoController.professores()
+GET     /panel/business/students	controllers.InstituicaoController.alunos()
 
 ###################################
 # PROFESSOR PAINEL

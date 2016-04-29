@@ -1,0 +1,146 @@
+@content = {
+
+		  @navbar()
+		  
+		  <!-- CARD CONTENT -->
+          <div class="row">
+            <div class="col s12 offset-m1 m10">
+              <div class="card defaultCard default-page-margin-top">
+                <div class="card-content">
+
+                  <div class="row">
+                    <div class="card-title color-vermelho" style="line-height: 80%;">
+
+                      <div class="col s12 m4 hide-on-small-only"><i class="medium material-icons">perm_identity</i></div>
+
+                      <div class="col s12 m4 center-align" style="letter-spacing: 3px; margin-top: 15px;"><span style="font-size: 40px;">Teachers</span></div>
+
+                    </div>
+                  </div>
+
+                  <div class="row">
+                          <table data-sort-name="classroom" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="true" data-page-list="[5, 10, 15, 20]" data-cache="false" class="students-table">
+                            <thead>
+                              <tr>
+                                <th data-field="name" data-sortable="true">Name</th>
+                                <th data-field="email" data-sortable="false">Email</th>
+                                <th data-field="actions" data-sortable="false">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <!-- for a partir daqui { -->
+                              <tr>
+                                <td><a id="showDetails" onclick="mostrarProfessor('Washington', '1')" class="modal-trigger waves-effect waves-light">Washington</a></td>
+                                <td>washington@@ipsum.com</td>
+                                <td>
+                                  <i onclick="mostrarEditarProfessor('Washington', '1');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+                                  <i onclick="removerProfessor('1');" id="rem-1" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+                                </td>
+                              </tr>
+                              <!-- for fecha aqui } -->
+                            </tbody>
+                          </table>
+                      </div>
+
+                    <div class="row">
+                      <div class="col s12 m12">
+                        <a onclick="mostrarNovoProfessor();" class="col s12 offset-m3 m6 waves-effect waves-light btn bg-azul">new teacher<a>
+                      </div>
+                    </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div><!-- FIM card -->
+
+          <!-- Modal Structure -->
+          <div id="modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+              <h4 id="nameteacher"></h4>
+              <div class="col s12 m12">
+
+                  <div class="row">
+                    <div class="col s12 offset-m1 m10">
+                      <div class="row center-align">
+                        <div class="col s12 m6">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">class</i> 3 Turmas
+                          </div>
+                        </div>
+                        <div class="col s12 m6">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">supervisor_account</i> 18 Alunos
+                          </div>
+                        </div>
+                        <div class="col s12 m6">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">label</i> 8 Assuntos
+                          </div>
+                        </div>
+                        <div class="col s12 m6">
+                          <div class="tag bg-cinza color-cinza">
+                            <i class="tiny-small material-icons">mode_edit</i> 43 Questões
+                          </div>
+                        </div>    
+                      </div>
+                      <hr>
+                    </div>
+                  </div>
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">close</a>
+            </div>
+          </div>
+
+          <!-- Modal Structure -->
+          <div id="modal-fields" class="modal modal-fixed-footer">
+            <div class="modal-content">
+              <h4 id="nameteacher"></h4>
+              <div class="col s12 m12">
+
+                  <div class="row" style="margin-bottom: 0px !important;">
+                    <div class="col s12 offset-m1 m10">
+                      
+                      <div class="row">
+                        <form class="col s12">
+
+                          <div class="row">
+                            <div class="input-field col s12 offset-m1 m10">
+                              <input id="name" autocomplete="off" type="text">
+                              <label for="name">Teacher name</label>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="input-field col s12 offset-m1 m10">
+                              <input id="email" autocomplete="off" type="email">
+                              <label for="email">Email</label>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="input-field col s12 offset-m1 m10">
+                             <a class="waves-effect waves-light btn bg-azul">submit</a>
+                            </div>
+                          </div>
+
+                        </form>
+                      </div>
+
+                    </div>
+                  </div>
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">close</a>
+            </div>
+          </div>    
+}
+
+@main("Business, e-Lessons")(content)
