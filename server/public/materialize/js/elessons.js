@@ -22,6 +22,27 @@ function mostrarAluno(nome, classe, codigo){
     drawChart(classe);
 }
 
+function mostrarNovoAluno(){
+	$('#modal-fields #namestudent').html('New Student');
+    $('#modal-fields').openModal();
+}
+
+function mostrarEditarAluno(nome, codigoProfessor, codigoAluno){
+	$('#modal-fields #namestudent').html(nome);
+    $('#modal-fields').openModal();
+}
+
+function removerAluno(codigo){
+	var rem = $('td i#rem-'+codigo).html();
+	if(rem == 'delete'){
+		$('td i#rem-'+codigo).html('done');
+	}else if(rem == 'done'){
+		alert("Removido!");
+		// removerInstituicaoConfirm(codigo);
+		location.reload();
+	}
+}
+
 /* INSTITUICAO JS */
 function mostrarInstituicao(nome, licenca, codigo){
 	$('#modal #namebusiness').html(nome +' - '+ licenca);

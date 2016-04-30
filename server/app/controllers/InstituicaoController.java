@@ -63,12 +63,14 @@ public class InstituicaoController extends Controller{
 	}
 	
 	@Transactional
+	//@With({ InstituicaoInterceptor.class })
 	public static Result configuracao() {
 		// TODO pegar informacoes da instituicao no banco
 		return ok(views.html.instituicao.configuracao.render());
 	}
 	
 	@Transactional
+	//@With({ InstituicaoInterceptor.class })
 	public static Result professores() {
 		try{
 			String cnpj = getUsuarioSession();
@@ -84,14 +86,18 @@ public class InstituicaoController extends Controller{
 	}
 	
 	@Transactional
+	//@With({ InstituicaoInterceptor.class })
 	public static Result alunos() {
 		try{
+			DynamicForm dynamicForm = form().bindFromRequest();
+			boolean isSingle = dynamicForm.get("is") == null || dynamicForm.get("is").trim().isEmpty()? true : Boolean.parseBoolean(dynamicForm.get("is"));
+			
 			String cnpj = getUsuarioSession();
 			if(cnpj != null){
 				// TODO pegar lista de alunos de acordo com o cnpj no banco e passar como parametro pra pagina
-				return ok(views.html.instituicao.alunos.render());
+				return ok(views.html.instituicao.alunos.render(isSingle));
 			}
-			return ok(views.html.instituicao.alunos.render());
+			return ok(views.html.instituicao.alunos.render(isSingle));
 		}catch(Exception e){
 			Logger.error("ERRO - ProfessorController/alunos(): "+ e.getMessage());
 		}
