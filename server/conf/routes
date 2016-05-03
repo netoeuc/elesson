@@ -33,6 +33,7 @@ POST     /panel/teacher/auth		controllers.ProfessorController.logar()
 GET     /panel/business/logoff		controllers.ProfessorController.logoff()
 GET     /panel/teacher/classrooms	controllers.ProfessorController.salas()
 GET     /panel/teacher/students		controllers.ProfessorController.alunos()
+GET     /panel/teacher/questions	controllers.ProfessorController.questoes()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

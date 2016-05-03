@@ -58,7 +58,7 @@ public class ProfessorController extends Controller{
 	}
 	
 	@Transactional
-	@With({ ProfessorInterceptor.class })
+	//@With({ ProfessorInterceptor.class })
 	public static Result index(){
 		return ok(views.html.professor.index.render());
 	}
@@ -115,14 +115,20 @@ public class ProfessorController extends Controller{
 	}
 	
 	@Transactional
-	@With({ ProfessorInterceptor.class })
+	//@With({ ProfessorInterceptor.class })
 	public static Result alunos(){
 		return ok(views.html.professor.alunos.render());
 	}
 	
 	@Transactional
-	@With({ ProfessorInterceptor.class })
+	//@With({ ProfessorInterceptor.class })
 	public static Result salas(){
 		return ok(views.html.professor.salas.render());
+	}
+	
+	@Transactional
+	//@With({ ProfessorInterceptor.class })
+	public static Result questoes(){
+		return ok(views.html.professor.questoes.render());
 	}
 }

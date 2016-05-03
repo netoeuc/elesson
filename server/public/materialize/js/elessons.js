@@ -97,3 +97,31 @@ function removerProfessor(codigo){
 		location.reload();
 	}
 }
+
+/* QUESTAO JS */
+function mostrarQuestao(codigo){
+	$('#modal #namequestion').html();
+    $('#modal').openModal();
+    drawChart(codigo);
+}
+
+function mostrarNovaQuestao(){
+	$('#modal-fields #namequestion').html('New Question');
+    $('#modal-fields').openModal();
+}
+
+function mostrarEditarQuestao(codigo){
+	$('#modal-fields #namequestion').html();
+    $('#modal-fields').openModal();
+}
+
+function removerQuestao(codigo){
+	var rem = $('td i#rem-'+codigo).html();
+	if(rem == 'delete'){
+		$('td i#rem-'+codigo).html('done');
+	}else if(rem == 'done'){
+		alert("Removido!");
+		// removerInstituicaoConfirm(codigo);
+		location.reload();
+	}
+}
