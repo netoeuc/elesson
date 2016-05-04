@@ -11,11 +11,14 @@ import models.Instituicao;
 import models.UsuarioSmart;
 import play.Logger;
 import play.data.DynamicForm;
+import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
 import util.Constantes;
+import util.ELicenca;
+import util.ELicencaUtil;
 import util.Seguranca;
 
 public class SmartEducController extends Controller{
@@ -109,6 +112,47 @@ public class SmartEducController extends Controller{
 		}
 		flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
 		return redirect(routes.SmartEducController.login());
+	}
+	
+	@Transactional
+	public static Result cadastrarCliente() {
+		try {
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			String nome = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name").toLowerCase();
+			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").trim().isEmpty()? null : dynamicForm.get("phone");
+			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address").toLowerCase();
+			String cnpj = dynamicForm.get("cnpj") == null || dynamicForm.get("cnpj").trim().isEmpty()? null : dynamicForm.get("cnpj");
+			String email = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name").toLowerCase();
+			// trocar para int - TODO
+			int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
+			
+			String senha = "Aqui vai ser gerado";//TODO
+			ELicenca el = ELicencaUtil.getELicenca(licenca);
+			
+			if (nome == null   || telefone == null || endereco == null || cnpj == null || email == null || el == null) {
+				flash("erro", "Preencha todos os campos");
+			}
+			else{
+				Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpjEmail(cnpj,email);
+				if (i==null)
+				{
+					
+					i = new Instituicao(cnpj, nome, telefone, endereco, email, el, senha, Constantes.STATUS_ATIVO);
+					JPA.em().persist(i);
+					
+				}else{
+					flash("erro", "Instituicao ja cadastrada");
+					
+				}
+			}
+		
+		
+		} catch (Exception e) {
+			Logger.error("ERRO - SmartEducController/cadastro(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao cadastrar. Tente novamente mais tarde");
+		}
+		
+		return redirect(routes.SmartEducController.index());
 	}
 
 }
