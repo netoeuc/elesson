@@ -77,13 +77,15 @@ function mostrarProfessor(nome, codigo){
     $('#modal').openModal();
 }
 
-function mostrarNovoProfessor(){
+function mostrarNovoProfessor(action){
 	$('#modal-fields #nameteacher').html('New Teacher');
+	$('#modal-fields #form-fields').attr('action', action);
     $('#modal-fields').openModal();
 }
 
-function mostrarEditarProfessor(nome, codigo){
+function mostrarEditarProfessor(nome, codigo, action){
 	$('#modal-fields #nameteacher').html(nome);
+	$('#modal-fields #form-fields').attr('action', action);
     $('#modal-fields').openModal();
 }
 

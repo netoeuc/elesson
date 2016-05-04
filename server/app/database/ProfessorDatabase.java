@@ -36,4 +36,17 @@ public class ProfessorDatabase {
 		}
 	}
 
+	public static Professor selectProfessorMD5(String cnpj, String email) {
+		String query = "FROM Professor WHERE MD5(email) = :email AND MD5(cnpjInst) = :cnpjInst";
+		List<Professor> lp = JPA.em().createQuery(query)
+								.setParameter("email", email)
+								.setParameter("cnpjInst", cnpj)
+								.getResultList();
+		if(lp.isEmpty()){
+			return null;
+		}else{
+			return lp.get(0);
+		}
+	}
+
 }

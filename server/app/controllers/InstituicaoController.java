@@ -2,13 +2,18 @@ package controllers;
 
 import static play.data.Form.form;
 import models.Instituicao;
+import models.Professor;
 import database.InstituicaoDatabase;
+import database.ProfessorDatabase;
 import play.Logger;
 import play.data.DynamicForm;
+import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import util.Constantes;
+import util.ELicenca;
+import util.Mail;
 import util.Seguranca;
 
 public class InstituicaoController extends Controller{
@@ -83,6 +88,39 @@ public class InstituicaoController extends Controller{
 			Logger.error("ERRO - ProfessorController/professores(): "+ e.getMessage());
 		}
 		return redirect(routes.InstituicaoController.index());
+	}
+		
+	@Transactional
+	public static Result cadastrarProfessor(){
+		try{
+			Instituicao i = InstituicaoController.getUsuarioAutenticado();
+			if(i != null){
+				DynamicForm dynamicForm = form().bindFromRequest();
+				String nome = dynamicForm.get("nome") == null || dynamicForm.get("nome").trim().isEmpty()? null : dynamicForm.get("nome");
+				String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
+				
+				if(nome == null || email == nome){
+					flash("erro", "Preencha todos os campos");
+				}else{
+					Professor p = ProfessorDatabase.selectProfessor(email, i.getCnpj());
+					if(p != null){
+						flash("erro", "Este email já está cadastrado");
+					}else{
+						String senha = Seguranca.gerarSenha(6);
+						Professor novoP = new Professor(nome, email, senha, Constantes.STATUS_AGUARDANDO);
+						Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
+								views.html.professor.email.render(i, nome, email, senha, request().host(), 0).toString());
+						
+						JPA.em().persist(novoP);
+					}
+				}
+			}else{
+				return redirect(routes.InstituicaoController.login());
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - ProfessorController/professores(): "+ e.getMessage());
+		}
+		return redirect(routes.InstituicaoController.professores());
 	}
 	
 	@Transactional

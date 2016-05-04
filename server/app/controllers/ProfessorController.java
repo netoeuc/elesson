@@ -9,6 +9,7 @@ import models.Professor;
 import database.ProfessorDatabase;
 import play.Logger;
 import play.data.DynamicForm;
+import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -112,6 +113,31 @@ public class ProfessorController extends Controller{
 		}
 		flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
 		return redirect(routes.ProfessorController.login());
+	}
+	
+	@Transactional
+	public static Result ativar() {
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest();
+			String cnpj = dynamicForm.get("i");
+			String email = dynamicForm.get("e");
+	
+			Professor p = ProfessorDatabase.selectProfessorMD5(cnpj, email);
+	
+			if (p != null && p.getStatus() == Constantes.STATUS_AGUARDANDO) {
+				p.setStatus(Constantes.STATUS_ATIVO);
+				JPA.em().merge(p);
+
+				session().clear();
+				session().put(Constantes.SESSION_USUARIO, p.getEmail());
+				session().put(Constantes.SESSION_CNPJINST, p.getCnpjInst());
+				return redirect(routes.ProfessorController.index());
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - ProfessorController/ativar(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao ativar a conta. Tente novamente mais tarde");
+		}
+		return redirect(routes.ProfessorController.index());
 	}
 	
 	@Transactional

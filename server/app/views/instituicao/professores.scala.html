@@ -33,7 +33,7 @@
                                 <td><a id="showDetails" onclick="mostrarProfessor('Washington', '1')" class="modal-trigger waves-effect waves-light">Washington</a></td>
                                 <td>washington@@ipsum.com</td>
                                 <td>
-                                  <i onclick="mostrarEditarProfessor('Washington', '1');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+                                  <i onclick="mostrarEditarProfessor('Washington', '1', '/teste');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
                                   <i onclick="removerProfessor('1');" id="rem-1" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
                                 </td>
                               </tr>
@@ -44,7 +44,7 @@
 
                     <div class="row">
                       <div class="col s12 m12">
-                        <a onclick="mostrarNovoProfessor();" class="col s12 offset-m3 m6 waves-effect waves-light btn bg-azul">new teacher<a>
+                        <a onclick="mostrarNovoProfessor('@routes.InstituicaoController.cadastrarProfessor()');" class="col s12 offset-m3 m6 waves-effect waves-light btn bg-azul">new teacher<a>
                       </div>
                     </div>
 
@@ -107,25 +107,25 @@
                     <div class="col s12 offset-m1 m10">
                       
                       <div class="row">
-                        <form class="col s12">
+                        <form id="form-fields" action="" method="post" class="col s12">
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <input id="name" autocomplete="off" type="text">
+                              <input id="name" name="nome" autocomplete="off" type="text">
                               <label for="name">Teacher name</label>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <input id="email" autocomplete="off" type="email">
+                              <input id="email" name="email" autocomplete="off" type="email">
                               <label for="email">Email</label>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                             <a class="waves-effect waves-light btn bg-azul">submit</a>
+                             <button type="submit" class="waves-effect waves-light btn bg-azul">submit</button>
                             </div>
                           </div>
 
