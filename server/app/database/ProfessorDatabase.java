@@ -4,6 +4,7 @@ import java.util.List;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import models.Instituicao;
 import models.Professor;
 
 public class ProfessorDatabase {
@@ -34,6 +35,14 @@ public class ProfessorDatabase {
 		}else{
 			return lp.get(0);
 		}
+	}
+	
+	@Transactional
+	public static List<Professor> selectProfessor()throws Exception{
+		String query = "FROM Professor";
+		List<Professor> li = JPA.em().createQuery(query)
+								.getResultList();
+		return li;
 	}
 
 }

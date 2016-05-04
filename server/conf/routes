@@ -8,10 +8,11 @@ GET     /                           controllers.Application.index()
 ###################################
 # SMART EDUC PAINEL
 ###################################
-GET     /panel/smarteduc			controllers.SmartEducController.index()
-GET     /panel/smarteduc/login		controllers.SmartEducController.login()
-POST     /panel/smarteduc/auth		controllers.SmartEducController.logar()
-GET     /panel/smarteduc/logoff		controllers.SmartEducController.logoff()
+GET     /panel/smarteduc				controllers.SmartEducController.index()
+GET     /panel/smarteduc/login			controllers.SmartEducController.login()
+POST    /panel/smarteduc/auth			controllers.SmartEducController.logar()
+POST    /panel/smarteduc/business/new	controllers.SmartEducController.cadastrarCliente()
+GET     /panel/smarteduc/logoff			controllers.SmartEducController.logoff()
 
 ###################################
 # INSTITUICAO PAINEL

@@ -41,4 +41,18 @@ public class InstituicaoDatabase {
 								.getResultList();
 		return li;
 	}
+	
+	@Transactional
+	public static Instituicao selectInstituicaoByCnpjEmail(String cnpj, String email)throws Exception{
+		String query = "FROM Instituicao WHERE cnpj = :cnpj AND email = :email";
+		List<Instituicao> li = JPA.em().createQuery(query)
+								.setParameter("cnpj", cnpj)
+								.setParameter("email", email)
+								.getResultList();
+		if(li.isEmpty()){
+			return null;
+		}else{
+			return li.get(0);
+		}
+	}
 }
