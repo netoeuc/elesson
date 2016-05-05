@@ -135,32 +135,32 @@
 
                   </div>
                   <div class="row">
-                    <form class="col s12">
+                    <form action="@routes.Application.enviarEmail()" method="post" class="col s12">
 
                       <div class="row">
                         <div class="input-field col s12 offset-m1 m10">
-                          <input id="name" type="text" required>
+                          <input id="name" name="name" type="text" required>
                           <label for="name">Name*</label>
                         </div>
                       </div>
 
                       <div class="row">
                         <div class="input-field col s12 offset-m1 m10">
-                          <input id="phone" type="text" class="validate">
+                          <input id="phone" name="phone" type="text" class="validate">
                           <label for="phone">Phone</label>
                         </div>
                       </div>
 
                       <div class="row">
                         <div class="input-field col s12 offset-m1 m10">
-                          <input id="email" type="email" class="validate" required>
+                          <input id="email" name="email" type="email" class="validate" required>
                           <label for="email">Email*</label>
                         </div>
                       </div>
 
                       <div class="row">
                         <div class="input-field col s12 offset-m1 m10">
-                          <textarea id="message" class="materialize-textarea" required></textarea>
+                          <textarea id="message" name="message" class="materialize-textarea" required></textarea>
                           <label for="message">Message*</label>
                         </div>
                       </div>

@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+POST	/send						controllers.Application.enviarEmail()
 
 ###################################
 # SMART EDUC PAINEL
