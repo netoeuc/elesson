@@ -182,19 +182,29 @@
             </div>
           </div><!-- FIM card -->
         </div>
-    <script type="text/javascript">
-    	var options = [
-    	    {
-    	    	selector: '#icons', 
-    	        offset: 200, 
-    	     	callback: function() {
-    	        	$('#icon-student').fadeIn(1000);
-    	        	$('#icon-playing').fadeIn(1000);
-    	        	$('#icon-questions').fadeIn(1000);
-    	     } 
-    	}]; 
-    	Materialize.scrollFire(options);
-    </script>
+    <script type="text/javascript">    		
+    	$(document).ready(function(){
+    		@if(flash().get("erro") != null){
+			var $toastContent = $('<span>@flash().get("erro")</span>');
+    		}
+    		@if(flash().get("success") != null){	
+    		var $toastContent = $('<span>@flash().get("success")</span>');
+        	}
+    		Materialize.toast($toastContent, 5000);
+    		
+        	var options = [
+        	    	 {
+        	    	 	selector: '#icons', 
+        	       	    offset: 200, 
+        	       	    callback: function() {
+        	       	       $('#icon-student').fadeIn(1000);
+        	       	       $('#icon-playing').fadeIn(1000);
+        	       	       $('#icon-questions').fadeIn(1000);
+        	       	  } 
+        	      }]; 
+        	 Materialize.scrollFire(options);
+		});
+    </script>	
 }
 
 @main("e-Lessons")(content)

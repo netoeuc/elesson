@@ -12,7 +12,6 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import util.Constantes;
-import util.ELicenca;
 import util.Mail;
 import util.Seguranca;
 
@@ -85,12 +84,13 @@ public class InstituicaoController extends Controller{
 			}
 			return ok(views.html.instituicao.professores.render());
 		}catch(Exception e){
-			Logger.error("ERRO - ProfessorController/professores(): "+ e.getMessage());
+			Logger.error("ERRO - InstituicaoController/professores(): "+ e.getMessage());
 		}
 		return redirect(routes.InstituicaoController.index());
 	}
 		
 	@Transactional
+	//@With({ InstituicaoInterceptor.class })
 	public static Result cadastrarProfessor(){
 		try{
 			Instituicao i = InstituicaoController.getUsuarioAutenticado();
@@ -124,6 +124,31 @@ public class InstituicaoController extends Controller{
 	}
 	
 	@Transactional
+	public static Result ativar() {
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest();
+			String cnpj = dynamicForm.get("i");
+			String email = dynamicForm.get("e");
+	
+			Instituicao i = InstituicaoDatabase.selectInstituicaoMD5(cnpj, email);
+	
+			if (i != null && i.getStatus() == Constantes.STATUS_AGUARDANDO) {
+				i.setStatus(Constantes.STATUS_ATIVO);
+				JPA.em().merge(i);
+
+				session().clear();
+				session().put(Constantes.SESSION_USUARIO, i.getEmail());
+				session().put(Constantes.SESSION_CNPJINST, i.getCnpj());
+				return redirect(routes.InstituicaoController.index());
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/ativar(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao ativar a conta. Tente novamente mais tarde");
+		}
+		return redirect(routes.InstituicaoController.index());
+	}
+	
+	@Transactional
 	//@With({ InstituicaoInterceptor.class })
 	public static Result alunos() {
 		try{
@@ -151,22 +176,18 @@ public class InstituicaoController extends Controller{
 			
 			if (email == null || senha == null) {
 				flash("erro", "Preencha todos os campos");
-				return redirect(routes.InstituicaoController.login());
 
 			} else {
 				Instituicao i = InstituicaoDatabase.selectInstituicaoByEmail(email);
 
 				if (i == null || i.getStatus() == Constantes.STATUS_REMOVIDO) {
 					flash("erro", "Usuário não cadastrado");
-					return redirect(routes.InstituicaoController.login());
 					
 				}else if(i.getStatus() == Constantes.STATUS_AGUARDANDO){
 					flash("erro", "Confirme seu email no link que te enviamos");
-					return redirect(routes.InstituicaoController.login());
 					
 				} else if(!i.getSenha().equals(senha)){
 					flash("erro", "Senha inválida");
-					return redirect(routes.InstituicaoController.login());
 					
 				}else{
 					session().clear();
@@ -176,8 +197,9 @@ public class InstituicaoController extends Controller{
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - ProfessorController/login(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
 		}
-		flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
+		
 		return redirect(routes.InstituicaoController.login());
 	}
 }

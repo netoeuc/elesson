@@ -55,4 +55,18 @@ public class InstituicaoDatabase {
 			return li.get(0);
 		}
 	}
+
+	@Transactional
+	public static Instituicao selectInstituicaoMD5(String cnpj, String email) {
+		String query = "FROM Instituicao WHERE MD5(cnpj) = :cnpj AND MD5(email) = :email";
+		List<Instituicao> li = JPA.em().createQuery(query)
+								.setParameter("cnpj", cnpj)
+								.setParameter("email", email)
+								.getResultList();
+		if(li.isEmpty()){
+			return null;
+		}else{
+			return li.get(0);
+		}
+	}
 }

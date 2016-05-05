@@ -19,6 +19,7 @@ GET     /panel/smarteduc/logoff			controllers.SmartEducController.logoff()
 # INSTITUICAO PAINEL
 ###################################
 GET     /panel/business				controllers.InstituicaoController.index()
+GET     /panel/business/active		controllers.InstituicaoController.ativar()
 GET     /panel/business/login		controllers.InstituicaoController.login()
 POST    /panel/business/auth		controllers.InstituicaoController.logar()
 GET     /panel/business/logoff		controllers.InstituicaoController.logoff()
