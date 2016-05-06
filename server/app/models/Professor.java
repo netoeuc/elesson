@@ -1,26 +1,26 @@
 package models;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 
-class Compositekey implements Serializable{
-	private static final long serialVersionUID = -5549360561126237205L;
-	private String email;
-	private String cnpjInst;
-}
+import org.hibernate.annotations.Index;
 
 @Entity
-@IdClass(Compositekey.class)
 public class Professor {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	
+	@Column(nullable = false)
+	@Index(name = "email")
 	private String email;
 	
-	@Id
+	@Column(nullable = false)
+	@Index(name = "cnpjInst")
 	private String cnpjInst;
 	
 	@Column(nullable = false)
@@ -34,11 +34,16 @@ public class Professor {
 	
 	public Professor(){}
 	
-	public Professor(String nome, String email, String senha, int status) {
+	public Professor(String cnpjInst, String nome, String email, String senha, int status) {
+		this.cnpjInst = cnpjInst;
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
 		this.status = status;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public String getNome() {

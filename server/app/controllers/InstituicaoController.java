@@ -136,7 +136,7 @@ public class InstituicaoController extends Controller{
 						flash("erro", "Este email já está cadastrado");
 					}else{
 						String senha = Seguranca.gerarSenha(6);
-						Professor novoP = new Professor(nome, email, senha, Constantes.STATUS_AGUARDANDO);
+						Professor novoP = new Professor(i.getCnpj(), nome, email, senha, Constantes.STATUS_AGUARDANDO);
 						Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
 								views.html.professor.email.render(i, nome, email, senha, request().host(), 0).toString());
 						
@@ -160,8 +160,10 @@ public class InstituicaoController extends Controller{
 				DynamicForm dynamicForm = form().bindFromRequest();
 				String nome = dynamicForm.get("nome") == null || dynamicForm.get("nome").trim().isEmpty()? null : dynamicForm.get("nome");
 				String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
+				String phone = dynamicForm.get("phone") == null || dynamicForm.get("phone").trim().isEmpty()? null : dynamicForm.get("phone");
+				int idProfessor = dynamicForm.get("teacher") == null? -1 : Integer.parseInt(dynamicForm.get("teacher"));
 				
-				if(nome == null || email == nome){
+				if(nome == null || email == nome || idProfessor == -1){
 					flash("erro", "Preencha todos os campos");
 				}else{
 					Aluno a = AlunoDatabase.selectAlunoByEmail(email);
@@ -169,7 +171,7 @@ public class InstituicaoController extends Controller{
 						flash("erro", "Este email já está cadastrado");
 					}else{
 					//	String senha = Seguranca.gerarSenha(6);
-					//	Aluno novoA = new Aluno(email, nome, senha, Constantes.STATUS_AGUARDANDO);
+					//	Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, senha, Constantes.STATUS_AGUARDANDO);
 					//	Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
 					//			views.html.professor.email.render(i, email, nome, senha, request().host(), 0).toString());
 								// TODO - Corrigir o render do aluno
