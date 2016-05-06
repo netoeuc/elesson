@@ -1,0 +1,204 @@
+@content={
+@navbar()
+
+          <!-- CARD MAIN -->
+          <div class="row">
+            <div class="col s12 offset-m1 m10">
+              <div class="card defaultCard default-page-margin-top">
+                <div class="card-content">
+
+                  <div class="row">
+                    <div class="card-title color-vermelho" style="line-height: 80%;">
+
+                      <div class="col s12 m4 hide-on-small-only"><i class="medium material-icons">mode_edit</i></div>
+
+                      <div class="col s12 m4 center-align" style="letter-spacing: 3px; margin-top: 15px;"><span style="font-size: 40px;">Questions</span></div>
+
+                    </div>
+                  </div>
+                          <table data-sort-name="classroom" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="true" data-page-list="[5, 10, 15, 20]" data-cache="false" class="students-table">
+                            <thead>
+                              <tr>
+                              	<th data-field="name" data-sortable="true">Text</th>
+                              	<th data-field="level" data-sortable="true">Level</th>
+                              	<th data-field="action" data-sortable="true">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                              	<td><a id="showDetails" onclick="mostrarQuestao('1')" class="modal-trigger waves-effect waves-light">Texto da questão 1</a></td>
+                              	<td>1</td>
+                              	<td>
+									<i onclick="mostrarEditarQuestao('1');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+			                        <i onclick="removerQuestao('1');" id="rem-1" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+			                    </td>
+                              </tr>
+                              <tr>
+                              	<td><a id="showDetails" onclick="mostrarQuestao('2')" class="modal-trigger waves-effect waves-light">Texto da questão 2</a></td>
+                              	<td>1</td>
+                              	<td>
+									<i onclick="mostrarEditarQuestao('2');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+			                        <i onclick="removerQuestao('2');" id="rem-2" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+			                    </td>
+                              </tr>
+                              <tr>
+                              	<td><a id="showDetails" onclick="mostrarQuestao('3')" class="modal-trigger waves-effect waves-light">Texto da questão 3</a></td>
+                              	<td>2</td>
+                              	<td>
+									<i onclick="mostrarEditarQuestao('3');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+			                        <i onclick="removerQuestao('3');" id="rem-3" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+			                    </td>
+                              </tr>
+                              <tr>
+                              	<td><a id="showDetails" onclick="mostrarQuestao('4')" class="modal-trigger waves-effect waves-light">Texto da questão 4</a></td>
+                              	<td>3</td>
+                              	<td>
+									<i onclick="mostrarEditarQuestao('4');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+			                        <i onclick="removerQuestao('4');" id="rem-4" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+			                    </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
+                          <div class="row">
+		                    <div class="col s12 m12">
+		                      <a onclick="mostrarNovaQuestao();" class="col s12 offset-m3 m6 waves-effect waves-light btn bg-azul">new question<a>
+		                    </div>
+		                  </div>
+
+                        </div>
+                  </div>
+
+                </div>
+              </div><!-- FIM card -->
+              
+		  <!-- Modal Structure -->
+          <div id="modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+              <h4 id="namequestion">Question Name</h4>
+                <div id="bar-chart" style="width: 100%; height:200px;"></div>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">close</a>
+            </div>
+          </div>    
+          
+          
+          <!-- Modal Structure -->
+          <div id="modal-fields" class="modal modal-fixed-footer">
+            <div class="modal-content">
+              <h4 id="namequestion">New Question</h4>
+              
+              <div class="row" id="texto" style="margin-bottom: 50px;">
+              	<textarea id="txtEditor"></textarea>
+              </div>
+
+              <div class="row" id="answers" style="margin-bottom: -10px;">
+              	<h4>Answers</h4>
+              </div>		
+              	    
+              <div class="row">
+              	<div class="input-field col s12 m8">
+                	<input id="A" autocomplete="off" type="text">
+                    <label for="A">A</label>
+                </div>
+                <div class="input-field col s12 m8">
+                	<input id="B" autocomplete="off" type="text">
+                    <label for="B">B</label>
+                </div>
+                <div class="input-field col s12 m8">
+                	<input id="C" autocomplete="off" type="text">
+                    <label for="C">C</label>
+                </div>
+                <div class="input-field col s12 m8">
+                	<input id="D" autocomplete="off" type="text">
+                    <label for="D">D</label>
+                </div>
+                <div class="input-field col s12 m8">
+                	<input id="E" autocomplete="off" type="text">
+                    <label for="E">E</label>
+                </div>
+              </div>
+              
+              <div class="row" style="margin-bottom: 50px;">
+              	<div class="col s12 m5">
+					<select name="nivel" class="browser-default color-vermelho">
+						<option disabled selected>Choose a correct answer</option>
+						<option value="a">A</option>
+						<option value="b">B</option>
+						<option value="c">C</option>
+						<option value="d">D</option>
+						<option value="e">E</option>
+					</select>
+				</div>
+              </div>
+
+              <div class="row" id="level">
+              	<h4>Level</h4>
+              </div>
+              
+              <div class="row">
+              	<div class="col s12 m5">
+					<select name="nivel" class="browser-default color-vermelho">
+						<option disabled selected>Choose a level</option>
+						<option value="1">Easy</option>
+						<option value="2">Medium</option>
+						<option value="3">Hard</option>
+					</select>
+				</div>
+              </div>
+              
+              <div class="row">
+              	<div class="input-field col s12 offset-m1 m10">
+              		<a class="waves-effect waves-light btn bg-azul">submit</a>
+              	</div>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">close</a>
+            </div>
+          </div>   
+              
+  <script type="text/javascript">
+	$(document).ready( function() {
+		tinymce.init({
+			  selector: '#txtEditor',
+			  height: 200,
+			  plugins: [
+			    'advlist lists image charmap print preview anchor',
+			    'searchreplace visualblocks fullscreen',
+			    'insertdatetime table contextmenu paste'
+			  ],
+			  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image'
+		});
+	});
+	  
+    function randomIntFromInterval(){   
+      var min = 50;
+      var max = 100;
+      return Math.floor(Math.random()*(max-min+1)+min);
+    }
+
+    function drawChart(clas){
+      $('#bar-chart').html("loading");
+      setTimeout(function(){
+        $('#bar-chart').html("");
+        Morris.Bar({
+          element: 'bar-chart',
+          data: [
+            { y: '', a: randomIntFromInterval(), b: randomIntFromInterval() },
+          ],
+          xkey: 'y',
+          ykeys: ['a', 'b'],
+          labels: ['Acertos', 'Erros'],
+          barColors: ['#00773C','#AD1414'],
+          resize: true
+        });
+      }, 1000);
+    }
+  </script>
+  
+}
+
+@main("Teacher, e-Lessons")(content)

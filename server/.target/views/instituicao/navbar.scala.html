@@ -1,0 +1,63 @@
+		  <!-- Dropdown Structure -->
+          <ul id="dropdown1" class="dropdown-content">
+            <li><a href="@routes.InstituicaoController.configuracao()" class="waves-effect waves-red"><i class="material-icons right not-margin">settings</i>configuration</a></li>
+            <li class="divider"></li>
+            <li><a href="@routes.InstituicaoController.logoff()" class="waves-effect waves-red"><i class="material-icons right not-margin">power_settings_new</i>logoff</a></li>
+          </ul>
+
+		  <!-- NAV -->
+          <div class="row">
+            <div class="navbar-fixed">
+              <nav class="padding-nav bg-azul" role="navigation">
+                <div class="nav-wrapper">
+                  <a href="#!" class="brand-logo">e-Lessons</a>
+                  <a href="#" data-activates="side-menu" class="vert-margined button-collapse waves-effect btn-radius"><i class="material-icons">menu</i></a>
+                  <ul class="right hide-on-med-and-down">
+                    <!-- Dropdown Trigger -->
+                    <li><a class="dropdown-button" href="" data-activates="dropdown1">Business name.<i class="material-icons right not-margin">arrow_drop_down</i></a></li>
+                    <li><a class="waves-effect" href="@routes.InstituicaoController.index()">Dashboard</a></li>
+                    <li><a class="waves-effect" href="@routes.InstituicaoController.professores()">Teacher</a></li>
+                    <li><a class="waves-effect" href="@routes.InstituicaoController.alunos()">Students</a></li>
+                    <li><a class="waves-effect" href="">Questions</a></li>
+                  </ul>
+                  <ul class="side-nav" id="side-menu">
+                    <li class="close-nav"><a href="#"><span class="material-icons">close</span></a></li>
+                    <!-- Dropdown Trigger -->
+                    <li class="no-padding">
+                      <ul class="collapsible collapsible-accordion">
+                        <li><a class="collapsible-header waves-effect waves-red">
+                          <i class="material-icons right not-margin">arrow_drop_down</i>Hi, Teacher name.</a>
+                          <div class="collapsible-body">
+                            <ul>
+                              <li><a href="@routes.InstituicaoController.configuracao()" class="waves-effect waves-red">
+                                <i class="material-icons right not-margin">settings</i>configurations</a>
+                              </li>
+                              <li class="divider"></li>
+                              <li><a href="@routes.ProfessorController.logoff()" class="waves-effect waves-red">
+                                <i class="material-icons right not-margin">power_settings_new</i>logoff</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.index()">
+                      <div class="material-icons">insert_chart</div>Dashboard</a>
+                    </li>
+                    <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.professores()">
+                      <div class="material-icons">perm_identity</div>Teacher</a>
+                    </li>
+                    <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.alunos()">
+                      <div class="material-icons">supervisor_account</div>Students</a>
+                    </li>
+                    <li><a class="waves-effect waves-red" href="">
+                      <div class="material-icons">mode_edit</div>Questions</a>
+                    </li>
+                  </ul>
+                </div>
+                  <a href="#" data-activates="side-menu" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+
+              </nav>
+            </div>
+          </div><!-- FIM NAV -->

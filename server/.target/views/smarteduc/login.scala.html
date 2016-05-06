@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <link rel="icon" href="@routes.Assets.at("images/favicon.png")" type="image/x-icon">
+	    <title>SmartEduc, e-Lessons</title>
+      
+	    @views.html.cssimports()	    
+	    @views.html.jsimports()
+	    
+	</head>
+	<body class="bg-smarteduc">
+		<main>
+			<div class="container">
+			
+				@views.html.navbarlogin()
+		        
+				<!-- CARD LOGIN -->
+		        <div class="row" style="margin-bottom:0px !important;">
+		          <div class="col s12 offset-m3 m6">
+		            <div class="card defaultCard default-page-margin-top hoverable">
+		              <div class="card-content center-align">
+		
+		                <i class="large material-icons">lock_outline</i><br/>
+		                <span class="card-title" style="line-height: 80%; letter-spacing: 3px;">Smart Educ</span>
+		
+		                <div class="row">
+		                  <form action="@routes.SmartEducController.logar()" method="post" class="col s12">
+		
+		                    <div class="row">
+		                      <div class="input-field col s12 offset-m1 m10">
+		                        <input id="login" name="login" autocomplete="off" type="text">
+		                        <label for="login">Login</label>
+		                      </div>
+		                    </div>
+		
+		                    <div class="row">
+		                      <div class="input-field col s12 offset-m1 m10">
+		                        <input id="password" name="password" type="password">
+		                        <label for="password">Password</label>
+		                      </div>
+		                    </div>
+		
+		                    <div class="row">
+		                      <div class="input-field col s12">
+		                       <button type="submit" class="waves-effect waves-light btn btn-medium bg-vermelho">go</button>
+		                      </div>
+		                    </div>
+		
+		                  </form>
+		                </div>
+		
+		              </div>
+		            </div>
+		          </div>
+		        </div><!-- FIM card -->
+        
+			</div>
+	    </main>
+	</body>
+	@if(flash().get("erro") != null){		
+	<script>
+		$(document).ready(function(){
+			var $toastContent = $('<span>@flash().get("erro")</span>');
+			Materialize.toast($toastContent, 5000);
+		});
+	</script>
+	}
+</html>

@@ -1,0 +1,200 @@
+@content = {
+
+      <div class="parallax-layer">
+        <div class="parallax-container">
+
+          @navbar()
+
+          <div id="top"></div>
+
+          <div id="logo" style="display: none;" class="row center-align">
+            <div class="col s12 offset-m1 m10">
+              <div class="logo-elessons logo-header"></div>
+              <p>
+                <h1 class="logo-titulo color-branco" style="line-height: 1px;">e-Lessons</h1>
+                <h6 class="logo-titulo color-branco">by smart Educ</h6>
+              </p>
+            </div>
+          </div>
+          
+          <div class="parallax"><img src="@routes.Assets.at("materialize/img/aula.jpg")"></div>
+        </div>
+      	</div>
+
+        <div id="about"></div>
+        <div class="divider"></div>
+        <div class="section">
+
+          <!-- CARD VIDEO -->
+          <div class="row">
+            <div class="col s12 offset-m2 m8">
+              <div class="card defaultCard default-page-margin-top">
+                <div class="card-content">
+                  <div class="row">
+                    <div class="card-title color-vermelho" style="line-height: 80%; letter-spacing: 3px;">
+
+                      <div class="col s12 m4 hide-on-small-only"><i class="medium material-icons">info_outline</i></div>
+                      <div class="col s12 m4 center-align" style="margin-top: 15px;"><span style="font-size: 40px;">About</span></div>
+
+                    </div>
+                  </div>
+
+                  <div class="row center-align">
+                    <div class="col s12 m6" style="margin-bottom: 15px;">
+                      <i><p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eget scelerisque urna. Morbi tellus velit, feugiat et finibus sit amet, venenatis in libero. Nulla et lacus vitae arcu luctus venenatis nec id lectus. Quisque faucibus est eros, nec semper orci interdum ac. Morbi luctus porta viverra. Nam cursus lacus vel augue accumsan, ut sollicitudin ipsum malesuada. Etiam ac sem felis.</p>
+                      <br/>
+                      <p>Pellentesque non tellus dolor. Nam scelerisque urna at felis vulputate euismod. In sit amet fringilla justo. Duis vel lacus id erat ultricies pulvinar quis ac nulla. In id purus dapibus, egestas ipsum eget, consequat ligula."</p></i>
+                    </div>
+
+                    <div class="col s12 m6">
+                      <div class="video-container">
+                        <iframe width="420" height="315" src="https://www.youtube.com/embed/eojsv2QMMHY" frameborder="0" allowfullscreen></iframe>
+                      </div>
+                    </div>
+                      
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- FIM card -->
+
+        </div>
+
+        <div id="icons" class="divider"></div>
+          <div class="row" style="margin-bottom: -1px;">
+            <div class="parallax-layer">
+              <div class="parallax-container" style="min-height: 215px !important; height: auto !important; padding-top: 25px;">
+
+                <div id="icon-student" class="col s12 m4">
+                  <div class="row">
+                    <div class="col s12 offset-m2 m8">
+                      <div class="card defaultCard default-page-margin-top hoverable">
+                        <div class="card-content">
+                          <div class="row center-align">
+                            <i class="medium material-icons color-azul">perm_identity</i><br/>
+                            <strong>Student</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="icon-playing" class="col s12 m4">
+                  <div class="row">
+                    <div class="col s12 offset-m2 m8">
+                      <div class="card defaultCard default-page-margin-top hoverable">
+                        <div class="card-content">
+                          <div class="row center-align">
+                            <i class="medium material-icons color-azul">games</i><br/>
+                            <strong>Playing</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="icon-questions" class="col s12 m4">
+                  <div class="row">
+                    <div class="col s12 offset-m2 m8">
+                      <div class="card defaultCard default-page-margin-top hoverable">
+                        <div class="card-content">
+                          <div class="row center-align">
+                            <i class="medium material-icons color-azul">mode_edit</i><br/>
+                            <strong>Questions</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="parallax"><img src="@routes.Assets.at("materialize/img/aula.jpg")"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="contact"></div>
+        <div class="divider"></div>
+        <div class="section">
+
+          <!-- CARD CONTACT -->
+          <div class="row">
+            <div class="col s12 offset-m2 m8">
+              <div class="card defaultCard default-page-margin-top">
+                <div class="card-content">
+                  <div class="row">
+                    <div class="card-title color-vermelho" style="line-height: 80%; letter-spacing: 3px;">
+
+                      <div class="col s12 m4 hide-on-small-only"><i class="medium material-icons">email</i></div>
+                      <div class="col s12 m4 center-align" style="margin-top: 15px;"><span style="font-size: 40px;">Contact</span></div>
+
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <form class="col s12">
+
+                      <div class="row">
+                        <div class="input-field col s12 offset-m1 m10">
+                          <input id="name" type="text" required>
+                          <label for="name">Name*</label>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="input-field col s12 offset-m1 m10">
+                          <input id="phone" type="text" class="validate">
+                          <label for="phone">Phone</label>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="input-field col s12 offset-m1 m10">
+                          <input id="email" type="email" class="validate" required>
+                          <label for="email">Email*</label>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="input-field col s12 offset-m1 m10">
+                          <textarea id="message" class="materialize-textarea" required></textarea>
+                          <label for="message">Message*</label>
+                        </div>
+                      </div>
+
+                      <div class="row center-align">
+                        <div class="input-field col s12">
+                         <button type="submit" class="waves-effect waves-light btn btn-medium bg-vermelho">submit</button>
+                        </div>
+                      </div>
+
+                      <div class="card-action" style="margin-bottom: -35px !important;">
+                        * Required fields
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- FIM card -->
+        </div>
+    <script type="text/javascript">
+    	var options = [
+    	    {
+    	    	selector: '#icons', 
+    	        offset: 200, 
+    	     	callback: function() {
+    	        	$('#icon-student').fadeIn(1000);
+    	        	$('#icon-playing').fadeIn(1000);
+    	        	$('#icon-questions').fadeIn(1000);
+    	     } 
+    	}]; 
+    	Materialize.scrollFire(options);
+    </script>
+}
+
+@main("e-Lessons")(content)

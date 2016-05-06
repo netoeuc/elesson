@@ -1,8 +1,11 @@
 package controllers;
 
 import static play.data.Form.form;
+
+import models.Aluno;
 import models.Instituicao;
 import models.Professor;
+import database.AlunoDatabase;
 import database.InstituicaoDatabase;
 import database.ProfessorDatabase;
 import play.Logger;
@@ -97,9 +100,10 @@ public class InstituicaoController extends Controller{
 			if(i != null){
 				DynamicForm dynamicForm = form().bindFromRequest();
 				String nome = dynamicForm.get("nome") == null || dynamicForm.get("nome").trim().isEmpty()? null : dynamicForm.get("nome");
+				String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").trim().isEmpty()? null : dynamicForm.get("phone");
 				String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
 				
-				if(nome == null || email == nome){
+				if(nome == null || email == null || telefone == null){
 					flash("erro", "Preencha todos os campos");
 				}else{
 					Professor p = ProfessorDatabase.selectProfessor(email, i.getCnpj());
@@ -121,6 +125,40 @@ public class InstituicaoController extends Controller{
 			Logger.error("ERRO - ProfessorController/professores(): "+ e.getMessage());
 		}
 		return redirect(routes.InstituicaoController.professores());
+	}
+	
+	@Transactional
+	public static Result cadastrarAluno(){
+		try{
+			Instituicao i = InstituicaoController.getUsuarioAutenticado();
+			if(i != null){
+				DynamicForm dynamicForm = form().bindFromRequest();
+				String nome = dynamicForm.get("nome") == null || dynamicForm.get("nome").trim().isEmpty()? null : dynamicForm.get("nome");
+				String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
+				
+				if(nome == null || email == nome){
+					flash("erro", "Preencha todos os campos");
+				}else{
+					Aluno a = AlunoDatabase.selectAlunoByEmail(email);
+					if(a != null){
+						flash("erro", "Este email já está cadastrado");
+					}else{
+					//	String senha = Seguranca.gerarSenha(6);
+					//	Aluno novoA = new Aluno(email, nome, senha, Constantes.STATUS_AGUARDANDO);
+					//	Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
+					//			views.html.professor.email.render(i, email, nome, senha, request().host(), 0).toString());
+								// TODO - Corrigir o render do aluno
+						
+						//JPA.em().persist(novoA);
+					}
+				}
+			}else{
+				return redirect(routes.InstituicaoController.login());
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - ProfessorController/professores(): "+ e.getMessage());
+		}
+		return redirect(routes.InstituicaoController.alunos());
 	}
 	
 	@Transactional

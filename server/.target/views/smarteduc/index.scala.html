@@ -145,46 +145,46 @@
                     <div class="col s12 offset-m1 m10">
                       
                       <div class="row">
-                        <form class="col s12">
+                        <form action="@routes.SmartEducController.cadastrarCliente()" method="POST" class="col s12">
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <input id="name" autocomplete="off" type="text">
+                              <input id="name" name="name" autocomplete="off" type="text">
                               <label for="name">Client name</label>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <input id="phone" autocomplete="off" type="text">
+                              <input id="phone" name="phone" autocomplete="off" type="text">
                               <label for="phone">Phone</label>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <input id="address" autocomplete="off" type="text">
+                              <input id="address" name="address" autocomplete="off" type="text">
                               <label for="address">Address</label>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <input id="cnpj" autocomplete="off" type="text">
+                              <input id="cnpj" name="cnpj" autocomplete="off" type="text">
                               <label for="cnpj">CNPJ</label>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <input id="email" autocomplete="off" type="email">
+                              <input id="email" name="email" autocomplete="off" type="email">
                               <label for="email">Email</label>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <select class="browser-default color-vermelho" id="license">
+                              <select class="browser-default color-vermelho" id="license" name="license">
                                 <option value="0" disabled selected>Choose one license</option>
                                 <option value="1">Test</option>
                                 <option value="2">Bronze</option>
@@ -197,7 +197,7 @@
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                             <a class="waves-effect waves-light btn bg-azul">submit</a>
+                             <button type="submit" class="waves-effect waves-light btn bg-azul">submit</button>
                             </div>
                           </div>
 

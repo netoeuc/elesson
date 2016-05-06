@@ -1,0 +1,33 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html>
+    <head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="description" content="Descricao">
+	    <link rel="icon" href="@routes.Assets.at("images/favicon.png")" type="image/x-icon">
+	    <title>@title</title>
+      
+	    @views.html.cssimports()	    
+	    @views.html.cssextraimports()
+	    
+	    @views.html.jsimports()
+	    @views.html.jsextraimports()
+	    
+	    <!--Import Text Area-->
+	    <!-- https://www.tinymce.com/docs/demo/ -->
+	    <script type="text/javascript" src="@routes.Assets.at("materialize/js/tinymce/tinymce.min.js")"></script>
+	    
+	</head>
+
+    <body class="bg-gelo">
+    	<main>
+	    	<div class="container">
+	    		@content
+	    	</div>
+    	</main>
+    	@views.html.footer()
+    </body>
+</html>

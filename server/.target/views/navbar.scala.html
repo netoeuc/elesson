@@ -1,0 +1,26 @@
+		  <!-- NAV -->
+          <div class="row">
+            <div class="navbar-fixed">
+              <nav class="padding-nav bg-azul">
+                <div class="nav-wrapper">
+                  <a href="#!" class="brand-logo">e-Lessons</a>
+                  <a href="#" data-activates="side-menu" class="vert-margined button-collapse waves-effect btn-radius"><i class="material-icons">menu</i></a>
+                  <ul class="right hide-on-med-and-down">
+                    <li><a class="waves-effect" href="javascript://" onclick="movimento('top', 55)">Home</a></li>
+                    <li><a class="waves-effect" href="javascript://" onclick="movimento('about', 55)">About</a></li>
+                    <li><a class="waves-effect" href="javascript://" onclick="movimento('contact', 55)">Contact</a></li>
+                    <li><a class="waves-effect" href="@routes.InstituicaoController.index()">Business</a></li>
+                    <li><a class="waves-effect" href="@routes.ProfessorController.index()">Teacher</a></li>
+                  </ul>
+                  <ul class="side-nav" id="side-menu">
+                    <li class="close-nav"><a href="#"><span class="material-icons">close</span></a></li>
+                    <li><a href="javascript://" onclick="movimento('top')" class="waves-effect waves-red"><div class="material-icons">home</div><div>Home</div></a></li>
+                    <li><a href="javascript://" onclick="movimento('about')" class="waves-effect waves-red"><div class="material-icons">info_outline</div>About</a></li>
+                    <li><a href="javascript://" onclick="movimento('contact')" class="waves-effect waves-red"><div class="material-icons">email</div>Contact</a></li>
+                    <li><a href="@routes.InstituicaoController.index()" class="waves-effect waves-red"><div class="material-icons">business</div>Business</a></li>
+                    <li><a href="@routes.ProfessorController.index()" class="waves-effect waves-red"><div class="material-icons">perm_identity</div>Teacher</a></li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+          </div><!-- FIM NAV -->
