@@ -19,6 +19,7 @@ import play.mvc.With;
 import util.Constantes;
 import util.ELicenca;
 import util.ELicencaUtil;
+import util.Mail;
 import util.Seguranca;
 
 public class SmartEducController extends Controller{
@@ -88,18 +89,15 @@ public class SmartEducController extends Controller{
 			
 			if (email == null || senha == null) {
 				flash("erro", "Preencha todos os campos");
-				return redirect(routes.SmartEducController.login());
 
 			} else {
 				UsuarioSmart u = SmartEducDatabase.selectUsuarioSmart(email);
 
 				if (u == null) {
 					flash("erro", "Usuário não cadastrado");
-					return redirect(routes.SmartEducController.login());
 					
 				} else if(!u.getSenha().equals(senha)){
 					flash("erro", "Senha inválida");
-					return redirect(routes.SmartEducController.login());
 					
 				}else{
 					session().clear();
@@ -109,46 +107,43 @@ public class SmartEducController extends Controller{
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - SmartEducController/login(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
 		}
-		flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
 		return redirect(routes.SmartEducController.login());
 	}
 	
 	@Transactional
+	@With({ UsuarioSmartInterceptor.class })
 	public static Result cadastrarCliente() {
 		try {
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
-			String nome = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name").toLowerCase();
+			String nome = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name");
 			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").trim().isEmpty()? null : dynamicForm.get("phone");
-			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address").toLowerCase();
+			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address");
 			String cnpj = dynamicForm.get("cnpj") == null || dynamicForm.get("cnpj").trim().isEmpty()? null : dynamicForm.get("cnpj");
-			String email = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name").toLowerCase();
-			// trocar para int - TODO
+			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
 			int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
 			
-			String senha = "Aqui vai ser gerado";//TODO
+			String senha = Seguranca.gerarSenha(6);
 			ELicenca el = ELicencaUtil.getELicenca(licenca);
 			
-			if (nome == null   || telefone == null || endereco == null || cnpj == null || email == null || el == null) {
+			if (nome == null || telefone == null || endereco == null || cnpj == null || email == null || el == null) {
 				flash("erro", "Preencha todos os campos");
-			}
-			else{
+			}else{
 				Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpjEmail(cnpj,email);
-				if (i==null)
-				{
+				if (i == null){
+					i = new Instituicao(cnpj, nome, telefone, endereco, email, el, senha, Constantes.STATUS_AGUARDANDO);
+					Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
+							views.html.instituicao.email.render(i, senha, request().host(), 0).toString());
 					
-					i = new Instituicao(cnpj, nome, telefone, endereco, email, el, senha, Constantes.STATUS_ATIVO);
 					JPA.em().persist(i);
 					
 				}else{
-					flash("erro", "Instituicao ja cadastrada");
-					
+					flash("erro", "Instituição já cadastrada");
 				}
 			}
-		
-		
 		} catch (Exception e) {
-			Logger.error("ERRO - SmartEducController/cadastro(): "+ e.getMessage());
+			Logger.error("ERRO - SmartEducController/cadastrarCliente(): "+ e.getMessage());
 			flash("erro", "Ocorreu um erro ao cadastrar. Tente novamente mais tarde");
 		}
 		

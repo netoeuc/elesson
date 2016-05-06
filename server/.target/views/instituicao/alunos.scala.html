@@ -142,32 +142,32 @@
                     <div class="col s12 offset-m1 m10">
                       
                       <div class="row">
-                        <form class="col s12">
+                        <form id="form-fields" action="" method="post" class="col s12">
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <input id="name" autocomplete="off" type="text">
+                              <input id="name" name="nome" autocomplete="off" type="text">
                               <label for="name">Student name</label>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <input id="phone" autocomplete="off" type="text">
+                              <input id="phone" name="phone" autocomplete="off" type="text">
                               <label for="phone">Phone</label>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <input id="email" autocomplete="off" type="email">
+                              <input id="email" name="email" autocomplete="off" type="email">
                               <label for="email">Email</label>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                              <select id="dropdown-teacher-list" class="browser-default">
+                              <select id="dropdown-teacher-list" name="teacher" class="browser-default">
 								<option value="" disabled selected>Select a teacher: </option>
 								@optionsTeacherList
 							  </select>
@@ -176,7 +176,7 @@
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                             <a class="waves-effect waves-light btn bg-azul">submit</a>
+                             <a type="submit"class="waves-effect waves-light btn bg-azul">submit</a>
                             </div>
                           </div>
 

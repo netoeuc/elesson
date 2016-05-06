@@ -25,6 +25,7 @@
                               <tr>
                                 <th data-field="name" data-sortable="true">Name</th>
                                 <th data-field="license" data-sortable="true">License</th>
+                                <th data-field="status" data-sortable="true">Status</th>
                                 <th data-field="actions" data-sortable="false">Actions</th>
                               </tr>
                             </thead>
@@ -34,6 +35,10 @@
                               <tr>
                                 <td><a id="showDetails" onclick="mostrarInstituicao('@i.getNome()', '@i.getLicenca()', '@i.getCnpj()')" class="modal-trigger waves-effect waves-light">@i.getNome()</a></td>
                                 <td>@i.getLicenca().toString()</td>
+                                <td>
+                                	@if(i.getStatus() == util.Constantes.STATUS_AGUARDANDO){Aguardando}
+                                	@if(i.getStatus() == util.Constantes.STATUS_ATIVO){Ativo}
+                                </td>
                                 <td>
                                   <i onclick="mostrarEditarInstituicao('@i.getNome()', '@i.getLicenca()', '@i.getCnpj()');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
                                   <i onclick="removerInstituicao('@i.getCnpj()');" id="rem-@i.getCnpj()" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>

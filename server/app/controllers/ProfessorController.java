@@ -84,22 +84,18 @@ public class ProfessorController extends Controller{
 			
 			if (cnpjInst == null || email == null || senha == null) {
 				flash("erro", "Preencha todos os campos");
-				return redirect(routes.ProfessorController.login());
 
 			} else {
 				Professor p = ProfessorDatabase.selectProfessor(email, cnpjInst);
 
 				if (p == null || p.getStatus() == Constantes.STATUS_REMOVIDO) {
 					flash("erro", "Usuário não cadastrado");
-					return redirect(routes.ProfessorController.login());
 					
 				}else if(p.getStatus() == Constantes.STATUS_AGUARDANDO){
 					flash("erro", "Confirme seu email no link que te enviamos");
-					return redirect(routes.ProfessorController.login());
 					
 				} else if(!p.getSenha().equals(senha)){
 					flash("erro", "Senha inválida");
-					return redirect(routes.ProfessorController.login());
 					
 				}else{
 					session().clear();
@@ -110,8 +106,9 @@ public class ProfessorController extends Controller{
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - ProfessorController/login(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
+
 		}
-		flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
 		return redirect(routes.ProfessorController.login());
 	}
 	
