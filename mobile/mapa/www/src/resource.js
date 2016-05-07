@@ -6,7 +6,8 @@ var asset = {
     unidade01_png : "asset/unidade01.png",
     unidade02_png : "asset/unidade02.png",
     unidade03_png : "asset/unidade03.png",
-    unidade04_png : "asset/unidade04.png"
+    unidade04_png : "asset/unidade04.png",
+    mapateste_jpg : "asset/mapateste.jpg"
 };
 
 var g_resources = [];
