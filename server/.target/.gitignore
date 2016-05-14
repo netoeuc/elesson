@@ -1,2 +1,5 @@
 /models/
 /controllers/
+/views/
+/database/
+/util/

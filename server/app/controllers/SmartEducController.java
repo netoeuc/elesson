@@ -125,19 +125,35 @@ public class SmartEducController extends Controller{
 			int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
 			
 			String senha = Seguranca.gerarSenha(6);
-			ELicenca el = ELicencaUtil.getELicenca(licenca);
+			ELicenca eLicenca = ELicencaUtil.getELicenca(licenca);
 			
-			if (nome == null || telefone == null || endereco == null || cnpj == null || email == null || el == null) {
+			if (nome == null || telefone == null || endereco == null || cnpj == null || email == null || eLicenca == null) {
 				flash("erro", "Preencha todos os campos");
 			}else{
-				Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpjEmail(cnpj,email);
-				if (i == null){
-					i = new Instituicao(cnpj, nome, telefone, endereco, email, el, senha, Constantes.STATUS_AGUARDANDO);
+				Instituicao ic = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
+				Instituicao ie = InstituicaoDatabase.selectInstituicaoByEmail(email);
+				if (ic == null && ie == null){
+					ic = new Instituicao(cnpj, nome, telefone, endereco, email, eLicenca, Seguranca.md5(senha), Constantes.STATUS_AGUARDANDO);
 					Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
-							views.html.instituicao.email.render(i, senha, request().host(), 0).toString());
+							views.html.instituicao.email.render(ic, senha, request().host(), 0).toString());
 					
-					JPA.em().persist(i);
+					JPA.em().persist(ic);
 					
+				}else if(ic == null && ie != null){
+					flash("erro", "Email já cadastrado");
+					
+				}else if(ic != null && (ie == null || ie.getEmail().equals(email)) && ic.getStatus() == Constantes.STATUS_REMOVIDO){
+					ic.setNome(nome);
+					ic.setTelefone(telefone);
+					ic.setEndereco(endereco);
+					ic.setLicenca(eLicenca);
+					ic.setEmail(email);
+					ic.setSenha(Seguranca.md5(senha));
+					ic.setStatus(Constantes.STATUS_AGUARDANDO);
+					Mail.sendMail(email, "Bem-vindo de volta, "+nome+"!", 
+							views.html.instituicao.email.render(ic, senha, request().host(), 0).toString());
+						
+					JPA.em().merge(ic);
 				}else{
 					flash("erro", "Instituição já cadastrada");
 				}
@@ -149,5 +165,115 @@ public class SmartEducController extends Controller{
 		
 		return redirect(routes.SmartEducController.index());
 	}
-
+	
+	@Transactional
+	@With({ UsuarioSmartInterceptor.class })
+	public static Result formEditarCliente() {
+		try {
+			DynamicForm dynamicForm = form().bindFromRequest();
+			String cnpj = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? null : dynamicForm.get("cod");
+			if(cnpj == null){
+				Logger.error("ERRO - SmartEducController/formEditarCliente(): CNPJ is null");
+			}else{
+				Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
+				return ok(views.html.smarteduc.ajax.formEditarInstituicao.render(i));
+			}
+		} catch (Exception e) {
+			Logger.error("ERRO - SmartEducController/formEditarCliente(): "+ e.getMessage());
+		}
+		return ok("Ocorreu um erro ao editar. Tente novamente mais tarde");
+	}
+	
+	@Transactional
+	@With({ UsuarioSmartInterceptor.class })
+	public static Result editarCliente() {
+		try {
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			String cnpj = dynamicForm.get("cnpj") == null || dynamicForm.get("cnpj").trim().isEmpty()? null : dynamicForm.get("cnpj");
+			String nome = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name");
+			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").trim().isEmpty()? null : dynamicForm.get("phone");
+			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address");
+			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
+			int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
+			boolean isEditado = false;
+			
+			if(cnpj != null){
+				ELicenca elicenca = ELicencaUtil.getELicenca(licenca);
+				
+				if (nome == null || telefone == null || endereco == null || email == null || elicenca == null) {				
+					flash("erro", "Preencha todos os campos");
+				}else{
+					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
+					if(i != null){
+						
+						if(!i.getNome().equals(nome)){
+							i.setNome(nome); 
+							isEditado = true;
+						}
+						if(!i.getTelefone().equals(telefone)){
+							i.setTelefone(telefone); 
+							isEditado = true;
+						}
+						if(!i.getEndereco().equals(endereco)){
+							i.setEndereco(endereco);
+							isEditado = true;
+						}
+						if(i.getLicenca() != elicenca){
+							i.setLicenca(elicenca);
+							isEditado = true;
+						}
+						if(!i.getEmail().equals(email)){
+							Instituicao ie = InstituicaoDatabase.selectInstituicaoByEmail(email);
+							if(ie == null){
+								i.setEmail(email);
+								Mail.sendMail(email, "Alteração de Email", views.html.instituicao.email.render(i, "", request().host(), 1).toString());
+								i.setStatus(Constantes.STATUS_AGUARDANDO);
+								isEditado = true;
+							}else{
+								flash("erro", "Email já cadastrado");
+							}
+						}
+					}else{
+						flash("erro", "Cliente não encontrado");
+					}
+					
+					if(isEditado){
+						JPA.em().merge(i);
+						flash("ok", nome+" Editado");
+					}
+				}
+			}else{
+				flash("erro", "Informe o CNPJ do cliente");
+			}
+		} catch (Exception e) {
+			Logger.error("ERRO - SmartEducController/editarCliente(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
+		}
+		
+		return redirect(routes.SmartEducController.index());
+	}
+	
+	@Transactional
+	@With({ UsuarioSmartInterceptor.class })
+	public static Result removerCliente() {
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			String cnpj = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? null : dynamicForm.get("cod");
+			
+			if(cnpj != null){
+				Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
+				if(i != null){
+					i.setStatus(Constantes.STATUS_REMOVIDO);
+					JPA.em().merge(i);
+					flash("ok", i.getNome()+" Removido");
+				}
+			}else{
+				flash("erro", "Informe o CNPJ do cliente");
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - SmartEducController/removerCliente(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao remover. Tente novamente mais tarde");
+		}
+		return redirect(routes.SmartEducController.index());
+	}
 }

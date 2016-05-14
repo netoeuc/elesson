@@ -25,7 +25,7 @@ public class Application extends Controller {
 				flash("erro", "Preencha todos os campos.");
 			}else{
 				Mail.sendMail(Constantes.EMAIL_SMARTEDUC, "Contato Smart Educ", views.html.email.render(name, phone, email, message).toString());
-				flash("success", "Mensagem enviada.");
+				flash("ok", "Mensagem enviada.");
 			}
     	}catch(Exception e){
 			Logger.error("ERRO - Application/enviarEmail(): "+ e.getMessage());

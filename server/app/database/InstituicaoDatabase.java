@@ -4,6 +4,7 @@ import java.util.List;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import util.Constantes;
 import models.Instituicao;
 
 public class InstituicaoDatabase {
@@ -36,8 +37,9 @@ public class InstituicaoDatabase {
 	
 	@Transactional
 	public static List<Instituicao> selectInstituicao()throws Exception{
-		String query = "FROM Instituicao";
+		String query = "FROM Instituicao WHERE status != :status";
 		List<Instituicao> li = JPA.em().createQuery(query)
+								.setParameter("status", Constantes.STATUS_REMOVIDO)
 								.getResultList();
 		return li;
 	}
@@ -45,6 +47,20 @@ public class InstituicaoDatabase {
 	@Transactional
 	public static Instituicao selectInstituicaoByCnpjEmail(String cnpj, String email)throws Exception{
 		String query = "FROM Instituicao WHERE cnpj = :cnpj AND email = :email";
+		List<Instituicao> li = JPA.em().createQuery(query)
+								.setParameter("cnpj", cnpj)
+								.setParameter("email", email)
+								.getResultList();
+		if(li.isEmpty()){
+			return null;
+		}else{
+			return li.get(0);
+		}
+	}
+	
+	@Transactional
+	public static Instituicao selectInstituicaoByCnpjOrEmail(String cnpj, String email)throws Exception{
+		String query = "FROM Instituicao WHERE cnpj = :cnpj OR email = :email";
 		List<Instituicao> li = JPA.em().createQuery(query)
 								.setParameter("cnpj", cnpj)
 								.setParameter("email", email)

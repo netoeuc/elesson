@@ -1,7 +1,6 @@
 package controllers;
 
 import static play.data.Form.form;
-
 import models.Aluno;
 import models.Instituicao;
 import models.Professor;
@@ -14,6 +13,7 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.AdminJson;
 import util.Constantes;
 import util.Mail;
 import util.Seguranca;
@@ -241,5 +241,10 @@ public class InstituicaoController extends Controller{
 		}
 		
 		return redirect(routes.InstituicaoController.login());
+	}
+	
+	@Transactional
+	public static Result teste(){
+		return ok(AdminJson.getObject(AlunoDatabase.selectAlunosByProfessorByCnpjInst("123123"), "alunosPorProfessor"));
 	}
 }

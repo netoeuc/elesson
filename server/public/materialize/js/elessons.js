@@ -7,6 +7,10 @@ $( document ).ready(function(){
 
 	$('.parallax').parallax();
 	$("#logo").fadeIn(2000);
+	
+	setTimeout(function() {
+		$('.fecharAut').fadeOut('slow');
+	}, 3000);
 })
 
 function movimento(para, recuo) {
@@ -28,8 +32,8 @@ function mostrarNovoAluno(){
 }
 
 function mostrarEditarAluno(nome, codigoProfessor, codigoAluno){
-	$('#modal-fields #namestudent').html(nome);
-    $('#modal-fields').openModal();
+	$('#modal-fields-edit #namestudent').html(nome);
+    $('#modal-fields-edit').openModal();
 }
 
 function removerAluno(codigo){
@@ -55,19 +59,26 @@ function mostrarNovaInstituicao(){
     $('#modal-fields').openModal();
 }
 
-function mostrarEditarInstituicao(nome, licenca, codigo){
-	$('#modal-fields #namebusiness').html(nome);
-    $('#modal-fields').openModal();
+function mostrarEditarInstituicao(nome, codigo, action){
+	$('#modal-fields-edit #namebusiness').html(nome);
+	$("#form-callback").html("loading");
+	$('#modal-fields-edit').openModal();
+	
+	$.post(action, {cod: codigo}, function(data) {
+		$("#form-callback").html(data);
+	}).fail(function() {
+		$("#form-callback").html("error");
+	});
 }
 
-function removerInstituicao(codigo){
+function removerInstituicao(codigo, action){
 	var rem = $('td i#rem-'+codigo).html();
 	if(rem == 'delete'){
 		$('td i#rem-'+codigo).html('done');
 	}else if(rem == 'done'){
-		alert("Removido!");
-		// removerInstituicaoConfirm(codigo);
-		location.reload();
+		$.post(action, {cod: codigo}, function() {
+		}).fail(function() {});
+		window.location.reload(true);
 	}
 }
 
@@ -84,9 +95,9 @@ function mostrarNovoProfessor(action){
 }
 
 function mostrarEditarProfessor(nome, codigo, action){
-	$('#modal-fields #nameteacher').html(nome);
-	$('#modal-fields #form-fields').attr('action', action);
-    $('#modal-fields').openModal();
+	$('#modal-fields-edit #nameteacher').html(nome);
+	$('#modal-fields-edit #form-fields').attr('action', action);
+    $('#modal-fields-edit').openModal();
 }
 
 function removerProfessor(codigo){
@@ -113,8 +124,8 @@ function mostrarNovaQuestao(){
 }
 
 function mostrarEditarQuestao(codigo){
-	$('#modal-fields #namequestion').html();
-    $('#modal-fields').openModal();
+	$('#modal-fields-edit #namequestion').html();
+    $('#modal-fields-edit').openModal();
 }
 
 function removerQuestao(codigo){

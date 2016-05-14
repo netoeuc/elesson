@@ -186,11 +186,12 @@
     	$(document).ready(function(){
     		@if(flash().get("erro") != null){
 			var $toastContent = $('<span>@flash().get("erro")</span>');
+			Materialize.toast($toastContent, 5000);
     		}
-    		@if(flash().get("success") != null){	
-    		var $toastContent = $('<span>@flash().get("success")</span>');
-        	}
+    		@if(flash().get("ok") != null){	
+    		var $toastContent = $('<span>@flash().get("ok")</span>');
     		Materialize.toast($toastContent, 5000);
+        	}
     		
         	var options = [
         	    	 {

@@ -230,23 +230,20 @@ ul li a .material-icons{
 .warning{
 	background-color: #FFE599 !important;
 	color: #806000 !important;
-	padding: 15px !important;
-	text-align: center;
-	box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.10) !important;
-	-webkit-border-radius: 100px;
-	-moz-border-radius: 100px;
-	border-radius: 100px;
 }
 
-.sucess{
+.success{
 	background-color: #B1E7B3 !important;
 	color: #227124 !important;
+}
+.warning, .success{
 	padding: 10px !important;
 	text-align: center;
 	box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.10) !important;
 	-webkit-border-radius: 100px;
 	-moz-border-radius: 100px;
 	border-radius: 100px;
+	cursor: pointer;
 }
 
 .color-branco{

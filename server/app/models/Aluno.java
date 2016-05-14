@@ -47,6 +47,16 @@ public class Aluno {
 		this.senha = senha;
 		this.status = status;
 	}
+	
+	public Aluno(int id, String cnpjInst, int idProfessor, String email, String nome, String senha, int status) {
+		this.id = id;
+		this.cnpjInst = cnpjInst;
+		this.idProfessor = idProfessor;
+		this.email = email;
+		this.nome = nome;
+		this.senha = senha;
+		this.status = status;
+	}
 
 	public String getCnpjInst() {
 		return cnpjInst;
