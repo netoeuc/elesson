@@ -1,12 +1,14 @@
 package controllers;
 
 import static play.data.Form.form;
+import java.util.List;
 import models.Aluno;
 import models.Instituicao;
 import models.Professor;
 import database.AlunoDatabase;
 import database.InstituicaoDatabase;
 import database.ProfessorDatabase;
+import interceptors.InstituicaoInterceptor;
 import play.Logger;
 import play.data.DynamicForm;
 import play.db.jpa.JPA;
@@ -14,6 +16,7 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import util.AdminJson;
+import play.mvc.With;
 import util.Constantes;
 import util.Mail;
 import util.Seguranca;
@@ -53,7 +56,7 @@ public class InstituicaoController extends Controller{
 	}
 	
 	@Transactional
-	//@With({ InstituicaoInterceptor.class })
+	@With({ InstituicaoInterceptor.class })
 	public static Result index(){
 		return ok(views.html.instituicao.index.render());
 	}
@@ -70,7 +73,7 @@ public class InstituicaoController extends Controller{
 	}
 	
 	@Transactional
-	//@With({ InstituicaoInterceptor.class })
+	@With({ InstituicaoInterceptor.class })
 	public static Result configuracao() {
 		// TODO pegar informacoes da instituicao no banco
 		return ok(views.html.instituicao.configuracao.render());
@@ -102,33 +105,51 @@ public class InstituicaoController extends Controller{
 	}
 	
 	@Transactional
-	//@With({ InstituicaoInterceptor.class })
+	@With({ InstituicaoInterceptor.class })
 	public static Result professores() {
 		try{
 			String cnpj = getUsuarioSession();
 			if(cnpj != null){
-				// TODO pegar lista de professores de acordo com o cnpj no banco e passar como parametro pra pagina
-				return ok(views.html.instituicao.professores.render());
+				List<Professor> po = ProfessorDatabase.selectProfessorByCnpjInst(cnpj);
+				return ok(views.html.instituicao.professores.render(po));
 			}
-			return ok(views.html.instituicao.professores.render());
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/professores(): "+ e.getMessage());
 		}
 		return redirect(routes.InstituicaoController.index());
 	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result alunos() {
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest();
+			boolean isSingle = dynamicForm.get("is") == null || dynamicForm.get("is").trim().isEmpty()? true : Boolean.parseBoolean(dynamicForm.get("is"));
+			
+			String cnpj = getUsuarioSession();
+			if(cnpj != null){
+				// pegar lista de alunos de acordo com o cnpj no banco e passar como parametro pra pagina
+				List<Aluno> al = AlunoDatabase.selectAlunoByCnpjInst(cnpj);
+				List<Professor> po = ProfessorDatabase.selectProfessorByCnpjInst(cnpj);
+				return ok(views.html.instituicao.alunos.render(isSingle,al,po));
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/alunos(): "+ e.getMessage());
+		}
+		return redirect(routes.InstituicaoController.index());
+	}
 		
 	@Transactional
-	//@With({ InstituicaoInterceptor.class })
+	@With({ InstituicaoInterceptor.class })
 	public static Result cadastrarProfessor(){
 		try{
 			Instituicao i = InstituicaoController.getUsuarioAutenticado();
 			if(i != null){
 				DynamicForm dynamicForm = form().bindFromRequest();
 				String nome = dynamicForm.get("nome") == null || dynamicForm.get("nome").trim().isEmpty()? null : dynamicForm.get("nome");
-				String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").trim().isEmpty()? null : dynamicForm.get("phone");
 				String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
 				
-				if(nome == null || email == null || telefone == null){
+				if(nome == null || email == null){
 					flash("erro", "Preencha todos os campos");
 				}else{
 					Professor p = ProfessorDatabase.selectProfessor(email, i.getCnpj());
@@ -136,7 +157,7 @@ public class InstituicaoController extends Controller{
 						flash("erro", "Este email já está cadastrado");
 					}else{
 						String senha = Seguranca.gerarSenha(6);
-						Professor novoP = new Professor(i.getCnpj(), nome, email, senha, Constantes.STATUS_AGUARDANDO);
+						Professor novoP = new Professor(i.getCnpj(), nome, email, Seguranca.md5(senha), Constantes.STATUS_AGUARDANDO);
 						Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
 								views.html.professor.email.render(i, nome, email, senha, request().host(), 0).toString());
 						
@@ -153,6 +174,7 @@ public class InstituicaoController extends Controller{
 	}
 	
 	@Transactional
+	@With({ InstituicaoInterceptor.class })
 	public static Result cadastrarAluno(){
 		try{
 			Instituicao i = InstituicaoController.getUsuarioAutenticado();
@@ -160,23 +182,21 @@ public class InstituicaoController extends Controller{
 				DynamicForm dynamicForm = form().bindFromRequest();
 				String nome = dynamicForm.get("nome") == null || dynamicForm.get("nome").trim().isEmpty()? null : dynamicForm.get("nome");
 				String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
-				String phone = dynamicForm.get("phone") == null || dynamicForm.get("phone").trim().isEmpty()? null : dynamicForm.get("phone");
 				int idProfessor = dynamicForm.get("teacher") == null? -1 : Integer.parseInt(dynamicForm.get("teacher"));
 				
-				if(nome == null || email == nome || idProfessor == -1){
+				if(nome == null || email == null || idProfessor == -1){
 					flash("erro", "Preencha todos os campos");
 				}else{
-					Aluno a = AlunoDatabase.selectAlunoByEmail(email);
+					Aluno a = AlunoDatabase.selectAluno(email, i.getCnpj());
 					if(a != null){
 						flash("erro", "Este email já está cadastrado");
 					}else{
-					//	String senha = Seguranca.gerarSenha(6);
-					//	Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, senha, Constantes.STATUS_AGUARDANDO);
-					//	Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
-					//			views.html.professor.email.render(i, email, nome, senha, request().host(), 0).toString());
-								// TODO - Corrigir o render do aluno
+					String senha = Seguranca.gerarSenha(6);
+					Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, Seguranca.md5(senha), Constantes.STATUS_AGUARDANDO);
+					Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
+								views.html.professor.email.render(i, email, nome, senha, request().host(), 0).toString());
 						
-						//JPA.em().persist(novoA);
+						JPA.em().persist(novoA);
 					}
 				}
 			}else{
@@ -186,25 +206,6 @@ public class InstituicaoController extends Controller{
 			Logger.error("ERRO - InstituicaoController/cadastrarAluno(): "+ e.getMessage());
 		}
 		return redirect(routes.InstituicaoController.alunos());
-	}
-		
-	@Transactional
-	//@With({ InstituicaoInterceptor.class })
-	public static Result alunos() {
-		try{
-			DynamicForm dynamicForm = form().bindFromRequest();
-			boolean isSingle = dynamicForm.get("is") == null || dynamicForm.get("is").trim().isEmpty()? true : Boolean.parseBoolean(dynamicForm.get("is"));
-			
-			String cnpj = getUsuarioSession();
-			if(cnpj != null){
-				// TODO pegar lista de alunos de acordo com o cnpj no banco e passar como parametro pra pagina
-				return ok(views.html.instituicao.alunos.render(isSingle));
-			}
-			return ok(views.html.instituicao.alunos.render(isSingle));
-		}catch(Exception e){
-			Logger.error("ERRO - InstituicaoController/alunos(): "+ e.getMessage());
-		}
-		return redirect(routes.InstituicaoController.index());
 	}
 	
 	@Transactional

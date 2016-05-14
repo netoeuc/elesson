@@ -13,7 +13,7 @@ public class Professor {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private long id;
 	
 	@Column(nullable = false)
 	@Index(name = "email")
@@ -42,7 +42,7 @@ public class Professor {
 		this.status = status;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

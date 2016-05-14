@@ -38,6 +38,15 @@ public class ProfessorDatabase {
 	}
 	
 	@Transactional
+	public static List<Professor> selectProfessorByCnpjInst(String cnpjInst)throws Exception{
+		String query = "FROM Professor WHERE cnpjInst = :cnpjInst";
+		List<Professor> lp = JPA.em().createQuery(query)
+								.setParameter("cnpjInst", cnpjInst)
+								.getResultList();
+		return lp;
+	}
+	
+	@Transactional
 	public static List<Professor> selectProfessor()throws Exception{
 		String query = "FROM Professor";
 		List<Professor> li = JPA.em().createQuery(query)

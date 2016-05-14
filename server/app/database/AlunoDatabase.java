@@ -24,11 +24,34 @@ public class AlunoDatabase {
 	}
 	
 	@Transactional
+	public static Aluno selectAluno(String email, String cnpjInst)throws Exception{
+		String query = "FROM Aluno WHERE email = :email AND cnpjInst = :cnpjInst";
+		List<Aluno> la = JPA.em().createQuery(query)
+								.setParameter("email", email)
+								.setParameter("cnpjInst", cnpjInst)
+								.getResultList();
+		if(la.isEmpty()){
+			return null;
+		}else{
+			return la.get(0);
+		}
+	}
+	
+	@Transactional
 	public static List<Aluno> selectAluno()throws Exception{
 		String query = "FROM Aluno";
 		List<Aluno> li = JPA.em().createQuery(query)
 								.getResultList();
 		return li;
+	}
+	
+	@Transactional
+	public static List<Aluno> selectAlunoByCnpjInst(String cnpjInst)throws Exception{
+		String query = "FROM Aluno WHERE cnpjInst = :cnpjInst";
+		List<Aluno> lp = JPA.em().createQuery(query)
+								.setParameter("cnpjInst", cnpjInst)
+								.getResultList();
+		return lp;
 	}
 	
 	@Transactional

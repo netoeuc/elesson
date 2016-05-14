@@ -1,10 +1,10 @@
-@(isSingle: Boolean)
+@(isSingle: Boolean)(listaAluno:List[Aluno])(listaProfessor:List[Professor])
 @optionsTeacherList ={
 		<!-- for dos professores a partir daqui { -->
-		<option value="1">Teacher Name 1</option>
-		<option value="2">Teacher Name 2</option>
-		<option value="3">Teacher Name 3</option>
+    @for(p<-listaProfessor){
+		<option value="@p.getId()">@p.getNome()</option>
 		<!-- for dos professores ate aqui } -->
+    }
 }
 @content = {
 		
@@ -70,14 +70,16 @@
 	                    </thead>
 	                    <tbody>
 	                    	<!-- for a partir daqui { -->
+                        @for(a<-listaAluno){
 	                      <tr>
-	                      	<td><a id="showDetails" onclick="mostrarAluno('Bruno', '1')" class="modal-trigger waves-effect waves-light">Bruno</a></td>
+	                      	<td><a id="showDetails" onclick="mostrarAluno('@a.getNome()', '@a.getId()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a></td>
 	                      	<td>Washington</td>
 	                      	<td>
-                              <i onclick="mostrarEditarAluno('Bruno', 'codProfessor-1', '1');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-                              <i onclick="removerAluno('1');" id="rem-1" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+                              <i onclick="mostrarEditarAluno('@a.getNome()', 'codProfessor-@a.getIdProfessor()', '@a.getId()');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+                              <i onclick="removerAluno('@a.getId()');" id="rem-@a.getId()" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
                             </td>
 	                      </tr>
+                        }
 	                      	<!-- for até aqui } -->
 	                    </tbody>
 	                  </table>
@@ -177,7 +179,7 @@
                     <div class="col s12 offset-m1 m10">
                       
                       <div class="row">
-                        <form id="form-fields" action="" method="post" class="col s12">
+                        <form id="form-fields" action="@routes.InstituicaoController.cadastrarAluno()" method="post" class="col s12">
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
@@ -186,12 +188,14 @@
                             </div>
                           </div>
 
+                          <!--
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
                               <input id="phone" name="phone" autocomplete="off" type="text">
                               <label for="phone">Phone</label>
                             </div>
                           </div>
+                          -->
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
@@ -211,7 +215,7 @@
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                             <a type="submit"class="waves-effect waves-light btn bg-azul">submit</a>
+                             <button type="submit"class="waves-effect waves-light btn bg-azul">submit</button>
                             </div>
                           </div>
 
