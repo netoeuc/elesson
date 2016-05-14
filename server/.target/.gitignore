@@ -1,2 +1,9 @@
-/models/
 /controllers/
+/ApplicationTest.class
+/IntegrationTest$1.class
+/IntegrationTest.class
+/database/
+/interceptors/
+/models/
+/util/
+/views/

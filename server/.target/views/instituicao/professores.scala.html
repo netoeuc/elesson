@@ -1,3 +1,4 @@
+@(listaProfessor:List[Professor])
 @content = {
 
 		  @navbar()
@@ -29,14 +30,16 @@
                             </thead>
                             <tbody>
                               <!-- for a partir daqui { -->
+                              @for(p<-listaProfessor){
                               <tr>
-                                <td><a id="showDetails" onclick="mostrarProfessor('Washington', '1')" class="modal-trigger waves-effect waves-light">Washington</a></td>
-                                <td>washington@@ipsum.com</td>
+                                <td><a id="showDetails" onclick="mostrarProfessor('@p.getNome()', '1')" class="modal-trigger waves-effect waves-light">@p.getNome()</a></td>
+                                <td>@p.getEmail()</td>
                                 <td>
-                                  <i onclick="mostrarEditarProfessor('Washington', '1', '/teste');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+                                  <i onclick="mostrarEditarProfessor('@p.getNome()', '1', '/teste');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
                                   <i onclick="removerProfessor('1');" id="rem-1" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
                                 </td>
                               </tr>
+                              }
                               <!-- for fecha aqui } -->
                             </tbody>
                           </table>
