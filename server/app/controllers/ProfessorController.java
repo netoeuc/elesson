@@ -4,8 +4,11 @@ import static play.data.Form.form;
 import interceptors.ProfessorInterceptor;
 
 import java.util.HashMap;
+import java.util.List;
 
+import models.Aluno;
 import models.Professor;
+import database.AlunoDatabase;
 import database.ProfessorDatabase;
 import play.Logger;
 import play.data.DynamicForm;
@@ -59,7 +62,7 @@ public class ProfessorController extends Controller{
 	}
 	
 	@Transactional
-	//@With({ ProfessorInterceptor.class })
+	@With({ ProfessorInterceptor.class })
 	public static Result index(){
 		return ok(views.html.professor.index.render());
 	}
@@ -138,19 +141,30 @@ public class ProfessorController extends Controller{
 	}
 	
 	@Transactional
-	//@With({ ProfessorInterceptor.class })
+	@With({ ProfessorInterceptor.class })
 	public static Result alunos(){
-		return ok(views.html.professor.alunos.render());
+		try{
+			Professor p = getUsuarioAutenticado();
+			if(p != null){
+				int idProfessor = (int) p.getId();
+				List<Aluno> al = AlunoDatabase.selectAlunoByProfessorId(idProfessor);
+				return ok(views.html.professor.alunos.render(al));
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - ProfessorController/alunos(): "+ e.getMessage());
+		}
+		System.out.println("Entrou 2");
+		return redirect(routes.ProfessorController.index());
 	}
 	
 	@Transactional
-	//@With({ ProfessorInterceptor.class })
+	@With({ ProfessorInterceptor.class })
 	public static Result salas(){
 		return ok(views.html.professor.salas.render());
 	}
 	
 	@Transactional
-	//@With({ ProfessorInterceptor.class })
+	@With({ ProfessorInterceptor.class })
 	public static Result questoes(){
 		return ok(views.html.professor.questoes.render());
 	}

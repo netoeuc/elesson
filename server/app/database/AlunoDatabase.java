@@ -47,6 +47,15 @@ public class AlunoDatabase {
 	}
 	
 	@Transactional
+	public static List<Aluno> selectAlunoByProfessorId(int idProfessor )throws Exception{
+		String query = "FROM Aluno WHERE idProfessor = :idProfessor";
+		List<Aluno> lus = JPA.em().createQuery(query)
+								.setParameter("idProfessor", idProfessor)
+								.getResultList();
+		return lus;
+	}
+	
+	@Transactional
 	public static List<Aluno> selectAlunoByCnpjInst(String cnpjInst)throws Exception{
 		String query = "FROM Aluno WHERE cnpjInst = :cnpjInst";
 		List<Aluno> lp = JPA.em().createQuery(query)

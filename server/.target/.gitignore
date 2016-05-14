@@ -1,15 +1,9 @@
-/controllers/
-<<<<<<< HEAD
-/views/
-/database/
-/util/
-=======
 /ApplicationTest.class
 /IntegrationTest$1.class
 /IntegrationTest.class
+/controllers/
 /database/
 /interceptors/
 /models/
 /util/
 /views/
->>>>>>> 027df4e5b2c7503a66c01de3da0cf746cda7fc88
