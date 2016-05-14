@@ -1,7 +1,9 @@
 package controllers;
 
 import static play.data.Form.form;
+
 import java.util.List;
+
 import models.Aluno;
 import models.Instituicao;
 import models.Professor;
@@ -25,7 +27,7 @@ public class InstituicaoController extends Controller{
 	
 	@Transactional
 	public static String getUsuarioSession() {
-		return session().get(Constantes.SESSION_USUARIO);
+		return session().get(Constantes.SESSION_CNPJINST);
 	}
 	
 	@Transactional
@@ -75,8 +77,74 @@ public class InstituicaoController extends Controller{
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result configuracao() {
-		// TODO pegar informacoes da instituicao no banco
-		return ok(views.html.instituicao.configuracao.render());
+		Instituicao i = getUsuarioAutenticado();
+		return ok(views.html.instituicao.configuracao.render(i));
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result editar() {
+		try {
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			String nome = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name");
+			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").trim().isEmpty()? null : dynamicForm.get("phone");
+			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address");
+			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
+			String senha = dynamicForm.get("password") == null || dynamicForm.get("password").trim().isEmpty()? null : Seguranca.md5(dynamicForm.get("password"));
+			String senhaConfirme = dynamicForm.get("confirmpassword") == null || dynamicForm.get("confirmpassword").trim().isEmpty()? null : Seguranca.md5(dynamicForm.get("confirmpassword"));
+
+			boolean isEditado = false;
+			Instituicao i = getUsuarioAutenticado();
+			if(i != null){
+				
+				if (nome == null || telefone == null || endereco == null || email == null) {				
+					flash("erro", "Preencha todos os campos");
+				}else if(senha != null && (senhaConfirme == null || !senha.equals(senhaConfirme))){
+					flash("erro", "Senhas não conferem");
+				}else{
+					if(!i.getNome().equals(nome)){
+						i.setNome(nome); 
+						isEditado = true;
+					}
+					if(!i.getTelefone().equals(telefone)){
+						i.setTelefone(telefone); 
+						isEditado = true;
+					}
+					if(!i.getEndereco().equals(endereco)){
+						i.setEndereco(endereco);
+						isEditado = true;
+					}
+					if(senha != null){
+						i.setSenha(senha);
+						isEditado = true;
+					}
+					if(!i.getEmail().equals(email)){
+						Instituicao ie = InstituicaoDatabase.selectInstituicaoByEmail(email);
+						if(ie == null){
+							i.setEmail(email);
+							Mail.sendMail(email, "Alteração de Email", views.html.instituicao.email.render(i, "", request().host(), 1).toString());
+							i.setStatus(Constantes.STATUS_AGUARDANDO);
+							flash("erro", "Confirme a alteração do seu email");
+							session().clear();
+							isEditado = true;
+						}else{
+							flash("erro", "Email já cadastrado");
+							isEditado = false;
+						}
+					}
+					
+					if(isEditado){
+						JPA.em().merge(i);
+						flash("ok", nome+" Editado");
+					}
+				}
+			}
+		} catch (Exception e) {
+			Logger.error("ERRO - InstituicaoController/editar(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
+		}
+		
+		return redirect(routes.InstituicaoController.configuracao());
 	}
 	
 	@Transactional
@@ -232,7 +300,8 @@ public class InstituicaoController extends Controller{
 					
 				}else{
 					session().clear();
-					session().put(Constantes.SESSION_USUARIO, i.getCnpj());
+					session().put(Constantes.SESSION_USUARIO, i.getEmail());
+					session().put(Constantes.SESSION_CNPJINST, i.getCnpj());
 					return redirect(routes.InstituicaoController.index());
 				}
 			}
