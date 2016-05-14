@@ -259,10 +259,10 @@ public class InstituicaoController extends Controller{
 					if(a != null){
 						flash("erro", "Este email já está cadastrado");
 					}else{
-					String senha = Seguranca.gerarSenha(6);
-					Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, Seguranca.md5(senha), Constantes.STATUS_AGUARDANDO);
-					Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
-								views.html.professor.email.render(i, email, nome, senha, request().host(), 0).toString());
+						String senha = Seguranca.gerarSenha(6);
+						Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, Seguranca.md5(senha), Constantes.STATUS_AGUARDANDO);
+						Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
+						views.html.aluno.email.render(i, idProfessor+"", email, nome, senha, request().host(), 0).toString());
 						
 						JPA.em().persist(novoA);
 					}
