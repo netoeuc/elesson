@@ -11,6 +11,7 @@ import database.AlunoDatabase;
 import database.InstituicaoDatabase;
 import database.ProfessorDatabase;
 import interceptors.InstituicaoInterceptor;
+import interceptors.UsuarioSmartInterceptor;
 import play.Logger;
 import play.data.DynamicForm;
 import play.db.jpa.JPA;
@@ -274,6 +275,54 @@ public class InstituicaoController extends Controller{
 			Logger.error("ERRO - InstituicaoController/cadastrarAluno(): "+ e.getMessage());
 		}
 		return redirect(routes.InstituicaoController.alunos());
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result removerProfessor() {
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			long idProfessor = dynamicForm.get("cod") == null? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			
+			if(idProfessor != -1){
+				Professor p = ProfessorDatabase.selectProfessorById(idProfessor);
+				if(p != null){
+					p.setStatus(Constantes.STATUS_REMOVIDO);
+					JPA.em().merge(p);
+					flash("ok", p.getNome()+" Removido");
+				}
+			}else{
+				flash("erro", "Informe o Id do professor");
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/removerProfessor(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao remover. Tente novamente mais tarde");
+		}
+		return redirect(routes.InstituicaoController.index());
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result removerAluno() {
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			int idAluno = dynamicForm.get("cod") == null? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			
+			if(idAluno != -1){
+				Aluno a = AlunoDatabase.selectAlunoById(idAluno);
+				if(a != null){
+					a.setStatus(Constantes.STATUS_REMOVIDO);
+					JPA.em().merge(a);
+					flash("ok", a.getNome()+" Removido");
+				}
+			}else{
+				flash("erro", "Informe o Id do aluno");
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/removerAluno(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao remover. Tente novamente mais tarde");
+		}
+		return redirect(routes.InstituicaoController.index());
 	}
 	
 	@Transactional

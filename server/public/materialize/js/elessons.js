@@ -36,14 +36,17 @@ function mostrarEditarAluno(nome, codigoProfessor, codigoAluno){
     $('#modal-fields-edit').openModal();
 }
 
-function removerAluno(codigo){
+function removerAluno(codigo,action){
 	var rem = $('td i#rem-'+codigo).html();
 	if(rem == 'delete'){
 		$('td i#rem-'+codigo).html('done');
 	}else if(rem == 'done'){
-		alert("Removido!");
+		$.post(action, {cod: codigo}, function() {
+		}).fail(function() {});
+		window.location.reload(true);
+		//alert("Removido!");
 		// removerInstituicaoConfirm(codigo);
-		location.reload();
+		//location.reload();
 	}
 }
 
@@ -100,14 +103,17 @@ function mostrarEditarProfessor(nome, codigo, action){
     $('#modal-fields-edit').openModal();
 }
 
-function removerProfessor(codigo){
+function removerProfessor(codigo,action){
 	var rem = $('td i#rem-'+codigo).html();
 	if(rem == 'delete'){
 		$('td i#rem-'+codigo).html('done');
 	}else if(rem == 'done'){
-		alert("Removido!");
+		$.post(action, {cod: codigo}, function() {
+		}).fail(function() {});
+		window.location.reload(true);
+		//alert("Removido!");
 		// removerInstituicaoConfirm(codigo);
-		location.reload();
+		//location.reload();
 	}
 }
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import util.Constantes;
 import models.Instituicao;
 import models.Professor;
 
@@ -39,9 +40,10 @@ public class ProfessorDatabase {
 	
 	@Transactional
 	public static List<Professor> selectProfessorByCnpjInst(String cnpjInst)throws Exception{
-		String query = "FROM Professor WHERE cnpjInst = :cnpjInst";
+		String query = "FROM Professor WHERE cnpjInst = :cnpjInst AND status != :status";
 		List<Professor> lp = JPA.em().createQuery(query)
 								.setParameter("cnpjInst", cnpjInst)
+								.setParameter("status", Constantes.STATUS_REMOVIDO)
 								.getResultList();
 		return lp;
 	}
@@ -52,6 +54,19 @@ public class ProfessorDatabase {
 		List<Professor> li = JPA.em().createQuery(query)
 								.getResultList();
 		return li;
+	}
+	
+	@Transactional
+	public static Professor selectProfessorById(long id)throws Exception{
+		String query = "FROM Professor WHERE id = :id";
+		List<Professor> lp = JPA.em().createQuery(query)
+								.setParameter("id", id)
+								.getResultList();
+		if(lp.isEmpty()){
+			return null;
+		}else{
+			return lp.get(0);
+		}
 	}
 
 	public static Professor selectProfessorMD5(String cnpj, String email) {
