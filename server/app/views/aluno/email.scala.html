@@ -34,5 +34,68 @@ Você poderá trocá-la nas configurações do seu painel de controle.</p>
 <p>Se você não autorizou o cadastro ignore este email e desculpe-nos pelo incômodo.<br>
 Smart Educ</p>
 }
+
+
+
+
+@*Mensagem de alteracao*@
+@if(tipo == 1){
+<p>Você precisa confirmar seu email através do link abaixo para finalizar a alteração do cadastro.</p>
+
+<strong>
+	<h2>Confirme sua alteração:</h2>
+</strong>	
+<a href="http://@host@routes.AlunoController.ativar()?i=@util.Seguranca.md5(i.getCnpj())&p=@util.Seguranca.md5(idProfessor)&e=@util.Seguranca.md5(email)" target="_blank">
+	http://@host@routes.AlunoController.ativar()?i=@util.Seguranca.md5(i.getCnpj())&p=@util.Seguranca.md5(idProfessor)&e=@util.Seguranca.md5(email)
+</a>
+<br/><br/>
+
+<p>Smart Educ</p>
+}
+
+
+
+
+@*Mensagem de alteracao*@
+@if(tipo == 2){
+<p>A @i.getNome() gerou uma nova senha para você.</p>
+
+<strong>
+	<h2>Senha de Acesso:</h2>
+</strong>
+<p>Este é seu código de acesso, guarde-a com segurança.<br/>
+Você poderá trocá-la nas configurações do seu painel de controle.</p>
+
+<h3>@senha</h3>
+<br/><br/>
+
+<p>Smart Educ</p>
+}
+
+
+
+
+@*Mensagem de alteracao*@
+@if(tipo == 3){
+<p>A @i.getNome() alterou seu email e você precisa confirmá-lo através do link abaixo para finalizar a alteração do cadastro.</p>
+<strong>
+	<h2>Confirme sua alteração:</h2>
+</strong>	
+<a href="http://@host@routes.AlunoController.ativar()?i=@util.Seguranca.md5(i.getCnpj())&p=@util.Seguranca.md5(idProfessor)&e=@util.Seguranca.md5(email)" target="_blank">
+	http://@host@routes.AlunoController.ativar()?i=@util.Seguranca.md5(i.getCnpj())&p=@util.Seguranca.md5(idProfessor)&e=@util.Seguranca.md5(email)
+</a>
+<br/><br/>
+
+<strong>
+	<h2>Senha de Acesso:</h2>
+</strong>
+<p>Este é seu novo código de acesso, guarde-a com segurança.<br/>
+Você poderá trocá-la nas configurações do seu painel de controle.</p>
+
+<h3>@senha</h3>
+<br/><br/>
+
+<p>Smart Educ</p>
+}
 </body>
 </html>

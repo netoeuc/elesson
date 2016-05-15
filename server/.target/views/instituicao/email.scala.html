@@ -51,5 +51,50 @@ Smart Educ</p>
 
 <p>Smart Educ</p>
 }
+
+
+
+
+@*Mensagem de alteracao*@
+@if(tipo == 2){
+<p>Foi gerada uma nova senha para você.</p>
+
+<strong>
+	<h2>Senha de Acesso:</h2>
+</strong>
+<p>Este é seu novo código de acesso, guarde-a com segurança.<br/>
+Você poderá trocá-la nas configurações do seu painel de controle.</p>
+
+<h3>@senha</h3>
+<br/><br/>
+
+<p>Smart Educ</p>
+}
+
+
+
+
+@*Mensagem de alteracao*@
+@if(tipo == 3){
+<p>Você precisa confirmar seu email através do link abaixo para finalizar a alteração do cadastro.</p>
+<strong>
+	<h2>Confirme sua alteração:</h2>
+</strong>	
+<a href="http://@host@routes.InstituicaoController.ativar()?i=@util.Seguranca.md5(i.getCnpj())&e=@util.Seguranca.md5(i.getEmail())" target="_blank">
+	http://@host@routes.InstituicaoController.ativar()?i=@util.Seguranca.md5(i.getCnpj())&e=@util.Seguranca.md5(i.getEmail())
+</a>
+<br/><br/>
+
+<strong>
+	<h2>Senha de Acesso:</h2>
+</strong>
+<p>Este é seu novo código de acesso, guarde-a com segurança.<br/>
+Você poderá trocá-la nas configurações do seu painel de controle.</p>
+
+<h3>@senha</h3>
+<br/><br/>
+
+<p>Smart Educ</p>
+}
 </body>
 </html>

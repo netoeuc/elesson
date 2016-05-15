@@ -30,8 +30,12 @@ GET     /panel/business/edit				controllers.InstituicaoController.configuracao()
 POST    /panel/business/edit/				controllers.InstituicaoController.editar()
 GET     /panel/business/teacher				controllers.InstituicaoController.professores()
 POST    /panel/business/teacher/new			controllers.InstituicaoController.cadastrarProfessor()
+POST    /panel/business/teacher/edit		controllers.InstituicaoController.formEditarProfessor()
+POST    /panel/business/teacher/edit/		controllers.InstituicaoController.editarProfessor()
 GET     /panel/business/students			controllers.InstituicaoController.alunos()
 POST    /panel/business/students/new		controllers.InstituicaoController.cadastrarAluno()
+POST    /panel/business/students/edit		controllers.InstituicaoController.formEditarAluno()
+POST    /panel/business/students/edit/		controllers.InstituicaoController.editarAluno()
 
 ###################################
 # PROFESSOR PAINEL

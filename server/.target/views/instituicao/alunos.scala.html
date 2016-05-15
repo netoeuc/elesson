@@ -75,7 +75,7 @@
 	                      	<td><a id="showDetails" onclick="mostrarAluno('@a.getNome()', '@a.getId()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a></td>
 	                      	<td>Washington</td>
 	                      	<td>
-                              <i onclick="mostrarEditarAluno('@a.getNome()', 'codProfessor-@a.getIdProfessor()', '@a.getId()');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+                              <i onclick="mostrarEditarAluno('@a.getNome()', '@a.getIdProfessor()', '@a.getId()', '@routes.InstituicaoController.formEditarAluno()');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
                               <i onclick="removerAluno('@a.getId()');" id="rem-@a.getId()" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
                             </td>
 	                      </tr>

@@ -50,7 +50,7 @@
                                 <td><a id="showDetails" onclick="mostrarProfessor('@p.getNome()', '@p.getId()')" class="modal-trigger waves-effect waves-light">@p.getNome()</a></td>
                                 <td>@p.getEmail()</td>
                                 <td>
-                                  <i onclick="mostrarEditarProfessor('@p.getNome()', '@p.getId()', '/teste');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
+                                  <i onclick="mostrarEditarProfessor('@p.getNome()', '@p.getId()', '@routes.InstituicaoController.formEditarProfessor()');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
                                   <i onclick="removerProfessor('@p.getId()');" id="rem-@p.getId()" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
                                 </td>
                               </tr>

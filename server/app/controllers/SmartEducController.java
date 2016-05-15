@@ -195,7 +195,12 @@ public class SmartEducController extends Controller{
 			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address");
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
 			int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
+			boolean generate = dynamicForm.get("generate") == null || dynamicForm.get("generate").trim().isEmpty()? false : true;
+
 			boolean isEditado = false;
+			boolean isSenhaAlterada = false;
+			boolean isEmailAlterado = false;
+			String senha = null;
 			
 			if(cnpj != null){
 				ELicenca elicenca = ELicencaUtil.getELicenca(licenca);
@@ -222,19 +227,36 @@ public class SmartEducController extends Controller{
 							i.setLicenca(elicenca);
 							isEditado = true;
 						}
+						if(generate){
+							senha = Seguranca.gerarSenha(6);
+							i.setSenha(Seguranca.md5(senha)); 
+							isEditado = true;
+							isSenhaAlterada = true;
+						}
 						if(!i.getEmail().equals(email)){
 							Instituicao ie = InstituicaoDatabase.selectInstituicaoByEmail(email);
 							if(ie == null){
 								i.setEmail(email);
-								Mail.sendMail(email, "Alteração de Email", views.html.instituicao.email.render(i, "", request().host(), 1).toString());
 								i.setStatus(Constantes.STATUS_AGUARDANDO);
 								isEditado = true;
+								isEmailAlterado = true;
 							}else{
 								flash("erro", "Email já cadastrado");
+								isEditado = false;
+								isSenhaAlterada = false;
+								isEmailAlterado = false;
 							}
 						}
 					}else{
 						flash("erro", "Cliente não encontrado");
+					}
+					
+					if(isEmailAlterado && !isSenhaAlterada){
+						Mail.sendMail(email, "Alteração de Email", views.html.instituicao.email.render(i, "", request().host(), 1).toString());
+					}else if(!isEmailAlterado && isSenhaAlterada){
+						Mail.sendMail(email, "Alteração de Senha", views.html.instituicao.email.render(i, senha, request().host(), 2).toString());
+					}else if(isEmailAlterado && isSenhaAlterada){
+						Mail.sendMail(email, "Alteração de Email e Senha", views.html.instituicao.email.render(i, senha, request().host(), 3).toString());
 					}
 					
 					if(isEditado){

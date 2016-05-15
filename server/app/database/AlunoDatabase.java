@@ -39,7 +39,22 @@ public class AlunoDatabase {
 	}
 	
 	@Transactional
-	public static List<Aluno> selectAluno()throws Exception{
+	public static Aluno selectAluno(int codA, int codP, String cnpjInst)throws Exception{
+		String query = "FROM Aluno WHERE id = :codA AND idProfessor = :codP AND cnpjInst = :cnpjInst";
+		List<Aluno> la = JPA.em().createQuery(query)
+								.setParameter("codA", codA)
+								.setParameter("codP", codP)
+								.setParameter("cnpjInst", cnpjInst)
+								.getResultList();
+		if(la.isEmpty()){
+			return null;
+		}else{
+			return la.get(0);
+		}
+	}
+	
+	@Transactional
+	public static List<Aluno> selectAlunos()throws Exception{
 		String query = "FROM Aluno";
 		List<Aluno> li = JPA.em().createQuery(query)
 								.getResultList();
@@ -47,7 +62,7 @@ public class AlunoDatabase {
 	}
 	
 	@Transactional
-	public static List<Aluno> selectAlunoByProfessorId(int idProfessor )throws Exception{
+	public static List<Aluno> selectAlunosByProfessorId(int idProfessor )throws Exception{
 		String query = "FROM Aluno WHERE idProfessor = :idProfessor";
 		List<Aluno> lus = JPA.em().createQuery(query)
 								.setParameter("idProfessor", idProfessor)
@@ -56,7 +71,7 @@ public class AlunoDatabase {
 	}
 	
 	@Transactional
-	public static List<Aluno> selectAlunoByCnpjInst(String cnpjInst)throws Exception{
+	public static List<Aluno> selectAlunosByCnpjInst(String cnpjInst)throws Exception{
 		String query = "FROM Aluno WHERE cnpjInst = :cnpjInst";
 		List<Aluno> lp = JPA.em().createQuery(query)
 								.setParameter("cnpjInst", cnpjInst)

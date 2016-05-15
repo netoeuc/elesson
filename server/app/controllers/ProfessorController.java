@@ -1,7 +1,6 @@
 package controllers;
 
 import static play.data.Form.form;
-import interceptors.InstituicaoInterceptor;
 import interceptors.ProfessorInterceptor;
 
 import java.util.HashMap;
@@ -217,7 +216,7 @@ public class ProfessorController extends Controller{
 		try{
 			Professor p = getUsuarioAutenticado();
 			if(p != null){
-				List<Aluno> al = AlunoDatabase.selectAlunoByProfessorId(p.getId());
+				List<Aluno> al = AlunoDatabase.selectAlunosByProfessorId(p.getId());
 				return ok(views.html.professor.alunos.render(al));
 			}
 		}catch(Exception e){

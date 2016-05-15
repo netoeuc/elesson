@@ -135,7 +135,7 @@ public class InstituicaoController extends Controller{
 					
 					if(isEditado){
 						JPA.em().merge(i);
-						flash("ok", nome+" Editado");
+						flash("ok", nome+" editado");
 					}
 				}
 			}
@@ -197,7 +197,7 @@ public class InstituicaoController extends Controller{
 			String cnpj = getUsuarioSession();
 			if(cnpj != null){
 				// pegar lista de alunos de acordo com o cnpj no banco e passar como parametro pra pagina
-				List<Aluno> al = AlunoDatabase.selectAlunoByCnpjInst(cnpj);
+				List<Aluno> al = AlunoDatabase.selectAlunosByCnpjInst(cnpj);
 				List<Professor> po = ProfessorDatabase.selectProfessorByCnpjInst(cnpj);
 				return ok(views.html.instituicao.alunos.render(isSingle,al,po));
 			}
@@ -262,7 +262,7 @@ public class InstituicaoController extends Controller{
 						String senha = Seguranca.gerarSenha(6);
 						Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, Seguranca.md5(senha), Constantes.STATUS_AGUARDANDO);
 						Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
-						views.html.aluno.email.render(i, idProfessor+"", email, nome, senha, request().host(), 0).toString());
+						views.html.aluno.email.render(i, idProfessor+"", nome, email, senha, request().host(), 0).toString());
 						
 						JPA.em().persist(novoA);
 					}
@@ -316,5 +316,183 @@ public class InstituicaoController extends Controller{
 	@Transactional
 	public static Result teste(){
 		return ok(AdminJson.getObject(AlunoDatabase.selectAlunosByProfessorByCnpjInst("123123"), "alunosPorProfessor"));
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result formEditarProfessor() {
+		try {
+			Instituicao i = getUsuarioAutenticado();
+			DynamicForm dynamicForm = form().bindFromRequest();
+			int codigo = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			if(codigo == -1){
+				Logger.error("ERRO - InstituicaoController/formEditarProfessor(): CODE is null");
+			}else{
+				Professor p = ProfessorDatabase.selectProfessor(codigo, i.getCnpj());
+				return ok(views.html.instituicao.ajax.formEditarProfessor.render(p));
+			}
+		} catch (Exception e) {
+			Logger.error("ERRO - InstituicaoController/formEditarProfessor(): "+ e.getMessage());
+		}
+		return ok("Ocorreu um erro ao editar. Tente novamente mais tarde");
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result editarProfessor() {
+		try {
+			Instituicao i = getUsuarioAutenticado();
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			String nome = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name");
+			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
+			int cod = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			boolean generate = dynamicForm.get("generate") == null || dynamicForm.get("generate").trim().isEmpty()? false : true;
+
+			boolean isEditado = false;
+			boolean isSenhaAlterada = false;
+			boolean isEmailAlterado = false;
+			String senha = null;
+			
+			if (nome == null || email == null || cod == -1) {				
+				flash("erro", "Preencha todos os campos");
+			}else{
+				Professor p = ProfessorDatabase.selectProfessor(cod, i.getCnpj());
+				if(p != null){
+					if(!p.getNome().equals(nome)){
+						p.setNome(nome); 
+						isEditado = true;
+					}
+					if(generate){
+						senha = Seguranca.gerarSenha(6);
+						p.setSenha(Seguranca.md5(senha)); 
+						isEditado = true;
+						isSenhaAlterada = true;
+					}
+					if(!p.getEmail().equals(email)){
+						Professor pe = ProfessorDatabase.selectProfessor(email, i.getCnpj());
+						if(pe == null){
+							p.setEmail(email);
+							p.setStatus(Constantes.STATUS_AGUARDANDO);
+							isEditado = true;
+							isEmailAlterado = true;
+						}else{
+							flash("erro", "Email já cadastrado");
+							isEditado = false;
+							isSenhaAlterada = false;
+							isEmailAlterado = false;
+						}
+					}
+						
+					if(isEmailAlterado && !isSenhaAlterada){
+						Mail.sendMail(email, "Alteração de Email", views.html.professor.email.render(i, nome, email, "", request().host(), 1).toString());
+					}else if(!isEmailAlterado && isSenhaAlterada){
+						Mail.sendMail(email, "Alteração de Senha", views.html.professor.email.render(i, nome,"",senha, request().host(), 2).toString());
+					}else if(isEmailAlterado && isSenhaAlterada){
+						Mail.sendMail(email, "Alteração de Email e Senha", views.html.professor.email.render(i, nome,email,senha, request().host(), 3).toString());
+					}
+					
+					if(isEditado){
+						JPA.em().merge(p);
+						flash("ok", nome+" editado");
+					}
+				}
+			}
+		} catch (Exception e) {
+			Logger.error("ERRO - InstituicaoController/editarProfessor(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
+		}
+		
+		return redirect(routes.InstituicaoController.index());
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result formEditarAluno() {
+		try {
+			Instituicao i = getUsuarioAutenticado();
+			DynamicForm dynamicForm = form().bindFromRequest();
+			int codA = dynamicForm.get("codA") == null || dynamicForm.get("codA").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("codA"));
+			int codP = dynamicForm.get("codP") == null || dynamicForm.get("codP").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("codP"));
+
+			if(codA == -1 || codP == -1){
+				Logger.error("ERRO - InstituicaoController/formEditarAluno(): CODE is null");
+			}else{
+				Aluno a = AlunoDatabase.selectAluno(codA, codP, i.getCnpj());
+				return ok(views.html.instituicao.ajax.formEditarAluno.render(a));
+			}
+		} catch (Exception e) {
+			Logger.error("ERRO - InstituicaoController/formEditarAluno(): "+ e.getMessage());
+		}
+		return ok("Ocorreu um erro ao editar. Tente novamente mais tarde");
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result editarAluno() {
+		try {
+			Instituicao i = getUsuarioAutenticado();
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			String nome = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name");
+			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
+			int codA = dynamicForm.get("codA") == null || dynamicForm.get("codA").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("codA"));
+			int codP = dynamicForm.get("codP") == null || dynamicForm.get("codP").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("codP"));
+
+			boolean generate = dynamicForm.get("generate") == null || dynamicForm.get("generate").trim().isEmpty()? false : true;
+
+			boolean isEditado = false;
+			boolean isSenhaAlterada = false;
+			boolean isEmailAlterado = false;
+			String senha = null;
+			
+			if (nome == null || email == null || codA == -1 || codP == -1) {				
+				flash("erro", "Preencha todos os campos");
+			}else{
+				Aluno a = AlunoDatabase.selectAluno(codA, codP, i.getCnpj());
+				if(a != null){
+					if(!a.getNome().equals(nome)){
+						a.setNome(nome); 
+						isEditado = true;
+					}
+					if(generate){
+						senha = Seguranca.gerarSenha(6);
+						a.setSenha(Seguranca.md5(senha)); 
+						isEditado = true;
+						isSenhaAlterada = true;
+					}
+					if(!a.getEmail().equals(email)){
+						Aluno ae = AlunoDatabase.selectAluno(email, i.getCnpj());
+						if(ae == null){
+							a.setEmail(email);
+							a.setStatus(Constantes.STATUS_AGUARDANDO);
+							isEditado = true;
+							isEmailAlterado = true;
+						}else{
+							flash("erro", "Email já cadastrado");
+							isEditado = false;
+							isSenhaAlterada = false;
+							isEmailAlterado = false;
+						}
+					}
+						
+					if(isEmailAlterado && !isSenhaAlterada){
+						Mail.sendMail(email, "Alteração de Email", views.html.aluno.email.render(i, codP+"", nome, email, "", request().host(), 1).toString());
+					}else if(!isEmailAlterado && isSenhaAlterada){
+						Mail.sendMail(email, "Alteração de Senha", views.html.aluno.email.render(i, codP+"",nome,"",senha, request().host(), 2).toString());
+					}else if(isEmailAlterado && isSenhaAlterada){
+						Mail.sendMail(email, "Alteração de Email e Senha", views.html.aluno.email.render(i, codP+"", nome,email,senha, request().host(), 3).toString());
+					}
+					
+					if(isEditado){
+						JPA.em().merge(a);
+						flash("ok", nome+" editado");
+					}
+				}
+			}
+		} catch (Exception e) {
+			Logger.error("ERRO - InstituicaoController/editarAluno(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
+		}
+		
+		return redirect(routes.InstituicaoController.index());
 	}
 }

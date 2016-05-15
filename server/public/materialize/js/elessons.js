@@ -31,9 +31,16 @@ function mostrarNovoAluno(){
     $('#modal-fields').openModal();
 }
 
-function mostrarEditarAluno(nome, codigoProfessor, codigoAluno){
+function mostrarEditarAluno(nome, codigoProfessor, codigoAluno, action){
 	$('#modal-fields-edit #namestudent').html(nome);
-    $('#modal-fields-edit').openModal();
+	$("#modal-fields-edit #form-callback").html("loading");
+	$('#modal-fields-edit').openModal();
+	
+	$.post(action, {codA: codigoAluno, codP: codigoProfessor}, function(data) {
+		$("#modal-fields-edit #form-callback").html(data);
+	}).fail(function() {
+		$("#modal-fields-edit #form-callback").html("error");
+	});
 }
 
 function removerAluno(codigo){
@@ -61,13 +68,13 @@ function mostrarNovaInstituicao(){
 
 function mostrarEditarInstituicao(nome, codigo, action){
 	$('#modal-fields-edit #namebusiness').html(nome);
-	$("#form-callback").html("loading");
+	$("#modal-fields-edit #form-callback").html("loading");
 	$('#modal-fields-edit').openModal();
 	
 	$.post(action, {cod: codigo}, function(data) {
-		$("#form-callback").html(data);
+		$("#modal-fields-edit #form-callback").html(data);
 	}).fail(function() {
-		$("#form-callback").html("error");
+		$("#modal-fields-edit #form-callback").html("error");
 	});
 }
 
@@ -96,8 +103,14 @@ function mostrarNovoProfessor(action){
 
 function mostrarEditarProfessor(nome, codigo, action){
 	$('#modal-fields-edit #nameteacher').html(nome);
-	$('#modal-fields-edit #form-fields').attr('action', action);
-    $('#modal-fields-edit').openModal();
+	$("#modal-fields-edit #form-callback").html("loading");
+	$('#modal-fields-edit').openModal();
+	
+	$.post(action, {cod: codigo}, function(data) {
+		$("#modal-fields-edit #form-callback").html(data);
+	}).fail(function() {
+		$("#modal-fields-edit #form-callback").html("error");
+	});
 }
 
 function removerProfessor(codigo){

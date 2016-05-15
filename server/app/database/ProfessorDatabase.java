@@ -10,7 +10,7 @@ import models.Professor;
 public class ProfessorDatabase {
 	
 	@Transactional
-	public static Professor selectProfessor(long id, String cnpjInst)throws Exception{
+	public static Professor selectProfessor(int id, String cnpjInst)throws Exception{
 		String query = "FROM Professor WHERE id = :id AND cnpjInst = :cnpjInst";
 		List<Professor> lp = JPA.em().createQuery(query)
 								.setParameter("id", id)
