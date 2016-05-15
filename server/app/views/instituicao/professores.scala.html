@@ -51,7 +51,7 @@
                                 <td>@p.getEmail()</td>
                                 <td>
                                   <i onclick="mostrarEditarProfessor('@p.getNome()', '@p.getId()', '@routes.InstituicaoController.formEditarProfessor()');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-                                  <i onclick="removerProfessor('@p.getId()');" id="rem-@p.getId()" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+                                  <i onclick="removerProfessor('@p.getId()','@routes.InstituicaoController.removerProfessor()');" id="rem-@p.getId()" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
                                 </td>
                               </tr>
                               }

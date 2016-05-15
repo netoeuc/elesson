@@ -41,21 +41,22 @@
 				 </div>
 				 }
                   
+                   <!-- Dropdown Trigger 
                   <div class="row">
                   	<div class="col s12 offset-m4 m4">
-	                  <!-- Dropdown Trigger -->
+	                  <!-- Dropdown Trigger --
 					  <a class='col s12 bg-gelo dropdown-button btn-flat waves-effect waves-red center-align' href='#' data-activates='dropdown2'>
 					  	@if(isSingle){all}else{all by teacher}
 					  	<i class="material-icons right not-margin">arrow_drop_down</i>
 					  </a>
 					
-					  <!-- Dropdown Structure -->
+					  <!-- Dropdown Structure --
 					  <ul id='dropdown2' class='dropdown-content'>
 					    <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.alunos()">all</a></li>
 					    <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.alunos()?is=false">all by teacher</a></li>
 					  </ul>
 					</div>
-                  </div>
+                  </div>-->
                   
                   <div class="row">
                   
@@ -76,7 +77,7 @@
 	                      	<td>Washington</td>
 	                      	<td>
                               <i onclick="mostrarEditarAluno('@a.getNome()', '@a.getIdProfessor()', '@a.getId()', '@routes.InstituicaoController.formEditarAluno()');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-                              <i onclick="removerAluno('@a.getId()');" id="rem-@a.getId()" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+                              <i onclick="removerAluno('@a.getId()','@routes.InstituicaoController.removerAluno()');" id="rem-@a.getId()" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
                             </td>
 	                      </tr>
                         }
@@ -187,15 +188,6 @@
                               <label for="name">Student name</label>
                             </div>
                           </div>
-
-                          <!--
-                          <div class="row">
-                            <div class="input-field col s12 offset-m1 m10">
-                              <input id="phone" name="phone" autocomplete="off" type="text">
-                              <label for="phone">Phone</label>
-                            </div>
-                          </div>
-                          -->
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">

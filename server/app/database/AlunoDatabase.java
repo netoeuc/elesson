@@ -6,8 +6,8 @@ import java.util.List;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import util.Constantes;
 import models.Aluno;
-import models.Instituicao;
 
 public class AlunoDatabase {
 	
@@ -62,6 +62,19 @@ public class AlunoDatabase {
 	}
 	
 	@Transactional
+	public static Aluno selectAlunoById(int id)throws Exception{
+		String query = "FROM Aluno WHERE id = :id";
+		List<Aluno> la = JPA.em().createQuery(query)
+								.setParameter("id", id)
+								.getResultList();
+		if(la.isEmpty()){
+			return null;
+		}else{
+			return la.get(0);
+		}
+	}
+	
+	@Transactional
 	public static List<Aluno> selectAlunosByProfessorId(int idProfessor )throws Exception{
 		String query = "FROM Aluno WHERE idProfessor = :idProfessor";
 		List<Aluno> lus = JPA.em().createQuery(query)
@@ -72,9 +85,10 @@ public class AlunoDatabase {
 	
 	@Transactional
 	public static List<Aluno> selectAlunosByCnpjInst(String cnpjInst)throws Exception{
-		String query = "FROM Aluno WHERE cnpjInst = :cnpjInst";
+		String query = "FROM Aluno WHERE cnpjInst = :cnpjInst AND status != :status";
 		List<Aluno> lp = JPA.em().createQuery(query)
 								.setParameter("cnpjInst", cnpjInst)
+								.setParameter("status", Constantes.STATUS_REMOVIDO)
 								.getResultList();
 		return lp;
 	}
