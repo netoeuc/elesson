@@ -80,7 +80,7 @@ public class AlunoDatabase {
 		Aluno a = null;
 		for (Object object : lo) {
 			Object[] itens = (Object[]) object;
-			a = new Aluno((Integer)itens[5], cnpjInst, (Integer)itens[7], (String)itens[1], (String)itens[2], (String)itens[3], (Integer)itens[4]);
+			a = new Aluno((Integer)itens[1], cnpjInst, (Integer)itens[4], (String)itens[3], (String)itens[5], (String)itens[6], (Integer)itens[7]);
 			
 			mapProf = new HashMap<String, String>();
 			mapProf.put("idProfessor", a.getIdProfessor()+"");
@@ -90,7 +90,7 @@ public class AlunoDatabase {
 				map.get(mapProf).add(a);
 			}else{
 				map.put(mapProf, new ArrayList<Aluno>());
-				map.get(a.getIdProfessor()).add(a);
+				map.get(mapProf).add(a);
 			}
 		}
 		return map;

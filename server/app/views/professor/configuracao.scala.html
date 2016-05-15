@@ -1,4 +1,4 @@
-@(i : models.Instituicao)
+@(p : models.Professor)
 @content = {
 
 		 @navbar()
@@ -38,39 +38,18 @@
                       <div class="col s12 m12">
 		                  
 		                  <div class="row">
-	                        <form action="@routes.InstituicaoController.editar()" method="post" class="col s12">
+	                        <form action="@routes.ProfessorController.editar()" method="post" class="col s12">
 	
 	                          <div class="row">
 	                            <div class="input-field col s12 offset-m1 m10">
-	                              <input id="name" name="name" autocomplete="off" type="text" value="@i.getNome()">
+	                              <input id="name" name="name" autocomplete="off" type="text" value="@p.getNome()">
 	                              <label for="name">Name</label>
 	                            </div>
 	                          </div>
 	
 	                          <div class="row">
 	                            <div class="input-field col s12 offset-m1 m10">
-	                              <input id="phone" name="phone"  autocomplete="off" type="text" value="@i.getTelefone()">
-	                              <label for="phone">Phone</label>
-	                            </div>
-	                          </div>
-	
-	                          <div class="row">
-	                            <div class="input-field col s12 offset-m1 m10">
-	                              <input id="address" name="address"  autocomplete="off" type="text" value="@i.getEndereco()">
-	                              <label for="address">Address</label>
-	                            </div>
-	                          </div>
-	
-	                          <div class="row">
-	                            <div class="input-field col s12 offset-m1 m10">
-	                              <input id="cnpj" autocomplete="off" type="text" value="@i.getCnpj()" disabled="disabled">
-	                              <label for="cnpj">CNPJ</label>
-	                            </div>
-	                          </div>
-	
-	                          <div class="row">
-	                            <div class="input-field col s12 offset-m1 m10">
-	                              <input id="email" name="email"  autocomplete="off" type="email" value="@i.getEmail()">
+	                              <input id="email" name="email"  autocomplete="off" type="email" value="@p.getEmail()">
 	                              <label for="email">Email</label>
 	                            </div>
 	                          </div>
@@ -111,4 +90,4 @@
 		 
 }
 
-@main("Business, e-Lessons")(content)
+@main("Teacher, e-Lessons")(content)

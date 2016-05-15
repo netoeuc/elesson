@@ -1,3 +1,4 @@
+@(p : models.Professor)
 @content = {
 
 		 @navbar()
@@ -20,7 +21,7 @@
                   <div class="row">
                     <div class="col s12 offset-m1 m10">
                       <div class="row">
-                        <h4><i class="small material-icons">account_circle</i> Teacher Name.</h4>
+                        <h4><i class="small material-icons">account_circle</i> @p.getNome().</h4>
                       </div>
                       <div class="row center-align">
                         <div class="col s12 m3">

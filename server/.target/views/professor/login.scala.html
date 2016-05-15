@@ -1,3 +1,4 @@
+@(li: List[Instituicao])
 <!DOCTYPE html>
 <html>
     <head>
@@ -47,9 +48,9 @@
 		                  	  <div class="col s12 offset-m1 m10">
 								<select name="inst" class="browser-default color-vermelho">
 								  <option disabled selected>Choose your institute</option>
-								  <option value="1">UNICAP</option>
-								  <option value="2">Open English</option>
-								  <option value="3">Wizard</option>
+								  @for(i <- li){							  
+								  <option value="@i.getCnpj">@i.getNome</option>
+								  }
 								</select>
 							  </div>
 		                    </div>

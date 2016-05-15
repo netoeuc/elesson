@@ -66,5 +66,4 @@ public class ProfessorDatabase {
 			return lp.get(0);
 		}
 	}
-
 }

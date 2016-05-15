@@ -36,7 +36,7 @@ public class InstituicaoDatabase {
 	}
 	
 	@Transactional
-	public static List<Instituicao> selectInstituicao()throws Exception{
+	public static List<Instituicao> selectInstituicao(){
 		String query = "FROM Instituicao WHERE status != :status";
 		List<Instituicao> li = JPA.em().createQuery(query)
 								.setParameter("status", Constantes.STATUS_REMOVIDO)
