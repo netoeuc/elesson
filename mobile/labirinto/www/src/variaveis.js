@@ -1,0 +1,1 @@
+//var pontuacao = 0;

@@ -20,7 +20,6 @@ var HelloWorldLayer2 = cc.Layer.extend({
 
 
 var pop = function(){
-    cc.log("Foi!");
     var scene = new HelloWorldScene();
     cc.director.runScene(scene);
 };

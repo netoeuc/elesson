@@ -8,12 +8,13 @@
     "renderMode" : 0,
     "engineDir":"frameworks",
 
-    "modules" : ["cocos2d","chipmunk"],
+    "modules" : ["cocos2d","chipmunk", "extensions"],
 
     "jsList" : [
         "src/resource.js",
         "src/app.js",
         "src/app2.js",
-        "src/pergunta.js"
+        "src/pergunta.js",
+        "src/variaveis.js"
     ]
 }

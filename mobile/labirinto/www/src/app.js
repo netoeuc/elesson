@@ -1,13 +1,15 @@
 /* globals cc, asset */
-
+var layerCopiaExterno; // definindo como variável global para que pergunta.js tenha acesso
+var pontuacao = 0;
 var INITTIALAZED = false;
 var HelloWorldLayer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
         this._super();
-        cc.log(string);
         var size = cc.winSize;
-
+        cc.audioEngine.playMusic(asset.MusicaLabirinto_ogg, true);
+        cc.audioEngine.setMusicVolume(0.2);
+       
 
         var menuItem1 = new cc.MenuItemFont("Push!", play); // Remover, apenas testando a transição de cenas
         var menu = new cc.Menu(menuItem1);
@@ -16,12 +18,20 @@ var HelloWorldLayer = cc.Layer.extend({
         this.addChild(menu);
         
         
+        
+        var pontuacaoLabel = new cc.LabelTTF("Pontos: "+pontuacao);
+        pontuacaoLabel.setFontSize(30);
+        pontuacaoLabel.setAnchorPoint(cc.p(0,0));
+        pontuacaoLabel.setPosition(cc.p(10, size.height-40));
+        this.addChild(pontuacaoLabel, 12, 10); //zOrder = 1, Tag = 10
+        
+        
         var closeMenu = new cc.MenuItemImage(asset.CloseNormal_png, asset.CloseSelected_png, closeGame); // Adicionando o botão
         closeMenu.setAnchorPoint(cc.p(0,0));                                                            // de fechar o jogo
         closeMenu.setPosition(cc.p(size.width-40, size.height-40));
         this.addChild(closeMenu, 12);
         
-        var topMenu = new cc.Sprite.create(asset.wood_jpg); // Adicionando a barra superior para o menu
+        var topMenu = new cc.Sprite.create(asset.labirinto_barra_png); // Adicionando a barra superior para o menu
         topMenu.setAnchorPoint(cc.p( 0, 0 ));
         topMenu.setPosition(cc.p(0, size.height-40));
         this.addChild(topMenu, 11);
@@ -31,10 +41,10 @@ var HelloWorldLayer = cc.Layer.extend({
         
         
         
-        var sprite = new cc.Sprite.create(asset.char_gif); // Carregando imagem do personagem.
+        var sprite = new cc.Sprite.create(asset.lab_char_1_frente_png); // Carregando imagem do personagem.
         sprite.setAnchorPoint( cc.p( 0, 0 ) );             // Será inserido posteriormente
         
-        var sombra = new cc.Sprite.create(asset.sombra_png); // Carregando imagem do personagem.
+        var sombra = new cc.Sprite.create(asset.labirinto_sombra_png); // Carregando imagem do personagem.
 //        sombra.setAnchorPoint( cc.p( 429, 810 ) );             // Será inserido posteriormente
         sombra.setAnchorPoint( cc.p( 0.462, 0.485 ) ); // Valores da sombra testados
         
@@ -68,49 +78,29 @@ var HelloWorldLayer = cc.Layer.extend({
         
         var mapsList = [];
         
-        var stringFechada = 
-            [[1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1,1]];
         var string = 
-            [[0,2,0,0,0,0,0,0,0,0,1,0],
-             [0,1,0,1,1,1,0,0,0,1,0,0],
-             [0,0,5,0,1,1,0,1,0,1,0,1],
-             [1,0,0,0,1,1,0,1,0,1,0,1],
-             [0,0,1,0,0,0,0,1,0,0,0,1],
-             [1,0,1,1,1,1,1,1,1,1,1,1],
-             [0,0,0,0,0,0,0,0,0,1,0,0],
-             [1,1,1,1,1,1,1,1,0,1,0,1],
-             [1,0,0,0,0,0,1,1,0,1,0,1],
-             [1,0,1,1,1,0,0,0,0,1,0,0],
-             [0,0,1,0,0,0,1,1,1,1,0,1],
-             [1,0,0,1,0,1,0,0,0,0,0,0],
-             [1,0,1,0,0,1,0,1,1,1,1,0],
-             [0,0,1,1,0,1,0,1,0,0,1,0],
-             [1,0,0,0,0,1,0,1,1,0,1,0],
-             [0,0,1,1,1,1,0,1,1,0,1,1],
-             [1,0,0,0,0,0,0,0,0,0,0,0],
-             [0,0,1,1,0,1,1,0,1,1,1,1],
-             [1,0,1,0,0,0,1,0,0,0,0,3]];
+            [[5,0,1,2,1,1,1,1,1,1,0,1],
+             [1,0,2,0,0,0,0,0,0,1,0,1],
+             [1,0,1,0,1,0,1,1,0,1,0,1],
+             [2,0,0,1,0,1,0,1,0,0,0,0],
+             [0,1,2,0,0,0,0,1,1,1,1,1],
+             [1,1,1,1,1,1,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,1,1,0,1,0],
+             [1,0,1,1,1,1,0,0,1,0,1,1],
+             [0,0,1,0,0,0,2,1,0,0,0,0],
+             [1,0,1,0,1,1,1,1,1,1,1,0],
+             [1,0,1,0,0,0,0,0,0,0,1,0],
+             [1,1,1,1,1,1,2,1,1,0,1,0],
+             [0,0,0,0,0,0,0,1,0,0,0,1],
+             [0,1,0,1,0,1,1,0,0,1,0,1],
+             [2,1,1,1,0,0,0,1,1,1,1,1],
+             [0,0,0,0,1,0,1,2,0,0,0,1],
+             [1,0,1,0,1,1,1,0,1,1,0,1],
+             [1,0,1,0,0,0,0,0,0,1,0,1],
+             [0,0,1,0,1,0,1,1,0,1,3,1]];
         
-        var currentSpritePosition = [2,2];
+        var currentSpritePosition = [0,0];
+        
         var wallSpritesArray = [];
         var objectsSpritesArray = [];
         
@@ -128,49 +118,37 @@ var HelloWorldLayer = cc.Layer.extend({
         var s = 0;
         for (var linha in string) {
             for ( var elemento in string[linha]) {
-                    cc.log("valor = "+string[ linha ][ elemento ]); // adicionando o tile background (grass)
-                    var back = new cc.Sprite.create(asset.grass_gif);
+                    var back = new cc.Sprite.create(asset.labirinto_grama_png);
                     back.setAnchorPoint( cc.p( 0, 0 ) );
                     back.setPosition(cc.p(elemento * 40, linha * 40));
                     back.zPosition = -1;
                     this.addChild(back);
-                    // Escurecendo o background
-//                    back.runAction(escurecer);
                 if ( string[ linha ][ elemento ] == 1 ) {
-                    s = new cc.Sprite.create( asset.wall_jpg );
+                    s = new cc.Sprite.create( asset.labirinto_parede_png );
                     s.setAnchorPoint( cc.p( 0, 0 ) );
                     s.setPosition( cc.p( elemento * 40, linha * 40 ) );
                     
                     this.addChild( s, 0);
                     wallSpritesArray.push([s, [elemento, linha]]);
-                    // Escurecer tile
-//                    s.runAction(escurecer);
-                    //
                 }
                 
                 else {
                     
                     if ( string[ linha ][ elemento ] == 2 ) { // Adicionando questão
-                        s = new cc.Sprite.create( asset.question_png );
+                        s = new cc.Sprite.create( asset.labirinto_questao_png );
                         s.setAnchorPoint( cc.p( 0, 0 ) );
                         s.setPosition( cc.p( elemento * 40, linha * 40 ) );
                         objectsSpritesArray.push([s, [elemento, linha]]);
                         this.addChild( s, 1 );
                         objectsSpritesArray.push([s, [elemento, linha]]);
-//                        // Escurecer tile
-//                        s.runAction(escurecer);
-                        //
                     }
                     else{
                         if ( string[ linha ][ elemento ] == 3 ) { // Adicionando saída
-                            s = new cc.Sprite.create( asset.exit_png );
+                            s = new cc.Sprite.create( asset.labirinto_escola_saida_png );
                             s.setAnchorPoint( cc.p( 0, 0 ) );
                             s.setPosition( cc.p( elemento * 40, linha * 40 ) );
                             this.addChild( s, 1 );
                             objectsSpritesArray.push([s, [elemento, linha]]);
-                            // Escurecer tile
-//                            s.runAction(escurecer);
-                            //
                     
                         }
                         else{
@@ -181,7 +159,7 @@ var HelloWorldLayer = cc.Layer.extend({
                                     sprite.setPosition(cc.p(elemento*40, linha*40));
                                     this.addChild(sprite, 10);
                                     sombra.setPosition(cc.p(elemento*40, linha*40));
-                                    this.addChild(sombra, 10);
+                                    this.addChild(sombra, 10, 0); // zOrder = 10, Tag = 0
                                 }
                                 
                             }
@@ -200,8 +178,7 @@ var HelloWorldLayer = cc.Layer.extend({
         
         
         
-        
-        
+       
         function delay(ms) {
            ms += new Date().getTime();
            while (new Date() < ms){}
@@ -209,22 +186,25 @@ var HelloWorldLayer = cc.Layer.extend({
         
         
         function removeObjectSprite(HelloWorldLayer){
-            cc.log("Entrou");
-            var newBackgroundTile = new cc.Sprite.create(asset.grass_gif); // Adicionando background
+            ////cc.log("Entrou");
+            var newBackgroundTile = new cc.Sprite.create(asset.labirinto_grama_png); // Adicionando background
             newBackgroundTile.setAnchorPoint(cc.p( 0, 0 ));
             newBackgroundTile.setPosition(cc.p(currentSpritePosition[0]*40, currentSpritePosition[1]*40));
             HelloWorldLayer.addChild(newBackgroundTile, 2);    
         }
         
-        function objectAction(value, old){
+        function objectAction(value){
             if(value===2){
-//                removeObjectSprite(); // Background por cima do sprite do objeto
                 play();
-                cc.log("play!");
+                return false; // O jogo continua (está confuso, mas com false o jogo continua)
             }else{
                 if (value==3){
-//                    removeObjectSprite(this); // Background por cima do sprite do objeto
+                    isFirstMovement = 100;
                     endGame();
+                    var sombraSumir = cc.FadeOut.create(1);
+                    var sombraSumirTamanho = cc.ScaleBy.create(1,20,20);
+                    sombra.runAction(sombraSumirTamanho);
+                    return 100; // O jogo não continua
                 }
             }       
         }
@@ -244,7 +224,8 @@ var HelloWorldLayer = cc.Layer.extend({
             string[currentSpritePosition[0]][currentSpritePosition[1]] = 0;
             string[currentSpritePosition[0]][currentSpritePosition[1]-1] = 5;
             currentSpritePosition = [currentSpritePosition[0], currentSpritePosition[1]-1];
-            objectAction(targetValue); // Decide se termina o jogo, mostra uma pergunta, ou se não faz                                                                  //  nada e remove o sprite
+            var result = objectAction(targetValue); // Decide se termina o jogo, mostra uma pergunta, ou se não faz                                                                  //  nada e remove o sprite
+            return result;
         }
         function moveUp(){
             var oldSpritePosition = [currentSpritePosition[0]][currentSpritePosition[1]];
@@ -252,7 +233,8 @@ var HelloWorldLayer = cc.Layer.extend({
             string[currentSpritePosition[0]][currentSpritePosition[1]] = 0;
             string[currentSpritePosition[0]+1][currentSpritePosition[1]] = 5;
             currentSpritePosition = [currentSpritePosition[0]+1, currentSpritePosition[1]];
-            objectAction(targetValue); // Decide se termina o jogo, mostra uma pergunta, ou se não faz                                                                  //  nada e remove o sprite
+            var result = objectAction(targetValue); // Decide se termina o jogo, mostra uma pergunta, ou se não faz                                                                  //  nada e remove o sprite
+            return result;
         }
         function moveDown(){
             var oldSpritePosition = [currentSpritePosition[0]][currentSpritePosition[1]];
@@ -260,7 +242,8 @@ var HelloWorldLayer = cc.Layer.extend({
             string[currentSpritePosition[0]][currentSpritePosition[1]] = 0;
             string[currentSpritePosition[0]-1][currentSpritePosition[1]] = 5;
             currentSpritePosition = [currentSpritePosition[0]-1, currentSpritePosition[1]];
-            objectAction(targetValue); // Decide se termina o jogo, mostra uma pergunta, ou se não faz                                                                  //  nada e remove o sprite
+            var result = objectAction(targetValue); // Decide se termina o jogo, mostra uma pergunta, ou se não faz                                                                  //  nada e remove o sprite
+            return result;
         }
         
         var isFirstMovement = true;
@@ -271,85 +254,144 @@ var HelloWorldLayer = cc.Layer.extend({
             cc.eventManager.addListener({
                 event: cc.EventListener.ACCELERATION,
                 callback: function(accelEvent, event){
-//                    cc.log("Accel x = "+ accelEvent.x);
-//                    cc.log("Accel y = "+ accelEvent.y);
-                    cc.log("-------------------------");
-                    if(!isFirstMovement){
-                        delay(200);
-                    }
-                    isFirstMovement = false;
+                    
+                    if(isFirstMovement===100){
+                    }else{
+                        if(!isFirstMovement){
+                            delay(200);
+                        }
+                        isFirstMovement = false;
+                }
 
                     
-                    
-                    
-                    if (accelEvent.x<-0.2){
-                            
-                            
-                            
-                                cc.log("Move Left!");
-                                if( (currentSpritePosition[1]>0) && 
-                                    (string[currentSpritePosition[0]][currentSpritePosition[1]-1]!==1) ){
-                                    cc.log("Pode mover para a esquerda!");
-                                    sprite.runAction(sequenceMoveLeft);
-                                    sombra.runAction(sequenceSombraMoveLeft);
-                                    moveLeft(); // Move left in the string
-                                }else{
-                                    cc.log("Impossível mover para a esquerda!");
+                    if(isFirstMovement===100){
+                        
+                    }else{
+                        var aumentarLuz = cc.ScaleBy.create(1,20,20);
+                        var novoBackground; // Para remover objetos de desafio do mapa
+                        var novaPergunta; // Para remover objetos de desafio do mapa
+                        var perguntaRespondida; // Para substituir o ícone da pergunta
+                        if (accelEvent.x<-0.2){
+
+
+
+                                    ////cc.log("Move Left!");
+                                    if( (currentSpritePosition[1]>0) && 
+                                        (string[currentSpritePosition[0]][currentSpritePosition[1]-1]!==1) ){
+                                        ////cc.log("Pode mover para a esquerda!");
+                                        sprite.runAction(sequenceMoveLeft);
+                                        sombra.runAction(sequenceSombraMoveLeft);
+                                        isFirstMovement = moveLeft(); // Move left in the string
+                                        if(isFirstMovement===false){
+                                            novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                            novoBackground.setAnchorPoint(cc.p(0,0));
+                                            novoBackground.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
+                                            (sprite.parent).addChild(novoBackground,5);
+                                            perguntaRespondida = cc.Sprite.create(asset.labirinto_questao_respondida_png);
+                                            perguntaRespondida.setAnchorPoint(cc.p(0,0));
+                                            perguntaRespondida.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
+                                            (sprite.parent).addChild(perguntaRespondida,5);
+                                            }
+                                    }else{
+                                        ////cc.log("Impossível mover para a esquerda!");
+
+
+                                    }
+
+                            }
+
+                        if (accelEvent.x>0.2){
+                                ////cc.log("Move Right!");
+                                if( (currentSpritePosition[1]<11) && 
+                                        (string[currentSpritePosition[0]][currentSpritePosition[1]+1]!==1) ){
+                                            ////cc.log("Pode mover para a direita!");
+                                            sprite.runAction(sequenceMoveRight);
+                                            sombra.runAction(sequenceSombraMoveRight);  
+                                            isFirstMovement = moveRight(); // Move right in the string
+                                            if(isFirstMovement===false){
+                                                novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                                novoBackground.setAnchorPoint(cc.p(0,0));
+                                                novoBackground.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
+                                                (sprite.parent).addChild(novoBackground,5);
+                                                perguntaRespondida = cc.Sprite.create(asset.labirinto_questao_respondida_png);
+                                                perguntaRespondida.setAnchorPoint(cc.p(0,0));
+                                                perguntaRespondida.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
+                                                (sprite.parent).addChild(perguntaRespondida,5);
+                                                
+                                            }
                                     
+
+
+                                    }else{
+                                        ////cc.log("Impossível mover para a direita!!");
+                                    }
+
+    //                        }
+                        }
+                        if (accelEvent.y<-0.2){
+                                ////cc.log("Move Down!");
+                                if( (currentSpritePosition[0]>0) && 
+                                    (string[currentSpritePosition[0]-1][currentSpritePosition[1]]!==1) ){
+                                   
+                                    ////cc.log("Pode mover para a baixo!");  
                                     
-                                }
+                                    sprite.runAction(sequenceMoveDown);
+                                    sombra.runAction(sequenceSombraMoveDown);
+                                    isFirstMovement = moveDown(); // Move down in the string
+                                    if(isFirstMovement===false){
+                                            novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                            novoBackground.setAnchorPoint(cc.p(0,0));
+                                            novoBackground.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
+                                            (sprite.parent).addChild(novoBackground,5);
+                                            perguntaRespondida = cc.Sprite.create(asset.labirinto_questao_respondida_png);
+                                            perguntaRespondida.setAnchorPoint(cc.p(0,0));
+                                            perguntaRespondida.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
+                                            (sprite.parent).addChild(perguntaRespondida,5);
+                                            //if conseguiu pontuação máxima
+                                           
+//                                            sombra.runAction(aumentarLuz);
+                                            
+                                    }
+
+                                    }else{
+                                        ////cc.log("Impossível mover para a baixo!!");
+
+                                    }
+
+    //                        }
+                        }
+                        if (accelEvent.y>0.2){
+                                ////cc.log("Move Up!");
+                            if( (currentSpritePosition[0]<18) && 
+                                        (string[currentSpritePosition[0]+1][currentSpritePosition[1]]!==1) ){
+
+                                        ////cc.log("Pode mover para a cima!");
+                                        sprite.runAction(sequenceMoveUp);
+                                        sombra.runAction(sequenceSombraMoveUp);
+                                        isFirstMovement = moveUp(); // Move up in the string
+                                if(isFirstMovement===false){
+                                            novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                            novoBackground.setAnchorPoint(cc.p(0,0));
+                                            novoBackground.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
+                                            (sprite.parent).addChild(novoBackground,5);
+                                            perguntaRespondida = cc.Sprite.create(asset.labirinto_questao_respondida_png);
+                                                perguntaRespondida.setAnchorPoint(cc.p(0,0));
+                                                perguntaRespondida.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
+                                                (sprite.parent).addChild(perguntaRespondida,5);
+                                            perguntaRespondida = cc.Sprite.create(asset.labirinto_questao_respondida_png);
+                                            perguntaRespondida.setAnchorPoint(cc.p(0,0));
+                                            perguntaRespondida.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
+                                            (sprite.parent).addChild(perguntaRespondida,5);
+                                            
+                                            }
+                                    }else{
+                                        ////cc.log("Impossível mover para a Cima!!");
+
+                                    }
 
                         }
                     
-                    if (accelEvent.x>0.2){
-                            cc.log("Move Right!");
-                            if( (currentSpritePosition[1]<11) && 
-                                    (string[currentSpritePosition[0]][currentSpritePosition[1]+1]!==1) ){
-                                        cc.log("Pode mover para a direita!");
-                                        sprite.runAction(sequenceMoveRight);
-                                        sombra.runAction(sequenceSombraMoveRight);  
-                                        moveRight(); // Move right in the string
-                                        
-                                    
-                                }else{
-                                    cc.log("Impossível mover para a direita!!");
-                                }
-                            
-//                        }
                     }
-                    if (accelEvent.y<-0.2){
-                            cc.log("Move Down!");
-                            if( (currentSpritePosition[0]>0) && 
-                                    (string[currentSpritePosition[0]-1][currentSpritePosition[1]]!==1) ){
-                                    cc.log("Pode mover para a baixo!");  
-                                    sprite.runAction(sequenceMoveDown);
-                                    sombra.runAction(sequenceSombraMoveDown);
-                                    moveDown(); // Move down in the string
-                                    
-                                }else{
-                                    cc.log("Impossível mover para a baixo!!");
-                                    
-                                }
-                            
-//                        }
-                    }
-                    if (accelEvent.y>0.2){
-                        
-                        if( (currentSpritePosition[0]<18) && 
-                                    (string[currentSpritePosition[0]+1][currentSpritePosition[1]]!==1) ){
-                                        
-                                    cc.log("Pode mover para a cima!");
-                                    sprite.runAction(sequenceMoveUp);
-                                    sombra.runAction(sequenceSombraMoveUp);
-                                    moveUp(); // Move up in the string
-                                }else{
-                                    cc.log("Impossível mover para a Cima!!");
-                                    
-                                }
-
-                    }
-                    
-                    
                     
                 }
             }, this);
@@ -369,27 +411,23 @@ function delay(ms) {
         }
 
 function play(){
-    cc.log("Play!");
-//    var scene = new HelloWorldScene2();
-//    cc.director.runScene(new cc.TransitionJumpZoom(0.2,scene));
     var scene = new QuestionScene();
-    delay(500);
     cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,scene));    
-//    var newBackgroundTile = new cc.Sprite.create(asset.grass_gif); // Adicionando background
-//    newBackgroundTile.setAnchorPoint(cc.p( 0, 0 ));
-//    newBackgroundTile.setPosition(cc.p(0*40, 1*40));
-//    HelloWorldLayer.addChild(newBackgroundTile, 2); 
+    
 }
 
 function endGame(){
-    cc.log("EndGame!");
+    if (pontuacao>=700){
+        pontuacao = 0;
+    }else{
+        pontuacao = 0;
+    }
 //    alert("End game!");
     
 }
 
 
 var closeGame = function(){
-    cc.log("closeGame");
 };
 
 
@@ -401,10 +439,13 @@ var HelloWorldScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
         if (INITTIALAZED===false){
-//            INITTIALAZED = true;
             this._super();
             var layer = new HelloWorldLayer();
+            layerCopiaExterno = layer;
+            var sc = new cc.ScaleBy(20);
+            layer.runAction(sc);
             this.addChild(layer);
+            layer.setScale(5);
         }
     }
 });
