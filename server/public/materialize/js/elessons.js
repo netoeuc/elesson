@@ -6,7 +6,7 @@ $( document ).ready(function(){
 	});
 
 	$('.parallax').parallax();
-	$("#logo").fadeIn(2000);
+//	$("#logo").fadeIn(2000);
 	
 	setTimeout(function() {
 		$('.fecharAut').fadeOut('slow');
