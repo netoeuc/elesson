@@ -52,6 +52,8 @@ POST    /panel/teacher/edit/				controllers.ProfessorController.editar()
 GET     /panel/teacher/classrooms			controllers.ProfessorController.salas()
 GET     /panel/teacher/students				controllers.ProfessorController.alunos()
 GET     /panel/teacher/questions			controllers.ProfessorController.questoes()
+POST    /panel/teacher/questions/new		controllers.ProfessorController.cadastrarQuestao()
+POST    /panel/teacher/questions/remove		controllers.ProfessorController.removerQuestao()
 
 ###################################
 # ALUNO

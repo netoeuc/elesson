@@ -1,6 +1,8 @@
 package controllers;
 
 import static play.data.Form.form;
+
+import interceptors.InstituicaoInterceptor;
 import interceptors.ProfessorInterceptor;
 
 import java.util.HashMap;
@@ -9,9 +11,11 @@ import java.util.List;
 import models.Aluno;
 import models.Instituicao;
 import models.Professor;
+import models.Questao;
 import database.AlunoDatabase;
 import database.InstituicaoDatabase;
 import database.ProfessorDatabase;
+import database.QuestaoDatabase;
 import play.Logger;
 import play.data.DynamicForm;
 import play.db.jpa.JPA;
@@ -228,6 +232,61 @@ public class ProfessorController extends Controller{
 	
 	@Transactional
 	@With({ ProfessorInterceptor.class })
+	public static Result cadastrarQuestao(){
+		try{
+			Professor p = ProfessorController.getUsuarioAutenticado();
+			if(p != null){
+				DynamicForm dynamicForm = form().bindFromRequest();
+				String questao = dynamicForm.get("questao") == null || dynamicForm.get("questao").trim().isEmpty()? null : dynamicForm.get("questao");
+				String resposta1 = dynamicForm.get("resposta1") == null || dynamicForm.get("resposta1").trim().isEmpty()? null : dynamicForm.get("resposta1");
+				String resposta2 = dynamicForm.get("resposta2") == null || dynamicForm.get("resposta2").trim().isEmpty()? null : dynamicForm.get("resposta2");
+				String resposta3 = dynamicForm.get("resposta3") == null || dynamicForm.get("resposta3").trim().isEmpty()? null : dynamicForm.get("resposta3");
+				String resposta4 = dynamicForm.get("resposta4") == null || dynamicForm.get("resposta4").trim().isEmpty()? null : dynamicForm.get("resposta4");
+				String resposta5 = dynamicForm.get("resposta5") == null || dynamicForm.get("resposta5").trim().isEmpty()? null : dynamicForm.get("resposta5");
+				String respostaCorreta = dynamicForm.get("respostaCorreta") == null || dynamicForm.get("respostaCorreta").trim().isEmpty()? null : dynamicForm.get("respostaCorreta");
+				int nivel = dynamicForm.get("nivel") == null? -1 : Integer.parseInt(dynamicForm.get("nivel"));
+				
+				if(questao == null || resposta1 == null || resposta2 == null || resposta3 == null || resposta4 == null || resposta5 == null || respostaCorreta == null || nivel == -1){
+					flash("erro", "Preencha todos os campos");
+				}else{
+					Questao novaQ = new Questao(questao,resposta1,resposta2,resposta3,resposta4,resposta5,respostaCorreta,nivel,p.getCnpjInst(),p.getId());
+						
+					JPA.em().persist(novaQ);
+				}
+			}else{
+				return redirect(routes.ProfessorController.login());
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - ProfessorController/cadastrarQuestao(): "+ e.getMessage());
+		}
+		return redirect(routes.ProfessorController.questoes());
+	}
+	
+	@Transactional
+	@With({ ProfessorInterceptor.class })
+	public static Result removerQuestao() {
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			int idQuestao = dynamicForm.get("cod") == null? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			
+			if(idQuestao != -1){
+				Questao q = QuestaoDatabase.selectQuestaoById(idQuestao);
+				if(q != null){
+					JPA.em().remove(q);
+					flash("ok", "questão removida");
+				}
+			}else{
+				flash("erro", "Informe o Id da questão");
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - ProfessorController/removerQuestao(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao remover. Tente novamente mais tarde");
+		}
+		return redirect(routes.ProfessorController.index());
+	}
+	
+	@Transactional
+	@With({ ProfessorInterceptor.class })
 	public static Result salas(){
 		return ok(views.html.professor.salas.render());
 	}
@@ -235,6 +294,15 @@ public class ProfessorController extends Controller{
 	@Transactional
 	@With({ ProfessorInterceptor.class })
 	public static Result questoes(){
-		return ok(views.html.professor.questoes.render());
+		try{
+			Professor p = ProfessorController.getUsuarioAutenticado();
+			if(p != null){
+				List<Questao> lq = QuestaoDatabase.selectQuestoesByProfessorId(p.getId());
+				return ok(views.html.professor.questoes.render(lq));
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - ProfessorController/questoes(): "+ e.getMessage());
+		}
+		return redirect(routes.ProfessorController.index());
 	}
 }
