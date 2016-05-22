@@ -349,30 +349,38 @@ table tbody td{
   background-color: #AD1414 !important;
 }
 
+.tiny{
+  font-size:0.9rem !important;
+}
+
 .tiny-small{
-  font-size:1.2rem;
+  font-size:1.2rem !important;
 }
 
 .tag{
   padding: 5px 0px 5px 0px;
   text-align: center;
   margin-top: 5px;
-  -webkit-border-radius: 100px;
-  -moz-border-radius: 100px;
-  border-radius: 100px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
 }
 
 .tag .material-icons{
+  min-width:30px;
+  height:30px;
   color: #FFFFFF;
   background-color: #888888;
-  font-size: 18px;
+  font-size: 16px;
   float: left;
   padding: 6px;
   margin: -4px 0px 0px 0px;
-  -webkit-border-radius: 100px;
-  -moz-border-radius: 100px;
-  border-radius: 100px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
 }
+
+#mceu_7{display: none !important;}
 
 footer.page-footer{
   background-color: #AD1414 !important;

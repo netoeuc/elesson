@@ -66,10 +66,11 @@ function mostrarEditarAluno(nome, codigoProfessor, codigoAluno, action){
 }
 
 function removerAluno(codigo,action){
-	var rem = $('td i#rem-'+codigo).html();
-	if(rem == 'delete'){
-		$('td i#rem-'+codigo).html('done');
-	}else if(rem == 'done'){
+	var rem = $('td i#rem-'+codigo);
+	if(rem.attr("rel") == "delete"){
+		rem.attr("rel", "done");
+		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
+	}else if(rem.attr("rel") == "done"){
 		$.post(action, {cod: codigo}, function() {
 		}).fail(function() {});
 		window.location.reload(true);
@@ -102,10 +103,11 @@ function mostrarEditarInstituicao(nome, codigo, action){
 }
 
 function removerInstituicao(codigo, action){
-	var rem = $('td i#rem-'+codigo).html();
-	if(rem == 'delete'){
-		$('td i#rem-'+codigo).html('done');
-	}else if(rem == 'done'){
+	var rem = $('td i#rem-'+codigo);
+	if(rem.attr("rel") == "delete"){
+		rem.attr("rel", "done");
+		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
+	}else if(rem.attr("rel") == "done"){
 		$.post(action, {cod: codigo}, function() {
 		}).fail(function() {});
 		window.location.reload(true);
@@ -137,16 +139,14 @@ function mostrarEditarProfessor(nome, codigo, action){
 }
 
 function removerProfessor(codigo,action){
-	var rem = $('td i#rem-'+codigo).html();
-	if(rem == 'delete'){
-		$('td i#rem-'+codigo).html('done');
-	}else if(rem == 'done'){
+	var rem = $('td i#rem-'+codigo);
+	if(rem.attr("rel") == "delete"){
+		rem.attr("rel", "done");
+		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
+	}else if(rem.attr("rel") == "done"){
 		$.post(action, {cod: codigo}, function() {
 		}).fail(function() {});
 		window.location.reload(true);
-		//alert("Removido!");
-		// removerInstituicaoConfirm(codigo);
-		//location.reload();
 	}
 }
 
@@ -168,15 +168,13 @@ function mostrarEditarQuestao(codigo){
 }
 
 function removerQuestao(codigo,action){
-	var rem = $('td i#rem-'+codigo).html();
-	if(rem == 'delete'){
-		$('td i#rem-'+codigo).html('done');
-	}else if(rem == 'done'){
+	var rem = $('td i#rem-'+codigo);
+	if(rem.attr("rel") == "delete"){
+		rem.attr("rel", "done");
+		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
+	}else if(rem.attr("rel") == "done"){
 		$.post(action, {cod: codigo}, function() {
 		}).fail(function() {});
 		window.location.reload(true);
-		//alert("Removido!");
-		// removerInstituicaoConfirm(codigo);
-		//location.reload();
 	}
 }
