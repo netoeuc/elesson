@@ -11,7 +11,6 @@ import database.AlunoDatabase;
 import database.InstituicaoDatabase;
 import database.ProfessorDatabase;
 import interceptors.InstituicaoInterceptor;
-import interceptors.UsuarioSmartInterceptor;
 import play.Logger;
 import play.data.DynamicForm;
 import play.db.jpa.JPA;
@@ -28,7 +27,7 @@ public class InstituicaoController extends Controller{
 	
 	@Transactional
 	public static String getUsuarioSession() {
-		return session().get(Constantes.SESSION_CNPJINST);
+		return session().get(Constantes.SESSION_COD_INSTTEAC);
 	}
 	
 	@Transactional
@@ -76,6 +75,59 @@ public class InstituicaoController extends Controller{
 	}
 	
 	@Transactional
+	public static Result esqueceuSenha() {
+		int template = 0; /* 0: formulario, 1: mensagem de confirmacao */
+		try {
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			String cnpj = dynamicForm.get("i") == null || dynamicForm.get("i").trim().isEmpty()? null : dynamicForm.get("i");
+			String email = dynamicForm.get("e") == null || dynamicForm.get("e").trim().isEmpty()? null : dynamicForm.get("e");
+
+			if(session().get(Constantes.SESSION_COD_INSTTEACFOR) != null && email != null && cnpj != null){
+				Instituicao i = InstituicaoDatabase.selectInstituicaoEncrypt(cnpj, email);
+				if(i != null && i.getStatus() == Constantes.STATUS_ATIVO && 
+					session().get(Constantes.SESSION_COD_INSTTEACFOR).equals(Seguranca.encryptString(i.getCnpj()))){
+					
+					String senha = Seguranca.gerarSenha(6);
+					Mail.sendMail(i.getEmail(), "Alteração de Senha", views.html.instituicao.email.render(i, senha, request().host(), 2).toString());
+					i.setSenha(senha);
+					JPA.em().merge(i);
+					
+					session().clear();
+					template = 1;
+				}
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/esqueceuSenha(): "+ e.getMessage());
+		}
+		return ok(views.html.instituicao.esqueceuSenha.render(template));
+	}
+	
+	@Transactional
+	public static Result lembrarSenha() {
+		try {
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
+
+			if(email == null){
+				flash("erro", "Informe seu email");
+			}else{
+				Instituicao i = InstituicaoDatabase.selectInstituicaoByEmail(email);
+				if(i == null){
+					flash("erro", "Email não cadastrado");
+				}else{
+					Mail.sendMail(email, "Você esqueceu a senha?", views.html.instituicao.email.render(i, "", request().host(), 4).toString());
+					session().put(Constantes.SESSION_COD_INSTTEACFOR, Seguranca.encryptString(i.getCnpj()));
+					flash("erro", "Confirme o lembrete no seu email");
+				}
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/lembrarSenha(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao enviar. Tente novamente mais tarde");
+		}
+		return redirect(routes.InstituicaoController.esqueceuSenha());
+	}
+	
+	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result configuracao() {
 		Instituicao i = getUsuarioAutenticado();
@@ -88,11 +140,11 @@ public class InstituicaoController extends Controller{
 		try {
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
 			String nome = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name");
-			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").trim().isEmpty()? null : dynamicForm.get("phone");
+			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").replace(")", "").replace("(", "").replace("-", "").trim().isEmpty()? null : dynamicForm.get("phone").replace(")", "").replace("(", "").replace("-", "");
 			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address");
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
-			String senha = dynamicForm.get("password") == null || dynamicForm.get("password").trim().isEmpty()? null : Seguranca.md5(dynamicForm.get("password"));
-			String senhaConfirme = dynamicForm.get("confirmpassword") == null || dynamicForm.get("confirmpassword").trim().isEmpty()? null : Seguranca.md5(dynamicForm.get("confirmpassword"));
+			String senha = dynamicForm.get("password") == null || dynamicForm.get("password").trim().isEmpty()? null : dynamicForm.get("password");
+			String senhaConfirme = dynamicForm.get("confirmpassword") == null || dynamicForm.get("confirmpassword").trim().isEmpty()? null : dynamicForm.get("confirmpassword");
 
 			boolean isEditado = false;
 			Instituicao i = getUsuarioAutenticado();
@@ -100,8 +152,12 @@ public class InstituicaoController extends Controller{
 				
 				if (nome == null || telefone == null || endereco == null || email == null) {				
 					flash("erro", "Preencha todos os campos");
+				}else if(senha != null && senha.length() < 6){
+					flash("erro", "Senha deve conter no mínimo 6 caracteres");
 				}else if(senha != null && (senhaConfirme == null || !senha.equals(senhaConfirme))){
 					flash("erro", "Senhas não conferem");
+				}else if(telefone.length() < 10 || telefone.length() > 11){
+					flash("erro", "Telefone deve conter 10 ou 11 dígitos");
 				}else{
 					if(!i.getNome().equals(nome)){
 						i.setNome(nome); 
@@ -155,7 +211,7 @@ public class InstituicaoController extends Controller{
 			String cnpj = dynamicForm.get("i");
 			String email = dynamicForm.get("e");
 	
-			Instituicao i = InstituicaoDatabase.selectInstituicaoMD5(cnpj, email);
+			Instituicao i = InstituicaoDatabase.selectInstituicaoEncrypt(cnpj, email);
 	
 			if (i != null && i.getStatus() == Constantes.STATUS_AGUARDANDO) {
 				i.setStatus(Constantes.STATUS_ATIVO);
@@ -163,7 +219,7 @@ public class InstituicaoController extends Controller{
 
 				session().clear();
 				session().put(Constantes.SESSION_USUARIO, i.getEmail());
-				session().put(Constantes.SESSION_CNPJINST, i.getCnpj());
+				session().put(Constantes.SESSION_COD_INSTTEAC, i.getCnpj());
 				return redirect(routes.InstituicaoController.index());
 			}
 		}catch(Exception e){
@@ -225,7 +281,7 @@ public class InstituicaoController extends Controller{
 						flash("erro", "Este email já está cadastrado");
 					}else{
 						String senha = Seguranca.gerarSenha(6);
-						Professor novoP = new Professor(i.getCnpj(), nome, email, Seguranca.md5(senha), Constantes.STATUS_AGUARDANDO);
+						Professor novoP = new Professor(i.getCnpj(), nome, email, senha, Constantes.STATUS_AGUARDANDO);
 						Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
 								views.html.professor.email.render(i, nome, email, senha, request().host(), 0).toString());
 						
@@ -260,7 +316,7 @@ public class InstituicaoController extends Controller{
 						flash("erro", "Este email já está cadastrado");
 					}else{
 						String senha = Seguranca.gerarSenha(6);
-						Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, Seguranca.md5(senha), Constantes.STATUS_AGUARDANDO);
+						Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, senha, Constantes.STATUS_AGUARDANDO);
 						Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
 						views.html.aluno.email.render(i, idProfessor+"", nome, email, senha, request().host(), 0).toString());
 						
@@ -329,8 +385,8 @@ public class InstituicaoController extends Controller{
 		try {
 			DynamicForm dynamicForm = form().bindFromRequest();
 			String email = dynamicForm.get("login") == null || dynamicForm.get("login").trim().isEmpty()? null : dynamicForm.get("login").toLowerCase();
-			String senha = dynamicForm.get("password") == null || dynamicForm.get("password").trim().isEmpty()? null : Seguranca.md5(dynamicForm.get("password"));
-			
+			String senha = dynamicForm.get("password") == null || dynamicForm.get("password").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("password"));
+						
 			if (email == null || senha == null) {
 				flash("erro", "Preencha todos os campos");
 
@@ -349,7 +405,7 @@ public class InstituicaoController extends Controller{
 				}else{
 					session().clear();
 					session().put(Constantes.SESSION_USUARIO, i.getEmail());
-					session().put(Constantes.SESSION_CNPJINST, i.getCnpj());
+					session().put(Constantes.SESSION_COD_INSTTEAC, i.getCnpj());
 					return redirect(routes.InstituicaoController.index());
 				}
 			}
@@ -363,7 +419,12 @@ public class InstituicaoController extends Controller{
 	
 	@Transactional
 	public static Result teste(){
-		return ok(AdminJson.getObject(AlunoDatabase.selectAlunosByProfessorByCnpjInst("123123"), "alunosPorProfessor"));
+		try {
+			return ok(AdminJson.getObject(AlunoDatabase.selectAlunosByProfessorByCnpjInst("123123"), "alunosPorProfessor"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ok("");
 	}
 	
 	@Transactional
@@ -412,7 +473,7 @@ public class InstituicaoController extends Controller{
 					}
 					if(generate){
 						senha = Seguranca.gerarSenha(6);
-						p.setSenha(Seguranca.md5(senha)); 
+						p.setSenha(senha); 
 						isEditado = true;
 						isSenhaAlterada = true;
 					}
@@ -503,7 +564,7 @@ public class InstituicaoController extends Controller{
 					}
 					if(generate){
 						senha = Seguranca.gerarSenha(6);
-						a.setSenha(Seguranca.md5(senha)); 
+						a.setSenha(senha); 
 						isEditado = true;
 						isSenhaAlterada = true;
 					}

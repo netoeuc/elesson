@@ -121,10 +121,11 @@ ul li a .material-icons{
   font-size: 38px;
 }
 
+.bg-smarteduc::before,
 .bg-instituicao::before, 
 .bg-aula::before,
 .bg-mapgeral::before{
-	content: "";
+  content: "";
   background: #000000;
   opacity:0.25;
   -moz-opacity: 0.25;
@@ -138,69 +139,40 @@ ul li a .material-icons{
 }
 
 .bg-mapgeral::after{
-	content: "";
-	background: url(../img/mapgeral.jpg) no-repeat;
-	background-size: cover;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -2; 
+  background: url(../img/mapageral.jpg) no-repeat;
+  background-attachment: fixed;
+  background-position: center;
 }
 
 .bg-aula::after{
-	content: "";
-	background: url(../img/aula.jpg) no-repeat;
-	background-size: cover;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -2; 
+  background: url(../img/aula.jpg) no-repeat;
 }
 
 .bg-instituicao::after{
-	content: "";
-	background: url(../img/instituicao.jpg) no-repeat;
-	background-size: cover;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -2; 
+  background: url(../img/instituicao.jpg) no-repeat;
 }
 
-.bg-smarteduc::before{
-	content: "";
-  background: #000000;
-  opacity:0.25;
-  -moz-opacity: 0.25;
-  -khtml-opacity: 0.25;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1; 
-}
 .bg-smarteduc::after{
-	content: "";
-	background: url(../img/smarteduc.jpg) no-repeat;
-	background-size: cover;
+  background: url(../img/smarteduc.jpg) no-repeat;
+}
+
+.bg-smarteduc::after,
+.bg-instituicao::after,
+.bg-aula::after,
+.bg-mapgeral::after{
+  content: "";
+  background-size: cover;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   position: absolute;
-  z-index: -2; 
+  z-index: -2; 	
 }
 
 .padding-nav{
-	padding-left: 25px;
-	padding-right: 25px; 
+  padding-left: 25px;
+  padding-right: 25px; 
 }
 
 .bg-azul{

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.Index;
 
+import util.Seguranca;
+
 
 @Entity
 public class Aluno {
@@ -39,22 +41,22 @@ public class Aluno {
 	
 	public Aluno(){}
 	
-	public Aluno(String cnpjInst, int idProfessor, String email, String nome, String senha, int status) {
+	public Aluno(String cnpjInst, int idProfessor, String email, String nome, String senha, int status) throws Exception {
 		this.cnpjInst = cnpjInst;
 		this.idProfessor = idProfessor;
 		this.email = email;
 		this.nome = nome;
-		this.senha = senha;
+		this.senha = Seguranca.encryptString(senha);
 		this.status = status;
 	}
 	
-	public Aluno(int id, String cnpjInst, int idProfessor, String email, String nome, String senha, int status) {
+	public Aluno(int id, String cnpjInst, int idProfessor, String email, String nome, String senha, int status) throws Exception {
 		this.id = id;
 		this.cnpjInst = cnpjInst;
 		this.idProfessor = idProfessor;
 		this.email = email;
 		this.nome = nome;
-		this.senha = senha;
+		this.senha = Seguranca.encryptString(senha);
 		this.status = status;
 	}
 
@@ -98,8 +100,8 @@ public class Aluno {
 		return senha;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setSenha(String senha) throws Exception{
+		this.senha = Seguranca.encryptString(senha);
 	}
 	
 	public int getStatus() {

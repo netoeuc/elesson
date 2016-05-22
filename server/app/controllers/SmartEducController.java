@@ -85,8 +85,8 @@ public class SmartEducController extends Controller{
 		try {
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
 			String email = dynamicForm.get("login") == null || dynamicForm.get("login").trim().isEmpty()? null : dynamicForm.get("login").toLowerCase();
-			String senha = dynamicForm.get("password") == null || dynamicForm.get("password").trim().isEmpty()? null : Seguranca.md5(dynamicForm.get("password"));
-			
+			String senha = dynamicForm.get("password") == null || dynamicForm.get("password").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("password"));
+
 			if (email == null || senha == null) {
 				flash("erro", "Preencha todos os campos");
 
@@ -118,9 +118,9 @@ public class SmartEducController extends Controller{
 		try {
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
 			String nome = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name");
-			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").trim().isEmpty()? null : dynamicForm.get("phone");
+			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").replace(")", "").replace("(", "").replace("-", "").trim().isEmpty()? null : dynamicForm.get("phone").replace(")", "").replace("(", "").replace("-", "").trim();
 			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address");
-			String cnpj = dynamicForm.get("cnpj") == null || dynamicForm.get("cnpj").trim().isEmpty()? null : dynamicForm.get("cnpj");
+			String cnpj = dynamicForm.get("cnpj") == null || dynamicForm.get("cnpj").replace(".", "").replace("/", "").replace("-", "").trim().isEmpty()? null : dynamicForm.get("cnpj").replace(".", "").replace("/", "").replace("-", "").trim();
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
 			int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
 			
@@ -129,11 +129,15 @@ public class SmartEducController extends Controller{
 			
 			if (nome == null || telefone == null || endereco == null || cnpj == null || email == null || eLicenca == null) {
 				flash("erro", "Preencha todos os campos");
+			}else if(cnpj.length() != 14){
+				flash("erro", "Cnpj deve conter 14 dígitos");
+			}else if(telefone.length() < 10 || telefone.length() > 11){
+				flash("erro", "Telefone deve conter 10 ou 11 dígitos");
 			}else{
 				Instituicao ic = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
 				Instituicao ie = InstituicaoDatabase.selectInstituicaoByEmail(email);
 				if (ic == null && ie == null){
-					ic = new Instituicao(cnpj, nome, telefone, endereco, email, eLicenca, Seguranca.md5(senha), Constantes.STATUS_AGUARDANDO);
+					ic = new Instituicao(cnpj, nome, telefone, endereco, email, eLicenca, senha, Constantes.STATUS_AGUARDANDO);
 					Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
 							views.html.instituicao.email.render(ic, senha, request().host(), 0).toString());
 					
@@ -148,7 +152,7 @@ public class SmartEducController extends Controller{
 					ic.setEndereco(endereco);
 					ic.setLicenca(eLicenca);
 					ic.setEmail(email);
-					ic.setSenha(Seguranca.md5(senha));
+					ic.setSenha(senha);
 					ic.setStatus(Constantes.STATUS_AGUARDANDO);
 					Mail.sendMail(email, "Bem-vindo de volta, "+nome+"!", 
 							views.html.instituicao.email.render(ic, senha, request().host(), 0).toString());
@@ -191,7 +195,7 @@ public class SmartEducController extends Controller{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
 			String cnpj = dynamicForm.get("cnpj") == null || dynamicForm.get("cnpj").trim().isEmpty()? null : dynamicForm.get("cnpj");
 			String nome = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name");
-			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").trim().isEmpty()? null : dynamicForm.get("phone");
+			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").replace(")", "").replace("(", "").replace("-", "").trim().isEmpty()? null : dynamicForm.get("phone").replace(")", "").replace("(", "").replace("-", "").trim();
 			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address");
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
 			int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
@@ -207,6 +211,8 @@ public class SmartEducController extends Controller{
 				
 				if (nome == null || telefone == null || endereco == null || email == null || elicenca == null) {				
 					flash("erro", "Preencha todos os campos");
+				}else if(telefone.length() < 10 || telefone.length() > 11){
+					flash("erro", "Telefone deve conter 10 ou 11 dígitos");
 				}else{
 					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
 					if(i != null){
@@ -229,7 +235,7 @@ public class SmartEducController extends Controller{
 						}
 						if(generate){
 							senha = Seguranca.gerarSenha(6);
-							i.setSenha(Seguranca.md5(senha)); 
+							i.setSenha(senha); 
 							isEditado = true;
 							isSenhaAlterada = true;
 						}

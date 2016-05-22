@@ -1,10 +1,7 @@
 <!DOCTYPE html>
   <html>
     <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <link rel="icon" href="@routes.Assets.at("images/favicon.png")" type="image/x-icon">
+      @views.html.metatags()
       <title>Business, e-Lessons</title>
       
       @views.html.cssimports()	    
@@ -51,7 +48,7 @@
 					</div>
 
                     <div class="card-action" style="margin-bottom: -35px !important;">
-                      <a href="#">Forgot your password?</a>
+                      <a href="@routes.InstituicaoController.esqueceuSenha()">Forgot your password?</a>
                     </div>
 
                   </form>
@@ -63,7 +60,7 @@
         </div><!-- FIM card -->
 
     </div> <!-- FIM container -->
-
+	
   </body>
   	@if(flash().get("erro") != null){		
 	<script>
