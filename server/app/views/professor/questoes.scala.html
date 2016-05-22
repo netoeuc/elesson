@@ -1,6 +1,6 @@
+@(listaQuestao:List[Questao])
 @content={
 		@navbar()
-
           <!-- CARD MAIN -->
           <div class="row">
             <div class="col s12 offset-m1 m10">
@@ -10,7 +10,7 @@
                   <div class="row">
                     <div class="card-title color-vermelho" style="line-height: 80%;">
 
-                      <div class="col s12 m4 hide-on-small-only"><i class="medium material-icons">mode_edit</i></div>
+                      <div class="col s12 m4 hide-on-small-only"><i class="medium fa fa-question"></i></div>
 
                       <div class="col s12 m4 center-align" style="letter-spacing: 3px; margin-top: 15px;"><span style="font-size: 40px;">Questions</span></div>
 
@@ -41,38 +41,19 @@
                               </tr>
                             </thead>
                             <tbody>
+                            <!-- For inicia aqui -->
+                            @for(q<-listaQuestao){
                               <tr>
-                              	<td><a id="showDetails" onclick="mostrarQuestao('1')" class="modal-trigger waves-effect waves-light">Texto da questão 1</a></td>
-                              	<td>1</td>
+                              	<td><a id="showDetails" onclick="mostrarQuestao('@q.getId()')" class="modal-trigger waves-effect waves-light">@q.getQuestao()</a></td>
+                              	<td>@q.getLevel()</td>
                               	<td>
-									<i onclick="mostrarEditarQuestao('1');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-			                        <i onclick="removerQuestao('1');" id="rem-1" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+									<i onclick="mostrarEditarQuestao('@q.getId()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
+			                        <i onclick="removerQuestao('@q.getId()','@routes.ProfessorController.removerQuestao()');" id="rem-@q.getId()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>
 			                    </td>
                               </tr>
-                              <tr>
-                              	<td><a id="showDetails" onclick="mostrarQuestao('2')" class="modal-trigger waves-effect waves-light">Texto da questão 2</a></td>
-                              	<td>1</td>
-                              	<td>
-									<i onclick="mostrarEditarQuestao('2');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-			                        <i onclick="removerQuestao('2');" id="rem-2" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
-			                    </td>
                               </tr>
-                              <tr>
-                              	<td><a id="showDetails" onclick="mostrarQuestao('3')" class="modal-trigger waves-effect waves-light">Texto da questão 3</a></td>
-                              	<td>2</td>
-                              	<td>
-									<i onclick="mostrarEditarQuestao('3');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-			                        <i onclick="removerQuestao('3');" id="rem-3" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
-			                    </td>
-                              </tr>
-                              <tr>
-                              	<td><a id="showDetails" onclick="mostrarQuestao('4')" class="modal-trigger waves-effect waves-light">Texto da questão 4</a></td>
-                              	<td>3</td>
-                              	<td>
-									<i onclick="mostrarEditarQuestao('4');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-			                        <i onclick="removerQuestao('4');" id="rem-4" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
-			                    </td>
-                              </tr>
+                              }
+                              <!-- For até aqui -->
                             </tbody>
                           </table>
                           
@@ -125,7 +106,8 @@
               <h4 id="namequestion">New Question</h4>
               
               <div class="row" id="texto" style="margin-bottom: 50px;">
-              	<textarea id="txtEditor"></textarea>
+              <form id="form-fields" action="@routes.ProfessorController.cadastrarQuestao()" method="post" class="col s12">
+              	<textarea id="txtEditor" name="questao"></textarea>
               </div>
 
               <div class="row" id="answers" style="margin-bottom: -10px;">
@@ -134,30 +116,30 @@
               	    
               <div class="row">
               	<div class="input-field col s12 m8">
-                	<input id="A" autocomplete="off" type="text">
+                	<input id="A" name="resposta1" autocomplete="off" type="text">
                     <label for="A">A</label>
                 </div>
                 <div class="input-field col s12 m8">
-                	<input id="B" autocomplete="off" type="text">
+                	<input id="B" name="resposta2" autocomplete="off" type="text">
                     <label for="B">B</label>
                 </div>
                 <div class="input-field col s12 m8">
-                	<input id="C" autocomplete="off" type="text">
+                	<input id="C" name="resposta3" autocomplete="off" type="text">
                     <label for="C">C</label>
                 </div>
                 <div class="input-field col s12 m8">
-                	<input id="D" autocomplete="off" type="text">
+                	<input id="D" name="resposta4" autocomplete="off" type="text">
                     <label for="D">D</label>
                 </div>
                 <div class="input-field col s12 m8">
-                	<input id="E" autocomplete="off" type="text">
+                	<input id="E" name="resposta5" autocomplete="off" type="text">
                     <label for="E">E</label>
                 </div>
               </div>
               
               <div class="row" style="margin-bottom: 50px;">
               	<div class="col s12 m5">
-					<select name="nivel" class="browser-default color-vermelho">
+					<select name="respostaCorreta" class="browser-default color-vermelho">
 						<option disabled selected>Choose a correct answer</option>
 						<option value="a">A</option>
 						<option value="b">B</option>
@@ -185,10 +167,10 @@
               
               <div class="row">
               	<div class="input-field col s12 offset-m1 m10">
-              		<a class="waves-effect waves-light btn bg-azul">submit</a>
+              		<button class="waves-effect waves-light btn bg-azul">submit</button>
               	</div>
               </div>
-              
+              </form>
             </div>
             <div class="modal-footer">
               <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">close</a>
@@ -201,11 +183,11 @@
 			  selector: '#txtEditor',
 			  height: 200,
 			  plugins: [
-			    'advlist lists image charmap print preview anchor',
-			    'searchreplace visualblocks fullscreen',
-			    'insertdatetime table contextmenu paste'
+			    'preview',
+			    'fullscreen',
+			    'paste'
 			  ],
-			  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image'
+			  toolbar: 'undo redo'
 		});
 	});
 	  

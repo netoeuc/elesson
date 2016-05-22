@@ -5,7 +5,6 @@ import java.util.List;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import util.Constantes;
-import models.Instituicao;
 import models.Professor;
 
 public class ProfessorDatabase {
@@ -49,6 +48,19 @@ public class ProfessorDatabase {
 	}
 	
 	@Transactional
+	public static Professor selectProfessorByEmail(String email)throws Exception{
+		String query = "FROM Professor WHERE email = :email";
+		List<Professor> lp = JPA.em().createQuery(query)
+								.setParameter("email", email)
+								.getResultList();
+		if(lp.isEmpty()){
+			return null;
+		}else{
+			return lp.get(0);
+		}
+	}
+	
+	@Transactional
 	public static List<Professor> selectProfessor()throws Exception{
 		String query = "FROM Professor";
 		List<Professor> li = JPA.em().createQuery(query)
@@ -69,8 +81,8 @@ public class ProfessorDatabase {
 		}
 	}
 
-	public static Professor selectProfessorMD5(String cnpj, String email) {
-		String query = "FROM Professor WHERE MD5(email) = :email AND MD5(cnpjInst) = :cnpjInst";
+	public static Professor selectProfessorEncrypt(String cnpj, String email) {
+		String query = "FROM Professor WHERE SHA1(MD5(email)) = :email AND SHA1(MD5(cnpjInst)) = :cnpjInst";
 		List<Professor> lp = JPA.em().createQuery(query)
 								.setParameter("email", email)
 								.setParameter("cnpjInst", cnpj)

@@ -26,6 +26,8 @@ GET     /panel/business/active				controllers.InstituicaoController.ativar()
 GET     /panel/business/login				controllers.InstituicaoController.login()
 POST    /panel/business/auth				controllers.InstituicaoController.logar()
 GET     /panel/business/logoff				controllers.InstituicaoController.logoff()
+GET     /panel/business/forgot				controllers.InstituicaoController.esqueceuSenha()
+POST    /panel/business/forgot/				controllers.InstituicaoController.lembrarSenha()
 GET     /panel/business/edit				controllers.InstituicaoController.configuracao()
 POST    /panel/business/edit/				controllers.InstituicaoController.editar()
 GET     /panel/business/teacher				controllers.InstituicaoController.professores()
@@ -47,16 +49,22 @@ GET     /panel/teacher/active				controllers.ProfessorController.ativar()
 GET     /panel/teacher/login				controllers.ProfessorController.login()
 POST    /panel/teacher/auth					controllers.ProfessorController.logar()
 GET     /panel/teacher/logoff				controllers.ProfessorController.logoff()
+GET     /panel/teacher/forgot				controllers.ProfessorController.esqueceuSenha()
+POST    /panel/teacher/forgot/				controllers.ProfessorController.lembrarSenha()
 GET     /panel/teacher/edit					controllers.ProfessorController.configuracao()
 POST    /panel/teacher/edit/				controllers.ProfessorController.editar()
 GET     /panel/teacher/classrooms			controllers.ProfessorController.salas()
 GET     /panel/teacher/students				controllers.ProfessorController.alunos()
 GET     /panel/teacher/questions			controllers.ProfessorController.questoes()
+POST    /panel/teacher/questions/new		controllers.ProfessorController.cadastrarQuestao()
+POST    /panel/teacher/questions/remove		controllers.ProfessorController.removerQuestao()
 
 ###################################
 # ALUNO
 ###################################
 GET     /student/active						controllers.AlunoController.ativar()
+GET     /student/forgot						controllers.AlunoController.esqueceuSenha()
+POST    /student/forgot/					controllers.AlunoController.lembrarSenha()
 
 GET     /panel/teste						controllers.InstituicaoController.teste()
 

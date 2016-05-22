@@ -12,7 +12,7 @@
                   <div class="row">
                     <div class="card-title color-vermelho" style="line-height: 80%;">
 
-                      <div class="col s12 m4 hide-on-small-only"><i class="medium material-icons">work</i></div>
+                      <div class="col s12 m4 hide-on-small-only"><i class="medium fa fa-briefcase"></i></div>
 
                       <div class="col s12 m4 center-align" style="letter-spacing: 3px; margin-top: 15px;"><span style="font-size: 40px;">Clients</span></div>
 
@@ -55,8 +55,8 @@
                                 	@if(i.getStatus() == util.Constantes.STATUS_ATIVO){Ativo}
                                 </td>
                                 <td>
-                                  <i onclick="mostrarEditarInstituicao('@i.getNome()', '@i.getCnpj()', '@routes.SmartEducController.formEditarCliente()');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-                                  <i onclick="removerInstituicao('@i.getCnpj()', '@routes.SmartEducController.removerCliente()');" id="rem-@i.getCnpj()" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+                                  <i onclick="mostrarEditarInstituicao('@i.getNome()', '@i.getCnpj()', '@routes.SmartEducController.formEditarCliente()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
+                                  <i onclick="removerInstituicao('@i.getCnpj()', '@routes.SmartEducController.removerCliente()');" id="rem-@i.getCnpj()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>
                                 </td>
                               </tr>
                               }
@@ -98,22 +98,22 @@
                       <div class="row center-align">
                         <div class="col s12 m6">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="tiny-small material-icons">class</i> 3 Turmas
+                            <i class="fa fa-book material-icons" aria-hidden="true"></i> 3 Turmas
                           </div>
                         </div>
                         <div class="col s12 m6">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="tiny-small material-icons">supervisor_account</i> 18 Alunos
+                            <i class="tiny-small fa fa-graduation-cap material-icons" aria-hidden="true"></i> 18 Alunos
                           </div>
                         </div>
                         <div class="col s12 m6">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="tiny-small material-icons">label</i> 8 Assuntos
+                            <i class="fa fa-user material-icons" aria-hidden="true"></i> 8 Professores
                           </div>
                         </div>
                         <div class="col s12 m6">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="tiny-small material-icons">mode_edit</i> 43 Questões
+                            <i class="fa fa-question material-icons" aria-hidden="true"></i> 43 Questões
                           </div>
                         </div>    
                       </div>
@@ -126,22 +126,22 @@
                       <div class="row center-align">
                         <div class="col s12">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="tiny-small material-icons">phone</i> 88 8888-8888
+                            <i class="fa fa-phone material-icons"></i> 88 8888-8888
                           </div>
                         </div>
                         <div class="col s12">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="tiny-small material-icons">location_on</i> Av. Lorem Ipsum, 888
+                            <i class="fa fa-map-marker material-icons"></i> Av. Lorem Ipsum, 888
                           </div>
                         </div>
                         <div class="col s12">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="tiny-small material-icons">business</i> 88.8888.8888/8888
+                            <i class="fa fa-university material-icons"></i> 88.8888.8888/8888
                           </div>
                         </div>
                         <div class="col s12">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="tiny-small material-icons">email</i> lorem@@ipsum.com
+                            <i class="fa fa-envelope material-icons"></i> lorem@@ipsum.com
                           </div>
                         </div>    
                       </div>

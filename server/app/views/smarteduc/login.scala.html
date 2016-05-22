@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <link rel="icon" href="@routes.Assets.at("images/favicon.png")" type="image/x-icon">
+	    @views.html.metatags()
 	    <title>SmartEduc, e-Lessons</title>
       
 	    @views.html.cssimports()	    
@@ -23,7 +20,7 @@
 		            <div class="card defaultCard default-page-margin-top hoverable">
 		              <div class="card-content center-align">
 		
-		                <i class="large material-icons">lock_outline</i><br/>
+		                <i class="large fa fa-briefcase" aria-hidden="true"></i><br/>
 		                <span class="card-title" style="line-height: 80%; letter-spacing: 3px;">Smart Educ</span>
 		
 		                <div class="row">
