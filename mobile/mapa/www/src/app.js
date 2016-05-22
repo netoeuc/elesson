@@ -1,5 +1,5 @@
 /* globals cc, asset */
-var HelloWorldLayer = cc.Layer.extend({
+var GlobalMapLayer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
         //////////////////////////////
@@ -8,14 +8,53 @@ var HelloWorldLayer = cc.Layer.extend({
        
         var size = cc.winSize;
         
-        var menuItem1 = new cc.MenuItemImage(asset.unidade01_png,asset.unidade02_png, play); // Remover, apenas testando a transição de cenas
-        var menu = new cc.Menu(menuItem1);
+        status = 17;
         
-        menuItem1.setPositionY(-300);
-        //menuItem1.setAnchorPoint(cc.p(0,0));
-        //menuItem1.setPosition(cc.p(0,0));;
+        if(status >= 1 && status <=5){
+            var sp = new cc.Sprite.create(asset.MapGeralBloqueado1_png);
+            sp.setAnchorPoint(cc.p(0,0));
+            sp.setPosition(cc.p(0,0));
+            this.addChild(sp);
+            //chamada para o minimundo 1
+            var menuItem1 = new cc.MenuItemImage(asset.unidade01_png,asset.unidade01_png, play); 
+            // Remover, apenas testando a transição de cenas
+            var menu = new cc.Menu(menuItem1);
+            menuItem1.setPosition(cc.p(30,-230));
+        }
+        if(status >= 6 && status <= 10){
+            var sp = new cc.Sprite.create(asset.MapGeralBloqueado2_png);
+            sp.setAnchorPoint(cc.p(0,0));
+            sp.setPosition(cc.p(0,0));
+            this.addChild(sp);
+            //chamada para o minimundo 2
+            var menuItem1 = new cc.MenuItemImage(asset.unidade02_png,asset.unidade02_png, play); 
+            // Remover, apenas testando a transição de cenas
+            var menu = new cc.Menu(menuItem1);
+            menuItem1.setPosition(cc.p(80,-30));
+        }
+        if(status >= 11 && status <= 15){
+            var sp = new cc.Sprite.create(asset.MapGeralBloqueado3_png);
+            sp.setAnchorPoint(cc.p(0,0));
+            sp.setPosition(cc.p(0,0));
+            this.addChild(sp);
+            //chamada para o minimundo 2
+            var menuItem1 = new cc.MenuItemImage(asset.unidade03_png,asset.unidade03_png, play); 
+            // Remover, apenas testando a transição de cenas
+            var menu = new cc.Menu(menuItem1);
+            menuItem1.setPosition(cc.p(-35,110));
+        }
+        if(status >= 16 && status <= 20){
+            var sp = new cc.Sprite.create(asset.MapGeral_png);
+            sp.setAnchorPoint(cc.p(0,0));
+            sp.setPosition(cc.p(0,0));
+            this.addChild(sp);
+            //chamada para o minimundo 2
+            var menuItem1 = new cc.MenuItemImage(asset.unidade04_png,asset.unidade04_png, play); 
+            // Remover, apenas testando a transição de cenas
+            var menu = new cc.Menu(menuItem1);
+            menuItem1.setPosition(cc.p(-105,270));
+        }
         
-        //menu.alignItemsHorizontal();
         this.addChild(menu);
         
         var closeMenu = new cc.MenuItemImage(asset.CloseNormal_png, asset.CloseSelected_png, closeGame); // Adicionando o botão
@@ -24,7 +63,7 @@ var HelloWorldLayer = cc.Layer.extend({
         this.addChild(closeMenu, 12);
         
         var closeGame = function(){
-        cc.log("closeGame");
+            cc.log("closeGame");
         };
         
         function delay(ms) {
@@ -32,77 +71,23 @@ var HelloWorldLayer = cc.Layer.extend({
            while (new Date() < ms){}
         }
         
+        
         function play(){
             cc.log("Play!");
-        //    var scene = new HelloWorldScene2();
-        //    cc.director.runScene(new cc.TransitionJumpZoom(0.2,scene));
-            var scene = new MiniMapScene();
-            delay(500);
+            var scene = new MiniMapScene1();
+            delay(100);
             cc.director.pushScene(new cc.TransitionRotoZoom(1.5,scene));    
-        //    var newBackgroundTile = new cc.Sprite.create(asset.grass_gif); // Adicionando background
-        //    newBackgroundTile.setAnchorPoint(cc.p( 0, 0 ));
-        //    newBackgroundTile.setPosition(cc.p(0*40, 1*40));
-        //    HelloWorldLayer.addChild(newBackgroundTile, 2); 
-        }
+       }
 
-        /*var topMenu = new cc.Sprite.create(asset.wood_jpg); // Adicionando a barra superior para o menu
-        topMenu.setAnchorPoint(cc.p( 0, 0 ));
-        topMenu.setPosition(cc.p(0, size.height-40));
-        this.addChild(topMenu, 11);*/
-        
-        /*var sp = new cc.Sprite.create(asset.mapa_png);
-        sp.setAnchorPoint(cc.p(0,0));
-        sp.setPosition(cc.p(0,0));
-        this.addChild(sp);*/
-            
-        var sp2 = new cc.Sprite.create(asset.unidade01_png);
-        sp2.setAnchorPoint(cc.p(0,0));
-        sp2.setPosition(cc.p(0,0));
-        this.addChild(sp2);
-        
-        /*var pinfo = cc.autopolygon.generatePolygon(asset.unidade01_png);
-        var sprite = new cc.Sprite(pinfo);
-        sprite.setAnchorPoint(cc.p(0,0));
-        sprite.setPosition(cc.p(0,0));
-        //var sp2 = new cc.Sprite(pinfo);
-        this.addChild(sprite);*/
-        
-
-        /*var s = director.getWinSize();
-        var item1 = new cc.MenuItemFont("Test pushScene", this.onPushScene, this);
-        var item2 = new cc.MenuItemFont("Test pushScene w/transition", this.onPushSceneTran, this);
-        var item3 = new cc.MenuItemFont("Quit", function () {
-            cc.log("quit!")
-        }, this);
-
-        var menu = new cc.Menu(item1, item2, item3);
-        menu.alignItemsVertically();
-        this.addChild(menu);*/
-        
-        
-        /*var sp3 = new cc.Sprite.create(asset.unidade02_png);
-        sp3.setAnchorPoint(cc.p(0,0));
-        sp3.setPosition(cc.p(0,205));
-        this.addChild(sp3);
-        
-        var sp4 = new cc.Sprite.create(asset.unidade03_png);
-        sp4.setAnchorPoint(cc.p(0,0));
-        sp4.setPosition(cc.p(0,395));
-        this.addChild(sp4);
-        
-        var sp5 = new cc.Sprite.create(asset.unidade04_png);
-        sp5.setAnchorPoint(cc.p(0,0));
-        sp5.setPosition(cc.p(0,590));
-        this.addChild(sp5);*/
         
         return true;
     }
 });
 
-var HelloWorldScene = cc.Scene.extend({
+var GlobalMapScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
-        var layer = new HelloWorldLayer();
+        var layer = new GlobalMapLayer();
         this.addChild(layer);
     }
 });

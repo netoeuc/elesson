@@ -64,7 +64,7 @@ cc.game.onStart = function(){
      * [5] FIXED_WIDTH     Scale the content's width to screen's width and proportionally scale its height
      * See [official documentation](https://github.com/chukong/cocos-docs/blob/master/manual/framework/html5/v2/resolution-policy-design/en.md) for details
      */
-    cc.view.setDesignResolutionSize(480, 800, cc.ResolutionPolicy.SHOW_ALL);
+    cc.view.setDesignResolutionSize(450, 800, cc.ResolutionPolicy.SHOW_ALL);
     /**
      * Sets whether resize canvas automatically when browser's size changed.
      */
@@ -75,7 +75,7 @@ cc.game.onStart = function(){
     cc.LoaderScene.preload(g_resources, function () {
         // load and run the HelloWorldScene
         // see www/src/app.js for definition
-        cc.director.runScene(new HelloWorldScene());
+        cc.director.runScene(new GlobalMapScene());
     }, this);
 };
 cc.game.run();
