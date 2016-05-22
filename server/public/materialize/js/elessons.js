@@ -167,13 +167,16 @@ function mostrarEditarQuestao(codigo){
     $('#modal-fields-edit').openModal();
 }
 
-function removerQuestao(codigo){
+function removerQuestao(codigo,action){
 	var rem = $('td i#rem-'+codigo).html();
 	if(rem == 'delete'){
 		$('td i#rem-'+codigo).html('done');
 	}else if(rem == 'done'){
-		alert("Removido!");
+		$.post(action, {cod: codigo}, function() {
+		}).fail(function() {});
+		window.location.reload(true);
+		//alert("Removido!");
 		// removerInstituicaoConfirm(codigo);
-		location.reload();
+		//location.reload();
 	}
 }
