@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import org.hibernate.annotations.Index;
 
 import util.ELicenca;
+import util.Seguranca;
 
 @Entity
 public class Instituicao {
@@ -39,7 +40,7 @@ public class Instituicao {
 	public Instituicao(){}
 	
 	public Instituicao(String cnpj, String nome, String telefone,
-			String endereco, String email, ELicenca licenca, String senha, int status) {
+			String endereco, String email, ELicenca licenca, String senha, int status) throws Exception {
 
 		this.cnpj = cnpj;
 		this.nome = nome;
@@ -47,7 +48,7 @@ public class Instituicao {
 		this.endereco = endereco;
 		this.email = email;
 		this.licenca = licenca;
-		this.senha = senha;
+		this.senha = Seguranca.encryptString(senha);
 		this.status = status;
 	}
 
@@ -103,8 +104,8 @@ public class Instituicao {
 		return senha;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setSenha(String senha) throws Exception{
+		this.senha = Seguranca.encryptString(senha);
 	}
 
 	public int getStatus() {

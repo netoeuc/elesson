@@ -73,8 +73,8 @@ public class InstituicaoDatabase {
 	}
 
 	@Transactional
-	public static Instituicao selectInstituicaoMD5(String cnpj, String email) {
-		String query = "FROM Instituicao WHERE MD5(cnpj) = :cnpj AND MD5(email) = :email";
+	public static Instituicao selectInstituicaoEncrypt(String cnpj, String email) {
+		String query = "FROM Instituicao WHERE SHA1(MD5(cnpj)) = :cnpj AND SHA1(MD5(email)) = :email";
 		List<Instituicao> li = JPA.em().createQuery(query)
 								.setParameter("cnpj", cnpj)
 								.setParameter("email", email)

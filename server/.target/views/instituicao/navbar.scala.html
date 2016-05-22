@@ -5,7 +5,7 @@
               <nav class="padding-nav bg-azul" role="navigation">
                 <div class="nav-wrapper">
                   <a href="#!" class="brand-logo">e-Lessons</a>
-                  <a href="#" data-activates="side-menu" class="vert-margined button-collapse waves-effect btn-radius"><i class="material-icons">menu</i></a>
+                <a href="#" data-activates="side-menu" class="button-collapse waves-effect btn-radius"><i class="fa fa-bars" aria-hidden="true"></i></a>
                   <ul class="right hide-on-med-and-down">
                     <!-- Dropdown Trigger -->
                     <li><a class="waves-effect" href="@routes.InstituicaoController.index()">Dashboard</a></li>
@@ -13,28 +13,28 @@
                     <li><a class="waves-effect" href="@routes.InstituicaoController.alunos()">Students</a></li>
                     <li><a class="waves-effect" href="">Questions</a></li>
                     <li><a class="waves-effect" href="@routes.InstituicaoController.configuracao()">Configuration</a></li>
-                    <li><a class="waves-effect" href="@routes.InstituicaoController.logoff()">Logoff<i class="material-icons right not-margin">close</i></a></li>
+                    <li><a class="waves-effect" href="@routes.InstituicaoController.logoff()">Logoff<i class="tiny-small fa fa-close right not-margin"></i></a></li>
                   </ul>
                   <ul class="side-nav" id="side-menu">
-                    <li class="close-nav"><a href="#"><span class="material-icons">close</span></a></li>
-                    
+					<li class="close-nav"><a href="#"><i class="small fa fa-times" aria-hidden="true"></i></a></li>    
+					                
                     <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.index()">
-                      <div class="material-icons">insert_chart</div>Dashboard</a>
+                      <i class="tiny-small fa fa-pie-chart" style="margin-right: 26px;"></i>Dashboard</a>
                     </li>
                     <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.professores()">
-                      <div class="material-icons">perm_identity</div>Teacher</a>
+                      <i class="tiny-small fa fa-user" style="margin-right: 30px;"></i>Teacher</a>
                     </li>
                     <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.alunos()">
-                      <div class="material-icons">supervisor_account</div>Students</a>
+                      <i class="tiny-small fa fa-graduation-cap" style="margin-right: 22px;"></i>Students</a>
                     </li>
                     <li><a class="waves-effect waves-red" href="">
-                      <div class="material-icons">mode_edit</div>Questions</a>
+                      <i class="tiny-small fa fa-question" style="margin-right: 33px;"></i>Questions</a>
                     </li>
                     <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.configuracao()">
-                      <div class="material-icons">settings</div>Configuration</a>
+                      <i class="tiny-small fa fa-wrench" style="margin-right: 26px;"></i>Configuration</a>
                     </li>
                     <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.logoff()">
-                      <div class="material-icons">power_settings_new</div>Logoff</a>
+                      <i class="tiny-small fa fa-power-off" aria-hidden="true" style="margin-right: 27px;"></i>Logoff</a>
                     </li>
                   </ul>
                 </div>

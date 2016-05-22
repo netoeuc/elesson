@@ -1,3 +1,4 @@
+@(template: Integer)
 <!DOCTYPE html>
   <html>
     <head>
@@ -21,46 +22,53 @@
             <div class="card defaultCard default-page-margin-top hoverable">
               <div class="card-content center-align">
 
-                <i class="large fa fa-university" aria-hidden="true" style="margin-bottom: 10px;"></i><br/>
+                <i class="large fa fa-university" style="margin-bottom: 10px"></i><br/>
                 <span class="card-title" style="line-height: 80%; letter-spacing: 3px;">Business</span>
+                
+                @if(template == 0){
+                <div class="row">
+                 <div class="col s12 offset-m1 m10" style="margin-top:30px; margin-bottom: -15px !important;">
+                 	Informe seu login para que possamos ajudá-lo.
+                 </div>
+                </div>
 
                 <div class="row">
-                  <form action="@routes.InstituicaoController.logar()" method="post" class="col s12">
+                  <form action="@routes.InstituicaoController.lembrarSenha()" method="post" class="col s12">
 
                     <div class="row">
                       <div class="input-field col s12 offset-m1 m10">
-                        <input id="login" name="login" autocomplete="off" type="text">
-                        <label for="login">Login</label>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="input-field col s12 offset-m1 m10">
-                        <input id="password" name="password" type="password">
-                        <label for="password">Password</label>
+                        <input id="email" name="email" autocomplete="off" type="text">
+                        <label for="email">Email</label>
                       </div>
                     </div>
 
 		            <div class="row">
 		            	<div class="input-field col s12">
-		                	<button type="submit" class="waves-effect waves-light btn btn-medium bg-vermelho">go</button>
+		                	<button type="submit" class="waves-effect waves-light btn btn-medium bg-vermelho">send</button>
 						</div>
 					</div>
 
-                    <div class="card-action" style="margin-bottom: -35px !important;">
-                      <a href="@routes.InstituicaoController.esqueceuSenha()">Forgot your password?</a>
-                    </div>
-
-                  </form>
+                 	<div class="card-action" style="margin-bottom: -35px !important;">
+                		<a href="./login" style="margin-right: 0px !important;">BACK</a>
+					</div> 
+				 </form>
                 </div>
+                }
 
+				@if(template == 1){
+				<div class="row">
+                 <div class="col s12 offset-m1 m10" style="margin-top:50px;">
+                 	<center><i class="small material-icons color-verde">done</i><br/>Para finalizar, confira a nova senha no seu email.</center>
+                 </div>
+                </div>
+				}
               </div>
             </div>
           </div>
         </div><!-- FIM card -->
 
     </div> <!-- FIM container -->
-	
+
   </body>
   	@if(flash().get("erro") != null){		
 	<script>

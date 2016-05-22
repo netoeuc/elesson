@@ -94,7 +94,7 @@ public class AlunoDatabase {
 	}
 	
 	@Transactional
-	public static HashMap<HashMap<String, String>, List<Aluno>> selectAlunosByProfessorByCnpjInst(String cnpjInst) {	
+	public static HashMap<HashMap<String, String>, List<Aluno>> selectAlunosByProfessorByCnpjInst(String cnpjInst) throws Exception {	
 		String query = "SELECT professor.nome as nomeProfessor, aluno.* "
 					+ "FROM aluno "
 					+ "INNER JOIN professor ON (professor.id = aluno.idProfessor) "
@@ -126,8 +126,8 @@ public class AlunoDatabase {
 	}
 	
 	@Transactional
-	public static Aluno selectAlunoMD5(String cnpjInst, String idProfessor, String email) {
-		String query = "FROM Aluno WHERE MD5(cnpjInst) = :cnpjInst AND MD5(idProfessor) = :idProfessor AND MD5(email) = :email";
+	public static Aluno selectAlunoEncrypt(String cnpjInst, String idProfessor, String email) {
+		String query = "FROM Aluno WHERE SHA1(MD5(cnpjInst)) = :cnpjInst AND SHA1(MD5(idProfessor)) = :idProfessor AND SHA1(MD5(email)) = :email";
 		List<Aluno> li = JPA.em().createQuery(query)
 								.setParameter("cnpjInst", cnpjInst)
 								.setParameter("email", email)

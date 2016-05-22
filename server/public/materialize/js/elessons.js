@@ -19,6 +19,28 @@ function movimento(para, recuo) {
 	, 500);	 
 }
 
+function gerarMascaras(){
+	jQuery(function($){
+		$.mask.definitions['~']='[+-]';
+		//Inicio Mascara Telefone
+		$('#phone').focusout(function(){
+			var phone, element;
+			element = $(this);
+			element.unmask();
+			phone = element.val().replace(/\D/g, '');
+			if(phone.length > 10) {
+				element.mask("(99) 99999-999?9");
+			} else {
+				element.mask("(99) 9999-9999?9");
+			}
+		}).trigger('focusout');
+		//Fim Mascara Telefone
+		$("#cnpj").mask("99.999.999/9999-99");
+		$("#cpf").mask("999.999.999-99");
+		$("#rg").mask("99.999.999-*");
+	});
+}
+
 /* ALUNO JS */
 function mostrarAluno(nome, classe, codigo){
 	$('#modal #namestudent').html(nome);
@@ -44,16 +66,14 @@ function mostrarEditarAluno(nome, codigoProfessor, codigoAluno, action){
 }
 
 function removerAluno(codigo,action){
-	var rem = $('td i#rem-'+codigo).html();
-	if(rem == 'delete'){
-		$('td i#rem-'+codigo).html('done');
-	}else if(rem == 'done'){
+	var rem = $('td i#rem-'+codigo);
+	if(rem.attr("rel") == "delete"){
+		rem.attr("rel", "done");
+		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
+	}else if(rem.attr("rel") == "done"){
 		$.post(action, {cod: codigo}, function() {
 		}).fail(function() {});
 		window.location.reload(true);
-		//alert("Removido!");
-		// removerInstituicaoConfirm(codigo);
-		//location.reload();
 	}
 }
 
@@ -76,16 +96,18 @@ function mostrarEditarInstituicao(nome, codigo, action){
 	
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal-fields-edit #form-callback").html(data);
+		gerarMascaras();
 	}).fail(function() {
 		$("#modal-fields-edit #form-callback").html("error");
 	});
 }
 
 function removerInstituicao(codigo, action){
-	var rem = $('td i#rem-'+codigo).html();
-	if(rem == 'delete'){
-		$('td i#rem-'+codigo).html('done');
-	}else if(rem == 'done'){
+	var rem = $('td i#rem-'+codigo);
+	if(rem.attr("rel") == "delete"){
+		rem.attr("rel", "done");
+		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
+	}else if(rem.attr("rel") == "done"){
 		$.post(action, {cod: codigo}, function() {
 		}).fail(function() {});
 		window.location.reload(true);
@@ -117,16 +139,14 @@ function mostrarEditarProfessor(nome, codigo, action){
 }
 
 function removerProfessor(codigo,action){
-	var rem = $('td i#rem-'+codigo).html();
-	if(rem == 'delete'){
-		$('td i#rem-'+codigo).html('done');
-	}else if(rem == 'done'){
+	var rem = $('td i#rem-'+codigo);
+	if(rem.attr("rel") == "delete"){
+		rem.attr("rel", "done");
+		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
+	}else if(rem.attr("rel") == "done"){
 		$.post(action, {cod: codigo}, function() {
 		}).fail(function() {});
 		window.location.reload(true);
-		//alert("Removido!");
-		// removerInstituicaoConfirm(codigo);
-		//location.reload();
 	}
 }
 
@@ -147,13 +167,14 @@ function mostrarEditarQuestao(codigo){
     $('#modal-fields-edit').openModal();
 }
 
-function removerQuestao(codigo){
-	var rem = $('td i#rem-'+codigo).html();
-	if(rem == 'delete'){
-		$('td i#rem-'+codigo).html('done');
-	}else if(rem == 'done'){
-		alert("Removido!");
-		// removerInstituicaoConfirm(codigo);
-		location.reload();
+function removerQuestao(codigo,action){
+	var rem = $('td i#rem-'+codigo);
+	if(rem.attr("rel") == "delete"){
+		rem.attr("rel", "done");
+		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
+	}else if(rem.attr("rel") == "done"){
+		$.post(action, {cod: codigo}, function() {
+		}).fail(function() {});
+		window.location.reload(true);
 	}
 }

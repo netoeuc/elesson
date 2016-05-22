@@ -8,6 +8,8 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.Index;
 
+import util.Seguranca;
+
 @Entity
 public class UsuarioSmart {
 	
@@ -44,8 +46,8 @@ public class UsuarioSmart {
 		return senha;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setSenha(String senha) throws Exception{
+		this.senha = Seguranca.encryptString(senha);
 	}
 	
 	
