@@ -271,21 +271,34 @@ public class InstituicaoController extends Controller{
 			if(i != null){
 				DynamicForm dynamicForm = form().bindFromRequest();
 				String nome = dynamicForm.get("nome") == null || dynamicForm.get("nome").trim().isEmpty()? null : dynamicForm.get("nome");
-				String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
+				String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
 				
 				if(nome == null || email == null){
 					flash("erro", "Preencha todos os campos");
 				}else{
-					Professor p = ProfessorDatabase.selectProfessor(email, i.getCnpj());
-					if(p != null){
+					Professor p = ProfessorDatabase.selectProfessorByEmail(email);
+					if(p != null && p.getStatus() != Constantes.STATUS_REMOVIDO){
 						flash("erro", "Este email já está cadastrado");
 					}else{
 						String senha = Seguranca.gerarSenha(6);
-						Professor novoP = new Professor(i.getCnpj(), nome, email, senha, Constantes.STATUS_AGUARDANDO);
-						Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
-								views.html.professor.email.render(i, nome, email, senha, request().host(), 0).toString());
-						
-						JPA.em().persist(novoP);
+						if(p == null){
+							Professor novoP = new Professor(i.getCnpj(), nome, email, senha, Constantes.STATUS_AGUARDANDO);
+							Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
+									views.html.professor.email.render(i, nome, email, senha, request().host(), 0).toString());
+							
+							JPA.em().persist(novoP);
+						}else{
+							p.setNome(nome);
+							p.setSenha(senha);
+							p.setStatus(Constantes.STATUS_AGUARDANDO);
+							p.setCnpjInst(i.getCnpj());
+							
+							Mail.sendMail(email, "Bem-vindo de volta, "+nome+"!", 
+									views.html.professor.email.render(i, nome, email, senha, request().host(), 0).toString());
+							
+							JPA.em().merge(p);
+						}
+						flash("ok", nome+" cadastrado");						
 					}
 				}
 			}else{
@@ -311,16 +324,30 @@ public class InstituicaoController extends Controller{
 				if(nome == null || email == null || idProfessor == -1){
 					flash("erro", "Preencha todos os campos");
 				}else{
-					Aluno a = AlunoDatabase.selectAluno(email, i.getCnpj());
-					if(a != null){
+					Aluno a = AlunoDatabase.selectAlunoByEmail(email);
+					if(a != null && a.getStatus() != Constantes.STATUS_REMOVIDO){
 						flash("erro", "Este email já está cadastrado");
 					}else{
 						String senha = Seguranca.gerarSenha(6);
-						Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, senha, Constantes.STATUS_AGUARDANDO);
-						Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
-						views.html.aluno.email.render(i, idProfessor+"", nome, email, senha, request().host(), 0).toString());
 						
-						JPA.em().persist(novoA);
+						if(a == null){
+							Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, senha, Constantes.STATUS_AGUARDANDO);
+							Mail.sendMail(email, "Bem-vindo de volta, "+nome+"!", 
+									views.html.aluno.email.render(i, idProfessor+"", nome, email, senha, request().host(), 0).toString());
+							
+							JPA.em().persist(novoA);
+						}else{
+							a.setNome(nome);
+							a.setSenha(senha);
+							a.setStatus(Constantes.STATUS_AGUARDANDO);
+							a.setIdProfessor(idProfessor);
+							a.setCnpjInst(i.getCnpj());
+							Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
+									views.html.aluno.email.render(i, idProfessor+"", nome, email, senha, request().host(), 0).toString());
+							
+							JPA.em().merge(a);
+						}
+						flash("ok", nome+" cadastrado");
 					}
 				}
 			}else{
@@ -337,14 +364,20 @@ public class InstituicaoController extends Controller{
 	public static Result removerProfessor() {
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
-			long idProfessor = dynamicForm.get("cod") == null? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			int idProfessor = dynamicForm.get("cod") == null? -1 : Integer.parseInt(dynamicForm.get("cod"));
 			
 			if(idProfessor != -1){
 				Professor p = ProfessorDatabase.selectProfessorById(idProfessor);
 				if(p != null){
-					p.setStatus(Constantes.STATUS_REMOVIDO);
-					JPA.em().merge(p);
-					flash("ok", p.getNome()+" Removido");
+					List<Aluno> la = AlunoDatabase.selectAlunosByProfessorId(idProfessor);
+					
+					if(la == null || la.size() == 0){
+						p.setStatus(Constantes.STATUS_REMOVIDO);
+						JPA.em().merge(p);
+						flash("ok", p.getNome()+" Removido");
+					}else{
+						flash("erro", "Remova os alunos deste professor ou vincule-os a outro");
+					}
 				}
 			}else{
 				flash("erro", "Informe o Id do professor");
@@ -478,7 +511,7 @@ public class InstituicaoController extends Controller{
 						isSenhaAlterada = true;
 					}
 					if(!p.getEmail().equals(email)){
-						Professor pe = ProfessorDatabase.selectProfessor(email, i.getCnpj());
+						Professor pe = ProfessorDatabase.selectProfessorByEmail(email);
 						if(pe == null){
 							p.setEmail(email);
 							p.setStatus(Constantes.STATUS_AGUARDANDO);
@@ -565,6 +598,7 @@ public class InstituicaoController extends Controller{
 					if(generate){
 						senha = Seguranca.gerarSenha(6);
 						a.setSenha(senha); 
+						a.setLogado(false); 
 						isEditado = true;
 						isSenhaAlterada = true;
 					}
@@ -572,6 +606,7 @@ public class InstituicaoController extends Controller{
 						Aluno ae = AlunoDatabase.selectAluno(email, i.getCnpj());
 						if(ae == null){
 							a.setEmail(email);
+							a.setLogado(false);
 							a.setStatus(Constantes.STATUS_AGUARDANDO);
 							isEditado = true;
 							isEmailAlterado = true;

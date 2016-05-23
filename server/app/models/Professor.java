@@ -17,7 +17,7 @@ public class Professor {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 75)
 	@Index(name = "email")
 	private String email;
 	
@@ -25,10 +25,10 @@ public class Professor {
 	@Index(name = "cnpjInst")
 	private String cnpjInst;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 75)
 	private String nome;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 75)
 	private String senha;
 	
 	@Column(nullable = false)

@@ -66,6 +66,11 @@ GET     /student/active						controllers.AlunoController.ativar()
 GET     /student/forgot						controllers.AlunoController.esqueceuSenha()
 POST    /student/forgot/					controllers.AlunoController.lembrarSenha()
 
+POST    /api/student/auth					controllers.AlunoController.logar()
+POST    /api/student/isauth					controllers.AlunoController.isLogado()
+POST    /api/student/questions				controllers.AlunoController.questoes()
+POST    /api/student/questions/answer		controllers.AlunoController.responderQuestao()
+
 GET     /panel/teste						controllers.InstituicaoController.teste()
 
 # Map static resources from the /public folder to the /assets URL path

@@ -15,23 +15,23 @@ public class Instituicao {
 	@Id
 	private String cnpj;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 75)
 	private String nome;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 20)
 	private String telefone;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 75)
 	private String endereco;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 75)
 	@Index(name = "email")
 	private String email;
 
 	@Column(nullable = false)
 	private ELicenca licenca;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 75)
 	private String senha;
 	
 	@Column(nullable = false)
