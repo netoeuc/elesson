@@ -230,6 +230,10 @@ var QuestionLayer = cc.Layer.extend({
                     resposta[3]===parent.getChildByTag(4).isSelected() && 
                     resposta[4]===parent.getChildByTag(5).isSelected()){
                     pop();
+                    pontuacao+=pontuacaoMaximaNaQuestao;
+                    cc.log("pontuacao = "+pontuacao);
+                    layerCopiaExterno.getChildByTag(10).setString("Points: "+pontuacao);
+                    pontuacaoMaximaNaQuestao = 200;
                 }else{
                     pontuacaoMaximaNaQuestao-=60;
                     if (pontuacaoMaximaNaQuestao>=80){
@@ -240,6 +244,7 @@ var QuestionLayer = cc.Layer.extend({
                         pontuacaoMaximaNaQuestao = 0;
                         // Reproduzir som de erro
                         pop();
+                        pontuacaoMaximaNaQuestao = 200;
                     }
                     
                 }
@@ -256,12 +261,13 @@ var pop = function(){
     // Se acertou de primeira, 200 pontos.
     // Se acertou de segunda, 140 pontos.
     // Se acertou de terceira, 80 pontos.
-    pontuacao+=pontuacaoMaximaNaQuestao;
-    acertouDePrimeira = (pontuacaoMaximaNaQuestao===200);
+    //pontuacao+=pontuacaoMaximaNaQuestao;
+    //acertouDePrimeira = (pontuacaoMaximaNaQuestao===200);
     ////cc.log(pontuacaoMaximaNaQuestao);
     ////cc.log(pontuacao);
     pontuacaoMaximaNaQuestao = 200; // para a proxima qeustao
-    layerCopiaExterno.getChildByTag(10).setString("Points: "+pontuacao);
+    
+    //layerCopiaExterno.getChildByTag(10).setString("Points: "+pontuacao);
 //    if(acertouDePrimeira){
 //        ////cc.log("aumentou sombra");
 //        layerCopiaExterno.getChildByTag(0).runAction(cc.ScaleBy.create(0,1.1,1.1));

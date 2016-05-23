@@ -1,1 +1,1 @@
-//var pontuacao = 0;
+var pontuacaoLabirinto = 0;

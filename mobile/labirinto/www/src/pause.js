@@ -1,7 +1,7 @@
 /* globals cc, asset */
 
 
-var INITTIALIZED_2 = false;
+var INITTIALIZED_pause = false;
 
 var PauseLayer = cc.Layer.extend({
     sprite:null,
@@ -82,7 +82,7 @@ var pop = function(){
 };
 var PauseScene = cc.Scene.extend({
     onEnter:function () {
-            INITTIALIZED_2 = true;
+            INITTIALIZED_pause = true;
             this._super();
             var pauselayer = new PauseLayer();
             this.addChild(pauselayer);

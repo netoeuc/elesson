@@ -1,7 +1,7 @@
 /* globals cc, asset */
 
 
-var INITTIALIZED_2 = false;
+var INITTIALIZED_Escolher = false;
 
 var EscolherLayer = cc.Layer.extend({
     sprite:null,
@@ -86,7 +86,7 @@ var pop = function(){
 };
 var EscolherScene = cc.Scene.extend({
     onEnter:function () {
-            INITTIALIZED_2 = true;
+            INITTIALIZED_Escolher = true;
             this._super();
             var escolherlayer = new EscolherLayer();
             this.addChild(escolherlayer);
