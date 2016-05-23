@@ -1,3 +1,4 @@
+@(i: models.Instituicao)(qntAlunos: Integer)(qntProfessores: Integer)(qntQuestoes: Integer)(statusLicenca: Integer)(licenca: models.Licenca)
 @content = {
 
 		 @navbar()
@@ -11,7 +12,7 @@
                   <div class="row">
                     <div class="card-title color-vermelho" style="line-height: 80%;">
 
-                      <div class="col s12 m4 hide-on-small-only"><i class="medium fa fa-university"></i></div>
+                      <div class="col s12 m4 hide-on-small-only"><i class="medium fa fa-pie-chart"></i></div>
 
                       <div class="col s12 m4 center-align" style="letter-spacing: 3px; margin-top: 15px;"><span style="font-size: 40px;">Dashboard</span></div>
 
@@ -19,67 +20,75 @@
                   </div>
 
                   <div class="row">
-                      <div class="col s12 m12">
-
+                      <div class="col s12 m12">                  		                  
 		                  <div class="row" style="margin-bottom: 0px !important;">
-		                    <div class="col s12 offset-m1 m10">
+		                    <div class="col s12 m4">
 		                      <div class="row center-align">
 		                        <div id="donut-chart" style="width: 100%; height:200px;"></div>
 		                      </div>
 		                    </div>
+		                    <div class="col s12 m7">
+		                      <div class="row center-align">
+		                        <div id="bar-chart" style="width: 100%; height:200px;"></div>
+		                      </div>
+		                    </div>
 		                  </div>
-				
+		                  	                  				
 		                  <div class="row">
 		                    <div class="col s12 offset-m1 m10">
 		                      <div class="row center-align">
 		                        <div class="col s12 m6">
 		                          <div class="tag bg-cinza color-cinza">
-		                            <i class="fa fa-book material-icons" aria-hidden="true"></i> 3 Turmas
+		                            <i class="fa fa-book material-icons" aria-hidden="true"></i> <a href="@routes.InstituicaoController.index()">Nenhuma turma</a>
 		                          </div>
 		                        </div>
 		                        <div class="col s12 m6">
 		                          <div class="tag bg-cinza color-cinza">
-		                            <i class="tiny-small fa fa-graduation-cap material-icons" aria-hidden="true"></i> 18 Alunos
+		                            <i class="tiny-small fa fa-graduation-cap material-icons" aria-hidden="true"></i> <a href="@routes.InstituicaoController.alunos()">@if(qntAlunos == 0){Nenhum aluno} @if(qntAlunos == 1){1 Aluno} @if(qntAlunos > 1){@qntAlunos Alunos}</a>
 		                          </div>
 		                        </div>
 		                        <div class="col s12 m6">
 		                          <div class="tag bg-cinza color-cinza">
-		                            <i class="fa fa-user material-icons" aria-hidden="true"></i> 8 Professores
+		                            <i class="fa fa-user material-icons" aria-hidden="true"></i> <a href="@routes.InstituicaoController.professores()">@if(qntProfessores == 0){Nenhum professor} @if(qntProfessores == 1){1 Professor} @if(qntProfessores > 1){@qntProfessores Professores}</a>
 		                          </div>
 		                        </div>
 		                        <div class="col s12 m6">
 		                          <div class="tag bg-cinza color-cinza">
-		                            <i class="fa fa-question material-icons" aria-hidden="true"></i> 43 Questões
+		                            <i class="fa fa-question material-icons" aria-hidden="true"></i> <a href="@routes.InstituicaoController.index()">@if(qntQuestoes == 0){Nenhuma questão} @if(qntQuestoes == 1){1 Questão} @if(qntQuestoes > 1){@qntQuestoes Questões}</a>
 		                          </div>
 		                        </div>    
 		                      </div>
-		                      <hr>
 		                    </div>
 		                  </div>
-		
+		                  
 		                  <div class="row" style="margin-bottom: -20px !important;">
 		                    <div class="col s12 offset-m1 m10">
 		                      <div class="row center-align">
 		                        <div class="col s12">
 		                          <div class="tag bg-cinza color-cinza">
-		                            <i class="fa fa-phone material-icons"></i> 88 8888-8888
+		                            <i class="fa fa-phone material-icons"></i> @i.getTelefoneFormatado()
 		                          </div>
 		                        </div>
 		                        <div class="col s12">
 		                          <div class="tag bg-cinza color-cinza">
-		                            <i class="fa fa-map-marker material-icons"></i> Av. Lorem Ipsum, 888
+		                            <i class="fa fa-map-marker material-icons"></i> @i.getEndereco()
 		                          </div>
 		                        </div>
 		                        <div class="col s12">
 		                          <div class="tag bg-cinza color-cinza">
-		                            <i class="fa fa-university material-icons"></i> 88.8888.8888/8888
+		                            <i class="fa fa-university material-icons"></i> @i.getCnpjFormatado()
 		                          </div>
 		                        </div>
 		                        <div class="col s12">
 		                          <div class="tag bg-cinza color-cinza">
-		                            <i class="fa fa-envelope material-icons"></i> lorem@@ipsum.com
+		                            <i class="fa fa-envelope material-icons"></i> @i.getEmail()
 		                          </div>
-		                        </div>    
+		                        </div>   
+		                        <div class="col s12">
+		                          <div class="tag bg-cinza color-cinza">
+		                            <i class="fa fa-star material-icons"></i> @i.getLicenca()
+		                          </div>
+		                        </div> 
 		                      </div>
 		                    </div>
 		                  </div>
@@ -97,20 +106,16 @@
           
      <script type="text/javascript">
      	$(document).ready(function(){
-     		drawChart();
+     		drawBarChart();
+     		drawPieChart();
      	})
-     
-	    function randomIntFromInterval(){   
-	      var min = 50;
-	      var max = 100;
-	      return Math.floor(Math.random()*(max-min+1)+min);
-	    }
 	
-	    function drawChart(){
-	      $('#donut-chart').html("loading");
+	    function drawPieChart(){
+	      var chart = $('#donut-chart');
+	      chart.html("loading");
 	      setTimeout(function(){
-	        $('#donut-chart').html("");
-	        var valor = randomIntFromInterval();
+	        chart.html("");
+	        var valor = @statusLicenca;
 	        Morris.Donut({
 	          element: 'donut-chart',
 	          resize: true,
@@ -118,10 +123,31 @@
 	            {label: "Usada", value: valor},
 	            {label: "Disponível", value: 100-valor},
 	          ],
-	          colors: ['#AD1414', '#00773C']
+	          colors: ['#AD1414', '#00773C'],
+	          formatter: function (x) {return x+"%"}
 	        });
-	      }, 1000);
+	      }, 0);
 	    }
+     	
+     	function drawBarChart(clas){
+     		var chart = $('#bar-chart');
+     	    chart.html("loading");
+     	    setTimeout(function(){
+     	    	chart.html("");
+     	        Morris.Bar({
+     	          element: 'bar-chart',
+     	          data: [
+     	            { y: 'Alunos', a: @qntAlunos, b: @licenca.getQntAlunos() },
+     	            { y: 'Professores', a: @qntProfessores,  b: @licenca.getQntProfessores() },
+     	          ],
+     	          xkey: 'y',
+     	          ykeys: ['a', 'b'],
+     	          labels: ['Usado', 'Disponível'],
+     	          barColors: ['#AD1414','#00773C'],
+     	          resize: true
+     	        });
+     	    }, 0);
+     	}
   	</script>
 		 
 }

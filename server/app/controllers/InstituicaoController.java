@@ -6,6 +6,7 @@ import java.util.List;
 
 import models.Aluno;
 import models.Instituicao;
+import models.Licenca;
 import models.Professor;
 import database.AlunoDatabase;
 import database.InstituicaoDatabase;
@@ -20,6 +21,7 @@ import play.mvc.Result;
 import util.AdminJson;
 import play.mvc.With;
 import util.Constantes;
+import util.ELicencaUtil;
 import util.Mail;
 import util.Seguranca;
 
@@ -60,7 +62,21 @@ public class InstituicaoController extends Controller{
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result index(){
-		return ok(views.html.instituicao.index.render());
+		try {
+			Instituicao i = getUsuarioAutenticado();
+			//int qntTurmas = InstituicaoDatabase.selectCountTurmas(i.getCnpj());
+			int qntAlunos = InstituicaoDatabase.selectCountAlunos(i.getCnpj());
+			int qntProfessores = InstituicaoDatabase.selectCountProfessores(i.getCnpj());
+			int qntQuestoes = InstituicaoDatabase.selectCountQuestoes(i.getCnpj());
+			Licenca l = ELicencaUtil.getLicenca(i.getLicenca());
+			
+			int statusLicenca = ELicencaUtil.getStatusLicenca(i.getLicenca(), qntAlunos, qntProfessores);
+			
+			return ok(views.html.instituicao.index.render(i, qntAlunos, qntProfessores, qntQuestoes, statusLicenca, l));
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/index(): "+ e.getMessage());
+		}
+		return redirect(routes.InstituicaoController.logoff());
 	}
 	
 	@Transactional

@@ -6,6 +6,7 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.Index;
 
+import util.Constantes;
 import util.ELicenca;
 import util.Seguranca;
 
@@ -55,6 +56,10 @@ public class Instituicao {
 	public String getCnpj() {
 		return cnpj;
 	}
+	
+	public String getCnpjFormatado() {
+		return Constantes.formatString(cnpj, "##.###.###/####-##");
+	}
 
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
@@ -70,6 +75,14 @@ public class Instituicao {
 
 	public String getTelefone() {
 		return telefone;
+	}
+	
+	public String getTelefoneFormatado() {
+		if(telefone.length() == 10){
+			return Constantes.formatString(telefone, "(##) ####-####");
+		}else{
+			return Constantes.formatString(telefone, "(##) #####-####");
+		}
 	}
 
 	public void setTelefone(String telefone) {
