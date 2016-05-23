@@ -15,6 +15,17 @@
         "src/app.js",
         "src/app2.js",
         "src/pergunta.js",
-        "src/variaveis.js"
+        "src/variaveis.js",
+        "src/pause.js",
+        "src/fimVerde.js",
+        "src/fimVermelho.js",
+        "src/labirinto.js",
+        "src/historiaLabirinto.js",
+        "src/acelerometroLabirinto.js",
+        "src/historiaPlataforma.js",
+        "src/toquePlataforma.js",
+        "src/plataforma.js",
+        "src/escolher.js"
+        
     ]
 }

@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-cocos2d-3x-portrait/sample.zip",
       "projectGuid": "1b45e7e3-4bfc-4be0-b503-3580f0281308",
-      "lastModifiedDate": 1461285313738,
+      "lastModifiedDate": 1463840826632,
       "creationDate": 1461273574497
     },
     "sourceDirectory": "www",
@@ -98,7 +98,7 @@
           "Orientation": "portrait"
         },
         "isActive_": true,
-        "appName_": "learning3",
+        "appName_": "eLessons",
         "appID_": "xdk.intel.cocos2d.js.portrait.project",
         "appAccess_": {
           "mode": "legacy",
@@ -115,8 +115,8 @@
         "cordovaCLIVersion_": "5.1.1",
         "crosswalkVersion_": "15",
         "appVersion_": "0.0.1",
-        "appDescription_": "Use this template to start with a blank portrait Game from Cocos2d-js 3.x",
-        "appAuthor_": "Intel XDK",
+        "appDescription_": "Learn English playing games!",
+        "appAuthor_": "Smart Educ",
         "appVersionCode_": "1"
       },
       "Android": {
@@ -131,7 +131,7 @@
           "Orientation": "portrait"
         },
         "isActive_": true,
-        "appName_": "learning3",
+        "appName_": "eLessons",
         "appID_": "xdk.intel.cocos2d.js.portrait.project",
         "appAccess_": {
           "mode": "legacy",
@@ -148,8 +148,8 @@
         "cordovaCLIVersion_": "5.1.1",
         "crosswalkVersion_": "14",
         "appVersion_": "0.0.1",
-        "appDescription_": "Use this template to start with a blank portrait Game from Cocos2d-js 3.x",
-        "appAuthor_": "Intel XDK",
+        "appDescription_": "Learn English playing games!",
+        "appAuthor_": "Smart Educ",
         "appVersionCode_": "1"
       },
       "iOS": {
@@ -163,7 +163,7 @@
           "Orientation": "portrait"
         },
         "isActive_": true,
-        "appName_": "learning3",
+        "appName_": "eLessons",
         "appID_": "xdk.intel.cocos2d.js.portrait.project",
         "appAccess_": {
           "mode": "legacy",
@@ -181,8 +181,8 @@
         "cordovaCLIVersion_": "5.1.1",
         "crosswalkVersion_": "14",
         "appVersion_": "0.0.1",
-        "appDescription_": "Use this template to start with a blank portrait Game from Cocos2d-js 3.x",
-        "appAuthor_": "Intel XDK"
+        "appDescription_": "Learn English playing games!",
+        "appAuthor_": "Smart Educ"
       },
       "Windows8": {
         "platform_": "windows8",
@@ -195,7 +195,7 @@
           "Orientation": "portrait"
         },
         "isActive_": true,
-        "appName_": "learning3",
+        "appName_": "eLessons",
         "appID_": "xdk.intel.cocos2d.js.portrait.project",
         "appAccess_": {
           "mode": "legacy",
@@ -212,8 +212,8 @@
         "cordovaCLIVersion_": "5.1.1",
         "crosswalkVersion_": "14",
         "appVersion_": "0.0.0.1",
-        "appDescription_": "Use this template to start with a blank portrait Game from Cocos2d-js 3.x",
-        "appAuthor_": "Intel XDK"
+        "appDescription_": "Learn English playing games!",
+        "appAuthor_": "Smart Educ"
       },
       "WebApp": {
         "platform_": "webapp",

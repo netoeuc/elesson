@@ -76,7 +76,7 @@ var QuestionLayer = cc.Layer.extend({
         
         var checkBox1 = new ccui.CheckBox();
         checkBox1.actionTag = 1;
-        checkBox1.loadTextures(asset.CloseNormal_png, asset.CloseSelected_png,asset.labirinto_parede_png);
+        checkBox1.loadTextures(asset.desafio_checkboxUnchecked_png, asset.desafio_checkboxUnchecked,asset.desafio_checkboxChecked_png);
         checkBox1.x = 50;
         checkBox1.y = 390-20;
         checkBox1.addEventListener(this.selectedStateEvent, this);
@@ -97,7 +97,7 @@ var QuestionLayer = cc.Layer.extend({
         
         
         var checkBox2 = new ccui.CheckBox();
-        checkBox2.loadTextures(asset.CloseNormal_png, asset.CloseSelected_png,asset.labirinto_parede_png);
+        checkBox2.loadTextures(asset.desafio_checkboxUnchecked_png, asset.desafio_checkboxUnchecked,asset.desafio_checkboxChecked_png);
         checkBox2.x = 50;
         checkBox2.y = 330-20;
         checkBox2.addEventListener(this.selectedStateEvent, this);
@@ -117,7 +117,7 @@ var QuestionLayer = cc.Layer.extend({
         
         
         var checkBox3 = new ccui.CheckBox();
-        checkBox3.loadTextures(asset.CloseNormal_png, asset.CloseSelected_png,asset.labirinto_parede_png);
+        checkBox3.loadTextures(asset.desafio_checkboxUnchecked_png, asset.desafio_checkboxUnchecked,asset.desafio_checkboxChecked_png);
         checkBox3.x = 50;
         checkBox3.y = 270-20;
         checkBox3.addEventListener(this.selectedStateEvent, this);
@@ -137,7 +137,7 @@ var QuestionLayer = cc.Layer.extend({
         
         
         var checkBox4 = new ccui.CheckBox();
-        checkBox4.loadTextures(asset.CloseNormal_png, asset.CloseSelected_png,asset.labirinto_parede_png);
+        checkBox4.loadTextures(asset.desafio_checkboxUnchecked_png, asset.desafio_checkboxUnchecked,asset.desafio_checkboxChecked_png);
         checkBox4.x = 50;
         checkBox4.y = 210-20;
         checkBox4.addEventListener(this.selectedStateEvent, this);
@@ -158,7 +158,7 @@ var QuestionLayer = cc.Layer.extend({
         
         
         var checkBox5 = new ccui.CheckBox();
-        checkBox5.loadTextures(asset.CloseNormal_png, asset.CloseSelected_png,asset.labirinto_parede_png);
+        checkBox5.loadTextures(asset.desafio_checkboxUnchecked_png, asset.desafio_checkboxUnchecked,asset.desafio_checkboxChecked_png);
         checkBox5.x = 50;
         checkBox5.y = 150-20;
         checkBox5.addEventListener(this.selectedStateEvent, this);
@@ -181,7 +181,7 @@ var QuestionLayer = cc.Layer.extend({
         
 
         var answerButton = new ccui.Button();
-        answerButton.loadTextures(asset.answerButton_png,asset.answerButton_png);
+        answerButton.loadTextures(asset.desafio_answerButton_png);
         answerButton.x = size.width/1.3;
         answerButton.y = 45;
         answerButton.addTouchEventListener(this.touchEvent, this);
@@ -261,7 +261,7 @@ var pop = function(){
     ////cc.log(pontuacaoMaximaNaQuestao);
     ////cc.log(pontuacao);
     pontuacaoMaximaNaQuestao = 200; // para a proxima qeustao
-    layerCopiaExterno.getChildByTag(10).setString("Pontos: "+pontuacao);
+    layerCopiaExterno.getChildByTag(10).setString("Points: "+pontuacao);
 //    if(acertouDePrimeira){
 //        ////cc.log("aumentou sombra");
 //        layerCopiaExterno.getChildByTag(0).runAction(cc.ScaleBy.create(0,1.1,1.1));
@@ -272,8 +272,8 @@ var QuestionScene = cc.Scene.extend({
     onEnter:function () {
             INITTIALIZED_2 = true;
             this._super();
-            var layer2 = new QuestionLayer();
-            this.addChild(layer2);
+            var questionlayer = new QuestionLayer();
+            this.addChild(questionlayer);
     }
 });
 

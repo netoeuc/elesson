@@ -1,37 +1,73 @@
 var asset = {
-    HelloWorld_png : "asset/HelloWorld.jpg",
-    CloseNormal_png : "asset/CloseNormal.png",
-    CloseSelected_png : "asset/CloseSelected.png",
-    char_gif : "asset/char.gif",
-    grass_gif : "asset/grass.gif",
-    sombra_png: "asset/sombra.png",
-    wall_jpg : "asset/wall.jpg",
-    bigWall_jpg: "asset/bigWall.jpg",
-    question_png: "asset/question.png",
-    exit_png: "asset/exit.png",
-    wood_jpg: "asset/wood_pattern.jpg",
-    blue_background_jpg: "asset/blue_background.jpg",
-    loadingBar_gif : "asset/loadingBra.gif",
-    eLeassons_jpeg : "asset/eLessons.jpeg",
-    MusicaLabirinto_ogg : "asset/labirintoMusica.ogg",
-    MusicaMapa_ogg : "asset/MusicaMapa.ogg",
-    MusicaPlataforma_ogg : "asset/MusicaPlataforma.ogg",
-    
-    
-    lab_char_1_frente_png : "asset/lab_char_1_frente.png",
-    
-    labirinto_sombra_png : "asset/labirinto_sombra.png",
-    labirinto_barra_png : "asset/labirinto_barra.png",
-    labirinto_grama_png : "asset/labirinto_grama.png",
-    labirinto_questao_png : "asset/labirinto_questao.png",
-    labirinto_questao_respondida_png : "asset/labirinto_questao_respondida.png",
-    labirinto_escola_saida_png : "asset/labirinto_escola_saida.png",
-    labirinto_parede_png : "asset/labirinto_parede.png",
+//    HelloWorld_png : "asset/outros/HelloWorld.jpg",
+//    CloseNormal_png : "asset/outros/CloseNormal.png",
+//    CloseSelected_png : "asset/outros/CloseSelected.png",
+//    char_gif : "asset/outros/char.gif",
+//    grass_gif : "asset/outros/grass.gif",
+//    sombra_png: "asset/outros/sombra.png",
+//    wall_jpg : "asset/outros/wall.jpg",
+//    bigWall_jpg: "asset/outros/bigWall.jpg",
+//    question_png: "asset/outros/question.png",
+//    exit_png: "asset/outros/exit.png",
+//    wood_jpg: "asset/outros/wood_pattern.jpg",
     
     
     
-    answerButton_png : "asset/answerButton.png",
+    loading_blue_background_jpg: "asset/loading/blue_background.jpg",
+    loading_bar_jpg : "asset/loading/loadingBar.jpg",
+    loading_eLeassons_png : "asset/loading/eLessons.png",
     
+    
+    
+    mapa_musica_mp3 : "asset/mapa/MusicaMapa.mp3",
+    
+    
+    
+    lab_char_1_frente_png : "asset/personagens/lab_char_1_frente.png",
+    
+    
+    labirinto_musica_mp3 : "asset/labirinto/labirintoMusica.mp3",
+    labirinto_sombra_png : "asset/labirinto/labirinto_sombra.png",
+    labirinto_barra_png : "asset/labirinto/labirinto_barra.png",
+    labirinto_grama_png : "asset/labirinto/labirinto_grama.png",
+    labirinto_questao_png : "asset/labirinto/labirinto_questao.png",
+    labirinto_questao_respondida_png : "asset/labirinto/labirinto_questao_respondida.png",
+    labirinto_escola_saida_png : "asset/labirinto/labirinto_escola_saida.png",
+    labirinto_parede_png : "asset/labirinto/labirinto_parede.png",
+    labirinto_pause_png : "asset/labirinto/pause.png",
+    
+    
+    desafio_answerButton_png : "asset/desafio/answerButton.png",
+    desafio_checkboxUnchecked_png : "asset/desafio/checkboxUnchecked.png",
+    desafio_checkboxChecked_png : "asset/desafio/checkboxChecked.png",
+    
+    pause_close_png : "asset/pause/close.png",
+    pause_backButton_gif : "asset/pause/backButton.gif",
+    
+    
+    
+    
+    plataforma_musica_mp3 : "asset/plataforma/MusicaPlataforma.mp3",
+    plataforma_barra_png : "asset/labirinto/labirinto_barra.png",
+    plataforma_pause_png : "asset/labirinto/pause.png",
+    plataforma_blueTileSelected_png : "asset/plataforma/plataforma_blueTileSelected.png",
+    plataforma_blueTileUnselected_png : "asset/plataforma/plataforma_blueTileUnselected.png",
+    plataforma_greenTileSelected_png : "asset/plataforma/plataforma_greenTileSelected.png",
+    plataforma_greenTileUnselected_png : "asset/plataforma/plataforma_greenTileUnselected.png",
+    plataforma_redTileSelected_png : "asset/plataforma/plataforma_redTileSelected.png",
+    plataforma_redTileUnselected_png : "asset/plataforma/plataforma_redTileUnselected.png",
+    plataforma_yellowTileSelected_png : "asset/plataforma/plataforma_yellowTileSelected.png",
+    plataforma_yellowTileUnselected_png : "asset/plataforma/plataforma_yellowTileUnselected.png",
+    
+    
+    telaFim_red_png: "asset/telaFim/telaFim_red.png",
+    telaFim_green_png: "asset/telaFim/telaFim_green.png",
+    telaFim_buttonMap_png: "asset/telaFim/telaFim_buttonMap.png",
+    telaFim_buttonTryAgain_png: "asset/telaFim/telaFim_buttonTryAgain.png",
+    telaInicio_historiaLabirinto_png : "asset/telaInicio/telaInicio_historiaLabirinto.png",
+    telaInicio_acelerometroLabirinto_png : "asset/telaInicio/telaInicio_acelerometroLabirinto.png",
+    telaInicio_historiaPlataforma_png : "asset/telaInicio/telaInicio_historiaPlataforma.png",
+    telaInicio_touchPlataforma_png : "asset/telaInicio/telaInicio_touchPlataforma.png",
     
     
     

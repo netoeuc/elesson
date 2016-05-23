@@ -8121,15 +8121,21 @@ cc.LoaderScene = cc.Scene.extend({
     target: null,
     init : function(){
         var self = this;
+        
         var logoWidth = 160;
         var logoHeight = 200;
         var bgLayer = self._bgLayer = new cc.LayerColor(cc.color(32, 32, 32, 255));
         self.addChild(bgLayer, 0);
         var fontSize = 24, lblHeight =  -logoHeight / 2 + 100;
         if(cc._loaderImage){
-            cc.loader.loadImg(cc._loaderImage, {isCrossOrigin : false }, function(err, img){
-                logoWidth = img.width;
-                logoHeight = img.height;
+//            cc.loader.loadImg(cc._loaderImage, {isCrossOrigin : false }, function(err, img){
+//                logoWidth = img.width;
+//                logoHeight = img.height;
+//                self._initStage(img, cc.visibleRect.center);
+//            });
+            cc.loader.loadImg(asset.loading_eLeassons_png, {isCrossOrigin : false }, function(err, img){
+                logoWidth = 100;
+                logoHeight = 100;
                 self._initStage(img, cc.visibleRect.center);
             });
             fontSize = 14;
