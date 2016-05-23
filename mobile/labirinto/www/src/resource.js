@@ -12,17 +12,16 @@ var asset = {
 //    wood_jpg: "asset/outros/wood_pattern.jpg",
     
     
-    
+    // ------------ Loading -------------- //
     loading_blue_background_jpg: "asset/loading/blue_background.jpg",
     loading_bar_jpg : "asset/loading/loadingBar.jpg",
     loading_eLeassons_png : "asset/loading/eLessons.png",
     
     
     
-    mapa_musica_mp3 : "asset/mapa/MusicaMapa.mp3",
     
     
-    
+    // ------------ Labirinto -------------- //
     lab_char_1_frente_png : "asset/personagens/lab_char_1_frente.png",
     
     
@@ -37,16 +36,18 @@ var asset = {
     labirinto_pause_png : "asset/labirinto/pause.png",
     
     
+    // ------------ Desafio -------------- //
     desafio_answerButton_png : "asset/desafio/answerButton.png",
     desafio_checkboxUnchecked_png : "asset/desafio/checkboxUnchecked.png",
     desafio_checkboxChecked_png : "asset/desafio/checkboxChecked.png",
     
+    // ------------ Pause -------------- //
     pause_close_png : "asset/pause/close.png",
     pause_backButton_gif : "asset/pause/backButton.gif",
     
     
     
-    
+    // ------------ Plataforma -------------- //
     plataforma_musica_mp3 : "asset/plataforma/MusicaPlataforma.mp3",
     plataforma_barra_png : "asset/labirinto/labirinto_barra.png",
     plataforma_pause_png : "asset/labirinto/pause.png",
@@ -60,6 +61,7 @@ var asset = {
     plataforma_yellowTileUnselected_png : "asset/plataforma/plataforma_yellowTileUnselected.png",
     
     
+    // ------------ TelaFim -------------- //
     telaFim_red_png: "asset/telaFim/telaFim_red.png",
     telaFim_green_png: "asset/telaFim/telaFim_green.png",
     telaFim_buttonMap_png: "asset/telaFim/telaFim_buttonMap.png",
@@ -71,6 +73,25 @@ var asset = {
     
     
     
+    // ------------ MAPA --------------
+    MapGeral_png : "asset/mapa/MapGeral.png",
+    MapGeralBloqueado1_png : "asset/mapa/MapGeralBloqueado1.png",
+    MapGeralBloqueado2_png : "asset/mapa/MapGeralBloqueado2.png",
+    MapGeralBloqueado3_png : "asset/mapa/MapGeralBloqueado3.png",
+    Mini_mapa1_png : "asset/mapa/Mini_mapa1.png",
+    Mini_mapa2_png : "asset/mapa/Mini_mapa2.png",
+    Mini_mapa3_png : "asset/mapa/Mini_mapa3.png",
+    Mini_mapa4_png : "asset/mapa/Mini_mapa4.png",
+    unidade01_png : "asset/mapa/unidade01.png",
+    unidade02_png : "asset/mapa/unidade02.png",
+    unidade03_png : "asset/mapa/unidade03.png",
+    unidade04_png : "asset/mapa/unidade04.png",
+    estagioIndisponivel_png : "asset/mapa/estagioIndisponivel.png",
+    estagioDisponivel_png : "asset/mapa/estagioDisponivel.png",
+    estagioConcluido_png : "asset/mapa/estagioConcluido.png",
+    mapa_barraTopo_png : "asset/mapa/mapa_barraTopo.png",
+    mapa_pause_png : "asset/mapa/mapa_pause.png",
+    mapa_musica_mp3 : "asset/mapa/MusicaMapa.mp3",
     
     
     

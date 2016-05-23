@@ -430,17 +430,17 @@ function delay(ms) {
         }
 
 function play(){
-    var scene = new QuestionScene();
-    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,scene));    
+    var sceneq = new QuestionScene();
+    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,sceneq));    
     
 }
 
 function pause(){
-    var scene = new PauseScene();
-    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,scene));    
-    if(pause_exit_game===true){
-        cc.director.popScene();
-    }
+    var scenep = new PauseScene();
+    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,scenep));    
+    //if(pause_exit_game===true){
+    //    cc.director.popScene();
+    //}
     
 }
 

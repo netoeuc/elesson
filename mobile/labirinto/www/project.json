@@ -25,7 +25,9 @@
         "src/historiaPlataforma.js",
         "src/toquePlataforma.js",
         "src/plataforma.js",
-        "src/escolher.js"
+        "src/escolher.js",
+        "src/minimapa1.js",
+        "src/mapaGlobal.js"
         
     ]
 }

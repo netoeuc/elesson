@@ -34,6 +34,8 @@ var AcelerometroLayer = cc.Layer.extend({
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
+                cc.log("foi");
+                cc.log(INITTIALAZED);
                 var cenaLabirinto = new LabirintoScene();
                 cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaLabirinto));
                 break;

@@ -60,9 +60,9 @@ var PlataformaLayer = cc.Layer.extend({
                 case ccui.Widget.TOUCH_BEGAN:
                     break;
                 case ccui.Widget.TOUCH_ENDED:
-                    stopGame = true;
-                    var cenaTouch = new TouchScene();
-                    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaTouch));
+                    //stopGame = true;
+                    //var cenaTouch = new TouchScene();
+                    //cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaTouch));
                     break;
             }
         }

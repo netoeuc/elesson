@@ -61,8 +61,16 @@ var PauseLayer = cc.Layer.extend({
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                pause_exit_game = true;
-                pop();
+                pause_exit_game = false;
+                var pause_exit_game = false; // Para sair do jogo a partir do pause
+                //var pontuacao = 0;
+                
+                INITTIALIZED_Acel = false;
+                INITTIALIZED_histplat = false;
+                INITTIALAZED = false;
+                cc.audioEngine.end();
+                cc.director.popToSceneStackLevel(2);
+                //pop();
                 break;
         }
     }
@@ -73,12 +81,17 @@ var PauseLayer = cc.Layer.extend({
 
 var pop = function(){
     if (pause_exit_game===true){
+        cc.log(pause_exit_game);
         cc.audioEngine.end();
+        cc.director.popToSceneStackLevel(0);
+    }else{
+        cc.log("else");
+        // substituir
+        //cc.director.popScene();
+        cc.director.pushScene(); // 1 -> mapa, 2 -> minimapa, 3 -> labirinto/plataforma, 4 -> pause     
     }
     
-    // substituir
-    cc.director.popScene();
-    //popToSceneStackLevel(2); // 1 -> mapa, 2 -> minimapa, 3 -> labirinto/plataforma, 4 -> pause 
+    
 };
 var PauseScene = cc.Scene.extend({
     onEnter:function () {
