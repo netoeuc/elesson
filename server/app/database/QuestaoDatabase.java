@@ -1,14 +1,21 @@
 package database;
 
 import java.util.List;
-
-import models.Aluno;
 import models.Questao;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 public class QuestaoDatabase {
-		
+	
+	@Transactional
+	public static List<Questao> selectQuestoesByInstituicao(String cnpjInst)throws Exception{
+		String query = "FROM Questao WHERE cnpjInst = :cnpjInst";
+		List<Questao> lq = JPA.em().createQuery(query)
+								.setParameter("cnpjInst", cnpjInst)
+								.getResultList();
+		return lq;
+	}
+	
 	@Transactional
 	public static List<Questao> selectQuestoesByProfessorId(int idProfessor)throws Exception{
 		String query = "FROM Questao WHERE idProfessor = :idProfessor";

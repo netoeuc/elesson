@@ -115,8 +115,19 @@ function removerInstituicao(codigo, action){
 }
 
 /* PROFESSOR JS */
-function mostrarProfessor(nome, codigo){
-	$('#modal #nameteacher').html(nome);
+function mostrarProfessor(nome, codigo, action){
+	var modal = $('#modal #nameteacher');
+	modal.html(nome);
+
+	$("#modal #data-callback").html("loading");
+	$('#modal').openModal();
+	
+	$.post(action, {cod: codigo}, function(data) {
+		$("#modal #data-callback").html(data);
+	}).fail(function() {
+		$("#modal #data-callback").html("error");
+	});
+	
     $('#modal').openModal();
 }
 

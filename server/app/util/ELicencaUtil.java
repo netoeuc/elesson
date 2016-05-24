@@ -39,22 +39,22 @@ public class ELicencaUtil {
 		}
 	}
 	
-	public static int getStatusLicenca(ELicenca licenca, int alunos, int professores){
-		int soma = alunos + professores * 100;
+	public static int getStatusLicenca(ELicenca licenca, int alunos){
+		int usado = alunos * 100;
 		if (licenca == ELicenca.TEST) {
-			return soma/(test.getQntAlunos()+test.getQntProfessores());
+			return usado/(test.getQntAlunos()+test.getQntProfessores());
 			
 		}else if (licenca == ELicenca.BRONZE) {
-			return soma/(bronze.getQntAlunos()+bronze.getQntProfessores());
+			return usado/(bronze.getQntAlunos()+bronze.getQntProfessores());
 			
 		}else if (licenca == ELicenca.SILVER) {
-			return soma/(silver.getQntAlunos()+silver.getQntProfessores());
+			return usado/(silver.getQntAlunos()+silver.getQntProfessores());
 			
 		}else if (licenca == ELicenca.GOLD) {
-			return soma/(gold.getQntAlunos()+gold.getQntProfessores());
+			return usado/(gold.getQntAlunos()+gold.getQntProfessores());
 			
 		}else if (licenca == ELicenca.PREMIUM) {
-			return soma/(premium.getQntAlunos()+premium.getQntProfessores());
+			return usado/(premium.getQntAlunos()+premium.getQntProfessores());
 			
 		}else{
 			return -1;

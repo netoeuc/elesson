@@ -1,5 +1,6 @@
 package database;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import play.db.jpa.JPA;
@@ -81,6 +82,7 @@ public class ProfessorDatabase {
 		}
 	}
 
+	@Transactional
 	public static Professor selectProfessorEncrypt(String cnpj, String email) {
 		String query = "FROM Professor WHERE SHA1(MD5(email)) = :email AND SHA1(MD5(cnpjInst)) = :cnpjInst";
 		List<Professor> lp = JPA.em().createQuery(query)
@@ -92,5 +94,25 @@ public class ProfessorDatabase {
 		}else{
 			return lp.get(0);
 		}
+	}
+	
+	@Transactional
+	public static int selectCountAlunos(int idProfessor) {
+		String query = "SELECT COUNT(*) FROM Aluno WHERE idProfessor = :idProfessor";
+		List<BigInteger> bi = JPA.em().createNativeQuery(query)
+				.setParameter("idProfessor", idProfessor)
+				.getResultList();
+
+		return bi.get(0).intValue();
+	}
+	
+	@Transactional
+	public static int selectCountQuestoes(int idProfessor) {
+		String query = "SELECT COUNT(*) FROM Questao WHERE idProfessor = :idProfessor";
+		List<BigInteger> bi = JPA.em().createNativeQuery(query)
+				.setParameter("idProfessor", idProfessor)
+				.getResultList();
+
+		return bi.get(0).intValue();
 	}
 }

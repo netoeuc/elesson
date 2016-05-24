@@ -8,10 +8,13 @@ import models.Aluno;
 import models.Instituicao;
 import models.Licenca;
 import models.Professor;
+import models.Questao;
 import database.AlunoDatabase;
 import database.InstituicaoDatabase;
 import database.ProfessorDatabase;
+import database.QuestaoDatabase;
 import interceptors.InstituicaoInterceptor;
+import interceptors.ProfessorInterceptor;
 import play.Logger;
 import play.data.DynamicForm;
 import play.db.jpa.JPA;
@@ -70,7 +73,7 @@ public class InstituicaoController extends Controller{
 			int qntQuestoes = InstituicaoDatabase.selectCountQuestoes(i.getCnpj());
 			Licenca l = ELicencaUtil.getLicenca(i.getLicenca());
 			
-			int statusLicenca = ELicencaUtil.getStatusLicenca(i.getLicenca(), qntAlunos, qntProfessores);
+			int statusLicenca = ELicencaUtil.getStatusLicenca(i.getLicenca(), qntAlunos);
 			
 			return ok(views.html.instituicao.index.render(i, qntAlunos, qntProfessores, qntQuestoes, statusLicenca, l));
 		}catch(Exception e){
@@ -148,6 +151,31 @@ public class InstituicaoController extends Controller{
 	public static Result configuracao() {
 		Instituicao i = getUsuarioAutenticado();
 		return ok(views.html.instituicao.configuracao.render(i));
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result mostrarProfessor(){
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			int id = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			
+			if(id != -1){
+				Instituicao i = getUsuarioAutenticado();
+				Professor p = ProfessorDatabase.selectProfessor(id, i.getCnpj());
+				
+				int qntAlunos = ProfessorDatabase.selectCountAlunos(id);
+				int qntQuestoes = ProfessorDatabase.selectCountQuestoes(id);
+				
+				return ok(views.html.instituicao.ajax.mostrarProfessor.render(qntAlunos, qntQuestoes));
+			}else{
+				flash("erro", "Código do professor inválido");
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/mostrarProfessor(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao carregar dados. Tente novamente mais tarde");
+		}
+		return redirect(routes.InstituicaoController.professores());
 	}
 	
 	@Transactional
@@ -275,6 +303,21 @@ public class InstituicaoController extends Controller{
 			
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/alunos(): "+ e.getMessage());
+		}
+		return redirect(routes.InstituicaoController.index());
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result questoes(){
+		try{
+			Instituicao i = InstituicaoController.getUsuarioAutenticado();
+			if(i != null){
+				List<Questao> lq = QuestaoDatabase.selectQuestoesByInstituicao(i.getCnpj());
+				return ok(views.html.instituicao.questoes.render(lq));
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/questoes(): "+ e.getMessage());
 		}
 		return redirect(routes.InstituicaoController.index());
 	}

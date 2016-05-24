@@ -287,6 +287,10 @@ ul li a .material-icons{
 .input-field .prefix.active {
   color: #AD1414 !important;
 }
+/* field search */
+div .search{
+	width: 100% !important;
+}
 
 .btn-large{
 	width: 100%;
