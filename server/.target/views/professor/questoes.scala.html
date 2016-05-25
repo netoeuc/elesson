@@ -47,7 +47,7 @@
                               	<td><a id="showDetails" onclick="mostrarQuestao('@q.getId()')" class="modal-trigger waves-effect waves-light">@q.getQuestao()</a></td>
                               	<td>@q.getLevel()</td>
                               	<td>
-									<i onclick="mostrarEditarQuestao('@q.getId()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
+									<i onclick="mostrarEditarQuestao('@q.getQuestao()','@q.getId()','@routes.ProfessorController.formEditarQuestao()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
 			                        <i onclick="removerQuestao('@q.getId()','@routes.ProfessorController.removerQuestao()');" id="rem-@q.getId()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>
 			                    </td>
                               </tr>

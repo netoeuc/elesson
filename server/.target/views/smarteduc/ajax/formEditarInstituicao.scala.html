@@ -1,0 +1,66 @@
+@(i: Instituicao)
+<form action="@routes.SmartEducController.editarCliente()" method="POST" class="col s12">
+
+	<div class="row">
+		<div class="input-field col s12 offset-m1 m10">
+			<input id="name" name="name" autocomplete="off" type="text" value="@i.getNome()">
+			<label for="name" class="active">Client name</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="input-field col s12 offset-m1 m10">
+			<input id="phone" name="phone" autocomplete="off" type="text" value="@i.getTelefone()">
+			<label for="phone" class="active">Phone</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="input-field col s12 offset-m1 m10">
+			<input id="address" name="address" autocomplete="off" type="text" value="@i.getEndereco()">
+			<label for="address" class="active">Address</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="input-field col s12 offset-m1 m10">
+			<input id="cnpj" disabled="disabled" autocomplete="off" type="text" value="@i.getCnpj()">
+			<label for="cnpj" class="active">CNPJ</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="input-field col s12 offset-m1 m10">
+			<input id="email" name="email" autocomplete="off" type="email" value="@i.getEmail()">
+			<label for="email" class="active">Email</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="input-field col s12 offset-m1 m10">
+			<select class="browser-default color-vermelho" id="license"
+				name="license">
+				<option disabled >Choose one license</option>
+				<option @if(i.getLicenca() == util.ELicenca.TEST){selected} value="0">Test</option>
+				<option @if(i.getLicenca() == util.ELicenca.BRONZE){selected} value="1">Bronze</option>
+				<option @if(i.getLicenca() == util.ELicenca.SILVER){selected} value="2">Silver</option>
+				<option @if(i.getLicenca() == util.ELicenca.GOLD){selected} value="3">Gold</option>
+				<option @if(i.getLicenca() == util.ELicenca.PREMIUM){selected} value="4">Premium</option>
+			</select>
+		</div>
+	</div>
+	
+	<div class="row" style="margin: -20px 0px 50px -10px;">
+		<div class="input-field col s12 offset-m1 m10">
+			<input name="generate" type="checkbox" class="filled-in" id="filled-in-box" />
+	    	<label for="filled-in-box">Generate a password</label>
+    	</div>
+	</div>
+
+	<div class="row">
+		<div class="input-field col s12 offset-m1 m10">
+			<button type="submit" class="waves-effect waves-light btn bg-azul">submit</button>
+		</div>
+	</div>
+	<input name="cnpj" hidden type="text" value="@i.getCnpj()">
+</form>

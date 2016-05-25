@@ -293,7 +293,7 @@ public class ProfessorController extends Controller{
 			Professor p = ProfessorController.getUsuarioAutenticado();
 			if(p != null){
 				DynamicForm dynamicForm = form().bindFromRequest();
-				String questao = dynamicForm.get("questao") == null || dynamicForm.get("questao").trim().isEmpty()? null : dynamicForm.get("questao");
+				String questao = dynamicForm.get("questao") == null || dynamicForm.get("questao").replace("<p>", "").replace("</p>", "").trim().isEmpty()? null : dynamicForm.get("questao").replace("<p>", "").replace("</p>", "");
 				String resposta1 = dynamicForm.get("resposta1") == null || dynamicForm.get("resposta1").trim().isEmpty()? null : dynamicForm.get("resposta1");
 				String resposta2 = dynamicForm.get("resposta2") == null || dynamicForm.get("resposta2").trim().isEmpty()? null : dynamicForm.get("resposta2");
 				String resposta3 = dynamicForm.get("resposta3") == null || dynamicForm.get("resposta3").trim().isEmpty()? null : dynamicForm.get("resposta3");
@@ -302,8 +302,10 @@ public class ProfessorController extends Controller{
 				String respostaCorreta = dynamicForm.get("respostaCorreta") == null || dynamicForm.get("respostaCorreta").trim().isEmpty()? null : dynamicForm.get("respostaCorreta");
 				int nivel = dynamicForm.get("nivel") == null? -1 : Integer.parseInt(dynamicForm.get("nivel"));
 				
-				if(questao == null || resposta1 == null || resposta2 == null || resposta3 == null || resposta4 == null || resposta5 == null || respostaCorreta == null || nivel == -1){
+				if(questao == null || resposta1 == null || resposta2 == null || resposta3 == null || resposta4 == null || resposta5 == null || respostaCorreta == null || nivel < 1 || nivel > 4){
 					flash("erro", "Preencha todos os campos");
+				}else if (questao.length() > 254){
+					flash("erro", "Texto da questão muito longo");
 				}else{
 					Questao novaQ = new Questao(questao,resposta1,resposta2,resposta3,resposta4,resposta5,respostaCorreta,nivel,p.getCnpjInst(),p.getId());
 						
@@ -317,6 +319,70 @@ public class ProfessorController extends Controller{
 		}
 		return redirect(routes.ProfessorController.questoes());
 	}
+	
+	@Transactional
+	@With({ ProfessorInterceptor.class })
+	public static Result formEditarQuestao() {
+		try {
+			Professor p = getUsuarioAutenticado();
+			DynamicForm dynamicForm = form().bindFromRequest();
+			int cod = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
+
+			if(cod == -1){
+				Logger.error("ERRO - ProfessorController/formEditarQuestao(): CODE is null");
+			}else{
+				Questao q = QuestaoDatabase.selectQuestao(cod,p.getId(),p.getCnpjInst());
+				return ok(views.html.professor.ajax.formEditarQuestao.render(q));
+			}
+		} catch (Exception e) {
+			Logger.error("ERRO - ProfessorController/formEditarQuestao(): "+ e.getMessage());
+		}
+		return ok("Ocorreu um erro ao editar. Tente novamente mais tarde");
+	}
+	
+	@Transactional
+	@With({ ProfessorInterceptor.class })
+	public static Result editarQuestao() {
+		try {
+			Professor p = getUsuarioAutenticado();
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			String questao = dynamicForm.get("questao") == null || dynamicForm.get("questao").replace("<p>", "").replace("</p>", "").trim().isEmpty()? null : dynamicForm.get("questao").replace("<p>", "").replace("</p>", "");
+			String resposta1 = dynamicForm.get("resposta1") == null || dynamicForm.get("resposta1").trim().isEmpty()? null : dynamicForm.get("resposta1");
+			String resposta2 = dynamicForm.get("resposta2") == null || dynamicForm.get("resposta2").trim().isEmpty()? null : dynamicForm.get("resposta2");
+			String resposta3 = dynamicForm.get("resposta3") == null || dynamicForm.get("resposta3").trim().isEmpty()? null : dynamicForm.get("resposta3");
+			String resposta4 = dynamicForm.get("resposta4") == null || dynamicForm.get("resposta4").trim().isEmpty()? null : dynamicForm.get("resposta4");
+			String resposta5 = dynamicForm.get("resposta5") == null || dynamicForm.get("resposta5").trim().isEmpty()? null : dynamicForm.get("resposta5");
+			String respostaCorreta = dynamicForm.get("respostaCorreta") == null || dynamicForm.get("respostaCorreta").trim().isEmpty()? null : dynamicForm.get("respostaCorreta");
+			int nivel = dynamicForm.get("nivel") == null? -1 : Integer.parseInt(dynamicForm.get("nivel"));
+			int cod = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			
+			if (questao == null || resposta1 == null || resposta2 == null || resposta3 == null ||resposta4 == null || resposta5 == null || respostaCorreta == null || nivel == -1 || cod == -1) {				
+				flash("erro", "Preencha todos os campos");
+			}else if (questao.length() > 254){
+				flash("erro", "Texto da questão muito longo");
+			}else{
+				Questao q = QuestaoDatabase.selectQuestao(cod, p.getId(), p.getCnpjInst());
+				if(q != null){
+					q.setQuestao(questao);
+					q.setResposta1(resposta1);
+					q.setResposta2(resposta2);
+					q.setResposta3(resposta3);
+					q.setResposta4(resposta4);
+					q.setResposta5(resposta5);
+					q.setRespostaCorreta(respostaCorreta);
+					q.setLevel(nivel);
+					JPA.em().merge(q);
+					flash("ok","questão editada");
+					}	
+				}
+		} catch (Exception e) {
+			Logger.error("ERRO - ProfessorController/editarQuestao(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
+		}
+		
+		return redirect(routes.ProfessorController.questoes());
+	}
+	
 	
 	@Transactional
 	@With({ ProfessorInterceptor.class })

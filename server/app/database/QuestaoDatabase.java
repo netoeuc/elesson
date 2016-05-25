@@ -31,4 +31,19 @@ public class QuestaoDatabase {
 		}
 	}
 	
+	@Transactional
+	public static Questao selectQuestao(int cod, int idProfessor, String cnpjInst)throws Exception{
+		String query = "FROM Questao WHERE id = :cod AND idProfessor = :idProfessor AND cnpjInst = :cnpjInst";
+		List<Questao> lq = JPA.em().createQuery(query)
+								.setParameter("cod", cod)
+								.setParameter("idProfessor", idProfessor)
+								.setParameter("cnpjInst", cnpjInst)
+								.getResultList();
+		if(lq.isEmpty()){
+			return null;
+		}else{
+			return lq.get(0);
+		}
+	}
+	
 }

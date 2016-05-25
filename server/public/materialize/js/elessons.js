@@ -41,6 +41,19 @@ function gerarMascaras(){
 	});
 }
 
+function gerarTextEditor(seletor){
+		tinymce.init({
+			  selector: seletor,
+			  height: 200,
+			  plugins: [
+			    'preview',
+			    'fullscreen',
+			    'paste'
+			  ],
+			  toolbar: 'undo redo'
+		});
+}
+
 /* ALUNO JS */
 function mostrarAluno(nome, classe, codigo){
 	$('#modal #namestudent').html(nome);
@@ -162,9 +175,16 @@ function mostrarNovaQuestao(){
     $('#modal-fields').openModal();
 }
 
-function mostrarEditarQuestao(codigo){
-	$('#modal-fields-edit #namequestion').html();
-    $('#modal-fields-edit').openModal();
+function mostrarEditarQuestao(codigo, action){
+	$("#modal-fields-edit #form-callback").html("loading");
+	$('#modal-fields-edit').openModal();
+	
+	$.post(action, {cod: codigo}, function(data) {
+		$("#modal-fields-edit #form-callback").html(data);
+		gerarTextEditor("#modal-fields-edit #form-callback #txtEditor-edit");
+	}).fail(function() {
+		$("#modal-fields-edit #form-callback").html("error");
+	});
 }
 
 function removerQuestao(codigo,action){

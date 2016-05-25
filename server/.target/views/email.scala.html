@@ -1,0 +1,18 @@
+@(nome: String)(phone: String)(email: String)(message: String)
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+
+<p>Name: @nome</p>
+<p>Phone: @if(phone != null){@phone}</p>
+<p>Email: @email</p>
+<p>Message:<br>
+@message</p>
+
+<p>Este email foi enviado da página inicial do portal Smart Educ</p>
+
+</body>
+</html>

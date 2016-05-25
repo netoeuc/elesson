@@ -1,0 +1,71 @@
+@(q: Questao)
+<form action="@routes.ProfessorController.editarQuestao()" method="POST" class="col s12">
+
+	<h4 id="namequestion">New Question</h4>
+	<div class="row" id="texto" style="margin-bottom: 50px;">
+              	<textarea id="txtEditor" name="questao">q.getQuestao()</textarea>
+              </div>
+
+              <div class="row" id="answers" style="margin-bottom: -10px;">
+              	<h4>Answers</h4>
+              </div>		
+              	    
+              <div class="row">
+              	<div class="input-field col s12 m8">
+                	<input id="A" name="resposta1" autocomplete="off" type="text" value="q.getResposta1()">
+                    <label for="A">A</label>
+                </div>
+                <div class="input-field col s12 m8">
+                	<input id="B" name="resposta2" autocomplete="off" type="text" value="q.getResposta2()">
+                    <label for="B">B</label>
+                </div>
+                <div class="input-field col s12 m8">
+                	<input id="C" name="resposta3" autocomplete="off" type="text" value="q.getResposta3()">
+                    <label for="C">C</label>
+                </div>
+                <div class="input-field col s12 m8">
+                	<input id="D" name="resposta4" autocomplete="off" type="text" value="q.getResposta4()">
+                    <label for="D">D</label>
+                </div>
+                <div class="input-field col s12 m8">
+                	<input id="E" name="resposta5" autocomplete="off" type="text" value="q.getResposta5()">
+                    <label for="E">E</label>
+                </div>
+              </div>
+              
+              <div class="row" style="margin-bottom: 50px;">
+              	<div class="col s12 m5">
+					<select name="respostaCorreta" class="browser-default color-vermelho">
+						<option disabled selected>Choose a correct answer</option>
+						<option value="a">A</option>
+						<option value="b">B</option>
+						<option value="c">C</option>
+						<option value="d">D</option>
+						<option value="e">E</option>
+					</select>
+				</div>
+              </div>
+
+              <div class="row" id="level">
+              	<h4>Level</h4>
+              </div>
+              
+              <div class="row">
+              	<div class="col s12 m5">
+					<select name="nivel" class="browser-default color-vermelho">
+						<option disabled selected>Choose a level</option>
+						<option value="1">Easy</option>
+						<option value="2">Medium</option>
+						<option value="3">Hard</option>
+					</select>
+				</div>
+              </div>
+              
+              <div class="row">
+              	<div class="input-field col s12 offset-m1 m10">
+              		<button class="waves-effect waves-light btn bg-azul">submit</button>
+              	</div>
+              </div>
+	
+	<input name="cod" hidden type="text" value="@q.getId()">
+</form>

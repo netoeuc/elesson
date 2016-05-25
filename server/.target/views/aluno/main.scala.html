@@ -1,0 +1,23 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html>
+    <head>
+	    @views.html.metatags()
+	    <title>@title</title>
+      
+	    @views.html.cssimports()	    
+	    @views.html.jsimports()
+	    
+	</head>
+    <body class="bg-mapgeral">
+    	<main>
+    		
+    		@views.html.navbarlogin()
+	    	<div class="container">
+	    		@content
+	    	</div>
+    	</main>
+    	
+    </body>
+</html>

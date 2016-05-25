@@ -1,0 +1,31 @@
+@(p: Professor)
+<form action="@routes.InstituicaoController.editarProfessor()" method="POST" class="col s12">
+
+	<div class="row">
+		<div class="input-field col s12 offset-m1 m10">
+			<input id="name" name="name" autocomplete="off" type="text" value="@p.getNome()">
+			<label for="name" class="active">Name</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="input-field col s12 offset-m1 m10">
+			<input id="email" name="email" autocomplete="off" type="email" value="@p.getEmail()">
+			<label for="email" class="active">Email</label>
+		</div>
+	</div>
+	
+	<div class="row" style="margin: -20px 0px 50px -10px;">
+		<div class="input-field col s12 offset-m1 m10">
+			<input name="generate" type="checkbox" class="filled-in" id="filled-in-box" />
+	    	<label for="filled-in-box">Generate a password</label>
+    	</div>
+	</div>
+
+	<div class="row">
+		<div class="input-field col s12 offset-m1 m10">
+			<button type="submit" class="waves-effect waves-light btn bg-azul">submit</button>
+		</div>
+	</div>
+	<input name="cod" hidden type="text" value="@p.getId()">
+</form>

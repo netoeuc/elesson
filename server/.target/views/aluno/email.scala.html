@@ -1,0 +1,118 @@
+@(i: models.Instituicao)(idProfessor: String)(nome: String)(email: String)(senha: String)(host: String)(tipo: Integer)
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<strong>
+	<h1>Olá, @nome</h1>
+</strong>
+
+@*Mensagem de cadastro*@
+@if(tipo == 0){ 
+<p>A @i.getNome() cadastrou você como um aluno da instituição.<br/>
+Você só precisa confirmar seu email através do link abaixo para finalizar o cadastro.</p>
+
+<strong>
+	<h2>Confirme sua Conta:</h2>
+</strong>	
+<a href="http://@host@routes.AlunoController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&p=@util.Seguranca.encryptString(idProfessor)&e=@util.Seguranca.encryptString(email)" target="_blank">
+http://@host@routes.AlunoController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&p=@util.Seguranca.encryptString(idProfessor)&e=@util.Seguranca.encryptString(email)
+</a>
+<br/><br/>
+
+<strong>
+	<h2>Senha de Acesso:</h2>
+</strong>
+<p>Este é seu código de acesso, guarde-a com segurança.<br/>
+Você poderá trocá-la nas configurações do seu painel de controle.</p>
+
+<h3>@senha</h3>
+<br/>
+
+<p>Se você não autorizou o cadastro ignore este email e desculpe-nos pelo incômodo.<br>
+Smart Educ</p>
+}
+
+
+
+
+@*Mensagem de alteracao*@
+@if(tipo == 1){
+<p>Você precisa confirmar seu email através do link abaixo para finalizar a alteração do cadastro.</p>
+
+<strong>
+	<h2>Confirme sua alteração:</h2>
+</strong>	
+<a href="http://@host@routes.AlunoController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&p=@util.Seguranca.encryptString(idProfessor)&e=@util.Seguranca.encryptString(email)" target="_blank">
+	http://@host@routes.AlunoController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&p=@util.Seguranca.encryptString(idProfessor)&e=@util.Seguranca.encryptString(email)
+</a>
+<br/><br/>
+
+<p>Smart Educ</p>
+}
+
+
+
+
+@*Mensagem de alteracao*@
+@if(tipo == 2){
+<p>A @i.getNome() gerou uma nova senha para você.</p>
+
+<strong>
+	<h2>Senha de Acesso:</h2>
+</strong>
+<p>Este é seu código de acesso, guarde-a com segurança.<br/>
+Você poderá trocá-la nas configurações do seu painel de controle.</p>
+
+<h3>@senha</h3>
+<br/><br/>
+
+<p>Smart Educ</p>
+}
+
+
+
+
+@*Mensagem de alteracao*@
+@if(tipo == 3){
+<p>A @i.getNome() alterou seu email e você precisa confirmá-lo através do link abaixo para finalizar a alteração do cadastro.</p>
+<strong>
+	<h2>Confirme sua alteração:</h2>
+</strong>	
+<a href="http://@host@routes.AlunoController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&p=@util.Seguranca.encryptString(idProfessor)&e=@util.Seguranca.encryptString(email)" target="_blank">
+	http://@host@routes.AlunoController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&p=@util.Seguranca.encryptString(idProfessor)&e=@util.Seguranca.encryptString(email)
+</a>
+<br/><br/>
+
+<strong>
+	<h2>Senha de Acesso:</h2>
+</strong>
+<p>Este é seu novo código de acesso, guarde-a com segurança.<br/>
+Você poderá trocá-la nas configurações do seu painel de controle.</p>
+
+<h3>@senha</h3>
+<br/><br/>
+
+<p>Smart Educ</p>
+}
+
+
+
+
+@*Mensagem de Lembrete Senha*@
+@if(tipo == 4){
+<p>Nós precisamos gerar uma nova senha para você, então clique no link abaixo.</p>
+<strong>
+	<h2>Link para gerar sua nova senha:</h2>
+</strong>	
+<a href="http://@host@routes.AlunoController.esqueceuSenha()?i=@util.Seguranca.encryptString(i.getCnpj())&p=@util.Seguranca.encryptString(idProfessor)&e=@util.Seguranca.encryptString(email)" target="_blank">
+	http://@host@routes.AlunoController.esqueceuSenha()?i=@util.Seguranca.encryptString(i.getCnpj())&p=@util.Seguranca.encryptString(idProfessor)&e=@util.Seguranca.encryptString(email)
+</a>
+<br/><br/>
+
+<p>Smart Educ</p>
+}
+</body>
+</html>
