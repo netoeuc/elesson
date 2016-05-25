@@ -70,6 +70,9 @@ var PauseLayer = cc.Layer.extend({
                 
                 INITTIALIZED_Acel = false;
                 INITTIALIZED_histplat = false;
+                INITTIALIZED_plat = false;
+                INITTIALIZED_histplat = false;
+                INITTIALIZED_toque = false;
                 INITTIALAZED = false;
                 cc.audioEngine.end();
                 cc.director.popToSceneStackLevel(2);
