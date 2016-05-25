@@ -437,7 +437,7 @@ function play(){
 
 function pause(){
     var scenep = new PauseScene();
-    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,scenep));    
+    cc.director.pushScene(new cc.TransitionMoveInR(0.5,scenep));    
     //if(pause_exit_game===true){
     //    cc.director.popScene();
     //}

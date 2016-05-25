@@ -76,7 +76,9 @@ cc.game.onStart = function(){
         // load and run the HelloWorldScene
         // see www/src/app.js for definition
 //        cc.director.runScene(new HelloWorldScene());
-        cc.director.runScene(new GlobalMapScene());
+//        cc.director.runScene(new GlobalMapScene());
+                cc.director.runScene(new HistoriaPlataformaScene());
+        
         
         
     }, this);

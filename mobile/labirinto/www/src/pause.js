@@ -12,21 +12,24 @@ var PauseLayer = cc.Layer.extend({
         var size = cc.winSize;
         
         
-        
+        var backgroundPause = new cc.Sprite.create(asset.pause_background_png); 
+        backgroundPause.setAnchorPoint(cc.p( 0, 0 ));
+        backgroundPause.setPosition(cc.p(0, 0));
+        this.addChild(backgroundPause, -1);
         
         var voltarButton = new ccui.Button();
-        voltarButton.loadTextures(asset.pause_backButton_gif);
+        voltarButton.loadTextures(asset.pause_decline_png);
         voltarButton.setAnchorPoint(cc.p(0,0));
-        voltarButton.setPosition(cc.p((size.width/2)-80,size.height/2 ));
+        voltarButton.setPosition(cc.p(60, 50));
 //        voltarButton.x = (size.width/2);
 //        voltarButton.y = (size.heigth/2);
         voltarButton.addTouchEventListener(this.voltarAoJogo, this);
         this.addChild(voltarButton);
         
         var sairButton = new ccui.Button();
-        sairButton.loadTextures(asset.pause_close_png);
+        sairButton.loadTextures(asset.pause_accept_png);
         sairButton.setAnchorPoint(cc.p(0,0));
-        sairButton.setPosition(cc.p((size.width/2)+40,size.height/2 ));
+        sairButton.setPosition(cc.p(270, 50));
         sairButton.addTouchEventListener(this.sairDoJogo, this);
         this.addChild(sairButton);
         

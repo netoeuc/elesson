@@ -1,4 +1,4 @@
-var INITTIALIZED_2 = false;
+var INITTIALIZED_minimapa1 = false;
 var MiniMapLayer1 = cc.Layer.extend({
     sprite:null,
     ctor:function () {
@@ -652,7 +652,7 @@ var pop = function(){
 };
 var MiniMapScene1 = cc.Scene.extend({
     onEnter:function () {
-            INITTIALIZED_2 = true;
+            INITTIALIZED_minimap1 = true;
             this._super();
             var layer = new MiniMapLayer1();
             this.addChild(layer);

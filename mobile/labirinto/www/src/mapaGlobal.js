@@ -73,7 +73,7 @@ var GlobalMapLayer = cc.Layer.extend({
             cc.log("Play!");
             var scene = new MiniMapScene1();
             delay(100);
-            cc.director.pushScene(new cc.TransitionRotoZoom(1.5,scene));    
+            cc.director.pushScene(new cc.TransitionMoveInR(0.5,scene));    
        }
 
         

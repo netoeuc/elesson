@@ -20,7 +20,7 @@ var HistoriaPlataformaLayer = cc.Layer.extend({
         var next1 = new ccui.Button();
         next1.loadTextures(asset.telaFim_buttonMap_png);
         next1.setAnchorPoint(cc.p(0,0));  
-        next1.setPosition(cc.p(350, 50));
+        next1.setPosition(cc.p(100, 50));
         next1.addTouchEventListener(this.touchEvent, this);
         this.addChild(next1);
         
@@ -39,7 +39,7 @@ var HistoriaPlataformaLayer = cc.Layer.extend({
                 break;
             case ccui.Widget.TOUCH_ENDED:
                 var cenaTouch = new TouchScene();
-                cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaTouch));
+                cc.director.pushScene(new cc.TransitionMoveInR(0.5,cenaTouch));
                 break;
         }
     },

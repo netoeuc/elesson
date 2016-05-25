@@ -19,7 +19,7 @@ var TouchLayer = cc.Layer.extend({
         var next2 = new ccui.Button();
         next2.loadTextures(asset.telaFim_buttonMap_png);
         next2.setAnchorPoint(cc.p(0,0));  
-        next2.setPosition(cc.p(350, 50));
+        next2.setPosition(cc.p(100, 50));
         next2.addTouchEventListener(this.touchEvent, this);
         this.addChild(next2);
         
@@ -35,7 +35,7 @@ var TouchLayer = cc.Layer.extend({
                 break;
             case ccui.Widget.TOUCH_ENDED:
                 var cenaLabirinto = new PlataformaScene();
-                cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaLabirinto));
+                cc.director.pushScene(new cc.TransitionMoveInR(0.5,cenaLabirinto));
                 break;
         }
     },

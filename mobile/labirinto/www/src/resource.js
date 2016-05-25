@@ -44,6 +44,9 @@ var asset = {
     // ------------ Pause -------------- //
     pause_close_png : "asset/pause/close.png",
     pause_backButton_gif : "asset/pause/backButton.gif",
+    pause_background_png : "asset/pause/pause_background.png",
+    pause_accept_png : "asset/pause/pause_accept.png",
+    pause_decline_png : "asset/pause/pause_decline.png",
     
     
     
