@@ -19,9 +19,13 @@
     <script src="cordova.js"></script>          <!-- phantom library, needed for Cordova api calls, added during build -->
     <script src="js/app.js"></script>           <!-- recommended location of your JavaScript code relative to other JS files -->
     <script src="xdk/init-dev.js"></script>     <!-- normalizes device and document ready events, see README for details -->
+     <script type="text/javascript" src="materialize/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+    <script type="text/javascript" src="materialize/js/elessons.js"></script>
      
     <!--Import Google Icon Font-->
       <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <link href="materialize/css/icon.css" rel="stylesheet">
       <!--Import materialize.css-->
       <link type="text/css" rel="stylesheet" href="materialize/css/elessons.css"  media="screen,projection"/>
 
@@ -45,7 +49,8 @@
 		            <div class="card defaultCard default-page-margin-top hoverable">
 		              <div class="card-content center-align">
 		
-		                <i class="large material-icons">perm_identity</i><br/>
+		               <!-- <i class="large material-icons">perm_identity</i><br/> -->
+                          <i class="large fa fa-user" style="margin-bottom: 5px;"></i><br/>
 		                <span class="card-title" style="line-height: 80%; letter-spacing: 3px;">Student</span>
 		
 		                <div class="row">
@@ -65,7 +70,7 @@
 		                      </div>
 		                    </div>
 		                    
-		                  	<div class="row" style="margin-bottom: 3px !important;">
+		                   	<!--<div class="row" style="margin-bottom: 3px !important;">
 		                  	  <div class="col s12 offset-m1 m10">
 								<select name="inst" class="browser-default color-vermelho">
 								  <option disabled selected>Choose your institute</option>
@@ -74,7 +79,7 @@
 								  }
 								</select>
 							  </div>
-		                    </div>
+		                    </div> -->
 		
 				            <div class="row">
 				            	<div class="input-field col s12">
