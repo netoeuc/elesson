@@ -2,7 +2,6 @@ package controllers;
 
 import static play.data.Form.form;
 
-import interceptors.InstituicaoInterceptor;
 import interceptors.ProfessorInterceptor;
 
 import java.util.HashMap;
@@ -299,7 +298,7 @@ public class ProfessorController extends Controller{
 				String resposta3 = dynamicForm.get("resposta3") == null || dynamicForm.get("resposta3").trim().isEmpty()? null : dynamicForm.get("resposta3");
 				String resposta4 = dynamicForm.get("resposta4") == null || dynamicForm.get("resposta4").trim().isEmpty()? null : dynamicForm.get("resposta4");
 				String resposta5 = dynamicForm.get("resposta5") == null || dynamicForm.get("resposta5").trim().isEmpty()? null : dynamicForm.get("resposta5");
-				String respostaCorreta = dynamicForm.get("respostaCorreta") == null || dynamicForm.get("respostaCorreta").trim().isEmpty()? null : dynamicForm.get("respostaCorreta");
+				String respostaCorreta = (dynamicForm.get("respostaCorreta") == null || dynamicForm.get("respostaCorreta").trim().isEmpty()? null : dynamicForm.get("respostaCorreta"));
 				int nivel = dynamicForm.get("nivel") == null? -1 : Integer.parseInt(dynamicForm.get("nivel"));
 				
 				if(questao == null || resposta1 == null || resposta2 == null || resposta3 == null || resposta4 == null || resposta5 == null || respostaCorreta == null || nivel < 1 || nivel > 4){
@@ -307,7 +306,8 @@ public class ProfessorController extends Controller{
 				}else if (questao.length() > 254){
 					flash("erro", "Texto da questão muito longo");
 				}else{
-					Questao novaQ = new Questao(questao,resposta1,resposta2,resposta3,resposta4,resposta5,respostaCorreta,nivel,p.getCnpjInst(),p.getId());
+					char resposta = respostaCorreta.charAt(0);
+					Questao novaQ = new Questao(questao,resposta1,resposta2,resposta3,resposta4,resposta5,resposta,nivel,p.getCnpjInst(),p.getId());
 						
 					JPA.em().persist(novaQ);
 				}

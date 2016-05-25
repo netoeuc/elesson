@@ -238,6 +238,10 @@ ul li a .material-icons{
   color: #555555 !important;
 }
 
+.color-verde{
+	color: #2DB200 !important;
+}
+
 .card-action a{
 	color: #A0A0A0 !important;
 }
@@ -282,6 +286,10 @@ ul li a .material-icons{
 /* icon prefix focus color */
 .input-field .prefix.active {
   color: #AD1414 !important;
+}
+/* field search */
+div .search{
+	width: 100% !important;
 }
 
 .btn-large{
@@ -374,7 +382,7 @@ table tbody td{
   font-size: 16px;
   float: left;
   padding: 6px;
-  margin: -4px 0px 0px 0px;
+  margin: -4px -30px 0px 0px;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;

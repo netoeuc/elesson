@@ -47,7 +47,7 @@
                               <!-- for a partir daqui { -->
                               @for(p<-listaProfessor){
                               <tr>
-                                <td><a id="showDetails" onclick="mostrarProfessor('@p.getNome()', '@p.getId()')" class="modal-trigger waves-effect waves-light">@p.getNome()</a></td>
+                                <td><a id="showDetails" onclick="mostrarProfessor('@p.getNome()', '@p.getId()', '@routes.InstituicaoController.mostrarProfessor()')" class="modal-trigger waves-effect waves-light">@p.getNome()</a></td>
                                 <td>@p.getEmail()</td>
                                 <td>
                                   <i onclick="mostrarEditarProfessor('@p.getNome()', '@p.getId()', '@routes.InstituicaoController.formEditarProfessor()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
@@ -78,35 +78,7 @@
           <div id="modal" class="modal modal-fixed-footer">
             <div class="modal-content">
               <h4 id="nameteacher"></h4>
-              <div class="col s12 m12">
-
-                  <div class="row">
-                    <div class="col s12 offset-m1 m10">
-                      <div class="row center-align">
-                        <div class="col s12 m6">
-                          <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-book material-icons" aria-hidden="true"></i> 3 Turmas
-                          </div>
-                        </div>
-                        <div class="col s12 m6">
-                          <div class="tag bg-cinza color-cinza">
-                            <i class="tiny-small fa fa-graduation-cap material-icons" aria-hidden="true"></i> 18 Alunos
-                          </div>
-                        </div>
-                        <div class="col s12 m6">
-                          <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-user material-icons" aria-hidden="true"></i> 8 Professores
-                          </div>
-                        </div>
-                        <div class="col s12 m6">
-                          <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-question material-icons" aria-hidden="true"></i> 43 Questões
-                          </div>
-                        </div>    
-                      </div>
-                      <hr>
-                    </div>
-                  </div>
+              <div class="col s12 m12" id="data-callback">
 
               </div>
             </div>

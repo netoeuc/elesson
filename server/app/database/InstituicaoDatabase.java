@@ -1,9 +1,11 @@
 package database;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import scala.math.BigInt;
 import util.Constantes;
 import models.Instituicao;
 
@@ -84,5 +86,35 @@ public class InstituicaoDatabase {
 		}else{
 			return li.get(0);
 		}
+	}
+
+	@Transactional
+	public static int selectCountAlunos(String cnpj) {
+		String query = "SELECT COUNT(*) FROM Aluno WHERE cnpjInst = :cnpj";
+		List<BigInteger> bi = JPA.em().createNativeQuery(query)
+				.setParameter("cnpj", cnpj)
+				.getResultList();
+
+		return bi.get(0).intValue();
+	}
+
+	@Transactional
+	public static int selectCountProfessores(String cnpj) {
+		String query = "SELECT COUNT(*) FROM Professor WHERE cnpjInst = :cnpj";
+		List<BigInteger> bi = JPA.em().createNativeQuery(query)
+				.setParameter("cnpj", cnpj)
+				.getResultList();
+
+		return bi.get(0).intValue();
+	}
+
+	@Transactional
+	public static int selectCountQuestoes(String cnpj) {
+		String query = "SELECT COUNT(*) FROM Questao WHERE cnpjInst = :cnpj";
+		List<BigInteger> bi = JPA.em().createNativeQuery(query)
+				.setParameter("cnpj", cnpj)
+				.getResultList();
+
+		return bi.get(0).intValue();
 	}
 }

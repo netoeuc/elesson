@@ -118,9 +118,9 @@ public class SmartEducController extends Controller{
 		try {
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
 			String nome = dynamicForm.get("name") == null || dynamicForm.get("name").trim().isEmpty()? null : dynamicForm.get("name");
-			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").replace(")", "").replace("(", "").replace("-", "").trim().isEmpty()? null : dynamicForm.get("phone").replace(")", "").replace("(", "").replace("-", "").trim();
+			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").replace(")", "").replace("(", "").replace("-", "").trim().isEmpty()? null : dynamicForm.get("phone").trim().replace(" ", "").replace(")", "").replace("(", "").replace("-", "");
 			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address");
-			String cnpj = dynamicForm.get("cnpj") == null || dynamicForm.get("cnpj").replace(".", "").replace("/", "").replace("-", "").trim().isEmpty()? null : dynamicForm.get("cnpj").replace(".", "").replace("/", "").replace("-", "").trim();
+			String cnpj = dynamicForm.get("cnpj") == null || dynamicForm.get("cnpj").replace(".", "").replace("/", "").replace("-", "").trim().isEmpty()? null : dynamicForm.get("cnpj").trim().replace(" ", "").replace(".", "").replace("/", "").replace("-", "");
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
 			int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
 			

@@ -6,8 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.codehaus.jackson.node.ObjectNode;
 import org.hibernate.annotations.Index;
 
+import util.AdminJson;
 
 @Entity
 public class Questao {
@@ -21,28 +23,22 @@ public class Questao {
 	private String questao;
 
 	@Column(nullable = false)
-	@Index(name = "resposta1")
 	private String resposta1;
 	
 	@Column(nullable = false)
-	@Index(name = "resposta2")
 	private String resposta2;
 	
 	@Column(nullable = false)
-	@Index(name = "resposta3")
 	private String resposta3;
 	
 	@Column(nullable = false)
-	@Index(name = "resposta4")
 	private String resposta4;
 	
 	@Column(nullable = false)
-	@Index(name = "resposta5")
 	private String resposta5;
 	
 	@Column(nullable = false)
-	@Index(name = "respostaCorreta")
-	private String respostaCorreta;
+	private char respostaCorreta;
 	
 	@Column(nullable = false)
 	@Index(name = "level")
@@ -58,7 +54,7 @@ public class Questao {
 	
 	public Questao(){}
 	
-	public Questao(String questao, String resposta1, String resposta2, String resposta3, String resposta4, String resposta5, String respostaCorreta, int level, String cnpjInst, int idProfessor) {
+	public Questao(String questao, String resposta1, String resposta2, String resposta3, String resposta4, String resposta5, char respostaCorreta, int level, String cnpjInst, int idProfessor) {
 		this.questao = questao;
 		this.resposta1 = resposta1;
 		this.resposta2 = resposta2;
@@ -71,7 +67,7 @@ public class Questao {
 		this.idProfessor = idProfessor;
 	}
 	
-	public Questao(int id, String questao, String resposta1, String resposta2, String resposta3, String resposta4, String resposta5, String respostaCorreta, int level, String cnpjInst, int idProfessor) {
+	public Questao(int id, String questao, String resposta1, String resposta2, String resposta3, String resposta4, String resposta5, char respostaCorreta, int level, String cnpjInst, int idProfessor) {
 		this.id = id;
 		this.questao = questao;
 		this.resposta1 = resposta1;
@@ -83,6 +79,10 @@ public class Questao {
 		this.level = level;
 		this.cnpjInst = cnpjInst;
 		this.idProfessor = idProfessor;
+	}
+	
+	public static ObjectNode isRespondida(boolean isRespondida) {
+		return AdminJson.getObject(isRespondida, "isRespondida");
 	}
 	
 	public String getQuestao() {
@@ -133,11 +133,11 @@ public class Questao {
 		this.resposta5 = resposta5;
 	}
 
-	public String getRespostaCorreta() {
+	public char getRespostaCorreta() {
 		return respostaCorreta;
 	}
 
-	public void setRespostaCorreta(String respostaCorreta) {
+	public void setRespostaCorreta(char respostaCorreta) {
 		this.respostaCorreta = respostaCorreta;
 	}
 

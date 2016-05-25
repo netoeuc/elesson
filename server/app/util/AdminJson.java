@@ -8,10 +8,8 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 
 public class AdminJson {
-	public static final String msgConsulteAPI = "Informe os parâmetros corretamente. Consulte a documentação da API.";
-	public static final String msgCadastreAPP = "Cadastre-se para usar esta função.";
-	public static final String msgDeviceTokenInvalido = "deviceToken inválido.";
-	public static final String msgValorMaiorZero = "Informe um valor maior que zero para o campo ";
+	public static final String msgConsulteAPI = "informe os parâmetros corretamente.";
+	public static final String msgErroRequest = "ocorreu um erro com a requisição";
 	
 	@BodyParser.Of(BodyParser.Json.class)
 	public static ObjectNode getMensagem(String msg){
@@ -27,6 +25,11 @@ public class AdminJson {
 		JsonNode jn = Json.toJson(o);
 		result.put(tipo, jn);
 		return result;
+	}
+	
+	@BodyParser.Of(BodyParser.Json.class)
+	public static JsonNode getObject(Object o){
+		return Json.toJson(o);
 	}
 	
 }

@@ -139,4 +139,17 @@ public class AlunoDatabase {
 			return li.get(0);
 		}
 	}
+
+	@Transactional
+	public static Aluno selectAlunoEncryptByEmail(String email) {
+		String query = "FROM Aluno WHERE SHA1(MD5(email)) = :email";
+		List<Aluno> li = JPA.em().createQuery(query)
+								.setParameter("email", email)
+								.getResultList();
+		if(li.isEmpty()){
+			return null;
+		}else{
+			return li.get(0);
+		}
+	}
 }
