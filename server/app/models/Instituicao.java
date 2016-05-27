@@ -37,10 +37,13 @@ public class Instituicao {
 	@Column(nullable = false)
 	private int status;
 	
+	@Column(nullable = false)
+	private int numAlunos;
+	
 	public Instituicao(){}
 	
 	public Instituicao(String cnpj, String nome, String telefone,
-			String endereco, String email, ELicenca licenca, String senha, int status) throws Exception {
+			String endereco, String email, ELicenca licenca, String senha, int status, int numAlunos) throws Exception {
 
 		this.cnpj = cnpj;
 		this.nome = nome;
@@ -50,6 +53,7 @@ public class Instituicao {
 		this.licenca = licenca;
 		this.senha = Seguranca.encryptString(senha);
 		this.status = status;
+		this.numAlunos = numAlunos;
 	}
 
 	public String getCnpj() {
@@ -114,6 +118,14 @@ public class Instituicao {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	
+	public int getNumAlunos() {
+		return numAlunos;
+	}
+
+	public void setNumAlunos(int numAlunos) {
+		this.numAlunos = numAlunos;
 	}
 		
 }

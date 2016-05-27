@@ -24,12 +24,12 @@ import util.Mail;
 import util.Seguranca;
 
 public class InstituicaoController extends Controller{
-	
+
 	@Transactional
 	public static String getUsuarioSession() {
 		return session().get(Constantes.SESSION_COD_INSTTEAC);
 	}
-	
+
 	@Transactional
 	public static boolean isAutentico() {
 		if (getUsuarioSession() == null) {
@@ -42,7 +42,7 @@ public class InstituicaoController extends Controller{
 			return true;
 		}
 	}
-	
+
 	@Transactional
 	public static Instituicao getUsuarioAutenticado() {
 		try{
@@ -56,24 +56,24 @@ public class InstituicaoController extends Controller{
 			return null;
 		}
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result index(){
 		return ok(views.html.instituicao.index.render());
 	}
-	
+
 	@Transactional
 	public static Result login(){
 		return ok(views.html.instituicao.login.render());
 	}
-	
+
 	@Transactional
 	public static Result logoff() {
 		session().clear();
 		return redirect(routes.InstituicaoController.login());
 	}
-	
+
 	@Transactional
 	public static Result esqueceuSenha() {
 		int template = 0; /* 0: formulario, 1: mensagem de confirmacao */
@@ -85,13 +85,13 @@ public class InstituicaoController extends Controller{
 			if(session().get(Constantes.SESSION_COD_INSTTEACFOR) != null && email != null && cnpj != null){
 				Instituicao i = InstituicaoDatabase.selectInstituicaoEncrypt(cnpj, email);
 				if(i != null && i.getStatus() == Constantes.STATUS_ATIVO && 
-					session().get(Constantes.SESSION_COD_INSTTEACFOR).equals(Seguranca.encryptString(i.getCnpj()))){
-					
+						session().get(Constantes.SESSION_COD_INSTTEACFOR).equals(Seguranca.encryptString(i.getCnpj()))){
+
 					String senha = Seguranca.gerarSenha(6);
 					Mail.sendMail(i.getEmail(), "Alteração de Senha", views.html.instituicao.email.render(i, senha, request().host(), 2).toString());
 					i.setSenha(senha);
 					JPA.em().merge(i);
-					
+
 					session().clear();
 					template = 1;
 				}
@@ -101,7 +101,7 @@ public class InstituicaoController extends Controller{
 		}
 		return ok(views.html.instituicao.esqueceuSenha.render(template));
 	}
-	
+
 	@Transactional
 	public static Result lembrarSenha() {
 		try {
@@ -126,14 +126,14 @@ public class InstituicaoController extends Controller{
 		}
 		return redirect(routes.InstituicaoController.esqueceuSenha());
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result configuracao() {
 		Instituicao i = getUsuarioAutenticado();
 		return ok(views.html.instituicao.configuracao.render(i));
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result editar() {
@@ -149,7 +149,7 @@ public class InstituicaoController extends Controller{
 			boolean isEditado = false;
 			Instituicao i = getUsuarioAutenticado();
 			if(i != null){
-				
+
 				if (nome == null || telefone == null || endereco == null || email == null) {				
 					flash("erro", "Preencha todos os campos");
 				}else if(senha != null && senha.length() < 6){
@@ -189,7 +189,7 @@ public class InstituicaoController extends Controller{
 							isEditado = false;
 						}
 					}
-					
+
 					if(isEditado){
 						JPA.em().merge(i);
 						flash("ok", nome+" editado");
@@ -200,19 +200,19 @@ public class InstituicaoController extends Controller{
 			Logger.error("ERRO - InstituicaoController/editar(): "+ e.getMessage());
 			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
 		}
-		
+
 		return redirect(routes.InstituicaoController.configuracao());
 	}
-	
+
 	@Transactional
 	public static Result ativar() {
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest();
 			String cnpj = dynamicForm.get("i");
 			String email = dynamicForm.get("e");
-	
+
 			Instituicao i = InstituicaoDatabase.selectInstituicaoEncrypt(cnpj, email);
-	
+
 			if (i != null && i.getStatus() == Constantes.STATUS_AGUARDANDO) {
 				i.setStatus(Constantes.STATUS_ATIVO);
 				JPA.em().merge(i);
@@ -228,7 +228,7 @@ public class InstituicaoController extends Controller{
 		}
 		return redirect(routes.InstituicaoController.index());
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result professores() {
@@ -243,26 +243,26 @@ public class InstituicaoController extends Controller{
 		}
 		return redirect(routes.InstituicaoController.index());
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result alunos() {
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest();
 			boolean isSingle = dynamicForm.get("is") == null || dynamicForm.get("is").trim().isEmpty()? true : Boolean.parseBoolean(dynamicForm.get("is"));
-			
+
 			Instituicao i = getUsuarioAutenticado();
 			// pegar lista de alunos de acordo com o cnpj no banco e passar como parametro pra pagina
 			List<Aluno> al = AlunoDatabase.selectAlunosByCnpjInst(i.getCnpj());
 			List<Professor> po = ProfessorDatabase.selectProfessoresByCnpjInst(i.getCnpj());
 			return ok(views.html.instituicao.alunos.render(isSingle,al,po));
-			
+
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/alunos(): "+ e.getMessage());
 		}
 		return redirect(routes.InstituicaoController.index());
 	}
-		
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result cadastrarProfessor(){
@@ -272,7 +272,7 @@ public class InstituicaoController extends Controller{
 				DynamicForm dynamicForm = form().bindFromRequest();
 				String nome = dynamicForm.get("nome") == null || dynamicForm.get("nome").trim().isEmpty()? null : dynamicForm.get("nome");
 				String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
-				
+
 				if(nome == null || email == null){
 					flash("erro", "Preencha todos os campos");
 				}else{
@@ -284,7 +284,7 @@ public class InstituicaoController extends Controller{
 						Professor novoP = new Professor(i.getCnpj(), nome, email, senha, Constantes.STATUS_AGUARDANDO);
 						Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
 								views.html.professor.email.render(i, nome, email, senha, request().host(), 0).toString());
-						
+
 						JPA.em().persist(novoP);
 					}
 				}
@@ -296,31 +296,45 @@ public class InstituicaoController extends Controller{
 		}
 		return redirect(routes.InstituicaoController.professores());
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result cadastrarAluno(){
 		try{
 			Instituicao i = InstituicaoController.getUsuarioAutenticado();
 			if(i != null){
-				DynamicForm dynamicForm = form().bindFromRequest();
-				String nome = dynamicForm.get("nome") == null || dynamicForm.get("nome").trim().isEmpty()? null : dynamicForm.get("nome");
-				String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
-				int idProfessor = dynamicForm.get("teacher") == null? -1 : Integer.parseInt(dynamicForm.get("teacher"));
-				
-				if(nome == null || email == null || idProfessor == -1){
-					flash("erro", "Preencha todos os campos");
-				}else{
-					Aluno a = AlunoDatabase.selectAluno(email, i.getCnpj());
-					if(a != null){
-						flash("erro", "Este email já está cadastrado");
+				if((i.getLicenca().name().equals("TEST") && i.getNumAlunos() == 10) || 
+						(i.getLicenca().name().equals("BRONZE") && i.getNumAlunos() == 20) || 
+						(i.getLicenca().name().equals("SILVER") && i.getNumAlunos() == 30) || 
+						(i.getLicenca().name().equals("GOLD") && i.getNumAlunos() == 40) || 
+						(i.getLicenca().name().equals("PREMIUM") && i.getNumAlunos() == 50)){
+					
+					flash("erro", "Instituição já atingiu o limite de alunos para a licença!");
+				}
+				else{
+					DynamicForm dynamicForm = form().bindFromRequest();
+					String nome = dynamicForm.get("nome") == null || dynamicForm.get("nome").trim().isEmpty()? null : dynamicForm.get("nome");
+					String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
+					int idProfessor = dynamicForm.get("teacher") == null? -1 : Integer.parseInt(dynamicForm.get("teacher"));
+
+					if(nome == null || email == null || idProfessor == -1){
+						flash("erro", "Preencha todos os campos");
 					}else{
-						String senha = Seguranca.gerarSenha(6);
-						Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, senha, Constantes.STATUS_AGUARDANDO);
-						Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
-						views.html.aluno.email.render(i, idProfessor+"", nome, email, senha, request().host(), 0).toString());
-						
-						JPA.em().persist(novoA);
+						Aluno a = AlunoDatabase.selectAluno(email, i.getCnpj());
+						if(a != null){
+							flash("erro", "Este email já está cadastrado");
+						}else{
+							String senha = Seguranca.gerarSenha(6);
+							Aluno novoA = new Aluno(i.getCnpj(), idProfessor, email, nome, senha, Constantes.STATUS_AGUARDANDO);
+							Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
+									views.html.aluno.email.render(i, idProfessor+"", nome, email, senha, request().host(), 0).toString());
+
+							//Aumentar 1 do numero de alunos da Instituição
+							i.setNumAlunos(i.getNumAlunos()+1);	
+							JPA.em().merge(i);
+
+							JPA.em().persist(novoA);
+						}
 					}
 				}
 			}else{
@@ -331,14 +345,14 @@ public class InstituicaoController extends Controller{
 		}
 		return redirect(routes.InstituicaoController.alunos());
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result removerProfessor() {
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
 			long idProfessor = dynamicForm.get("cod") == null? -1 : Integer.parseInt(dynamicForm.get("cod"));
-			
+
 			if(idProfessor != -1){
 				Professor p = ProfessorDatabase.selectProfessorById(idProfessor);
 				if(p != null){
@@ -355,17 +369,23 @@ public class InstituicaoController extends Controller{
 		}
 		return redirect(routes.InstituicaoController.index());
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result removerAluno() {
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
 			int idAluno = dynamicForm.get("cod") == null? -1 : Integer.parseInt(dynamicForm.get("cod"));
-			
+			Instituicao i = InstituicaoController.getUsuarioAutenticado();
+
 			if(idAluno != -1){
 				Aluno a = AlunoDatabase.selectAlunoById(idAluno);
 				if(a != null){
+
+					//Diminuir 1 do numero de alunos da Instituição
+					i.setNumAlunos(i.getNumAlunos()-1);
+					JPA.em().merge(i);
+
 					a.setStatus(Constantes.STATUS_REMOVIDO);
 					JPA.em().merge(a);
 					flash("ok", a.getNome()+" Removido");
@@ -379,14 +399,14 @@ public class InstituicaoController extends Controller{
 		}
 		return redirect(routes.InstituicaoController.index());
 	}
-	
+
 	@Transactional
 	public static Result logar(){
 		try {
 			DynamicForm dynamicForm = form().bindFromRequest();
 			String email = dynamicForm.get("login") == null || dynamicForm.get("login").trim().isEmpty()? null : dynamicForm.get("login").toLowerCase();
 			String senha = dynamicForm.get("password") == null || dynamicForm.get("password").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("password"));
-						
+
 			if (email == null || senha == null) {
 				flash("erro", "Preencha todos os campos");
 
@@ -395,13 +415,13 @@ public class InstituicaoController extends Controller{
 
 				if (i == null || i.getStatus() == Constantes.STATUS_REMOVIDO) {
 					flash("erro", "Usuário não cadastrado");
-					
+
 				}else if(i.getStatus() == Constantes.STATUS_AGUARDANDO){
 					flash("erro", "Confirme seu email no link que te enviamos");
-					
+
 				} else if(!i.getSenha().equals(senha)){
 					flash("erro", "Senha inválida");
-					
+
 				}else{
 					session().clear();
 					session().put(Constantes.SESSION_USUARIO, i.getEmail());
@@ -413,10 +433,10 @@ public class InstituicaoController extends Controller{
 			Logger.error("ERRO - InstituicaoController/login(): "+ e.getMessage());
 			flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
 		}
-		
+
 		return redirect(routes.InstituicaoController.login());
 	}
-	
+
 	@Transactional
 	public static Result teste(){
 		try {
@@ -426,7 +446,7 @@ public class InstituicaoController extends Controller{
 		}
 		return ok("");
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result formEditarProfessor() {
@@ -445,7 +465,7 @@ public class InstituicaoController extends Controller{
 		}
 		return ok("Ocorreu um erro ao editar. Tente novamente mais tarde");
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result editarProfessor() {
@@ -461,7 +481,7 @@ public class InstituicaoController extends Controller{
 			boolean isSenhaAlterada = false;
 			boolean isEmailAlterado = false;
 			String senha = null;
-			
+
 			if (nome == null || email == null || cod == -1) {				
 				flash("erro", "Preencha todos os campos");
 			}else{
@@ -491,7 +511,7 @@ public class InstituicaoController extends Controller{
 							isEmailAlterado = false;
 						}
 					}
-						
+
 					if(isEmailAlterado && !isSenhaAlterada){
 						Mail.sendMail(email, "Alteração de Email", views.html.professor.email.render(i, nome, email, "", request().host(), 1).toString());
 					}else if(!isEmailAlterado && isSenhaAlterada){
@@ -499,7 +519,7 @@ public class InstituicaoController extends Controller{
 					}else if(isEmailAlterado && isSenhaAlterada){
 						Mail.sendMail(email, "Alteração de Email e Senha", views.html.professor.email.render(i, nome,email,senha, request().host(), 3).toString());
 					}
-					
+
 					if(isEditado){
 						JPA.em().merge(p);
 						flash("ok", nome+" editado");
@@ -510,10 +530,10 @@ public class InstituicaoController extends Controller{
 			Logger.error("ERRO - InstituicaoController/editarProfessor(): "+ e.getMessage());
 			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
 		}
-		
+
 		return redirect(routes.InstituicaoController.index());
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result formEditarAluno() {
@@ -534,7 +554,7 @@ public class InstituicaoController extends Controller{
 		}
 		return ok("Ocorreu um erro ao editar. Tente novamente mais tarde");
 	}
-	
+
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result editarAluno() {
@@ -552,7 +572,7 @@ public class InstituicaoController extends Controller{
 			boolean isSenhaAlterada = false;
 			boolean isEmailAlterado = false;
 			String senha = null;
-			
+
 			if (nome == null || email == null || codA == -1 || codP == -1) {				
 				flash("erro", "Preencha todos os campos");
 			}else{
@@ -582,7 +602,7 @@ public class InstituicaoController extends Controller{
 							isEmailAlterado = false;
 						}
 					}
-						
+
 					if(isEmailAlterado && !isSenhaAlterada){
 						Mail.sendMail(email, "Alteração de Email", views.html.aluno.email.render(i, codP+"", nome, email, "", request().host(), 1).toString());
 					}else if(!isEmailAlterado && isSenhaAlterada){
@@ -590,7 +610,7 @@ public class InstituicaoController extends Controller{
 					}else if(isEmailAlterado && isSenhaAlterada){
 						Mail.sendMail(email, "Alteração de Email e Senha", views.html.aluno.email.render(i, codP+"", nome,email,senha, request().host(), 3).toString());
 					}
-					
+
 					if(isEditado){
 						JPA.em().merge(a);
 						flash("ok", nome+" editado");
@@ -601,7 +621,7 @@ public class InstituicaoController extends Controller{
 			Logger.error("ERRO - InstituicaoController/editarAluno(): "+ e.getMessage());
 			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
 		}
-		
+
 		return redirect(routes.InstituicaoController.index());
 	}
 }

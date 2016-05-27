@@ -44,10 +44,10 @@
                             <!-- For inicia aqui -->
                             @for(q<-listaQuestao){
                               <tr>
-                              	<td><a id="showDetails" onclick="mostrarQuestao('@q.getId()')" class="modal-trigger waves-effect waves-light">@q.getQuestao()</a></td>
-                              	<td>@q.getLevel()</td>
+                              	<td><a id="showDetails" onclick="mostrarQuestao('@q.getId()')" class="modal-trigger waves-effect waves-light">@if(q.getQuestao().length()>30){@q.getQuestao().substring(0,30)...}else{@q.getQuestao()}</a></td>
+                              	<td>@if(q.getLevel() == 1){Easy} @if(q.getLevel() == 2){Medium} @if(q.getLevel() == 3){Hard} @if(q.getLevel() == 4){Expert}</td>
                               	<td>
-									<i onclick="mostrarEditarQuestao('@q.getQuestao()','@q.getId()','@routes.ProfessorController.formEditarQuestao()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
+									<i onclick="mostrarEditarQuestao('@q.getId()','@routes.ProfessorController.formEditarQuestao()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
 			                        <i onclick="removerQuestao('@q.getId()','@routes.ProfessorController.removerQuestao()');" id="rem-@q.getId()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>
 			                    </td>
                               </tr>
@@ -83,7 +83,7 @@
           <!-- Modal Structure -->
           <div id="modal-fields-edit" class="modal modal-fixed-footer">
             <div class="modal-content">
-              <h4 id="namequestion"></h4>
+              <h4 id="namequestion">Edit Question</h4>
               <div class="col s12 m12">
               	<div class="row" style="margin-bottom: 0px !important;">
                    <div class="col s12 offset-m1 m10">
@@ -161,6 +161,7 @@
 						<option value="1">Easy</option>
 						<option value="2">Medium</option>
 						<option value="3">Hard</option>
+            <option value="4">Expert</option>
 					</select>
 				</div>
               </div>
