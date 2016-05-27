@@ -1,9 +1,8 @@
 @(q: Questao)
 <form action="@routes.ProfessorController.editarQuestao()" method="POST" class="col s12">
 
-	<h4 id="namequestion">New Question</h4>
 	<div class="row" id="texto" style="margin-bottom: 50px;">
-              	<textarea id="txtEditor" name="questao">q.getQuestao()</textarea>
+              	<textarea id="txtEditor-edit" name="questao">@q.getQuestao()</textarea>
               </div>
 
               <div class="row" id="answers" style="margin-bottom: -10px;">
@@ -12,36 +11,36 @@
               	    
               <div class="row">
               	<div class="input-field col s12 m8">
-                	<input id="A" name="resposta1" autocomplete="off" type="text" value="q.getResposta1()">
-                    <label for="A">A</label>
+                	<input id="A" name="resposta1" autocomplete="off" type="text" value="@q.getResposta1()">
+                    <label for="A" class="active">A</label>
                 </div>
                 <div class="input-field col s12 m8">
-                	<input id="B" name="resposta2" autocomplete="off" type="text" value="q.getResposta2()">
-                    <label for="B">B</label>
+                	<input id="B" name="resposta2" autocomplete="off" type="text" value="@q.getResposta2()">
+                    <label for="B" class="active">B</label>
                 </div>
                 <div class="input-field col s12 m8">
-                	<input id="C" name="resposta3" autocomplete="off" type="text" value="q.getResposta3()">
-                    <label for="C">C</label>
+                	<input id="C" name="resposta3" autocomplete="off" type="text" value="@q.getResposta3()">
+                    <label for="C" class="active">C</label>
                 </div>
                 <div class="input-field col s12 m8">
-                	<input id="D" name="resposta4" autocomplete="off" type="text" value="q.getResposta4()">
-                    <label for="D">D</label>
+                	<input id="D" name="resposta4" autocomplete="off" type="text" value="@q.getResposta4()">
+                    <label for="D" class="active">D</label>
                 </div>
                 <div class="input-field col s12 m8">
-                	<input id="E" name="resposta5" autocomplete="off" type="text" value="q.getResposta5()">
-                    <label for="E">E</label>
+                	<input id="E" name="resposta5" autocomplete="off" type="text" value="@q.getResposta5()">
+                    <label for="E" class="active">E</label>
                 </div>
               </div>
               
               <div class="row" style="margin-bottom: 50px;">
               	<div class="col s12 m5">
 					<select name="respostaCorreta" class="browser-default color-vermelho">
-						<option disabled selected>Choose a correct answer</option>
-						<option value="a">A</option>
-						<option value="b">B</option>
-						<option value="c">C</option>
-						<option value="d">D</option>
-						<option value="e">E</option>
+						<option disabled>Choose a correct answer</option>						
+    						<option value="a" @if(q.getRespostaCorreta() == 'a'){ selected="selected"}>A</option>
+							<option value="b" @if(q.getRespostaCorreta() == 'b'){ selected="selected"}>B</option>
+							<option value="c" @if(q.getRespostaCorreta() == 'c'){ selected="selected"}>C</option>
+							<option value="d" @if(q.getRespostaCorreta() == 'd'){ selected="selected"}>D</option>
+							<option value="e" @if(q.getRespostaCorreta() == 'e'){ selected="selected"}>E</option>
 					</select>
 				</div>
               </div>
@@ -54,9 +53,10 @@
               	<div class="col s12 m5">
 					<select name="nivel" class="browser-default color-vermelho">
 						<option disabled selected>Choose a level</option>
-						<option value="1">Easy</option>
-						<option value="2">Medium</option>
-						<option value="3">Hard</option>
+						<option value = "1" @if(q.getLevel() == 1){ selected="selected"}>Easy</option>
+						<option value = "2" @if(q.getLevel() == 2){ selected="selected"}>Medium</option>
+						<option value = "3" @if(q.getLevel() == 3){ selected="selected"}>Hard</option>
+						<option value = "4" @if(q.getLevel() == 4){ selected="selected"}>Expert</option>
 					</select>
 				</div>
               </div>

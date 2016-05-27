@@ -1,10 +1,17 @@
 package models;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.node.ObjectNode;
@@ -15,21 +22,14 @@ import util.Seguranca;
 
 
 @Entity
-public class Aluno {
-		
+public class Aluno implements Serializable {
+
+private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idAluno")
 	private int id;
-	
-	@Column(nullable = false)
-	@Index(name = "cnpjInst")
-	@JsonIgnore
-	private String cnpjInst;
-	
-	@Column(nullable = false)
-	@Index(name = "idProfessor")
-	@JsonIgnore
-	private int idProfessor;
 	
 	@Column(nullable = false, length = 75)
 	@Index(name = "email")
@@ -59,11 +59,26 @@ public class Aluno {
 	@Column(nullable = false)
 	private boolean isLogado;
 	
+	@ManyToOne
+	@JoinColumn(name="cnpjInst")
+	@JsonIgnore
+	private Instituicao instituicao;
+	
+	@ManyToOne
+	@JoinColumn(name="idProfessor")
+	@JsonIgnore
+	private Professor professor;
+	
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval=true)
+	@JoinColumn(name="idAluno")
+	@JsonIgnore
+	private List<Resposta> respostas;
+	
 	public Aluno(){}
 	
-	public Aluno(String cnpjInst, int idProfessor, String email, String nome, String senha, int status) throws Exception {
-		this.cnpjInst = cnpjInst;
-		this.idProfessor = idProfessor;
+	public Aluno(Instituicao instituicao, Professor professor, String email, String nome, String senha, int status) throws Exception {
+		this.instituicao = instituicao;
+		this.professor = professor;
 		this.email = email;
 		this.nome = nome;
 		this.senha = Seguranca.encryptString(senha);
@@ -74,10 +89,10 @@ public class Aluno {
 		this.isLogado = false;
 	}
 	
-	public Aluno(int id, String cnpjInst, int idProfessor, String email, String nome, String senha, int status) throws Exception {
+	public Aluno(int id, Instituicao instituicao, Professor professor, String email, String nome, String senha, int status) throws Exception {
 		this.id = id;
-		this.cnpjInst = cnpjInst;
-		this.idProfessor = idProfessor;
+		this.instituicao = instituicao;
+		this.professor = professor;
 		this.email = email;
 		this.nome = nome;
 		this.senha = Seguranca.encryptString(senha);
@@ -93,19 +108,11 @@ public class Aluno {
 	}
 
 	public String getCnpjInst() {
-		return cnpjInst;
-	}
-
-	public void setCnpjInst(String cnpjInst) {
-		this.cnpjInst = cnpjInst;
+		return instituicao.getCnpj();
 	}
 
 	public int getIdProfessor() {
-		return idProfessor;
-	}
-
-	public void setIdProfessor(int idProfessor) {
-		this.idProfessor = idProfessor;
+		return professor.getId();
 	}
 
 	public int getId() {
@@ -171,8 +178,16 @@ public class Aluno {
 	public boolean isLogado() {
 		return isLogado;
 	}
+	
+	public Professor getProfessor() {
+		return professor;
+	}
 
 	public void setLogado(boolean isLogado) {
 		this.isLogado = isLogado;
+	}
+
+	public List<Resposta> getRespostas() {
+		return respostas;
 	}
 }

@@ -36,11 +36,11 @@
               	<div class="col s12 m5">
 					<select name="respostaCorreta" class="browser-default color-vermelho">
 						<option disabled>Choose a correct answer</option>						
-    						<option value="a" @if(q.getRespostaCorreta().equals("a")){ selected="selected"}>A</option>
-							<option value="b" @if(q.getRespostaCorreta().equals("b")){ selected="selected"}>B</option>
-							<option value="c" @if(q.getRespostaCorreta().equals("c")){ selected="selected"}>C</option>
-							<option value="d" @if(q.getRespostaCorreta().equals("d")){ selected="selected"}>D</option>
-							<option value="e" @if(q.getRespostaCorreta().equals("e")){ selected="selected"}>E</option>
+    						<option value="a" @if(q.getRespostaCorreta() == 'a'){ selected="selected"}>A</option>
+							<option value="b" @if(q.getRespostaCorreta() == 'b'){ selected="selected"}>B</option>
+							<option value="c" @if(q.getRespostaCorreta() == 'c'){ selected="selected"}>C</option>
+							<option value="d" @if(q.getRespostaCorreta() == 'd'){ selected="selected"}>D</option>
+							<option value="e" @if(q.getRespostaCorreta() == 'e'){ selected="selected"}>E</option>
 					</select>
 				</div>
               </div>

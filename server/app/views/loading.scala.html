@@ -1,0 +1,56 @@
+<!--Import materialize.css-->
+<link type="text/css" rel="stylesheet" href="@routes.Assets.at("materialize/css/materialize.min.css")"  media="screen,projection"/>
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="@routes.Assets.at("materialize/js/materialize.min.js")"></script>
+
+
+<!-- LOAD LAYER ADICIONAR AO FINAL DE TODO O CODIGO -->
+<div id="sidenav-overlay" style="display: none; opacity: 1;">
+	<!-- CARD LOADING -->
+    <div class="row" style="width:110px; position:absolute; top:50%; left:50%; margin-top:-100px; margin-left:-55px;">
+    	<div class="col s12 m12">
+        	<div class="card defaultCard default-page-margin-top">
+            	<div class="card-content">
+                
+					<div class="preloader-wrapper active">
+				    	<div class="spinner-layer spinner-blue">
+				        	<div class="circle-clipper left">
+				          		<div class="circle"></div>
+				        	</div>
+				        	<div class="gap-patch">
+				          		<div class="circle"></div>
+				        	</div>
+				        	<div class="circle-clipper right">
+				          		<div class="circle"></div>
+				        	</div>
+				     	</div>
+				
+				      	<div class="spinner-layer spinner-red">
+				        	<div class="circle-clipper left">
+				          		<div class="circle"></div>
+				        	</div>
+				        	<div class="gap-patch">
+				          		<div class="circle"></div>
+				        	</div>
+				        	<div class="circle-clipper right">
+				          		<div class="circle"></div>
+				        	</div>
+				      	</div>
+					</div>        
+                
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- LOAD LAYER FIM -->
+<script>
+function showHideLoader() {
+    var loader = document.getElementById("sidenav-overlay");
+    if (loader.style.display == "none"){
+    	loader.style.display="block";
+    }else{
+    	loader.style.display="none";
+    }
+}
+</script>

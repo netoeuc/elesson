@@ -1,13 +1,11 @@
 package database;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import models.Aluno;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import util.Constantes;
-import models.Aluno;
 
 public class AlunoDatabase {
 	
@@ -92,39 +90,7 @@ public class AlunoDatabase {
 								.getResultList();
 		return lp;
 	}
-	
-	@Transactional
-	public static HashMap<HashMap<String, String>, List<Aluno>> selectAlunosByProfessorByCnpjInst(String cnpjInst) throws Exception {	
-		String query = "SELECT professor.nome as nomeProfessor, aluno.* "
-					+ "FROM aluno "
-					+ "INNER JOIN professor ON (professor.id = aluno.idProfessor) "
-					+ "WHERE professor.cnpjInst = :cnpjInst "
-					+ "ORDER BY professor.id ASC";
-		List<Object> lo = JPA.em().createNativeQuery(query)
-    			.setParameter("cnpjInst", cnpjInst)
-    			.getResultList();
 		
-		HashMap<HashMap<String, String>, List<Aluno>> map = new HashMap<HashMap<String, String>, List<Aluno>>();
-		HashMap<String, String> mapProf = null;
-		Aluno a = null;
-		for (Object object : lo) {
-			Object[] itens = (Object[]) object;
-			a = new Aluno((Integer)itens[1], cnpjInst, (Integer)itens[4], (String)itens[3], (String)itens[5], (String)itens[6], (Integer)itens[7]);
-			
-			mapProf = new HashMap<String, String>();
-			mapProf.put("idProfessor", a.getIdProfessor()+"");
-			mapProf.put("nomeProfessor", (String)itens[0]);
-			
-			if(map.containsKey(mapProf)){
-				map.get(mapProf).add(a);
-			}else{
-				map.put(mapProf, new ArrayList<Aluno>());
-				map.get(mapProf).add(a);
-			}
-		}
-		return map;
-	}
-	
 	@Transactional
 	public static Aluno selectAlunoEncrypt(String cnpjInst, String idProfessor, String email) {
 		String query = "FROM Aluno WHERE SHA1(MD5(cnpjInst)) = :cnpjInst AND SHA1(MD5(idProfessor)) = :idProfessor AND SHA1(MD5(email)) = :email";
@@ -151,5 +117,10 @@ public class AlunoDatabase {
 		}else{
 			return li.get(0);
 		}
+	}
+	
+	@Transactional
+	public static void deleteAluno(Aluno a)throws Exception{
+		JPA.em().remove(a);
 	}
 }

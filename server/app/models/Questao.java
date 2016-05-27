@@ -1,10 +1,17 @@
 package models;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.codehaus.jackson.node.ObjectNode;
 import org.hibernate.annotations.Index;
@@ -12,10 +19,13 @@ import org.hibernate.annotations.Index;
 import util.AdminJson;
 
 @Entity
-public class Questao {
+public class Questao implements Serializable {
+
+private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idQuestao")
 	private int id;
 	
 	@Column(nullable = false)
@@ -44,17 +54,23 @@ public class Questao {
 	@Index(name = "level")
 	private int level;
 	
-	@Column(nullable = false)
-	@Index(name = "cnpjInst")
-	private String cnpjInst;
+	@ManyToOne
+	@JoinColumn(name="cnpjInst")
+	private Instituicao instituicao;
 	
-	@Column(nullable = false)
-	@Index(name = "idProfessor")
-	private int idProfessor;
+	@ManyToOne
+	@JoinColumn(name="idProfessor")
+	private Professor professor;
+	
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval=true)
+	@JoinColumn(name="idQuestao")
+	private List<Resposta> respostas;
 	
 	public Questao(){}
 	
-	public Questao(String questao, String resposta1, String resposta2, String resposta3, String resposta4, String resposta5, char respostaCorreta, int level, String cnpjInst, int idProfessor) {
+	public Questao(Instituicao instituicao, Professor professor, String questao, String resposta1, String resposta2, String resposta3, String resposta4, String resposta5, char respostaCorreta, int level) {
+		this.instituicao = instituicao;
+		this.professor = professor;
 		this.questao = questao;
 		this.resposta1 = resposta1;
 		this.resposta2 = resposta2;
@@ -63,12 +79,12 @@ public class Questao {
 		this.resposta5 = resposta5;
 		this.respostaCorreta = respostaCorreta;
 		this.level = level;
-		this.cnpjInst = cnpjInst;
-		this.idProfessor = idProfessor;
 	}
 	
-	public Questao(int id, String questao, String resposta1, String resposta2, String resposta3, String resposta4, String resposta5, char respostaCorreta, int level, String cnpjInst, int idProfessor) {
+	public Questao(int id, Instituicao instituicao, Professor professor, String questao, String resposta1, String resposta2, String resposta3, String resposta4, String resposta5, char respostaCorreta, int level) {
 		this.id = id;
+		this.instituicao = instituicao;
+		this.professor = professor;
 		this.questao = questao;
 		this.resposta1 = resposta1;
 		this.resposta2 = resposta2;
@@ -77,8 +93,6 @@ public class Questao {
 		this.resposta5 = resposta5;
 		this.respostaCorreta = respostaCorreta;
 		this.level = level;
-		this.cnpjInst = cnpjInst;
-		this.idProfessor = idProfessor;
 	}
 	
 	public static ObjectNode isRespondida(boolean isRespondida) {
@@ -150,23 +164,18 @@ public class Questao {
 	}
 
 	public String getCnpjInst() {
-		return cnpjInst;
-	}
-
-	public void setCnpjInst(String cnpjInst) {
-		this.cnpjInst = cnpjInst;
+		return instituicao.getCnpj();
 	}
 
 	public int getIdProfessor() {
-		return idProfessor;
-	}
-
-	public void setIdProfessor(int idProfessor) {
-		this.idProfessor = idProfessor;
+		return professor.getId();
 	}
 
 	public int getId() {
 		return id;
 	}
 	
+	public List<Resposta> getRespostas() {
+		return respostas;
+	}
 }

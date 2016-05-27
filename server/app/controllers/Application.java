@@ -8,6 +8,10 @@ import util.Constantes;
 import util.Mail;
 
 public class Application extends Controller {
+	
+	public static Result load() {
+        return ok(views.html.loading.render());
+    }
 	  
     public static Result index() {
         return ok(views.html.index.render());

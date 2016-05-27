@@ -1,54 +1,50 @@
 package models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.Index;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Resposta {
+public class Resposta implements Serializable {
+
+private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idResposta")
 	private int id;
-	
-	@Column(nullable = false)
-	@Index(name = "idQuestao")
-	private int idQuestao;
-	
-	@Column(nullable = false)
-	@Index(name = "idAluno")
-	private int idAluno;
 
 	@Column(nullable = false)
 	private int pontuacao;
 	
+	@ManyToOne
+	@JoinColumn(name="idAluno")
+	private Aluno aluno;
+	
+	@ManyToOne
+	@JoinColumn(name="idQuestao")
+	private Questao questao;
+	
 	public Resposta(){}
 	
-	public Resposta(int idQuestao, int idAluno, int pontuacao) {
-		this.idQuestao = idQuestao;
-		this.idAluno = idAluno;
+	public Resposta(Questao questao, Aluno aluno, int pontuacao) {
+		this.questao = questao;
+		this.aluno = aluno;
 		this.pontuacao = pontuacao;
 	}
 
 	public int getIdQuestao() {
-		return idQuestao;
-	}
-
-	public void setIdQuestao(int idQuestao) {
-		this.idQuestao = idQuestao;
+		return questao.getId();
 	}
 
 	public int getIdAluno() {
-		return idAluno;
-	}
-
-	public void setIdAluno(int idAluno) {
-		this.idAluno = idAluno;
+		return aluno.getId();
 	}
 
 	public int getPontuacao() {
@@ -62,5 +58,4 @@ public class Resposta {
 	public int getId() {
 		return id;
 	}
-	
 }

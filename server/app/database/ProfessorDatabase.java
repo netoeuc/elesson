@@ -115,4 +115,9 @@ public class ProfessorDatabase {
 
 		return bi.get(0).intValue();
 	}
+	
+	@Transactional
+	public static void deleteProfessor(Professor p)throws Exception{
+		JPA.em().remove(p);
+	}
 }

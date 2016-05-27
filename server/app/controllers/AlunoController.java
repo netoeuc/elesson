@@ -237,7 +237,7 @@ public class AlunoController extends Controller {
 					Questao q = QuestaoDatabase.selectQuestaoById(idQuestao);
 
 					if(q != null && q.getLevel() == a.getLevel()){
-						Resposta r = new Resposta(idQuestao, idAluno, pontuacao);
+						Resposta r = new Resposta(q, a, pontuacao);
 						a.setPontuacao(a.getPontuacao() + pontuacao);
 						JPA.em().persist(r);
 						JPA.em().merge(a);

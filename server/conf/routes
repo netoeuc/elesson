@@ -75,7 +75,7 @@ POST    /api/student/isauth					controllers.AlunoController.isLogado()
 POST    /api/student/questions				controllers.AlunoController.questoes()
 POST    /api/student/questions/answer		controllers.AlunoController.responderQuestao()
 
-GET     /panel/teste						controllers.InstituicaoController.teste()
+GET		/load								controllers.Application.load()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

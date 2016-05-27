@@ -1,6 +1,7 @@
 package database;
 
 import java.util.List;
+
 import models.Questao;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -68,6 +69,11 @@ public class QuestaoDatabase {
 		}else{
 			return lq.get(0);
 		}
+	}
+
+	@Transactional
+	public static void deleteQuestao(Questao q)throws Exception{
+		JPA.em().remove(q);
 	}
 	
 }

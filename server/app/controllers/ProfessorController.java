@@ -307,7 +307,7 @@ public class ProfessorController extends Controller{
 					flash("erro", "Texto da questão muito longo");
 				}else{
 					char resposta = respostaCorreta.charAt(0);
-					Questao novaQ = new Questao(questao,resposta1,resposta2,resposta3,resposta4,resposta5,resposta,nivel,p.getCnpjInst(),p.getId());
+					Questao novaQ = new Questao(p.getInstituicao(),p,questao,resposta1,resposta2,resposta3,resposta4,resposta5,resposta,nivel);
 						
 					JPA.em().persist(novaQ);
 				}
@@ -369,7 +369,7 @@ public class ProfessorController extends Controller{
 					q.setResposta3(resposta3);
 					q.setResposta4(resposta4);
 					q.setResposta5(resposta5);
-					q.setRespostaCorreta(respostaCorreta);
+					q.setRespostaCorreta(respostaCorreta.charAt(0));
 					q.setLevel(nivel);
 					JPA.em().merge(q);
 					flash("ok","questão editada");
@@ -394,7 +394,7 @@ public class ProfessorController extends Controller{
 			if(idQuestao != -1){
 				Questao q = QuestaoDatabase.selectQuestaoById(idQuestao);
 				if(q != null){
-					JPA.em().remove(q);
+					QuestaoDatabase.deleteQuestao(q);
 					flash("ok", "questão removida");
 				}
 			}else{

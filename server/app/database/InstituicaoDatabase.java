@@ -5,7 +5,6 @@ import java.util.List;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
-import scala.math.BigInt;
 import util.Constantes;
 import models.Instituicao;
 
@@ -116,5 +115,10 @@ public class InstituicaoDatabase {
 				.getResultList();
 
 		return bi.get(0).intValue();
+	}
+
+	@Transactional
+	public static void deleteInstituicao(Instituicao i) throws Exception {
+		JPA.em().remove(i);
 	}
 }

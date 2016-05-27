@@ -41,22 +41,22 @@
 				 </div>
 				 }
                   
-                   <!-- Dropdown Trigger 
+                   <!-- Dropdown Trigger -->
                   <div class="row">
                   	<div class="col s12 offset-m4 m4">
-	                  <!-- Dropdown Trigger --
+	                  <!-- Dropdown Trigger -->
 					  <a class='col s12 bg-gelo dropdown-button btn-flat waves-effect waves-red center-align' href='#' data-activates='dropdown2'>
 					  	@if(isSingle){all}else{all by teacher}
 					  	<i class="material-icons right not-margin">arrow_drop_down</i>
 					  </a>
 					
-					  <!-- Dropdown Structure --
+					  <!-- Dropdown Structure -->
 					  <ul id='dropdown2' class='dropdown-content'>
 					    <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.alunos()">all</a></li>
 					    <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.alunos()?is=false">all by teacher</a></li>
 					  </ul>
 					</div>
-                  </div>-->
+                  </div>
                   
                   <div class="row">
                   
@@ -74,7 +74,7 @@
                         @for(a<-listaAluno){
 	                      <tr>
 	                      	<td><a id="showDetails" onclick="mostrarAluno('@a.getNome()', '@a.getId()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a></td>
-	                      	<td>Washington</td>
+	                      	<td>@a.getProfessor().getNome()</td>
 	                      	<td>
                               <i onclick="mostrarEditarAluno('@a.getNome()', '@a.getIdProfessor()', '@a.getId()', '@routes.InstituicaoController.formEditarAluno()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
                               <i onclick="removerAluno('@a.getId()','@routes.InstituicaoController.removerAluno()');" id="rem-@a.getId()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>
@@ -87,9 +87,10 @@
 	                 }else{
 		                 <ul class="collapsible no-shadow" data-collapsible="accordion">
 		                 <!-- for dos professores a partir daqui { -->
+		                 @for(p<-listaProfessor){
 	                      <li>
 	                        <div id="col-A" class="collapsible-header bg-gelo waves-effect">
-		                        Washington
+		                        @p.getNome()
 		                        <i class="material-icons left not-margin">arrow_drop_down</i>
 		                    </div>
 	                        <div class="collapsible-body">
@@ -104,24 +105,29 @@
 				                    <thead>
 				                       <tr>
 					                       <th data-field="name" data-sortable="true">Name</th>
+					                       <th data-field="teacher" data-sortable="true">Teacher</th>
 					                       <th data-field="action" data-sortable="false">Action</th>
 				                       </tr>
 				                    </thead>
 				                    <tbody>
 				                    	<!-- for dos alunos partir daqui { -->
+				                      @for(a<-p.getAlunos()){
 				                      <tr>
-				                      	<td><a id="showDetails" onclick="mostrarAluno('Bruno', '1')" class="modal-trigger waves-effect waves-light">Bruno</a></td>
+				                      	<td><a id="showDetails" onclick="mostrarAluno('@a.getNome()', '@a.getId()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a></td>
+				                      	<td>@a.getProfessor().getNome()</td>
 				                      	<td>
-			                              <i onclick="mostrarEditarAluno('Bruno', 'codProfessor-1', '1');" class="tiny-small material-icons color-amarelo cursor-pointer">mode_edit</i>
-			                              <i onclick="removerAluno('1');" id="rem-1" class="tiny-small material-icons color-vermelho cursor-pointer">delete</i>
+			                              <i onclick="mostrarEditarAluno('@a.getNome()', '@a.getIdProfessor()', '@a.getId()', '@routes.InstituicaoController.formEditarAluno()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
+			                              <i onclick="removerAluno('@a.getId()','@routes.InstituicaoController.removerAluno()');" id="rem-@a.getId()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>
 			                            </td>
 				                      </tr>
+				                      }
 				                      	<!-- for dos alunos até aqui } -->
 				                    </tbody>
 				                  </table>
 	                          </div>
 	                        </div>
 	                      </li>
+	                      }
 	                      <!-- for dos professores até aqui } -->
 	                    </ul>
 	                 }

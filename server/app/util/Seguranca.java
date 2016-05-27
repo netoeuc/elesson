@@ -1,11 +1,5 @@
 package util;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.math.BigInteger;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
 import java.util.Random;
 
 import org.apache.commons.codec.digest.DigestUtils;

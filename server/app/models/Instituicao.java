@@ -1,8 +1,14 @@
 package models;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Index;
 
@@ -11,9 +17,12 @@ import util.ELicenca;
 import util.Seguranca;
 
 @Entity
-public class Instituicao {
+public class Instituicao implements Serializable {
+
+private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(name="cnpjInst")
 	private String cnpj;
 	
 	@Column(nullable = false, length = 75)
@@ -37,6 +46,18 @@ public class Instituicao {
 	
 	@Column(nullable = false)
 	private int status;
+	
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval=true)
+	@JoinColumn(name="cnpjInst")
+	private List<Professor> professores;
+	
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval=true)
+	@JoinColumn(name="cnpjInst")
+	private List<Aluno> alunos;
+	
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval=true)
+	@JoinColumn(name="cnpjInst")
+	private List<Questao> questoes;
 	
 	public Instituicao(){}
 	
@@ -128,5 +149,16 @@ public class Instituicao {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
+	public List<Professor> getProfessores() {
+		return professores;
+	}
 		
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+	
+	public List<Questao> getQuestoes() {
+		return questoes;
+	}
 }
