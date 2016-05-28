@@ -199,6 +199,10 @@ ul li a .material-icons{
   background-color: #F4F4F4 !important;
 }
 
+.bg-verde{
+	background-color: #228800 !important;
+}
+
 .warning{
 	background-color: #FFE599 !important;
 	color: #806000 !important;

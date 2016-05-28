@@ -1,8 +1,10 @@
 package database;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Aluno;
+import models.AlunoRanking;
 import models.Professor;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -118,6 +120,72 @@ public class AlunoDatabase {
 		}else{
 			return li.get(0);
 		}
+	}
+	
+	@Transactional
+	public static List<Aluno> selectAlunosOrderPontuacaoByInstituicao(String cnpjInst) {
+		String query = "FROM Aluno WHERE cnpjInst = :cnpjInst ORDER BY pontuacao DESC LIMIT 10";
+		List<Aluno> li = JPA.em().createQuery(query)
+								.setParameter("cnpjInst", cnpjInst)
+								.getResultList();
+
+		return li;
+	}
+	
+	@Transactional
+	public static List<Aluno> selectAlunosOrderPontuacaoByProfessor(int idProfessor) {
+		String query = "FROM Aluno WHERE idProfessor = :idProfessor ORDER BY pontuacao DESC LIMIT 10";
+		List<Aluno> li = JPA.em().createQuery(query)
+								.setParameter("idProfessor", idProfessor)
+								.getResultList();
+
+		return li;
+	}
+	
+	@Transactional
+	public static List<AlunoRanking> selectAlunosRankingByInstituicao(String cnpjInst) {
+		String query = "SELECT idAluno, nome, pontuacao, level, @curRank := @curRank + 1 AS rank "
+				+ "FROM Aluno a, (SELECT @curRank := 0) r "
+				+ "WHERE a.cnpjInst = :cnpjInst "
+				+ "ORDER BY pontuacao DESC LIMIT 10";
+		List<Object> lo = JPA.em().createNativeQuery(query)
+								.setParameter("cnpjInst", cnpjInst)
+								.getResultList();
+		
+		List<AlunoRanking> lar = new ArrayList<AlunoRanking>();
+		for (Object object : lo) {
+			Object[] itens = (Object[]) object;		
+			lar.add(new AlunoRanking(
+					Integer.parseInt(itens[0]+""), 
+					itens[1]+"", 
+					Integer.parseInt(itens[2]+""), 
+					Integer.parseInt(itens[3]+""), 
+					Integer.parseInt(itens[4]+"")));
+		}
+		return lar;
+	}
+	
+	@Transactional
+	public static List<AlunoRanking> selectAlunosRankingByProfessor(int idProfessor) {
+		String query = "SELECT idAluno, nome, level, pontuacao, @curRank := @curRank + 1 AS rank "
+				+ "FROM Aluno a, (SELECT @curRank := 0) r "
+				+ "WHERE a.idProfessor = :idProfessor "
+				+ "ORDER BY pontuacao DESC LIMIT 10";
+		List<Object> lo = JPA.em().createNativeQuery(query)
+								.setParameter("idProfessor", idProfessor)
+								.getResultList();
+		
+		List<AlunoRanking> lar = new ArrayList<AlunoRanking>();
+		for (Object object : lo) {
+			Object[] itens = (Object[]) object;		
+			lar.add(new AlunoRanking(
+					Integer.parseInt(itens[0]+""), 
+					itens[1]+"", 
+					Integer.parseInt(itens[2]+""), 
+					Integer.parseInt(itens[3]+""), 
+					Integer.parseInt(itens[4]+"")));
+		}
+		return lar;
 	}
 	
 	@Transactional

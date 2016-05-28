@@ -345,7 +345,8 @@ public class InstituicaoController extends Controller{
 	public static Result alunosByRanking() {
 		try{			
 			Instituicao i = getUsuarioAutenticado();
-			return ok(views.html.instituicao.alunos.render(2,i.getAlunos(),i.getProfessores()));
+			List<Aluno> la = AlunoDatabase.selectAlunosOrderPontuacaoByInstituicao(i.getCnpj());
+			return ok(views.html.instituicao.alunos.render(2,la,i.getProfessores()));
 			
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/alunosByRanking(): "+ e.getMessage());

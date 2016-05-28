@@ -17,7 +17,8 @@ public class Application extends Controller {
     }
 	
 	public static Result load() {
-        return ok(views.html.loading.render());
+		int template = 1;
+        return ok(views.html.loading.render(template));
     }
 	  
     public static Result index() {

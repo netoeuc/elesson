@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import models.Aluno;
+import models.AlunoRanking;
 import models.Instituicao;
 import models.Questao;
 import models.Resposta;
@@ -255,6 +256,62 @@ public class AlunoController extends Controller {
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - AlunoController/responderQuestao(): "+ e.getMessage());
+		}
+		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
+	}
+	
+	@Transactional
+	public static Result rankingByProfessor(){
+		response().setContentType("application/json; charset=utf-8");
+		response().setHeader("Access-Control-Allow-Origin","*");
+		response().setHeader("Access-Control-Allow-Methods", "GET, POST");
+		
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
+			int idAluno = dynamicForm.get("ca") == null || dynamicForm.get("ca").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("ca"));
+
+			if(idAluno != -1){
+				Aluno a = AlunoDatabase.selectAlunoById(idAluno);
+
+				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado()) {
+					List<AlunoRanking> lar = AlunoDatabase.selectAlunosRankingByProfessor(a.getIdProfessor());
+					return ok(AdminJson.getObject(lar, "rankingPorProfessor"));
+				}else{
+					return ok(Aluno.isLogado(false));
+				}
+			}else{
+				return badRequest(AdminJson.getMensagem(AdminJson.msgConsulteAPI));
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - AlunoController/rankingByProfessor(): "+ e.getMessage());
+		}
+		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
+	}
+	
+	@Transactional
+	public static Result rankingByInstituicao(){
+		response().setContentType("application/json; charset=utf-8");
+		response().setHeader("Access-Control-Allow-Origin","*");
+		response().setHeader("Access-Control-Allow-Methods", "GET, POST");
+		
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
+			int idAluno = dynamicForm.get("ca") == null || dynamicForm.get("ca").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("ca"));
+
+			if(idAluno != -1){
+				Aluno a = AlunoDatabase.selectAlunoById(idAluno);
+
+				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado()) {
+					List<AlunoRanking> lar = AlunoDatabase.selectAlunosRankingByInstituicao(a.getCnpjInst());
+					return ok(AdminJson.getObject(lar, "rankingPorInstituicao"));
+				}else{
+					return ok(Aluno.isLogado(false));
+				}
+			}else{
+				return badRequest(AdminJson.getMensagem(AdminJson.msgConsulteAPI));
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - AlunoController/rankingByProfessor(): "+ e.getMessage());
 		}
 		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
 	}

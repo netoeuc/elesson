@@ -77,11 +77,14 @@ function removerAluno(codigo,action){
 	var rem = $('td i#rem-'+codigo);
 	if(rem.attr("rel") == "delete"){
 		rem.attr("rel", "done");
+		rem.attr("title", "clique para confirmar a remoção");
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
-		$.post(action, {cod: codigo}, function() {
-		}).fail(function() {});
-		window.location.reload(true);
+		if (confirm('Todos os dados deste aluno serão apagados. Deseja continuar?')) {
+			$.post(action, {cod: codigo}, function() {
+			}).fail(function() {});
+			window.location.reload(true); 
+		}
 	}
 }
 
@@ -122,20 +125,25 @@ function removerInstituicao(codigo, action){
 	var rem = $('td i#rem-'+codigo);
 	if(rem.attr("rel") == "delete"){
 		rem.attr("rel", "done");
+		rem.attr("title", "clique para confirmar a remoção");
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
-		$.post(action, {cod: codigo}, function() {
-		}).fail(function() {});
-		window.location.reload(true);
+		if (confirm('Todos os dados deste cliente serão apagados. Deseja continuar?')) {
+			$.post(action, {cod: codigo}, function() {
+			}).fail(function() {});
+			window.location.reload(true);
+		}
 	}
 }
 
 function editarProfessorAlunos(codigo, action){
 	var select = $('#select-'+codigo+' #dropdown-teacher-list option:selected');
 	if(select != "null"){
-		$.post(action, {codP: codigo, codNP:select.val()}, function() {
-		}).fail(function() {});
-		window.location.reload(true);
+		if (confirm('Todas as respostas dos alunos serão apagadas. Deseja continuar?')) {
+			$.post(action, {codP: codigo, codNP:select.val()}, function() {
+			}).fail(function() {});
+			window.location.reload(true);
+		}
 	}	
 }
 
@@ -176,11 +184,14 @@ function removerProfessor(codigo,action){
 	var rem = $('td i#rem-'+codigo);
 	if(rem.attr("rel") == "delete"){
 		rem.attr("rel", "done");
+		rem.attr("title", "clique para confirmar a remoção");
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
-		$.post(action, {cod: codigo}, function() {
-		}).fail(function() {});
-		window.location.reload(true);
+		if (confirm('Todas as questões e alunos vinculados serão apagados. Deseja continuar?')) {
+			$.post(action, {cod: codigo}, function() {
+			}).fail(function() {});
+			window.location.reload(true);
+		}
 	}
 }
 
@@ -207,7 +218,6 @@ function mostrarEditarQuestao(codigo, action){
 	
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal-fields-edit #form-callback").html(data);
-		//gerarTextEditor("#modal-fields-edit #form-callback #txtEditor-edit");
 	}).fail(function() {
 		$("#modal-fields-edit #form-callback").html("error");
 	});
@@ -217,10 +227,13 @@ function removerQuestao(codigo,action){
 	var rem = $('td i#rem-'+codigo);
 	if(rem.attr("rel") == "delete"){
 		rem.attr("rel", "done");
+		rem.attr("title", "clique para confirmar a remoção");
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
-		$.post(action, {cod: codigo}, function() {
-		}).fail(function() {});
-		window.location.reload(true);
+		if (confirm('Todas as respostas dos alunos serão apagadas. Deseja continuar?')) {
+			$.post(action, {cod: codigo}, function() {
+			}).fail(function() {});
+			window.location.reload(true);
+		}
 	}
 }
