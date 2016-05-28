@@ -8,6 +8,7 @@ import interceptors.UsuarioSmartInterceptor;
 import database.InstituicaoDatabase;
 import database.SmartEducDatabase;
 import models.Instituicao;
+import models.Licenca;
 import models.UsuarioSmart;
 import play.Logger;
 import play.data.DynamicForm;
@@ -42,7 +43,6 @@ public class SmartEducController extends Controller{
 		}
 	}
 	
-
 	@Transactional
 	public static UsuarioSmart getUsuarioAutenticado() {
 		try{
@@ -110,6 +110,32 @@ public class SmartEducController extends Controller{
 			flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
 		}
 		return redirect(routes.SmartEducController.login());
+	}
+	
+	@Transactional
+	@With({ UsuarioSmartInterceptor.class })
+	public static Result mostrarCliente(){
+		try {
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			String cnpj = dynamicForm.get("cod") == null || dynamicForm.get("cod").replace(".", "").replace("/", "").replace("-", "").trim().isEmpty()? null : dynamicForm.get("cod").trim().replace(" ", "").replace(".", "").replace("/", "").replace("-", "");
+			
+			Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
+			if(i != null){
+				int qntAlunos = i.getAlunos().size();
+				int qntProfessores = i.getProfessores().size();
+				int qntQuestoes = i.getQuestoes().size();
+				Licenca l = ELicencaUtil.getLicenca(i.getLicenca());
+				
+				int statusLicenca = ELicencaUtil.getStatusLicenca(i.getLicenca(), qntAlunos);
+				
+				return ok(views.html.smarteduc.ajax.mostrarInstituicao.render(i, qntAlunos, qntProfessores, qntQuestoes, statusLicenca, l));
+			}
+			flash("erro", "Informe o cnpj da instituicao");
+		}catch(Exception e){
+			Logger.error("ERRO - SmartEducController/mostrarCliente(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao mostrar cliente. Tente novamente mais tarde");
+		}
+		return badRequest("erro");
 	}
 	
 	@Transactional

@@ -1,6 +1,9 @@
 package controllers;
 
 import static play.data.Form.form;
+
+import java.util.Date;
+
 import play.Logger;
 import play.data.DynamicForm;
 import play.mvc.*;
@@ -8,6 +11,10 @@ import util.Constantes;
 import util.Mail;
 
 public class Application extends Controller {
+	
+	public static long getSystemTime() {
+        return new Date().getTime();
+    }
 	
 	public static Result load() {
         return ok(views.html.loading.render());

@@ -23,6 +23,9 @@ private static final long serialVersionUID = 1L;
 	@Column(nullable = false)
 	private int pontuacao;
 	
+	@Column(nullable = false)
+	private int posicaoJogo;
+	
 	@ManyToOne
 	@JoinColumn(name="idAluno")
 	private Aluno aluno;
@@ -31,12 +34,18 @@ private static final long serialVersionUID = 1L;
 	@JoinColumn(name="idQuestao")
 	private Questao questao;
 	
+	@ManyToOne
+	@JoinColumn(name="idProfessor")
+	private Professor professor;
+	
 	public Resposta(){}
 	
-	public Resposta(Questao questao, Aluno aluno, int pontuacao) {
+	public Resposta(Professor professor, Questao questao, Aluno aluno, int pontuacao, int posicaoJogo) {
+		this.professor = professor;
 		this.questao = questao;
 		this.aluno = aluno;
 		this.pontuacao = pontuacao;
+		this.posicaoJogo = posicaoJogo;
 	}
 
 	public int getIdQuestao() {
@@ -57,5 +66,13 @@ private static final long serialVersionUID = 1L;
 
 	public int getId() {
 		return id;
+	}
+
+	public int getPosicaoJogo() {
+		return posicaoJogo;
+	}
+
+	public void setPosicaoJogo(int posicaoJogo) {
+		this.posicaoJogo = posicaoJogo;
 	}
 }

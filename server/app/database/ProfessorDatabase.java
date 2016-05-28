@@ -70,7 +70,7 @@ public class ProfessorDatabase {
 	}
 	
 	@Transactional
-	public static Professor selectProfessorById(long id)throws Exception{
+	public static Professor selectProfessorById(int id)throws Exception{
 		String query = "FROM Professor WHERE id = :id";
 		List<Professor> lp = JPA.em().createQuery(query)
 								.setParameter("id", id)

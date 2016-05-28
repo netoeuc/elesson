@@ -1,10 +1,10 @@
-@(isSingle: Boolean)(listaAluno:List[Aluno])(listaProfessor:List[Professor])
+@(template: Integer)(listaAluno:List[Aluno])(listaProfessor:List[Professor])
 @optionsTeacherList ={
 		<!-- for dos professores a partir daqui { -->
     @for(p<-listaProfessor){
 		<option value="@p.getId()">@p.getNome()</option>
-		<!-- for dos professores ate aqui } -->
     }
+		<!-- for dos professores ate aqui } -->
 }
 @content = {
 		
@@ -46,22 +46,23 @@
                   	<div class="col s12 offset-m4 m4">
 	                  <!-- Dropdown Trigger -->
 					  <a class='col s12 bg-gelo dropdown-button btn-flat waves-effect waves-red center-align' href='#' data-activates='dropdown2'>
-					  	@if(isSingle){all}else{all by teacher}
+					  	@if(template == 0){all}@if(template == 1){all by teacher}@if(template == 2){ranking}
 					  	<i class="material-icons right not-margin">arrow_drop_down</i>
 					  </a>
 					
 					  <!-- Dropdown Structure -->
 					  <ul id='dropdown2' class='dropdown-content'>
 					    <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.alunos()">all</a></li>
-					    <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.alunos()?is=false">all by teacher</a></li>
+					    <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.alunosByTeacher()">all by teacher</a></li>
+					    <li><a class="waves-effect waves-red" href="@routes.InstituicaoController.alunosByRanking()">ranking</a></li>
 					  </ul>
 					</div>
                   </div>
                   
                   <div class="row">
                   
-                  	@if(isSingle){
-	                  <table data-sort-name="classroom" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="true" data-page-list="[5, 10, 15, 20]" data-cache="false" class="students-table">
+                  	@if(template == 0){ @* ALL *@
+	                  <table data-sort-name="name" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="true" data-page-list="[5, 10, 15, 20]" data-cache="false" class="students-table">
 	                    <thead>
 	                       <tr>
 		                       <th data-field="name" data-sortable="true">Name</th>
@@ -73,7 +74,7 @@
 	                    	<!-- for a partir daqui { -->
                         @for(a<-listaAluno){
 	                      <tr>
-	                      	<td><a id="showDetails" onclick="mostrarAluno('@a.getNome()', '@a.getId()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a></td>
+	                      	<td><a id="showDetails" onclick="mostrarAluno('@a.getNome()', '@a.getId()', '@routes.InstituicaoController.mostrarAluno()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a></td>
 	                      	<td>@a.getProfessor().getNome()</td>
 	                      	<td>
                               <i onclick="mostrarEditarAluno('@a.getNome()', '@a.getIdProfessor()', '@a.getId()', '@routes.InstituicaoController.formEditarAluno()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
@@ -84,7 +85,8 @@
 	                      	<!-- for até aqui } -->
 	                    </tbody>
 	                  </table>
-	                 }else{
+	                 }
+	                 @if(template == 1){ @* ALL BY TEACHER *@
 		                 <ul class="collapsible no-shadow" data-collapsible="accordion">
 		                 <!-- for dos professores a partir daqui { -->
 		                 @for(p<-listaProfessor){
@@ -94,14 +96,14 @@
 		                        <i class="material-icons left not-margin">arrow_drop_down</i>
 		                    </div>
 	                        <div class="collapsible-body">
-	                          <div class="row" style="margin-top: 20px;">
-	                          	<select id="dropdown-teacher-list" class="col s12 offset-m3 m6 browser-default">
-									<option value="" disabled selected>Transfer all students to: </option>
+	                          <div id="select-@p.getId()" class="row" style="margin-top: 20px;">
+	                          	<select onchange="editarProfessorAlunos('@p.getId()', '@routes.InstituicaoController.editarProfessorAlunos()')" id="dropdown-teacher-list" class="col s12 offset-m3 m6 browser-default">
+									<option value="null" disabled selected>Transfer all students to: </option>
 									@optionsTeacherList
 								</select>
 	                          </div>
 	                          <div class="row">
-	                          	<table data-sort-name="classroom" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="true" data-page-list="[5, 10, 15, 20]" data-cache="false" class="students-table">
+	                          	<table data-sort-name="name" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="true" data-page-list="[5, 10, 15, 20]" data-cache="false" class="students-table">
 				                    <thead>
 				                       <tr>
 					                       <th data-field="name" data-sortable="true">Name</th>
@@ -113,7 +115,7 @@
 				                    	<!-- for dos alunos partir daqui { -->
 				                      @for(a<-p.getAlunos()){
 				                      <tr>
-				                      	<td><a id="showDetails" onclick="mostrarAluno('@a.getNome()', '@a.getId()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a></td>
+				                      	<td><a id="showDetails" onclick="mostrarAluno('@a.getNome()', '@a.getId()', '@routes.InstituicaoController.mostrarAluno()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a></td>
 				                      	<td>@a.getProfessor().getNome()</td>
 				                      	<td>
 			                              <i onclick="mostrarEditarAluno('@a.getNome()', '@a.getIdProfessor()', '@a.getId()', '@routes.InstituicaoController.formEditarAluno()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
@@ -130,6 +132,33 @@
 	                      }
 	                      <!-- for dos professores até aqui } -->
 	                    </ul>
+	                 }
+	                 @if(template == 2){ @* RANKING *@
+	                  <table data-sort-name="pos" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="false" data-cache="false" class="students-table">
+	                    <thead>
+	                       <tr>
+	                       	   <th data-field="pos" data-sortable="true">Position</th>
+		                       <th data-field="name" data-sortable="true">Name</th>
+		                       <th data-field="point" data-sortable="true">Point</th>
+		                       <th data-field="action" data-sortable="false">Action</th>
+	                       </tr>
+	                    </thead>
+	                    <tbody>
+	                    	<!-- for a partir daqui { -->
+                        @for(a<-listaAluno; index <- 1 until listaAluno.size()+1){
+	                      <tr>
+	                      	<td>@index</td>
+	                      	<td><a id="showDetails" onclick="mostrarAluno('@a.getNome()', '@a.getId()', '@routes.InstituicaoController.mostrarAluno()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a></td>
+	                      	<td>@a.getPontuacao()</td>
+	                      	<td>
+                              <i onclick="mostrarEditarAluno('@a.getNome()', '@a.getIdProfessor()', '@a.getId()', '@routes.InstituicaoController.formEditarAluno()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
+                              <i onclick="removerAluno('@a.getId()','@routes.InstituicaoController.removerAluno()');" id="rem-@a.getId()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>
+                            </td>
+	                      </tr>
+                        }
+	                      	<!-- for até aqui } -->
+	                    </tbody>
+	                  </table>
 	                 }
                   </div>
                   
@@ -148,7 +177,17 @@
           <div id="modal" class="modal modal-fixed-footer">
             <div class="modal-content">
               <h4 id="namestudent">Student Name</h4>
-              <div id="bar-chart" style="width: 100%; height:200px;"></div>
+              <div class="col s12 m12">
+              	<div class="row" style="margin-bottom: 0px !important;">
+                   <div class="col s12 offset-m1 m10">
+                      
+                     <div class="row" id="data-callback">
+                     	
+                     </div>  
+                                
+                   </div>
+                 </div>
+              </div>
             </div>
             <div class="modal-footer">
               <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">close</a>
@@ -228,36 +267,6 @@
               <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">close</a>
             </div>
           </div> 
-              
-  <script type="text/javascript">
-    function randomIntFromInterval(){   
-      var min = 50;
-      var max = 100;
-      return Math.floor(Math.random()*(max-min+1)+min);
-    }
-
-    function drawChart(clas){
-      $('#bar-chart').html("loading");
-      setTimeout(function(){
-        $('#bar-chart').html("");
-        Morris.Bar({
-          element: 'bar-chart',
-          data: [
-            { y: 'Assunto A', a: randomIntFromInterval(), b: randomIntFromInterval() },
-            { y: 'Assunto B', a: randomIntFromInterval(),  b: randomIntFromInterval() },
-            { y: 'Assunto C', a: randomIntFromInterval(),  b: randomIntFromInterval() },
-            { y: 'Assunto D', a: randomIntFromInterval(),  b: randomIntFromInterval() },
-            { y: 'Assunto E', a: randomIntFromInterval(),  b: randomIntFromInterval() },
-          ],
-          xkey: 'y',
-          ykeys: ['a', 'b'],
-          labels: ['Acertos', 'Erros'],
-          barColors: ['#00773C','#AD1414'],
-          resize: true
-        });
-      }, 1000);
-    }
-  </script>
 }
 
 @main("Business, e-Lessons")(content)

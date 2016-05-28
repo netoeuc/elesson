@@ -45,7 +45,7 @@
                             @for(q<-listaQuestao){
                               <tr>
                               	<td><a id="showDetails" onclick="mostrarQuestao('@q.getId()')" class="modal-trigger waves-effect waves-light">@q.getQuestao()</a></td>
-                              	<td>@q.getLevel()</td>
+                              	<td>@if(q.getLevel() == 1){Level 1} @if(q.getLevel() == 2){Level 2} @if(q.getLevel() == 3){Level 3} @if(q.getLevel() == 4){Level 4}</td>
                               	<td>
 									<i onclick="mostrarEditarQuestao('@q.getId()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
 			                        <i onclick="removerQuestao('@q.getId()','@routes.ProfessorController.removerQuestao()');" id="rem-@q.getId()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>

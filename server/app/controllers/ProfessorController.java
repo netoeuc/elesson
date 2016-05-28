@@ -332,7 +332,7 @@ public class ProfessorController extends Controller{
 				Logger.error("ERRO - ProfessorController/formEditarQuestao(): CODE is null");
 			}else{
 				Questao q = QuestaoDatabase.selectQuestao(cod,p.getId(),p.getCnpjInst());
-				return ok(views.html.professor.ajax.formEditarQuestao.render(q));
+				return ok(views.html.professor.ajax.formEditarQuestao.render(q, Application.getSystemTime()));
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - ProfessorController/formEditarQuestao(): "+ e.getMessage());

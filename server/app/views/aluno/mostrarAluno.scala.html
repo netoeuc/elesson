@@ -1,0 +1,45 @@
+@(a: models.Aluno)(posicaoRanking: Integer)(pontosLevel1: Integer)(pontosLevel2: Integer)(pontosLevel3: Integer)(pontosLevel4: Integer)
+<div class="row center-align">
+	<h5 style="color:#444;">Andamento:</h5>
+	<div id="bar-line" style="width: 100%; height:200px;"></div>
+</div>
+<div class="row">
+	<h5 style="color:#444; font-size: 18px;"><strong>Professor:</strong> @a.getProfessor().getNome()</h5>
+	<h5 style="color:#444; font-size: 18px;"><strong>Pontuação acumulada:</strong> @a.getPontuacao()</h5>
+	<h5 style="color:#444; font-size: 18px;"><strong>Posição no ranking:</strong> @posicaoRanking</h5>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		drawLineChart();
+	});
+
+	function randomIntFromInterval(){   
+	      var min = 50;
+	      var max = 100;
+	      return Math.floor(Math.random()*(max-min+1)+min);
+	    }
+	
+    function drawLineChart(){
+      $('#bar-line').html("loading");
+      setTimeout(function(){
+        $('#bar-line').html("");
+        Morris.Line({
+          element: 'bar-line',
+          data: [
+			@for(i <- 1 until a.getLevel + 1){
+            	@if(i == 1){{ y: 'Level @i', level: @pontosLevel1},}
+            	@if(i == 2){{ y: 'Level @i', level: @pontosLevel2},}
+            	@if(i == 3){{ y: 'Level @i', level: @pontosLevel3},}
+            	@if(i == 4){{ y: 'Level @i', level: @pontosLevel4}}
+			}
+          ],
+          xkey: 'y',
+          ykeys: ['level'],
+          labels: ['Pontos'],
+          parseTime: false,
+          resize: true,
+        });
+      }, 0);
+    }
+</script>

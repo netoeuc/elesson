@@ -41,24 +41,19 @@ function gerarMascaras(){
 	});
 }
 
-function gerarTextEditor(seletor){
-		tinymce.init({
-			  selector: seletor,
-			  height: 200,
-			  plugins: [
-			    'preview',
-			    'fullscreen',
-			    'paste'
-			  ],
-			  toolbar: 'undo redo'
-		});
-}
-
 /* ALUNO JS */
-function mostrarAluno(nome, classe, codigo){
-	$('#modal #namestudent').html(nome);
-    $('#modal').openModal();
-    drawChart(classe);
+function mostrarAluno(nome, codigo, action){    
+	var modal = $('#modal #namestudent');
+	modal.html(nome);
+
+	$("#modal #data-callback").html("loading");
+	$('#modal').openModal();
+	
+	$.post(action, {cod: codigo}, function(data) {
+		$("#modal #data-callback").html(data);
+	}).fail(function() {
+		$("#modal #data-callback").html("error");
+	});
 }
 
 function mostrarNovoAluno(){
@@ -91,10 +86,18 @@ function removerAluno(codigo,action){
 }
 
 /* INSTITUICAO JS */
-function mostrarInstituicao(nome, licenca, codigo){
-	$('#modal #namebusiness').html(nome +' - '+ licenca);
-    $('#modal').openModal();
-    drawChart(codigo);
+function mostrarInstituicao(nome, codigo, action){ 
+	var modal = $('#modal #namebusiness');
+	modal.html(nome);
+
+	$("#modal #data-callback").html("loading");
+	$('#modal').openModal();
+	
+	$.post(action, {cod: codigo}, function(data) {
+		$("#modal #data-callback").html(data);
+	}).fail(function() {
+		$("#modal #data-callback").html("error");
+	});
 }
 
 function mostrarNovaInstituicao(){
@@ -127,6 +130,15 @@ function removerInstituicao(codigo, action){
 	}
 }
 
+function editarProfessorAlunos(codigo, action){
+	var select = $('#select-'+codigo+' #dropdown-teacher-list option:selected');
+	if(select != "null"){
+		$.post(action, {codP: codigo, codNP:select.val()}, function() {
+		}).fail(function() {});
+		window.location.reload(true);
+	}	
+}
+
 /* PROFESSOR JS */
 function mostrarProfessor(nome, codigo, action){
 	var modal = $('#modal #nameteacher');
@@ -140,8 +152,6 @@ function mostrarProfessor(nome, codigo, action){
 	}).fail(function() {
 		$("#modal #data-callback").html("error");
 	});
-	
-    $('#modal').openModal();
 }
 
 function mostrarNovoProfessor(action){
@@ -192,7 +202,7 @@ function mostrarEditarQuestao(codigo, action){
 	
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal-fields-edit #form-callback").html(data);
-		gerarTextEditor("#modal-fields-edit #form-callback #txtEditor-edit");
+		//gerarTextEditor("#modal-fields-edit #form-callback #txtEditor-edit");
 	}).fail(function() {
 		$("#modal-fields-edit #form-callback").html("error");
 	});

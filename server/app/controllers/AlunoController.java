@@ -229,15 +229,16 @@ public class AlunoController extends Controller {
 			int idAluno = dynamicForm.get("ca") == null || dynamicForm.get("ca").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("ca"));
 			int idQuestao = dynamicForm.get("cq") == null || dynamicForm.get("cq").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cq"));
 			int pontuacao = dynamicForm.get("p") == null || dynamicForm.get("p").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("p"));
+			int posicaoJogo = dynamicForm.get("pos") == null || dynamicForm.get("pos").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("pos"));
 
-			if(idAluno != -1 && idQuestao != -1 && pontuacao != -1){
+			if(idAluno != -1 && idQuestao != -1 && pontuacao != -1 && posicaoJogo != -1){
 				Aluno a = AlunoDatabase.selectAlunoById(idAluno);
 
 				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado()) {
 					Questao q = QuestaoDatabase.selectQuestaoById(idQuestao);
 
 					if(q != null && q.getLevel() == a.getLevel()){
-						Resposta r = new Resposta(q, a, pontuacao);
+						Resposta r = new Resposta(q.getProfessor(), q, a, pontuacao, posicaoJogo);
 						a.setPontuacao(a.getPontuacao() + pontuacao);
 						JPA.em().persist(r);
 						JPA.em().merge(a);

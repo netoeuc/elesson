@@ -1,8 +1,9 @@
-@(q: Questao)
+@(q: Questao)(time: Long)
+@views.html.jsextraimports()
 <form action="@routes.ProfessorController.editarQuestao()" method="POST" class="col s12">
 
 	<div class="row" id="texto" style="margin-bottom: 50px;">
-              	<textarea id="txtEditor-edit" name="questao">@q.getQuestao()</textarea>
+              	<textarea id="txtEditor-edit@time" name="questao">@q.getQuestao()</textarea>
               </div>
 
               <div class="row" id="answers" style="margin-bottom: -10px;">
@@ -53,10 +54,10 @@
               	<div class="col s12 m5">
 					<select name="nivel" class="browser-default color-vermelho">
 						<option disabled selected>Choose a level</option>
-						<option value = "1" @if(q.getLevel() == 1){ selected="selected"}>Easy</option>
-						<option value = "2" @if(q.getLevel() == 2){ selected="selected"}>Medium</option>
-						<option value = "3" @if(q.getLevel() == 3){ selected="selected"}>Hard</option>
-						<option value = "4" @if(q.getLevel() == 4){ selected="selected"}>Expert</option>
+						<option value = "1" @if(q.getLevel() == 1){ selected="selected"}>Level 1</option>
+						<option value = "2" @if(q.getLevel() == 2){ selected="selected"}>Level 2</option>
+						<option value = "3" @if(q.getLevel() == 3){ selected="selected"}>Level 3</option>
+						<option value = "4" @if(q.getLevel() == 4){ selected="selected"}>Level 4</option>
 					</select>
 				</div>
               </div>
@@ -69,3 +70,17 @@
 	
 	<input name="cod" hidden type="text" value="@q.getId()">
 </form>
+<script type="text/javascript">
+	$(document).ready( function() {
+		tinymce.init({
+			  selector: '#txtEditor-edit@time',
+			  height: 200,
+			  plugins: [
+			    'preview',
+			    'fullscreen',
+			    'paste'
+			  ],
+			  toolbar: 'undo redo'
+		});
+	});
+</script>

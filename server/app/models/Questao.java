@@ -178,4 +178,8 @@ private static final long serialVersionUID = 1L;
 	public List<Resposta> getRespostas() {
 		return respostas;
 	}
+
+	public Professor getProfessor() {
+		return professor;
+	}
 }

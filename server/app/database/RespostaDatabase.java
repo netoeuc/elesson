@@ -30,5 +30,13 @@ public class RespostaDatabase {
 	public static void deteleResposta(Resposta r)throws Exception{
 		JPA.em().remove(r);
 	}
+
+	@Transactional
+	public static void deteleRespostasByProfessor(int idProfessor) {
+		String query = "DELETE FROM Resposta WHERE idProfessor = :idProfessor";
+		JPA.em().createNativeQuery(query)
+			.setParameter("idProfessor", idProfessor)
+			.executeUpdate();
+	}
 		
 }

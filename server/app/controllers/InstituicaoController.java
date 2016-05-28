@@ -156,8 +156,7 @@ public class InstituicaoController extends Controller{
 			int id = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
 			
 			if(id != -1){
-				Instituicao i = getUsuarioAutenticado();
-				Professor p = ProfessorDatabase.selectProfessor(id, i.getCnpj());
+				Professor p = ProfessorDatabase.selectProfessorById(id);
 				
 				if(p != null){
 					int qntAlunos = ProfessorDatabase.selectCountAlunos(p.getId());
@@ -173,6 +172,36 @@ public class InstituicaoController extends Controller{
 			flash("erro", "Ocorreu um erro ao carregar dados. Tente novamente mais tarde");
 		}
 		return redirect(routes.InstituicaoController.professores());
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result mostrarAluno(){
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			int id = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			
+			if(id != -1){
+				Aluno a = AlunoDatabase.selectAlunoById(id);				
+				if(a != null){
+					
+					// TODO definir modelagem da posição das questões
+					int pontosLevel1 = 0;
+					int pontosLevel2 = 0;
+					int pontosLevel3 = 0;
+					int pontosLevel4 = 0;
+					int posicaoRank = 1;
+					
+					return ok(views.html.aluno.mostrarAluno.render(a,posicaoRank,pontosLevel1,pontosLevel2,pontosLevel3,pontosLevel4));
+				}
+			}
+			flash("erro", "Código do professor inválido");
+
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/mostrarAluno(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao carregar dados. Tente novamente mais tarde");
+		}
+		return badRequest("erro");
 	}
 	
 	@Transactional
@@ -287,17 +316,69 @@ public class InstituicaoController extends Controller{
 	@Transactional
 	@With({ InstituicaoInterceptor.class })
 	public static Result alunos() {
-		try{
-			DynamicForm dynamicForm = form().bindFromRequest();
-			boolean isSingle = dynamicForm.get("is") == null || dynamicForm.get("is").trim().isEmpty()? true : Boolean.parseBoolean(dynamicForm.get("is"));
-			
+		try{			
 			Instituicao i = getUsuarioAutenticado();
-			return ok(views.html.instituicao.alunos.render(isSingle,i.getAlunos(),i.getProfessores()));
+			return ok(views.html.instituicao.alunos.render(0,i.getAlunos(),i.getProfessores()));
 			
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/alunos(): "+ e.getMessage());
 		}
 		return redirect(routes.InstituicaoController.index());
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result alunosByTeacher() {
+		try{			
+			Instituicao i = getUsuarioAutenticado();
+			return ok(views.html.instituicao.alunos.render(1,i.getAlunos(),i.getProfessores()));
+			
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/alunosByTeacher(): "+ e.getMessage());
+		}
+		return redirect(routes.InstituicaoController.alunos());
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result alunosByRanking() {
+		try{			
+			Instituicao i = getUsuarioAutenticado();
+			return ok(views.html.instituicao.alunos.render(2,i.getAlunos(),i.getProfessores()));
+			
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/alunosByRanking(): "+ e.getMessage());
+		}
+		return redirect(routes.InstituicaoController.alunos());
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result editarProfessorAlunos() {
+		try{			
+			DynamicForm dynamicForm = form().bindFromRequest();
+			int idProfessorAtual = dynamicForm.get("codP") == null? -1 : Integer.parseInt(dynamicForm.get("codP"));
+			int idProfessorNovo = dynamicForm.get("codNP") == null? -1 : Integer.parseInt(dynamicForm.get("codNP"));
+
+			if(idProfessorAtual != -1 && idProfessorAtual != -1 && idProfessorAtual != idProfessorNovo){
+				Instituicao i = getUsuarioAutenticado();
+				
+				Professor pAtual = ProfessorDatabase.selectProfessor(idProfessorAtual, i.getCnpj());
+				Professor pNovo = ProfessorDatabase.selectProfessor(idProfessorNovo, i.getCnpj());
+				
+				if(pAtual != null & pNovo != null){
+					AlunoDatabase.updateAlunosToNewProfessor(pAtual, pNovo);
+					flash("ok", "Alunos alterados");
+				}
+			}else{
+				flash("erro", "Selecione outro professor para poder alterar");
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - InstituicaoController/editarProfessorAlunos(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao alterar os alunos. Tente novamente mais tarde");
+		}
+		
+		return redirect(routes.InstituicaoController.alunosByTeacher());
 	}
 	
 	@Transactional
@@ -589,7 +670,7 @@ public class InstituicaoController extends Controller{
 			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
 		}
 		
-		return redirect(routes.InstituicaoController.index());
+		return redirect(routes.InstituicaoController.professores());
 	}
 	
 	@Transactional
@@ -682,6 +763,6 @@ public class InstituicaoController extends Controller{
 			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
 		}
 		
-		return redirect(routes.InstituicaoController.index());
+		return redirect(routes.InstituicaoController.alunos());
 	}
 }

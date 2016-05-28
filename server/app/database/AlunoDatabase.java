@@ -3,6 +3,7 @@ package database;
 import java.util.List;
 
 import models.Aluno;
+import models.Professor;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import util.Constantes;
@@ -122,5 +123,38 @@ public class AlunoDatabase {
 	@Transactional
 	public static void deleteAluno(Aluno a)throws Exception{
 		JPA.em().remove(a);
+	}
+
+	@Transactional
+	public static void updateAlunosToNewProfessor(Professor pAtual, Professor pNovo) {
+		try {
+			JPA.em().getTransaction().commit();
+			JPA.em().getTransaction().begin();
+						
+			RespostaDatabase.deteleRespostasByProfessor(pAtual.getId());
+			
+			String query = "SET FOREIGN_KEY_CHECKS = 0";
+			JPA.em().createNativeQuery(query).executeUpdate();
+			
+			query = "UPDATE Aluno SET idProfessor = :pNovo, pontuacao = :pontuacao, isLogado = :isLogado "
+					+ "WHERE idProfessor = :pAtual";
+			JPA.em().createNativeQuery(query)
+				.setParameter("pNovo", pNovo.getId())
+				.setParameter("pontuacao", 0)
+				.setParameter("isLogado", false)
+				.setParameter("pAtual", pAtual.getId())
+				.executeUpdate();
+			
+			query = "SET FOREIGN_KEY_CHECKS = 1";
+			JPA.em().createNativeQuery(query).executeUpdate();
+			
+			JPA.em().getTransaction().commit();
+			JPA.em().getTransaction().begin();
+			JPA.em().flush();
+			
+		} catch (Exception e) {
+			JPA.em().getTransaction().rollback();
+			JPA.em().createNativeQuery("SET FOREIGN_KEY_CHECKS = 1").executeUpdate();
+		}
 	}
 }
