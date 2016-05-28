@@ -1,7 +1,6 @@
 package controllers;
 
 import static play.data.Form.form;
-
 import interceptors.ProfessorInterceptor;
 
 import java.util.HashMap;
@@ -426,5 +425,24 @@ public class ProfessorController extends Controller{
 			Logger.error("ERRO - ProfessorController/questoes(): "+ e.getMessage());
 		}
 		return redirect(routes.ProfessorController.index());
+	}
+	
+	@Transactional
+	@With({ ProfessorInterceptor.class })
+	public static Result mostrarQuestao(){
+		try {
+			DynamicForm dynamicForm = form().bindFromRequest();
+			int cod = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
+
+			if(cod == -1){
+				Logger.error("ERRO - ProfessorController/mostrarQuestao(): CODE is null");
+			}else{
+				Questao q = QuestaoDatabase.selectQuestaoById(cod);
+				return ok(views.html.instituicao.ajax.mostrarQuestao.render(q));
+			}
+		} catch (Exception e) {
+			Logger.error("ERRO - ProfessorController/mostrarQuestao(): "+ e.getMessage());
+		}
+		return ok("Ocorreu um erro ao mostrar questão. Tente novamente mais tarde");
 	}
 }

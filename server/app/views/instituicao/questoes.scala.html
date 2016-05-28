@@ -32,24 +32,23 @@
 				 </div>
 				 }
                   
-                          <table data-sort-name="classroom" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="true" data-page-list="[5, 10, 15, 20]" data-cache="false" class="students-table">
+                          <table data-sort-name="level" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="true" data-page-list="[5, 10, 15, 20, 50, 100]" data-cache="false" class="students-table">
                             <thead>
                               <tr>
                               	<th data-field="name" data-sortable="true">Text</th>
                               	<th data-field="level" data-sortable="true">Level</th>
-                              	<th data-field="action" data-sortable="true">Action</th>
+                              	<th data-field="teacher" data-sortable="true">Teacher</th>
                               </tr>
                             </thead>
                             <tbody>
                             <!-- For inicia aqui -->
                             @for(q<-listaQuestao){
                               <tr>
-                              	<td><a id="showDetails" onclick="mostrarQuestao('@q.getId()')" class="modal-trigger waves-effect waves-light">@q.getQuestao()</a></td>
+                              	<td><a id="showDetails" onclick="mostrarQuestao('@q.getId()', '@routes.InstituicaoController.mostrarQuestao()')" class="modal-trigger waves-effect waves-light">
+                              	@if(q.getQuestao().length()>50){@q.getQuestao().substring(0,50)...}else{@q.getQuestao()}
+                              	</a></td>
                               	<td>@if(q.getLevel() == 1){Level 1} @if(q.getLevel() == 2){Level 2} @if(q.getLevel() == 3){Level 3} @if(q.getLevel() == 4){Level 4}</td>
-                              	<td>
-									<i onclick="mostrarEditarQuestao('@q.getId()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
-			                        <i onclick="removerQuestao('@q.getId()','@routes.ProfessorController.removerQuestao()');" id="rem-@q.getId()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>
-			                    </td>
+			                    <td>@q.getProfessor().getNome()</td>
                               </tr>
                               </tr>
                               }
@@ -66,8 +65,12 @@
 		  <!-- Modal Structure -->
           <div id="modal" class="modal modal-fixed-footer">
             <div class="modal-content">
-              <h4 id="namequestion">Question Name</h4>
-                <div id="bar-chart" style="width: 100%; height:200px;"></div>
+              <h4 id="namequestion"></h4>
+              <div class="col s12 offset-m1 m10">
+                      
+                <div class="row" id="data-callback"></div>
+
+              </div>
             </div>
             <div class="modal-footer">
               <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">close</a>

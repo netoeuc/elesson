@@ -8,9 +8,11 @@ import models.Aluno;
 import models.Instituicao;
 import models.Licenca;
 import models.Professor;
+import models.Questao;
 import database.AlunoDatabase;
 import database.InstituicaoDatabase;
 import database.ProfessorDatabase;
+import database.QuestaoDatabase;
 import interceptors.InstituicaoInterceptor;
 import play.Logger;
 import play.data.DynamicForm;
@@ -764,5 +766,24 @@ public class InstituicaoController extends Controller{
 		}
 		
 		return redirect(routes.InstituicaoController.alunos());
+	}
+	
+	@Transactional
+	@With({ InstituicaoInterceptor.class })
+	public static Result mostrarQuestao(){
+		try {
+			DynamicForm dynamicForm = form().bindFromRequest();
+			int cod = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
+
+			if(cod == -1){
+				Logger.error("ERRO - InstituicaoController/mostrarQuestao(): CODE is null");
+			}else{
+				Questao q = QuestaoDatabase.selectQuestaoById(cod);
+				return ok(views.html.instituicao.ajax.mostrarQuestao.render(q));
+			}
+		} catch (Exception e) {
+			Logger.error("ERRO - InstituicaoController/mostrarQuestao(): "+ e.getMessage());
+		}
+		return ok("Ocorreu um erro ao mostrar questão. Tente novamente mais tarde");
 	}
 }

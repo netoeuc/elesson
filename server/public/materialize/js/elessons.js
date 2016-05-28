@@ -185,10 +185,15 @@ function removerProfessor(codigo,action){
 }
 
 /* QUESTAO JS */
-function mostrarQuestao(codigo){
-	$('#modal #namequestion').html();
+function mostrarQuestao(codigo, action){
+	$('#modal #data-callback').html("loading");
     $('#modal').openModal();
-    drawChart(codigo);
+	
+	$.post(action, {cod: codigo}, function(data) {
+		$("#modal #data-callback").html(data);
+	}).fail(function() {
+		$("#modal #data-callback").html("error");
+	});
 }
 
 function mostrarNovaQuestao(){

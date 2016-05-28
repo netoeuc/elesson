@@ -31,13 +31,17 @@ GET     /panel/business/forgot					controllers.InstituicaoController.esqueceuSen
 POST    /panel/business/forgot/					controllers.InstituicaoController.lembrarSenha()
 GET     /panel/business/edit					controllers.InstituicaoController.configuracao()
 POST    /panel/business/edit/					controllers.InstituicaoController.editar()
+
 GET		/panel/business/questions				controllers.InstituicaoController.questoes()
+POST	/panel/business/questions/show			controllers.InstituicaoController.mostrarQuestao()
+
 GET     /panel/business/teachers				controllers.InstituicaoController.professores()
 POST    /panel/business/teachers/new			controllers.InstituicaoController.cadastrarProfessor()
 POST	/panel/business/teachers/show			controllers.InstituicaoController.mostrarProfessor()		
 POST    /panel/business/teachers/edit			controllers.InstituicaoController.formEditarProfessor()
 POST    /panel/business/teachers/edit/			controllers.InstituicaoController.editarProfessor()
 POST    /panel/business/teachers/remove			controllers.InstituicaoController.removerProfessor()
+
 GET     /panel/business/students				controllers.InstituicaoController.alunos()
 GET     /panel/business/students/teacher		controllers.InstituicaoController.alunosByTeacher()
 GET     /panel/business/students/ranking		controllers.InstituicaoController.alunosByRanking()
@@ -60,9 +64,12 @@ GET     /panel/teacher/forgot				controllers.ProfessorController.esqueceuSenha()
 POST    /panel/teacher/forgot/				controllers.ProfessorController.lembrarSenha()
 GET     /panel/teacher/edit					controllers.ProfessorController.configuracao()
 POST    /panel/teacher/edit/				controllers.ProfessorController.editar()
+
 GET     /panel/teacher/classrooms			controllers.ProfessorController.salas()
 GET     /panel/teacher/students				controllers.ProfessorController.alunos()
+
 GET     /panel/teacher/questions			controllers.ProfessorController.questoes()
+POST	/panel/teacher/questions/show		controllers.ProfessorController.mostrarQuestao()
 POST    /panel/teacher/questions/new		controllers.ProfessorController.cadastrarQuestao()
 POST    /panel/teacher/questions/edit		controllers.ProfessorController.formEditarQuestao()
 POST    /panel/teacher/questions/edit/		controllers.ProfessorController.editarQuestao()
