@@ -58,11 +58,16 @@ private static final long serialVersionUID = 1L;
 	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval=true)
 	@JoinColumn(name="cnpjInst")
 	private List<Questao> questoes;
+
+	// RODRIGO //////////////
+	@Column(nullable = false)
+	private int numAlunos;
+	/////////////////////////
 	
 	public Instituicao(){}
 	
 	public Instituicao(String cnpj, String nome, String telefone,
-			String endereco, String email, ELicenca licenca, String senha, int status) throws Exception {
+			String endereco, String email, ELicenca licenca, String senha, int status, int numAlunos) throws Exception {
 
 		this.cnpj = cnpj;
 		this.nome = nome;
@@ -72,6 +77,7 @@ private static final long serialVersionUID = 1L;
 		this.licenca = licenca;
 		this.senha = Seguranca.encryptString(senha);
 		this.status = status;
+		this.numAlunos = numAlunos;
 	}
 
 	public String getCnpj() {
@@ -152,6 +158,14 @@ private static final long serialVersionUID = 1L;
 
 	public List<Professor> getProfessores() {
 		return professores;
+	}
+	
+	public int getNumAlunos() {
+		return numAlunos;
+	}
+
+	public void setNumAlunos(int numAlunos) {
+		this.numAlunos = numAlunos;
 	}
 		
 	public List<Aluno> getAlunos() {

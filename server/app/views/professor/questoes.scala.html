@@ -191,30 +191,6 @@
 			  toolbar: 'undo redo'
 		});
 	});
-	  
-    function randomIntFromInterval(){   
-      var min = 50;
-      var max = 100;
-      return Math.floor(Math.random()*(max-min+1)+min);
-    }
-
-    function drawChart(clas){
-      $('#bar-chart').html("loading");
-      setTimeout(function(){
-        $('#bar-chart').html("");
-        Morris.Bar({
-          element: 'bar-chart',
-          data: [
-            { y: '', a: randomIntFromInterval(), b: randomIntFromInterval() },
-          ],
-          xkey: 'y',
-          ykeys: ['a', 'b'],
-          labels: ['Acertos', 'Erros'],
-          barColors: ['#00773C','#AD1414'],
-          resize: true
-        });
-      }, 1000);
-    }
   </script>
   
 }

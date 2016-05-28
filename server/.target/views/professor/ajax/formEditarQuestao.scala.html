@@ -3,7 +3,11 @@
 <form action="@routes.ProfessorController.editarQuestao()" method="POST" class="col s12">
 
 	<div class="row" id="texto" style="margin-bottom: 50px;">
+<<<<<<< HEAD
               	<textarea id="txtEditor-edit@time" name="questao">@q.getQuestao()</textarea>
+=======
+              	<textarea id="txtEditor-edit" name="questao">@q.getQuestao()</textarea>
+>>>>>>> a2ef9e3eb1674253d17915568f20bf1da7edbbaa
               </div>
 
               <div class="row" id="answers" style="margin-bottom: -10px;">
@@ -37,11 +41,19 @@
               	<div class="col s12 m5">
 					<select name="respostaCorreta" class="browser-default color-vermelho">
 						<option disabled>Choose a correct answer</option>						
+<<<<<<< HEAD
     						<option value="a" @if(q.getRespostaCorreta() == 'a'){ selected="selected"}>A</option>
 							<option value="b" @if(q.getRespostaCorreta() == 'b'){ selected="selected"}>B</option>
 							<option value="c" @if(q.getRespostaCorreta() == 'c'){ selected="selected"}>C</option>
 							<option value="d" @if(q.getRespostaCorreta() == 'd'){ selected="selected"}>D</option>
 							<option value="e" @if(q.getRespostaCorreta() == 'e'){ selected="selected"}>E</option>
+=======
+    						<option value="a" @if(q.getRespostaCorreta().equals("a")){ selected="selected"}>A</option>
+							<option value="b" @if(q.getRespostaCorreta().equals("b")){ selected="selected"}>B</option>
+							<option value="c" @if(q.getRespostaCorreta().equals("c")){ selected="selected"}>C</option>
+							<option value="d" @if(q.getRespostaCorreta().equals("d")){ selected="selected"}>D</option>
+							<option value="e" @if(q.getRespostaCorreta().equals("e")){ selected="selected"}>E</option>
+>>>>>>> a2ef9e3eb1674253d17915568f20bf1da7edbbaa
 					</select>
 				</div>
               </div>
@@ -54,10 +66,17 @@
               	<div class="col s12 m5">
 					<select name="nivel" class="browser-default color-vermelho">
 						<option disabled selected>Choose a level</option>
+<<<<<<< HEAD
 						<option value = "1" @if(q.getLevel() == 1){ selected="selected"}>Level 1</option>
 						<option value = "2" @if(q.getLevel() == 2){ selected="selected"}>Level 2</option>
 						<option value = "3" @if(q.getLevel() == 3){ selected="selected"}>Level 3</option>
 						<option value = "4" @if(q.getLevel() == 4){ selected="selected"}>Level 4</option>
+=======
+						<option value = "1" @if(q.getLevel() == 1){ selected="selected"}>Easy</option>
+						<option value = "2" @if(q.getLevel() == 2){ selected="selected"}>Medium</option>
+						<option value = "3" @if(q.getLevel() == 3){ selected="selected"}>Hard</option>
+						<option value = "4" @if(q.getLevel() == 4){ selected="selected"}>Expert</option>
+>>>>>>> a2ef9e3eb1674253d17915568f20bf1da7edbbaa
 					</select>
 				</div>
               </div>
