@@ -439,12 +439,13 @@ public class InstituicaoController extends Controller{
 	public static Result cadastrarAluno(){
 		try{
 			Instituicao i = InstituicaoController.getUsuarioAutenticado();
+			int qntAlunos = AlunoDatabase.selectTotalAlunosByCnpjInst(i.getCnpj());
 			if(i != null){
-				if((i.getLicenca().name().equals("TEST") && i.getNumAlunos() == 10) || 
-						(i.getLicenca().name().equals("BRONZE") && i.getNumAlunos() == 20) || 
-						(i.getLicenca().name().equals("SILVER") && i.getNumAlunos() == 30) || 
-						(i.getLicenca().name().equals("GOLD") && i.getNumAlunos() == 40) || 
-						(i.getLicenca().name().equals("PREMIUM") && i.getNumAlunos() == 50)){
+				if((i.getLicenca().name().equals("TEST") && qntAlunos == 5) || 
+						(i.getLicenca().name().equals("BRONZE") && qntAlunos == 20) || 
+						(i.getLicenca().name().equals("SILVER") && qntAlunos == 40) || 
+						(i.getLicenca().name().equals("GOLD") && qntAlunos == 70) || 
+						(i.getLicenca().name().equals("PREMIUM") && qntAlunos == 120)){
 					
 					flash("erro", "Instituição já atingiu o limite de alunos para a licença!");
 				}else{
@@ -470,10 +471,6 @@ public class InstituicaoController extends Controller{
 									
 								JPA.em().persist(novoA);
 								flash("ok", nome+" cadastrado");
-
-								//Aumentar 1 do numero de alunos da Instituição
-								i.setNumAlunos(i.getNumAlunos()+1);	
-								JPA.em().merge(i);
 							}
 						}
 					}
@@ -530,10 +527,6 @@ public class InstituicaoController extends Controller{
 				String nome = a.getNome();
 				if(a != null){
 					AlunoDatabase.deleteAluno(a);
-
-					//Diminuir 1 do numero de alunos da Instituição
-					i.setNumAlunos(i.getNumAlunos()-1);
-					JPA.em().merge(i);
 
 					flash("ok", nome+" Removido");
 				}
