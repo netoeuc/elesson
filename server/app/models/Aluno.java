@@ -20,7 +20,6 @@ import org.hibernate.annotations.Index;
 import util.AdminJson;
 import util.Seguranca;
 
-
 @Entity
 public class Aluno implements Serializable {
 

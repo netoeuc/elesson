@@ -320,12 +320,14 @@ public class ProfessorController extends Controller{
 					Questao novaQ = new Questao(p.getInstituicao(),p,questao,resposta1,resposta2,resposta3,resposta4,resposta5,resposta,nivel);
 						
 					JPA.em().persist(novaQ);
+					flash("ok", "Questão cadastrada");
 				}
 			}else{
 				return redirect(routes.ProfessorController.login());
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - ProfessorController/cadastrarQuestao(): "+ e.getMessage());
+			flash("erro", "Ocorreu um erro ao cadastrar. Tente novamente mais tarde");
 		}
 		return redirect(routes.ProfessorController.questoes());
 	}

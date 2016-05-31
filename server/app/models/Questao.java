@@ -13,10 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.node.ObjectNode;
 import org.hibernate.annotations.Index;
 
@@ -25,47 +22,37 @@ import util.AdminJson;
 @Entity
 public class Questao implements Serializable {
 
-	@JsonIgnore
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="idQuestao")
-	@JsonProperty("idQuestao")
 	private int id;
 	
 	@Column(nullable = false)
 	@Index(name = "questao")
-	@JsonProperty("questao")
 	private String questao;
 
 	@Column(nullable = false)
-	@JsonProperty("resposta1")
 	private String resposta1;
 	
 	@Column(nullable = false)
-	@JsonProperty("resposta2")
 	private String resposta2;
 	
 	@Column(nullable = false)
-	@JsonProperty("resposta3")
 	private String resposta3;
 	
 	@Column(nullable = false)
-	@JsonProperty("resposta4")
 	private String resposta4;
 	
 	@Column(nullable = false)
-	@JsonProperty("resposta5")
 	private String resposta5;
 	
 	@Column(nullable = false)
-	@JsonProperty("respostaCorreta")
 	private char respostaCorreta;
 	
 	@Column(nullable = false)
 	@Index(name = "level")
-	@JsonProperty("level")
 	private int level;
 	
 	@ManyToOne
@@ -112,6 +99,20 @@ public class Questao implements Serializable {
 		this.level = level;
 	}
 	
+	public Questao(int id, int level, String questao, String resposta1, String resposta2,
+			String resposta3, String resposta4, String resposta5,
+			char respostaCorreta) {
+		this.id = id;
+		this.questao = questao;
+		this.resposta1 = resposta1;
+		this.resposta2 = resposta2;
+		this.resposta3 = resposta3;
+		this.resposta4 = resposta4;
+		this.resposta5 = resposta5;
+		this.respostaCorreta = respostaCorreta;
+		this.level = level;
+	}
+
 	@JsonIgnore
 	public static ObjectNode isRespondida(boolean isRespondida) {
 		return AdminJson.getObject(isRespondida, "isRespondida");

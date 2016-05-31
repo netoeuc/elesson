@@ -1,8 +1,8 @@
 package database;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import models.Aluno;
 import models.Questao;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -40,20 +40,37 @@ public class QuestaoDatabase {
 		}
 	}
 
+	@Transactional
 	public static List<Questao> selectQuestoesByAluno(String cnpjInst, int idProfessor, int idAluno, int level) {
 		String query = "SELECT * FROM Questao q "
 				+ "WHERE q.cnpjInst = :cnpjInst "
 				+ "AND q.idProfessor = :idProfessor "
 				+ "AND q.level = :level "
 				+ "AND q.idQuestao NOT IN ("
-				+ "		SELECT r.idQuestao FROM Resposta r WHERE r.idAluno = :idAluno"
+				+ "SELECT r.idQuestao FROM Resposta r WHERE r.idAluno = :idAluno"
 				+ ")";
-		List<Questao> lq = JPA.em().createNativeQuery(query)
+		List<Object> lo = JPA.em().createNativeQuery(query)
 								.setParameter("cnpjInst", cnpjInst)
 								.setParameter("idProfessor", idProfessor)
 								.setParameter("level", level)
 								.setParameter("idAluno", idAluno)
 								.getResultList();
+		
+		List<Questao> lq = new ArrayList<Questao>();
+		for (Object object : lo) {
+			Object[] o = (Object[])object;
+			Questao q = new Questao((Integer)o[0],
+					(Integer)o[1],
+					(String)o[2],
+					(String)o[3],
+					(String)o[4],
+					(String)o[5],
+					(String)o[6],
+					(String)o[7],
+					(Character)o[8]);
+			lq.add(q);
+		}
+		
 		return lq;
 	}
 	
