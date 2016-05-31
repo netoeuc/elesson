@@ -389,12 +389,15 @@ public class ProfessorController extends Controller{
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
 			int idQuestao = dynamicForm.get("cod") == null? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			Professor p = getUsuarioAutenticado();
 			
 			if(idQuestao != -1){
 				Questao q = QuestaoDatabase.selectQuestaoById(idQuestao);
-				if(q != null){
+				if(q != null && q.getIdProfessor() == p.getId()){
 					QuestaoDatabase.deleteQuestao(q);
 					flash("ok", "questão removida");
+				}else{
+					flash("erro", "Nenhuma questão cadastrada com este código");
 				}
 			}else{
 				flash("erro", "Informe o Id da questão");
@@ -403,7 +406,7 @@ public class ProfessorController extends Controller{
 			Logger.error("ERRO - ProfessorController/removerQuestao(): "+ e.getMessage());
 			flash("erro", "Ocorreu um erro ao remover. Tente novamente mais tarde");
 		}
-		return redirect(routes.ProfessorController.index());
+		return redirect(routes.ProfessorController.questoes());
 	}
 	
 	@Transactional

@@ -6,14 +6,14 @@ public class AlunoRanking {
 	private String nome;
 	private int level;
 	private int pontuacao;
-	private int rank;
+	private int posicao;
 		
 	public AlunoRanking(int id, String nome, int level, int pontuacao, int rank) {
 		this.id = id;
 		this.nome = nome;
 		this.level = level;
 		this.pontuacao = pontuacao;
-		this.rank = rank;
+		this.posicao = rank;
 	}
 
 	public int getId() {
@@ -32,7 +32,7 @@ public class AlunoRanking {
 		return level;
 	}
 
-	public int getRank() {
-		return rank;
+	public int getPosicao() {
+		return posicao;
 	}
 }

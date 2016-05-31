@@ -44,7 +44,7 @@ public class QuestaoDatabase {
 				+ "WHERE q.cnpjInst = :cnpjInst "
 				+ "AND q.idProfessor = :idProfessor "
 				+ "AND q.level = :level "
-				+ "AND q.id NOT IN ("
+				+ "AND q.idQuestao NOT IN ("
 				+ "		SELECT r.idQuestao FROM Resposta r WHERE r.idAluno = :idAluno"
 				+ ")";
 		List<Questao> lq = JPA.em().createNativeQuery(query)

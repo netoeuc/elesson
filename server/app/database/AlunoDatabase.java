@@ -1,5 +1,6 @@
 package database;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import models.AlunoRanking;
 import models.Professor;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import scala.math.BigInt;
 import util.Constantes;
 
 public class AlunoDatabase {
@@ -144,8 +146,8 @@ public class AlunoDatabase {
 	
 	@Transactional
 	public static List<AlunoRanking> selectAlunosRankingByInstituicao(String cnpjInst) {
-		String query = "SELECT idAluno, nome, pontuacao, level, @curRank := @curRank + 1 AS rank "
-				+ "FROM Aluno a, (SELECT @curRank := 0) r "
+		String query = "SELECT idAluno, nome, level, pontuacao, @curRank \\:= @curRank + 1 AS rank "
+				+ "FROM Aluno a, (SELECT @curRank \\:= 0) r "
 				+ "WHERE a.cnpjInst = :cnpjInst "
 				+ "ORDER BY pontuacao DESC LIMIT 10";
 		List<Object> lo = JPA.em().createNativeQuery(query)
@@ -156,19 +158,19 @@ public class AlunoDatabase {
 		for (Object object : lo) {
 			Object[] itens = (Object[]) object;		
 			lar.add(new AlunoRanking(
-					Integer.parseInt(itens[0]+""), 
+					(int)Double.parseDouble(""+itens[0]), 
 					itens[1]+"", 
-					Integer.parseInt(itens[2]+""), 
-					Integer.parseInt(itens[3]+""), 
-					Integer.parseInt(itens[4]+"")));
+					(int)Double.parseDouble(""+itens[2]), 
+					(int)Double.parseDouble(""+itens[3]), 
+					(int)Double.parseDouble(""+itens[4])));
 		}
 		return lar;
 	}
 	
 	@Transactional
 	public static List<AlunoRanking> selectAlunosRankingByProfessor(int idProfessor) {
-		String query = "SELECT idAluno, nome, level, pontuacao, @curRank := @curRank + 1 AS rank "
-				+ "FROM Aluno a, (SELECT @curRank := 0) r "
+		String query = "SELECT idAluno, nome, level, pontuacao, @curRank \\:= @curRank + 1 AS rank "
+				+ "FROM Aluno a, (SELECT @curRank \\:= 0) r "
 				+ "WHERE a.idProfessor = :idProfessor "
 				+ "ORDER BY pontuacao DESC LIMIT 10";
 		List<Object> lo = JPA.em().createNativeQuery(query)
@@ -179,11 +181,11 @@ public class AlunoDatabase {
 		for (Object object : lo) {
 			Object[] itens = (Object[]) object;		
 			lar.add(new AlunoRanking(
-					Integer.parseInt(itens[0]+""), 
+					(int)Double.parseDouble(""+itens[0]), 
 					itens[1]+"", 
-					Integer.parseInt(itens[2]+""), 
-					Integer.parseInt(itens[3]+""), 
-					Integer.parseInt(itens[4]+"")));
+					(int)Double.parseDouble(""+itens[2]), 
+					(int)Double.parseDouble(""+itens[3]), 
+					(int)Double.parseDouble(""+itens[4])));
 		}
 		return lar;
 	}

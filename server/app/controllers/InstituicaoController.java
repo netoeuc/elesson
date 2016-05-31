@@ -494,19 +494,21 @@ public class InstituicaoController extends Controller{
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
 			int idProfessor = dynamicForm.get("cod") == null? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			Instituicao i = InstituicaoController.getUsuarioAutenticado();
 			
 			if(idProfessor != -1){
 				Professor p = ProfessorDatabase.selectProfessorById(idProfessor);
-				if(p != null){
+				if(p != null && p.getCnpjInst().equals(i.getCnpj())){
 					List<Aluno> la = p.getAlunos();
-					
 					if(la == null || la.size() == 0){
-						String nome = p.getNome();
+						String nome = p.getNome().split(" ")[0];
 						ProfessorDatabase.deleteProfessor(p);
 						flash("ok", nome+" Removido");
 					}else{
 						flash("erro", "Remova os alunos deste professor ou vincule-os a outro");
 					}
+				}else{
+					flash("erro", "Nenhum professor cadastrado com este código");
 				}
 			}else{
 				flash("erro", "Informe o Id do professor");
@@ -515,7 +517,7 @@ public class InstituicaoController extends Controller{
 			Logger.error("ERRO - InstituicaoController/removerProfessor(): "+ e.getMessage());
 			flash("erro", "Ocorreu um erro ao remover. Tente novamente mais tarde");
 		}
-		return redirect(routes.InstituicaoController.index());
+		return redirect(routes.InstituicaoController.professores());
 	}
 
 	@Transactional
@@ -527,17 +529,19 @@ public class InstituicaoController extends Controller{
 			Instituicao i = InstituicaoController.getUsuarioAutenticado();
 
 			if(idAluno != -1){
-				Aluno a = AlunoDatabase.selectAlunoById(idAluno);
-				String nome = a.getNome();
-				if(a != null){
-					AlunoDatabase.deleteAluno(a);
-
-					//Diminuir 1 do numero de alunos da Instituição
-					i.setNumAlunos(i.getNumAlunos()-1);
-					JPA.em().merge(i);
-
-					flash("ok", nome+" Removido");
-				}
+				Aluno a = AlunoDatabase.selectAlunoById(idAluno);					
+					if(a != null && a.getCnpjInst().equals(i.getCnpj())){
+							String nome = a.getNome().split(" ")[0];
+							AlunoDatabase.deleteAluno(a);
+		
+							//Diminuir 1 do numero de alunos da Instituição
+							i.setNumAlunos(i.getNumAlunos()-1);
+							JPA.em().merge(i);
+		
+							flash("ok", nome+" Removido");
+					}else{
+						flash("erro", "Nenhum aluno cadastrado com este código");
+					}
 			}else{
 				flash("erro", "Informe o Id do aluno");
 			}
@@ -545,7 +549,7 @@ public class InstituicaoController extends Controller{
 			Logger.error("ERRO - InstituicaoController/removerAluno(): "+ e.getMessage());
 			flash("erro", "Ocorreu um erro ao remover. Tente novamente mais tarde");
 		}
-		return redirect(routes.InstituicaoController.index());
+		return redirect(routes.InstituicaoController.alunos());
 	}
 
 	@Transactional

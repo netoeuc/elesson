@@ -16,7 +16,7 @@ POST    /panel/smarteduc/business/new		controllers.SmartEducController.cadastrar
 POST	/panel/smarteduc/business/show		controllers.SmartEducController.mostrarCliente()
 POST    /panel/smarteduc/business/edit		controllers.SmartEducController.formEditarCliente()
 POST    /panel/smarteduc/business/edit/		controllers.SmartEducController.editarCliente()
-POST    /panel/smarteduc/business/remove	controllers.SmartEducController.removerCliente()
+GET     /panel/smarteduc/business/remove	controllers.SmartEducController.removerCliente()
 GET     /panel/smarteduc/logoff				controllers.SmartEducController.logoff()
 
 ###################################
@@ -40,7 +40,7 @@ POST    /panel/business/teachers/new			controllers.InstituicaoController.cadastr
 POST	/panel/business/teachers/show			controllers.InstituicaoController.mostrarProfessor()		
 POST    /panel/business/teachers/edit			controllers.InstituicaoController.formEditarProfessor()
 POST    /panel/business/teachers/edit/			controllers.InstituicaoController.editarProfessor()
-POST    /panel/business/teachers/remove			controllers.InstituicaoController.removerProfessor()
+GET	    /panel/business/teachers/remove			controllers.InstituicaoController.removerProfessor()
 
 GET     /panel/business/students				controllers.InstituicaoController.alunos()
 GET     /panel/business/students/teacher		controllers.InstituicaoController.alunosByTeacher()
@@ -50,7 +50,7 @@ POST	/panel/business/students/show			controllers.InstituicaoController.mostrarAl
 POST    /panel/business/students/edit			controllers.InstituicaoController.formEditarAluno()
 POST    /panel/business/students/edit/			controllers.InstituicaoController.editarAluno()
 POST    /panel/business/students/edit/teacher	controllers.InstituicaoController.editarProfessorAlunos()
-POST    /panel/business/students/remove			controllers.InstituicaoController.removerAluno()
+GET	    /panel/business/students/remove			controllers.InstituicaoController.removerAluno()
 
 ###################################
 # PROFESSOR PAINEL
@@ -73,7 +73,7 @@ POST	/panel/teacher/questions/show		controllers.ProfessorController.mostrarQuest
 POST    /panel/teacher/questions/new		controllers.ProfessorController.cadastrarQuestao()
 POST    /panel/teacher/questions/edit		controllers.ProfessorController.formEditarQuestao()
 POST    /panel/teacher/questions/edit/		controllers.ProfessorController.editarQuestao()
-POST    /panel/teacher/questions/remove		controllers.ProfessorController.removerQuestao()
+GET     /panel/teacher/questions/remove		controllers.ProfessorController.removerQuestao()
 
 ###################################
 # ALUNO
@@ -86,6 +86,9 @@ POST    /api/student/auth					controllers.AlunoController.logar()
 POST    /api/student/isauth					controllers.AlunoController.isLogado()
 POST    /api/student/questions				controllers.AlunoController.questoes()
 POST    /api/student/questions/answer		controllers.AlunoController.responderQuestao()
+POST    /api/student/ranking/business		controllers.AlunoController.rankingByInstituicao()
+POST    /api/student/ranking/teacher		controllers.AlunoController.rankingByProfessor()
+
 
 GET		/load								controllers.Application.load()
 

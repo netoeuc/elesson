@@ -81,9 +81,7 @@ function removerAluno(codigo,action){
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
 		if (confirm('Todos os dados deste aluno serão apagados. Deseja continuar?')) {
-			$.post(action, {cod: codigo}, function() {
-			}).fail(function() {});
-			window.location.reload(true); 
+			window.location.href = action+"?cod="+codigo;
 		}
 	}
 }
@@ -129,9 +127,7 @@ function removerInstituicao(codigo, action){
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
 		if (confirm('Todos os dados deste cliente serão apagados. Deseja continuar?')) {
-			$.post(action, {cod: codigo}, function() {
-			}).fail(function() {});
-			window.location.reload(true);
+			window.location.href = action+"?cod="+codigo;
 		}
 	}
 }
@@ -188,9 +184,7 @@ function removerProfessor(codigo,action){
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
 		if (confirm('Todas as questões e alunos vinculados serão apagados. Deseja continuar?')) {
-			$.post(action, {cod: codigo}, function() {
-			}).fail(function() {});
-			window.location.reload(true);
+			window.location.href = action+"?cod="+codigo;
 		}
 	}
 }
@@ -231,9 +225,7 @@ function removerQuestao(codigo,action){
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
 		if (confirm('Todas as respostas dos alunos serão apagadas. Deseja continuar?')) {
-			$.post(action, {cod: codigo}, function() {
-			}).fail(function() {});
-			window.location.reload(true);
+			window.location.href = action+"?cod="+codigo;
 		}
 	}
 }

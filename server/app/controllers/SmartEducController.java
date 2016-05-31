@@ -318,8 +318,6 @@ public class SmartEducController extends Controller{
 				Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
 				if(i != null){
 					InstituicaoDatabase.deleteInstituicao(i);
-//					i.setStatus(Constantes.STATUS_REMOVIDO);
-//					JPA.em().merge(i);
 					flash("ok", i.getNome()+" Removido");
 				}
 			}else{

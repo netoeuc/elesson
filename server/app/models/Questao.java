@@ -13,6 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.node.ObjectNode;
 import org.hibernate.annotations.Index;
 
@@ -21,49 +25,62 @@ import util.AdminJson;
 @Entity
 public class Questao implements Serializable {
 
-private static final long serialVersionUID = 1L;
+	@JsonIgnore
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="idQuestao")
+	@JsonProperty("idQuestao")
 	private int id;
 	
 	@Column(nullable = false)
 	@Index(name = "questao")
+	@JsonProperty("questao")
 	private String questao;
 
 	@Column(nullable = false)
+	@JsonProperty("resposta1")
 	private String resposta1;
 	
 	@Column(nullable = false)
+	@JsonProperty("resposta2")
 	private String resposta2;
 	
 	@Column(nullable = false)
+	@JsonProperty("resposta3")
 	private String resposta3;
 	
 	@Column(nullable = false)
+	@JsonProperty("resposta4")
 	private String resposta4;
 	
 	@Column(nullable = false)
+	@JsonProperty("resposta5")
 	private String resposta5;
 	
 	@Column(nullable = false)
+	@JsonProperty("respostaCorreta")
 	private char respostaCorreta;
 	
 	@Column(nullable = false)
 	@Index(name = "level")
+	@JsonProperty("level")
 	private int level;
 	
 	@ManyToOne
 	@JoinColumn(name="cnpjInst")
+	@JsonIgnore
 	private Instituicao instituicao;
 	
 	@ManyToOne
 	@JoinColumn(name="idProfessor")
+	@JsonIgnore
 	private Professor professor;
 	
 	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval=true)
 	@JoinColumn(name="idQuestao")
+	@JsonIgnore
 	private List<Resposta> respostas;
 	
 	public Questao(){}
@@ -95,6 +112,7 @@ private static final long serialVersionUID = 1L;
 		this.level = level;
 	}
 	
+	@JsonIgnore
 	public static ObjectNode isRespondida(boolean isRespondida) {
 		return AdminJson.getObject(isRespondida, "isRespondida");
 	}
@@ -163,10 +181,12 @@ private static final long serialVersionUID = 1L;
 		this.level = level;
 	}
 
+	@JsonIgnore
 	public String getCnpjInst() {
 		return instituicao.getCnpj();
 	}
 
+	@JsonIgnore
 	public int getIdProfessor() {
 		return professor.getId();
 	}
@@ -174,11 +194,13 @@ private static final long serialVersionUID = 1L;
 	public int getId() {
 		return id;
 	}
-	
+
+	@JsonIgnore
 	public List<Resposta> getRespostas() {
 		return respostas;
 	}
 
+	@JsonIgnore
 	public Professor getProfessor() {
 		return professor;
 	}

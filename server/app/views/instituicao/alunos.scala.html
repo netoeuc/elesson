@@ -1,10 +1,12 @@
 @(template: Integer)(listaAluno:List[Aluno])(listaProfessor:List[Professor])
 @optionsTeacherList ={
-		<!-- for dos professores a partir daqui { -->
-    @for(p<-listaProfessor){
-		<option value="@p.getId()">@p.getNome()</option>
-    }
-		<!-- for dos professores ate aqui } -->
+	@if(listaProfessor != null){
+			<!-- for dos professores a partir daqui { -->
+	    @for(p<-listaProfessor){
+			<option value="@p.getId()">@p.getNome()</option>
+	    }
+			<!-- for dos professores ate aqui } -->
+	}
 }
 @content = {
 		
@@ -145,14 +147,14 @@
 	                    </thead>
 	                    <tbody>
 	                    	<!-- for a partir daqui { -->
-                        @for(a<-listaAluno; index <- 1 until listaAluno.size()+1){
+                        @for(index <- 0 until listaAluno.size()){
 	                      <tr>
-	                      	<td>@index</td>
-	                      	<td><a id="showDetails" onclick="mostrarAluno('@a.getNome()', '@a.getId()', '@routes.InstituicaoController.mostrarAluno()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a></td>
-	                      	<td>@a.getPontuacao()</td>
+	                      	<td>@(index+1)</td>
+	                      	<td><a id="showDetails" onclick="mostrarAluno('@listaAluno.get(index).getNome()', '@listaAluno.get(index).getId()', '@routes.InstituicaoController.mostrarAluno()')" class="modal-trigger waves-effect waves-light">@listaAluno.get(index).getNome()</a></td>
+	                      	<td>@listaAluno.get(index).getPontuacao()</td>
 	                      	<td>
-                              <i onclick="mostrarEditarAluno('@a.getNome()', '@a.getIdProfessor()', '@a.getId()', '@routes.InstituicaoController.formEditarAluno()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
-                              <i onclick="removerAluno('@a.getId()','@routes.InstituicaoController.removerAluno()');" id="rem-@a.getId()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>
+                              <i onclick="mostrarEditarAluno('@listaAluno.get(index).getNome()', '@listaAluno.get(index).getIdProfessor()', '@listaAluno.get(index).getId()', '@routes.InstituicaoController.formEditarAluno()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
+                              <i onclick="removerAluno('@listaAluno.get(index).getId()','@routes.InstituicaoController.removerAluno()');" id="rem-@listaAluno.get(index).getId()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>
                             </td>
 	                      </tr>
                         }

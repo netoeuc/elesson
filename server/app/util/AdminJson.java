@@ -21,7 +21,6 @@ public class AdminJson {
 	@BodyParser.Of(BodyParser.Json.class)
 	public static ObjectNode getObject(Object o, String tipo){
 		ObjectNode result = Json.newObject();
-		new Json();
 		JsonNode jn = Json.toJson(o);
 		result.put(tipo, jn);
 		return result;

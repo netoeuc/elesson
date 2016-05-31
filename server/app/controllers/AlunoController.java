@@ -128,10 +128,10 @@ public class AlunoController extends Controller {
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
-			String senha = dynamicForm.get("senha") == null || dynamicForm.get("senha").trim().isEmpty()? null : dynamicForm.get("senha");
+			String senha = dynamicForm.get("senha") == null || dynamicForm.get("senha").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("senha"));
 
 			if(email != null && senha != null){
-				Aluno a = AlunoDatabase.selectAlunoEncryptByEmail(email);
+				Aluno a = AlunoDatabase.selectAlunoByEmail(email);
 		
 				if (a != null && a.getStatus() != Constantes.STATUS_REMOVIDO) {
 					if(a.getStatus() == Constantes.STATUS_ATIVO){
@@ -200,7 +200,7 @@ public class AlunoController extends Controller {
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
 			int idAluno = dynamicForm.get("ca") == null || dynamicForm.get("ca").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("ca"));
-
+			
 			if(idAluno != -1){
 				Aluno a = AlunoDatabase.selectAlunoById(idAluno);
 
@@ -311,7 +311,8 @@ public class AlunoController extends Controller {
 				return badRequest(AdminJson.getMensagem(AdminJson.msgConsulteAPI));
 			}
 		}catch(Exception e){
-			Logger.error("ERRO - AlunoController/rankingByProfessor(): "+ e.getMessage());
+			e.printStackTrace();
+			Logger.error("ERRO - AlunoController/rankingByInstituicao(): "+ e.getMessage());
 		}
 		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
 	}
