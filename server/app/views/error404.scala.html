@@ -1,0 +1,42 @@
+@(mensagem: String)(url: String)
+@content = {
+		 @navbarlogin()
+			 <!-- CARD CONTENT -->
+	          <div class="row" style="margin-top: 50px;">
+	            <div class="col s12 offset-m1 m10">
+	              <div class="card defaultCard default-page-margin-top">
+	                <div class="card-content">
+	
+	                  <div class="row">
+	                    <div class="card-title">
+	                      <div class="col s12 m12 center-align" style="letter-spacing: 3px; margin-top: 15px;"><span style="font-size: 50px;">OPS!</span></div>
+	                    </div>
+	                  </div>
+	                  
+	                  <div class="row">
+	                  	<center>
+	                  		<i class="large fa fa-ban color-vermelho" aria-hidden="true"></i>
+	                  	</center>
+	                  </div>
+	
+	                  <div class="row">
+	                      <div class="col s12 m12">
+			                 <center>
+			                 	<h5>@mensagem</h5><br>
+			                 	@url
+			                 </center>
+			
+			              </div>
+	                  </div>
+	
+	                    </div>
+	                  </div>
+	
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	          <!-- FIM card --> 		 
+}
+
+@main("e-Lessons")(content)
