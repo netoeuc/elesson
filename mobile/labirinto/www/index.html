@@ -1,40 +1,115 @@
 <!DOCTYPE html>
 <html>
+<!--
+  * Please see the included README.md file for license terms and conditions.
+  -->
 <head>
-    <meta charset="utf-8">
-    <title>Cocos2d-JS Hello World test</title>
-    <link rel="icon" type="image/GIF" href="res/favicon.ico"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="full-screen" content="yes"/>
-    <meta name="screen-orientation" content="portrait"/>
-    <meta name="x5-fullscreen" content="true"/>
-    <meta name="360-fullscreen" content="true"/>
+    <title>Blank Cordova Mobile App Project Template (Lite)</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    <!-- see http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/quick-tip-dont-forget-the-viewport-meta-tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <style>
-        /* following code make sure user won't see selection in the app */
-        body, canvas, div {
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            -khtml-user-select: none;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        }
-        /* default styles for body */
-        body {
-            padding:0;
-            margin: 0;
-            background: #000;
-        }
+        /* following two viewport lines are equivalent to the meta viewport statement above, needed for Windows */
+        /* see http://www.quirksmode.org/blog/archives/2014/05/html5_dev_conf.html and http://dev.w3.org/csswg/css-device-adapt/ */
+        @-ms-viewport { width: 100vw ; zoom: 100% ; }  @viewport { width: 100vw ; zoom: 100% ; }
+        @-ms-viewport { user-zoom: fixed ; }           @viewport { user-zoom: fixed ; }
     </style>
+
+    <script src="cordova.js"></script>          <!-- phantom library, needed for Cordova api calls, added during build -->
+    <script src="js/app.js"></script>           <!-- recommended location of your JavaScript code relative to other JS files -->
+    <script src="xdk/init-dev.js"></script>     <!-- normalizes device and document ready events, see README for details -->
+     <script type="text/javascript" src="materialize/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+    <script type="text/javascript" src="materialize/js/elessons.js"></script>
+     
+    <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <link href="materialize/css/icon.css" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="materialize/css/elessons.css"  media="screen,projection"/>
+
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+    
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 </head>
-<body>
-<!-- Main stage for rendering game scenes -->
-<canvas id="gameCanvas"></canvas>
-<!-- Include Cordova library -->
-<script src="cordova.js"></script>
-<script src="src/cordova-init.js"></script>
-<!-- Load Cocos2d HTML5 engine -->
-<script src="frameworks/cocos2d-js.js"></script>
-<!-- Load the main script of the game -->
-<script src="main.js"></script>
+
+<body class="bg-aula">
+
+ 
+			<div class="container">
+			
+				<div> 
+                <br/>
+                    <br/>
+                    <br/>
+                </div>
+		        
+				<!-- CARD LOGIN -->
+		        <div class="row" style="margin-bottom:0px !important;">
+		          <div class="col s12 offset-m3 m6">
+		            <div class="card defaultCard default-page-margin-top hoverable">
+		              <div class="card-content center-align">
+		
+		             <i class="large material-icons">perm_identity</i><br/>
+                          <!-- <i class="large fa fa-user" style="margin-bottom: 5px;"></i><br/> -->
+		                <span class="card-title" style="line-height: 80%; letter-spacing: 3px;">Student</span>
+		
+		                <div class="row">
+		                  <form action="@routes.ProfessorController.logar()" method="post" class="col s12">
+		                  		
+		                    <div class="row" style="margin-bottom: 10px !important;">
+		                      <div class="input-field col s12 offset-m1 m10">
+		                        <input id="login" name="login" autocomplete="off" type="text">
+		                        <label for="login">Login</label>
+		                      </div>
+		                    </div>
+		
+		                    <div class="row" style="margin-bottom: 10px !important;">
+		                      <div class="input-field col s12 offset-m1 m10">
+		                        <input id="password" name="password" type="password">
+		                        <label for="password">Password</label>
+		                      </div>
+		                    </div>
+		                    
+		                   	<!--<div class="row" style="margin-bottom: 3px !important;">
+		                  	  <div class="col s12 offset-m1 m10">
+								<select name="inst" class="browser-default color-vermelho">
+								  <option disabled selected>Choose your institute</option>
+								  @for(i <- li){							  
+								  <option value="@i.getCnpj">@i.getNome</option>
+								  }
+								</select>
+							  </div>
+		                    </div> -->
+		
+				            <div class="row">
+				            	<div class="input-field col s12">
+				                	<button type="submit" class="waves-effect waves-light btn btn-medium bg-vermelho">go</button>
+                                    <a href="index2.html">aqui</a>
+								</div>
+							</div>
+		
+		                    <div class="card-action" style="margin-bottom: -35px !important;">
+		                      <a href="#" onClick="intel.xdk.device.launchExternal(http://54.187.59.145:9000/student/forgot)">Forgot your password?</a>
+		                    </div>
+		
+		                  </form>
+		                </div>
+		
+		              </div>
+		            </div>
+		          </div>
+		        </div><!-- FIM card -->
+	
+			</div>
+
+    
+    <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+
 </body>
 </html>

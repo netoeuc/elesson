@@ -25,6 +25,7 @@
         "src/historiaPlataforma.js",
         "src/toquePlataforma.js",
         "src/plataforma.js",
+        "src/desafioPlataforma.js",
         "src/escolher.js",
         "src/minimapa1.js",
         "src/mapaGlobal.js"

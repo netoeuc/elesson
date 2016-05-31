@@ -62,6 +62,10 @@ var asset = {
     plataforma_redTileUnselected_png : "asset/plataforma/plataforma_redTileUnselected.png",
     plataforma_yellowTileSelected_png : "asset/plataforma/plataforma_yellowTileSelected.png",
     plataforma_yellowTileUnselected_png : "asset/plataforma/plataforma_yellowTileUnselected.png",
+    plataforma_correct_mp3 : "asset/plataforma/correct.mp3",
+    plataforma_wrong_mp3 : "asset/plataforma/wrong.mp3",
+    plataforma_botao_seeQuestion_png : "asset/plataforma/plataforma_botao_seeQuestion.png",
+    plataforma_background_png : "asset/plataforma/plataforma_background.png",
     
     
     // ------------ TelaFim -------------- //

@@ -27,6 +27,9 @@ var DesafioPlataformaLayer = cc.Layer.extend({
 //                break;
 //        }
         
+        
+        
+        //respostaDesafioPlataforma = 1;
         // TODO
         var pontuacaoLabel = new cc.LabelTTF("Worth: "+ 200 +" points","Arial");
         pontuacaoLabel.setFontSize(15);
@@ -197,11 +200,10 @@ var DesafioPlataformaLayer = cc.Layer.extend({
     selectedStateEvent: function(sender, type){
         switch(type){
                 case ccui.CheckBox.EVENT_UNSELECTED:
-                    //////cc.log("Not Selected");
-                    //////cc.log(sender.isSelected());
+                    
                     break;
                  case ccui.CheckBox.EVENT_SELECTED:
-                    //////cc.log("Selected");
+                    
                     break;
         }
     },
@@ -209,45 +211,11 @@ var DesafioPlataformaLayer = cc.Layer.extend({
     touchEvent: function(sender,type){
         switch(type){
             case ccui.Widget.TOUCH_BEGAN:
-                //////cc.log("Pressionou");
-                //Mudar o sprite do "answerButton" aqui
+                
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                //////cc.log("Pressionou");
-                // TODO
-                //Verificar respostas aqui
-                // Resposta = [true, false, false, true, false], alterar para receber do banco
-                var parent = sender.parent;
-                var resposta = [true, false, false, true, false];
-                ////cc.log(parent.getChildByTag(1).isSelected());
-                ////cc.log(parent.getChildByTag(2).isSelected());
-                ////cc.log(parent.getChildByTag(3).isSelected());
-                ////cc.log(parent.getChildByTag(4).isSelected());
-                ////cc.log(parent.getChildByTag(5).isSelected());
-                if (resposta[0]===parent.getChildByTag(1).isSelected() && 
-                    resposta[1]===parent.getChildByTag(2).isSelected() && 
-                    resposta[2]===parent.getChildByTag(3).isSelected() &&
-                    resposta[3]===parent.getChildByTag(4).isSelected() && 
-                    resposta[4]===parent.getChildByTag(5).isSelected()){
-                    pop();
-                    pontuacao+=pontuacaoMaximaNaQuestao;
-                    cc.log("pontuacao = "+pontuacao);
-                    layerCopiaExterno.getChildByTag(10).setString("Points: "+pontuacao);
-                    pontuacaoMaximaNaQuestao = 200;
-                }else{
-                    pontuacaoMaximaNaQuestao-=60;
-                    if (pontuacaoMaximaNaQuestao>=80){
-                        parent.getChildByTag(0).setString("Worth: "+ pontuacaoMaximaNaQuestao +" points","Arial");
-                    }else{
-                        // TODO
-                        // nao pontuou
-                        pontuacaoMaximaNaQuestao = 0;
-                        // Reproduzir som de erro
-                        pop();
-                        pontuacaoMaximaNaQuestao = 200;
-                    }
-                    
-                }
+                
+                cc.director.popScene();
                 break;
         }
     }
@@ -256,24 +224,6 @@ var DesafioPlataformaLayer = cc.Layer.extend({
 
     
 
-var pop = function(){
-    ////cc.log("Foi!");
-    // Se acertou de primeira, 200 pontos.
-    // Se acertou de segunda, 140 pontos.
-    // Se acertou de terceira, 80 pontos.
-    //pontuacao+=pontuacaoMaximaNaQuestao;
-    //acertouDePrimeira = (pontuacaoMaximaNaQuestao===200);
-    ////cc.log(pontuacaoMaximaNaQuestao);
-    ////cc.log(pontuacao);
-    pontuacaoMaximaNaQuestao = 200; // para a proxima qeustao
-    
-    //layerCopiaExterno.getChildByTag(10).setString("Points: "+pontuacao);
-//    if(acertouDePrimeira){
-//        ////cc.log("aumentou sombra");
-//        layerCopiaExterno.getChildByTag(0).runAction(cc.ScaleBy.create(0,1.1,1.1));
-//    }
-    cc.director.popScene();
-};
 var DesafioPlataformaScene = cc.Scene.extend({
     onEnter:function () {
             INITTIALIZED_desafioPlataforma = true;

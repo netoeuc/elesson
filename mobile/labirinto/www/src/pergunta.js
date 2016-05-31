@@ -1,5 +1,5 @@
 /* globals cc, asset */
-
+var respostaCertaPlataforma;
 var pontuacaoMaximaNaQuestao = 200;
 var INITTIALIZED_2 = false;
 var QuestionLayer = cc.Layer.extend({
@@ -10,22 +10,7 @@ var QuestionLayer = cc.Layer.extend({
         
         var size = cc.winSize;
         
-        // TODO
-        // Pegando todos os valores do arquivo
-//        var tipoDaQuestao = 1;
-//        var string;
-//        switch(tipoDaQuestao){
-//            case 1:
-//                break;
-//            case 2:
-//                break;
-//            case 3:
-//                break;
-//            case 4:
-//                break;
-//            case 5:
-//                break;
-//        }
+        respostaCertaPlataforma = 0;
         
         // TODO
         var pontuacaoLabel = new cc.LabelTTF("Worth: "+ 200 +" points","Arial");

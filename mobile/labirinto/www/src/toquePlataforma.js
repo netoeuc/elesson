@@ -34,8 +34,9 @@ var TouchLayer = cc.Layer.extend({
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                var cenaLabirinto = new PlataformaScene();
-                cc.director.pushScene(new cc.TransitionMoveInR(0.5,cenaLabirinto));
+//                var cenaPlataforma = new PlataformaScene();
+                var cenaPlataforma = new PlataformaScene();
+                cc.director.pushScene(new cc.TransitionMoveInR(0.5,cenaPlataforma));
                 break;
         }
     },
