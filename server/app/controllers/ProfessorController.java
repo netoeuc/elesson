@@ -71,13 +71,14 @@ public class ProfessorController extends Controller{
 	@With({ ProfessorInterceptor.class })
 	public static Result index(){
 		try {
-		Professor p = getUsuarioAutenticado();
-		int qntAlunos = AlunoDatabase.selectTotalAlunosByProfessorId(p.getId());
-		int qntQuestoes = QuestaoDatabase.selectTotalQuestoesByProfessorId(p.getId());
-		
-		List<Aluno> al = AlunoDatabase.selectAlunosOrderPontuacaoByProfessor(p.getId());
-		
-		return ok(views.html.professor.index.render(p,qntAlunos,qntQuestoes,al));
+			Professor p = getUsuarioAutenticado();
+			int qntAlunos = AlunoDatabase.selectTotalAlunosByProfessorId(p.getId());
+			int qntQuestoes = QuestaoDatabase.selectTotalQuestoesByProfessorId(p.getId());
+			int pontuacaoAlunos = AlunoDatabase.selectSomaPontuacaoByProfessorId(p.getId());
+			
+			List<Aluno> al = AlunoDatabase.selectAlunosOrderPontuacaoByProfessor(p.getId());
+			
+			return ok(views.html.professor.index.render(p,qntAlunos,qntQuestoes,al,pontuacaoAlunos));
 		}catch (Exception e){
 			Logger.error("ERRO - ProfessorController/index(): "+ e.getMessage());
 		}

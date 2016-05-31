@@ -1,4 +1,4 @@
-@(p : models.Professor)(qntAlunos: Integer)(qntQuestoes: Integer)(listaAluno:List[Aluno])
+@(p : models.Professor)(qntAlunos: Integer)(qntQuestoes: Integer)(listaAluno:List[Aluno])(qntPontuacaoAlunos: Integer)
 @content = {
 
 		 @navbar()
@@ -42,10 +42,10 @@
                       </div>
                       <div class="row center-align">
                         <div class="col s6 m6">
-                          <a onclick="movimento('andamentoPorTurma', 90)" class="waves-effect waves-light">andamento por turma</a>
+                          <a onclick="movimento('pontuacaoTotal', 90)" class="waves-effect waves-light">Pontuação total de questões por acertos dos alunos</a>
                         </div>
                         <div class="col s6 m6">
-                          <a onclick="movimento('rank', 90)" class="waves-effect waves-light">rank</a>
+                          <a onclick="movimento('rank', 90)" class="waves-effect waves-light">Vizualizar ranking de alunos</a>
                         </div>
                       </div>
                       <hr>
@@ -54,8 +54,8 @@
 
                   <div class="row">
                     <div class="col s12 offset-m1 m10">
-                      <div id="andamentoPorTurma"><h5>Andamento por turma:</h5></div>
-                      <div id="line-chart"></div>
+                      <div id="pontuacaoTotal"><h5>Pontuação total de questões por acertos dos alunos:</h5></div>
+                      <div id="bar-chart"></div>
                       <hr>
                     </div>
                   </div>
@@ -102,28 +102,24 @@
 		      var max = 100;
 		      return Math.floor(Math.random()*(max-min+1)+min);
 		    }
-		
+
 		    function drawChart(){
-		      $('#line-chart').html("loading");
-		      setTimeout(function(){
-		        $('#line-chart').html("");
-		        Morris.Line({
-		          element: 'line-chart',
-		          data: [
-		            { y: 'Desafio 1', a: randomIntFromInterval(), b: randomIntFromInterval(), c: randomIntFromInterval()},
-		            { y: 'Desafio 2', a: randomIntFromInterval(),  b: randomIntFromInterval(), c: randomIntFromInterval()},
-		            { y: 'Desafio 3', a: randomIntFromInterval(),  b: randomIntFromInterval()},
-		            { y: 'Desafio 4', a: randomIntFromInterval()}
-		          ],
-		          parseTime: false,
-		          xkey: 'y',
-		          ykeys: ['a', 'b', 'c'],
-		          labels: ['Turma A', 'Turma B', 'Turma C'],
-		          resize: true
-		
-		        });
-		      }, 1000);
-		    }
+        $('#bar-chart').html("loading");
+        setTimeout(function(){
+          $('#bar-chart').html("");
+          Morris.Bar({
+            element: 'bar-chart',
+            data: [
+              { y: 'Pontuação total', a: @(qntQuestoes*200), b: @qntPontuacaoAlunos },
+            ],
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['das questões', 'dos alunos'],
+            barColors: ['#0770E2','#00773C'],
+            resize: true
+          });
+        }, 0);
+    }
 		  </script>
 }
 

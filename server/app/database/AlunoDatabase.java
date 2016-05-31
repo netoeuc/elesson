@@ -253,4 +253,16 @@ public class AlunoDatabase {
 			JPA.em().createNativeQuery("SET FOREIGN_KEY_CHECKS = 1").executeUpdate();
 		}
 	}
+
+	public static int selectSomaPontuacaoByProfessorId(int id) {
+		String query = "SELECT SUM(pontuacao) FROM Aluno WHERE idProfessor = :idProfessor";
+		List<Object> lo = JPA.em().createNativeQuery(query)
+								.setParameter("idProfessor", id)
+								.getResultList();
+		
+		if (lo != null && !lo.isEmpty() && lo.get(0) != null) {
+			return (int)lo.get(0);
+		}
+		return 0;
+	}
 }
