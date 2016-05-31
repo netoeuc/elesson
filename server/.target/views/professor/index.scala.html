@@ -1,4 +1,4 @@
-@(p : models.Professor)
+@(p : models.Professor)(qntAlunos: Integer)(qntQuestoes: Integer)(listaAluno:List[Aluno])
 @content = {
 
 		 @navbar()
@@ -31,12 +31,12 @@
                         </div>
                         <div class="col s12 m4">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-graduation-cap material-icons"></i> 18 Alunos
+                            <i class="fa fa-graduation-cap material-icons"></i>@if(qntAlunos == 0){Nenhum aluno} @if(qntAlunos == 1){1 Aluno} @if(qntAlunos > 1){@qntAlunos Alunos}
                           </div>
                         </div>
                         <div class="col s12 m4">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-question material-icons"></i> 43 Questões
+                            <i class="fa fa-question material-icons"></i>@if(qntQuestoes == 0){Nenhuma questao} @if(qntQuestoes == 1){1 Questao} @if(qntQuestoes > 1){@qntQuestoes Questoes}
                           </div>
                         </div>    
                       </div>
@@ -63,72 +63,26 @@
                   <div class="row">
                     <div class="col s12 offset-m1 m10">
                       <div id="rank"><h5>Rank:</h5></div>
-                        <table data-sort-name="classroom" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="false" data-pagination="false" data-page-list="[5, 10, 15, 20]" data-cache="false" class="students-table">
-                          <thead>
-                            <tr>
-                              <th>Position</th>
-                              <th>Name</th>
-                              <th>Classroom</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>
-                                1
-                              </td>
-                              <td>
-                                <a class="waves-effect waves-light">Bruno</a>
-                              </td>
-                              <td>
-                                A
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                2
-                              </td>
-                              <td>
-                                <a class=" waves-effect waves-light">Rodrigo</a>
-                              </td>
-                              <td>
-                                B
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                3
-                              </td>
-                              <td>
-                                <a class="waves-effect waves-light">Euclides</a>
-                              </td>
-                              <td>
-                                A
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                4
-                              </td>
-                              <td>
-                                <a class="waves-effect waves-light">Daniel</a>
-                              </td>
-                              <td>
-                                A
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                5
-                              </td>
-                              <td>
-                                <a class="waves-effect waves-light">Allysson</a>
-                              </td>
-                              <td>
-                                B
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <table data-sort-name="pos" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="false" data-cache="false" class="students-table">
+	                    <thead>
+	                       <tr>
+	                       	   <th data-field="pos" data-sortable="true">Position</th>
+		                       <th data-field="name" data-sortable="true">Name</th>
+		                       <th data-field="points" data-sortable="true">Points</th>
+	                       </tr>
+	                    </thead>
+	                    <tbody>
+	                    	<!-- for a partir daqui { -->
+	                        @for(index <- 0 until listaAluno.size()){
+		                      <tr>
+		                      	<td>@(index+1)</td>
+		                      	<td>@listaAluno.get(index).getNome()</td>
+		                      	<td>@listaAluno.get(index).getPontuacao()</td>
+		                      </tr>
+	                        }
+	                      	<!-- for até aqui } -->
+	                    </tbody>
+	                  </table>
                       <hr>
                     </div>
                   </div>

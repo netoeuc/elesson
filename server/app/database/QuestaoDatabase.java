@@ -2,6 +2,7 @@ package database;
 
 import java.util.List;
 
+import models.Aluno;
 import models.Questao;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -68,6 +69,19 @@ public class QuestaoDatabase {
 			return null;
 		}else{
 			return lq.get(0);
+		}
+	}
+	
+	@Transactional
+	public static int selectTotalQuestoesByProfessorId(int idProfessor)throws Exception{
+		String query = "FROM Questao WHERE idProfessor = :idProfessor";
+		List<Questao> lq = JPA.em().createQuery(query)
+								.setParameter("idProfessor", idProfessor)
+								.getResultList();
+		if(lq.isEmpty()){
+			return 0;
+		}else{
+			return lq.size();
 		}
 	}
 

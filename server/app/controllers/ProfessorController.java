@@ -3,6 +3,7 @@ package controllers;
 import static play.data.Form.form;
 import interceptors.ProfessorInterceptor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -69,8 +70,18 @@ public class ProfessorController extends Controller{
 	@Transactional
 	@With({ ProfessorInterceptor.class })
 	public static Result index(){
+		try {
 		Professor p = getUsuarioAutenticado();
-		return ok(views.html.professor.index.render(p));
+		int qntAlunos = AlunoDatabase.selectTotalAlunosByProfessorId(p.getId());
+		int qntQuestoes = QuestaoDatabase.selectTotalQuestoesByProfessorId(p.getId());
+		
+		List<Aluno> al = AlunoDatabase.selectAlunosOrderPontuacaoByProfessor(p.getId());
+		
+		return ok(views.html.professor.index.render(p,qntAlunos,qntQuestoes,al));
+		}catch (Exception e){
+			Logger.error("ERRO - ProfessorController/index(): "+ e.getMessage());
+		}
+		return redirect(routes.ProfessorController.logoff());
 	}
 	
 	@Transactional

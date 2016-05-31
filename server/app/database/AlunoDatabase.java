@@ -28,6 +28,32 @@ public class AlunoDatabase {
 	}
 	
 	@Transactional
+	public static int selectTotalAlunosByProfessorId(int idProfessor)throws Exception{
+		String query = "FROM Aluno WHERE idProfessor = :idProfessor";
+		List<Aluno> lus = JPA.em().createQuery(query)
+								.setParameter("idProfessor", idProfessor)
+								.getResultList();
+		if(lus.isEmpty()){
+			return 0;
+		}else{
+			return lus.size();
+		}
+	}
+	
+	@Transactional
+	public static int selectTotalAlunosByCnpjInst(String cnpjInst)throws Exception{
+		String query = "FROM Aluno WHERE cnpjInst = :cnpjInst";
+		List<Aluno> lus = JPA.em().createQuery(query)
+								.setParameter("cnpjInst", cnpjInst)
+								.getResultList();
+		if(lus.isEmpty()){
+			return 0;
+		}else{
+			return lus.size();
+		}
+	}
+	
+	@Transactional
 	public static Aluno selectAluno(String email, String cnpjInst)throws Exception{
 		String query = "FROM Aluno WHERE email = :email AND cnpjInst = :cnpjInst";
 		List<Aluno> la = JPA.em().createQuery(query)

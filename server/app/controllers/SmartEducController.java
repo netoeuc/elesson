@@ -163,7 +163,7 @@ public class SmartEducController extends Controller{
 				Instituicao ic = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
 				Instituicao ie = InstituicaoDatabase.selectInstituicaoByEmail(email);
 				if (ic == null && ie == null){
-					ic = new Instituicao(cnpj, nome, telefone, endereco, email, eLicenca, senha, Constantes.STATUS_AGUARDANDO,0);
+					ic = new Instituicao(cnpj, nome, telefone, endereco, email, eLicenca, senha, Constantes.STATUS_AGUARDANDO);
 					Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
 							views.html.instituicao.email.render(ic, senha, request().host(), 0).toString());
 					
