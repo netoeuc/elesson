@@ -164,17 +164,19 @@ public class InstituicaoController extends Controller{
 					int qntAlunos = ProfessorDatabase.selectCountAlunos(p.getId());
 					int qntQuestoes = ProfessorDatabase.selectCountQuestoes(p.getId());
 					int pontuacaoAlunos = AlunoDatabase.selectSomaPontuacaoByProfessorId(p.getId());
+					List<Aluno> la = AlunoDatabase.selectAlunosOrderPontuacaoByProfessor(p.getId());
 					
-					return ok(views.html.instituicao.ajax.mostrarProfessor.render(qntAlunos, qntQuestoes, pontuacaoAlunos));
+					return ok(views.html.instituicao.ajax.mostrarProfessor.render(qntAlunos, qntQuestoes, pontuacaoAlunos, la));
 				}
 			}
 			flash("erro", "Código do professor inválido");
 
 		}catch(Exception e){
+			e.printStackTrace();
 			Logger.error("ERRO - InstituicaoController/mostrarProfessor(): "+ e.getMessage());
 			flash("erro", "Ocorreu um erro ao carregar dados. Tente novamente mais tarde");
 		}
-		return redirect(routes.InstituicaoController.professores());
+		return badRequest("erro");
 	}
 	
 	@Transactional

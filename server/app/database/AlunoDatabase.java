@@ -261,7 +261,7 @@ public class AlunoDatabase {
 								.getResultList();
 		
 		if (lo != null && !lo.isEmpty() && lo.get(0) != null) {
-			return (int)lo.get(0);
+			return (int)Double.parseDouble(""+lo.get(0));
 		}
 		return 0;
 	}

@@ -104,7 +104,7 @@
           Morris.Bar({
             element: 'bar-chart',
             data: [
-              { y: 'Pontuação total', a: @(qntQuestoes*200), b: @qntPontuacaoAlunos },
+              { y: 'Pontuação total', a: @(qntQuestoes*200*qntAlunos), b: @qntPontuacaoAlunos },
             ],
             xkey: 'y',
             ykeys: ['a', 'b'],
