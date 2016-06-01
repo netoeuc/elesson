@@ -163,8 +163,9 @@ public class InstituicaoController extends Controller{
 				if(p != null){
 					int qntAlunos = ProfessorDatabase.selectCountAlunos(p.getId());
 					int qntQuestoes = ProfessorDatabase.selectCountQuestoes(p.getId());
+					int pontuacaoAlunos = AlunoDatabase.selectSomaPontuacaoByProfessorId(p.getId());
 					
-					return ok(views.html.instituicao.ajax.mostrarProfessor.render(qntAlunos, qntQuestoes));
+					return ok(views.html.instituicao.ajax.mostrarProfessor.render(qntAlunos, qntQuestoes, pontuacaoAlunos));
 				}
 			}
 			flash("erro", "Código do professor inválido");

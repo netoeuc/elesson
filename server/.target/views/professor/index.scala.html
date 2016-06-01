@@ -45,7 +45,7 @@
                           <a onclick="movimento('pontuacaoTotal', 90)" class="waves-effect waves-light">Pontuação total de questões por acertos dos alunos</a>
                         </div>
                         <div class="col s6 m6">
-                          <a onclick="movimento('rank', 90)" class="waves-effect waves-light">Vizualizar ranking de alunos</a>
+                          <a onclick="movimento('rank', 90)" class="waves-effect waves-light">Vizualizar ranking dos alunos</a>
                         </div>
                       </div>
                       <hr>
@@ -62,7 +62,7 @@
 
                   <div class="row">
                     <div class="col s12 offset-m1 m10">
-                      <div id="rank"><h5>Rank:</h5></div>
+                      <div id="rank"><h5>Ranking dos alunos:</h5></div>
                         <table data-sort-name="pos" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="false" data-cache="false" class="students-table">
 	                    <thead>
 	                       <tr>
@@ -96,12 +96,6 @@
 		  $(document).ready(function(){
 		    drawChart();
 		  });
-		
-		    function randomIntFromInterval(){   
-		      var min = 50;
-		      var max = 100;
-		      return Math.floor(Math.random()*(max-min+1)+min);
-		    }
 
 		    function drawChart(){
         $('#bar-chart').html("loading");
