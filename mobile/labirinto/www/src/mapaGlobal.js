@@ -10,12 +10,13 @@ var GlobalMapLayer = cc.Layer.extend({
         
         var size = cc.winSize;
         
-        status = 1;
+        // status = 1;
+        // usando o status definido em variaveis.js
         
         if(status >= 1 && status <=5){
             var sp = new cc.Sprite.create(asset.MapGeralBloqueado1_png);
             sp.setAnchorPoint(cc.p(0,0));
-            sp.setPosition(cc.p(0,0));
+            sp.setPosition(cc.p(15,0));
             this.addChild(sp);
             //chamada para o minimundo 1
             var menuItem1 = new cc.MenuItemImage(asset.unidade01_png,asset.unidade01_png, play); 
@@ -26,7 +27,7 @@ var GlobalMapLayer = cc.Layer.extend({
         if(status >= 6 && status <= 10){
             var sp = new cc.Sprite.create(asset.MapGeralBloqueado2_png);
             sp.setAnchorPoint(cc.p(0,0));
-            sp.setPosition(cc.p(10,0));
+            sp.setPosition(cc.p(15,0));
             this.addChild(sp);
             //chamada para o minimundo 2
             var menuItem1 = new cc.MenuItemImage(asset.unidade02_png,asset.unidade02_png, play); 
@@ -37,7 +38,7 @@ var GlobalMapLayer = cc.Layer.extend({
         if(status >= 11 && status <= 15){
             var sp = new cc.Sprite.create(asset.MapGeralBloqueado3_png);
             sp.setAnchorPoint(cc.p(0,0));
-            sp.setPosition(cc.p(0,0));
+            sp.setPosition(cc.p(15,0));
             this.addChild(sp);
             //chamada para o minimundo 2
             var menuItem1 = new cc.MenuItemImage(asset.unidade03_png,asset.unidade03_png, play); 
@@ -48,7 +49,7 @@ var GlobalMapLayer = cc.Layer.extend({
         if(status >= 16 && status <= 20){
             var sp = new cc.Sprite.create(asset.MapGeral_png);
             sp.setAnchorPoint(cc.p(0,0));
-            sp.setPosition(cc.p(0,0));
+            sp.setPosition(cc.p(15,0));
             this.addChild(sp);
             //chamada para o minimundo 2
             var menuItem1 = new cc.MenuItemImage(asset.unidade04_png,asset.unidade04_png, play); 
@@ -73,7 +74,9 @@ var GlobalMapLayer = cc.Layer.extend({
             cc.log("Play!");
             var scene = new MiniMapScene1();
             delay(100);
-            cc.director.pushScene(new cc.TransitionMoveInR(0.5,scene));    
+            //cc.director.pushScene(new cc.TransitionMoveInR(0.5,scene));  
+            INITTIALIZED_minimapa=false;
+            cc.director.runScene(scene);
        }
 
         

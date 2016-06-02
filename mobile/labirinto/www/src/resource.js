@@ -40,6 +40,12 @@ var asset = {
     desafio_answerButton_png : "asset/desafio/answerButton.png",
     desafio_checkboxUnchecked_png : "asset/desafio/checkboxUnchecked.png",
     desafio_checkboxChecked_png : "asset/desafio/checkboxChecked.png",
+    desafio_background_png : "asset/desafio/background.png",
+    boxVermelho_png : "asset/desafio/boxVermelho.png",
+    boxVerde_png : "asset/desafio/boxVerde.png",
+    boxAzul_png : "asset/desafio/boxAzul.png",
+    boxAmarelo_png : "asset/desafio/boxAmarelo.png",
+    
     
     // ------------ Pause -------------- //
     pause_close_png : "asset/pause/close.png",

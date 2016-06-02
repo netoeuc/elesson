@@ -22,15 +22,16 @@ var FimVerdeLayer = cc.Layer.extend({
         backToMap2.addTouchEventListener(this.sairDoJogo2, this);
         this.addChild(backToMap2);
         
-//        var tryAgain2 = new ccui.Button();
-//        tryAgain2.loadTextures(asset.telaFim_buttonTryAgain_png);
-//        tryAgain2.setAnchorPoint(cc.p(0,0));  
-//        tryAgain2.setPosition(cc.p(260, 200));
-        //this.addChild(tryAgain2);
         
         
         // APLICAR AS MUDANCAS NO ARQUIVO/BANCO AQUI
         // ENVIAR PARA O SERVIDOR (POST)
+        
+        tentativas = 3;
+        status=Number(status)+1;
+        idLabirinto = Number(idLabirintoAtual)+1;
+        // POST(resultadoParaPost);
+        // POST (passou de fase!)
         
         
         return true;
@@ -49,7 +50,10 @@ var FimVerdeLayer = cc.Layer.extend({
                 INITTIALIZED_histplat = false;
                 INITTIALAZED = false;
                 cc.audioEngine.end();
-                cc.director.popToSceneStackLevel(2);
+                //cc.director.popToSceneStackLevel(2);
+                INITTIALIZED_minimapa = false;
+                var minimapa = new MiniMapScene1();
+                cc.director.runScene(minimapa);
                 //pop();
                 break;
         }

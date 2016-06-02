@@ -25,16 +25,22 @@ var FimVermelhoLayer = cc.Layer.extend({
         backToMap1.addTouchEventListener(this.sairDoJogo3, this);
         this.addChild(backToMap1);
         
-//        var tryAgain1 = new ccui.Button();
-//        tryAgain1.loadTextures(asset.telaFim_buttonTryAgain_png);
-//        tryAgain1.setAnchorPoint(cc.p(0,0));  
-//        tryAgain1.setPosition(cc.p(260, 200));
-        //this.addChild(tryAgain1);
-        
         
         
         // APLICAR AS MUDANCAS NO ARQUIVO/BANCO AQUI
-        // ENVIAR PARA O SERVIDOR (POST)
+        
+        
+        if(tentativas===1){ // para ter 3 tentativas, checagem deve ser feita no 1
+            tentativas = 3;
+            status=Number(status)+1;
+            idLabirintoAtual=Number(idLabirintoAtual)+1;
+            // POST(resultadoParaPost);
+            // POST (não passou);
+        }else{
+            tentativas-=1;
+            idLabirintoAtual = Number(idLabirintoAtual)+1;
+        }
+        
         
         return true;
     },
@@ -52,7 +58,10 @@ var FimVermelhoLayer = cc.Layer.extend({
                 INITTIALIZED_histplat = false;
                 INITTIALAZED = false;
                 cc.audioEngine.end();
-                cc.director.popToSceneStackLevel(2);
+                //cc.director.popToSceneStackLevel(2);
+                INITTIALIZED_minimapa = false;
+                var minimapa = new MiniMapScene1();
+                cc.director.runScene(minimapa);
                 //pop();
                 break;
         }

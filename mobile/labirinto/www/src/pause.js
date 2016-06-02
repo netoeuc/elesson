@@ -12,6 +12,8 @@ var PauseLayer = cc.Layer.extend({
         var size = cc.winSize;
         
         
+        
+        
         var backgroundPause = new cc.Sprite.create(asset.pause_background_png); 
         backgroundPause.setAnchorPoint(cc.p( 0, 0 ));
         backgroundPause.setPosition(cc.p(0, 0));
@@ -54,7 +56,8 @@ var PauseLayer = cc.Layer.extend({
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                pop();
+                //pop();
+                cc.director.popScene();
                 break;
         }
     },
@@ -75,7 +78,21 @@ var PauseLayer = cc.Layer.extend({
                 INITTIALIZED_toque = false;
                 INITTIALAZED = false;
                 cc.audioEngine.end();
-                cc.director.popToSceneStackLevel(2);
+                //cc.director.popToSceneStackLevel(2);
+                INITTIALIZED_minimapa=false;
+                
+                if(tentativas===1){ // para ter 3 tentativas, checagem deve ser feita no 1
+                    tentativas = 3;
+                    status=Number(status)+1;
+                    idLabirintoAtual=Number(idLabirintoAtual)+1;
+                    // POST (não passou)
+                }else{
+                    tentativas-=1;
+                    idLabirintoAtual = Number(idLabirintoAtual)+1;
+                }
+                
+                var sairDoJogoScene = new MiniMapScene1();
+                cc.director.runScene(sairDoJogoScene);
                 //pop();
                 break;
         }
@@ -86,16 +103,17 @@ var PauseLayer = cc.Layer.extend({
     
 
 var pop = function(){
-    if (pause_exit_game===true){
-        cc.log(pause_exit_game);
-        cc.audioEngine.end();
-        cc.director.popToSceneStackLevel(0);
-    }else{
-        cc.log("else");
-        // substituir
-        //cc.director.popScene();
-        cc.director.pushScene(); // 1 -> mapa, 2 -> minimapa, 3 -> labirinto/plataforma, 4 -> pause     
-    }
+//    if (pause_exit_game===true){
+//        cc.log(pause_exit_game);
+//        cc.audioEngine.end();
+//        cc.director.popToSceneStackLevel(0);
+//    }else{
+//        cc.log("else");
+//        // substituir
+//        //cc.director.popScene();
+//        cc.director.pushScene(); // 1 -> mapa, 2 -> minimapa, 3 -> labirinto/plataforma, 4 -> pause     
+//    }
+    cc.director.popScene();
     
     
 };

@@ -9,6 +9,7 @@ var finished = false;
 var respostaPlataformaAtual;
 var pontuacaoPlataforma = 0;
 var chances = 3;
+var idQuestaoAtual;
 var PlataformaLayer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
@@ -18,6 +19,121 @@ var PlataformaLayer = cc.Layer.extend({
         var sizePlataforma = cc.winSize;
         
         var respostaAtual;
+        
+        
+        var alternativaTemp;
+        switch (numeroPerguntaQuizLabirinto){
+            case 0:
+                cc.log("numeroPerguntaQuizLabirinto = 0");
+                alternativaTemp = userInfo.getItem("pergunta1_respostaCerta");
+                switch (alternativaTemp){
+                    case 'a':
+                        respostaDesafioPlataforma = 0;
+                        break;
+                    case 'b':
+                        respostaDesafioPlataforma = 1;
+                        break;
+                    case 'c':
+                        respostaDesafioPlataforma = 2;
+                        break;
+                    case 'd':
+                        respostaDesafioPlataforma = 3;
+                        break;
+                    case 'e':
+                        respostaDesafioPlataforma = 3;
+                        break;
+                }
+                    
+                break;
+            case 1:
+                cc.log("numeroPerguntaQuizLabirinto = 1");
+                alternativaTemp = userInfo.getItem("pergunta2_respostaCerta");
+                switch (alternativaTemp){
+                    case 'a':
+                        respostaDesafioPlataforma = 0;
+                        break;
+                    case 'b':
+                        respostaDesafioPlataforma = 1;
+                        break;
+                    case 'c':
+                        respostaDesafioPlataforma = 2;
+                        break;
+                    case 'd':
+                        respostaDesafioPlataforma = 3;
+                        break;
+                    case 'e':
+                        respostaDesafioPlataforma = 3;
+                        break;
+                }
+                break;
+            case 2:
+                cc.log("numeroPerguntaQuizLabirinto = 2");
+                alternativaTemp = userInfo.getItem("pergunta3_respostaCerta");
+                switch (alternativaTemp){
+                    case 'a':
+                        respostaDesafioPlataforma = 0;
+                        break;
+                    case 'b':
+                        respostaDesafioPlataforma = 1;
+                        break;
+                    case 'c':
+                        respostaDesafioPlataforma = 2;
+                        break;
+                    case 'd':
+                        respostaDesafioPlataforma = 3;
+                        break;
+                    case 'e':
+                        respostaDesafioPlataforma = 3;
+                        break;
+                }
+                break;
+            case 3:
+                cc.log("numeroPerguntaQuizLabirinto = 3");
+                alternativaTemp = userInfo.getItem("pergunta4_respostaCerta");
+                switch (alternativaTemp){
+                    case 'a':
+                        respostaDesafioPlataforma = 0;
+                        break;
+                    case 'b':
+                        respostaDesafioPlataforma = 1;
+                        break;
+                    case 'c':
+                        respostaDesafioPlataforma = 2;
+                        break;
+                    case 'd':
+                        respostaDesafioPlataforma = 3;
+                        break;
+                    case 'e':
+                        respostaDesafioPlataforma = 3;
+                        break;
+                }
+                break;
+            case 4:
+                cc.log("numeroPerguntaQuizLabirinto = 4");
+                alternativaTemp = userInfo.getItem("pergunta5_respostaCerta");
+                switch (alternativaTemp){
+                    case 'a':
+                        respostaDesafioPlataforma = 0;
+                        break;
+                    case 'b':
+                        respostaDesafioPlataforma = 1;
+                        break;
+                    case 'c':
+                        respostaDesafioPlataforma = 2;
+                        break;
+                    case 'd':
+                        respostaDesafioPlataforma = 3;
+                        break;
+                    case 'e':
+                        respostaDesafioPlataforma = 3;
+                        break;
+                }
+                break;
+
+
+        }
+        
+        
         
         
         var pontuacaoLabel = new cc.LabelTTF("Worth: "+ ((chances)*80) +" points","Arial");
@@ -127,7 +243,7 @@ var PlataformaLayer = cc.Layer.extend({
                 chances-=1;
                 cc.log("chances = "+chances);
                 //finished = true;
-                respostaAtual = 0;
+                respostaAtual = 3;
                 var moverParaAzul = new cc.MoveTo.create(0.2, cc.p(90,375));
                 sender.parent.getChildByTag(0).runAction(moverParaAzul);
                 delay(0.2);
@@ -157,7 +273,7 @@ var PlataformaLayer = cc.Layer.extend({
                 chances-=1;
                 cc.log("chances = "+chances);
                 //finished = true;
-                respostaAtual = 1;
+                respostaAtual = 0;
                 var moverParaVermelho = new cc.MoveTo.create(0.2, cc.p(390,375));
                 sender.parent.getChildByTag(0).runAction(moverParaVermelho);
                 delay(0.2);
@@ -218,7 +334,7 @@ var PlataformaLayer = cc.Layer.extend({
                 chances-=1;
                 cc.log("chances = "+chances);
                 //finished = true;
-                respostaAtual = 3;
+                respostaAtual = 1;
                 var moverParaVerde = new cc.MoveTo.create(0.2, cc.p(235,525));
                 this.getChildByTag(0).runAction(moverParaVerde);
                 //verdeJaFoiEscolhido = true;
@@ -291,6 +407,7 @@ function passarDeFasePlataforma(id){
         contadorFimPlataforma = 5;
         endGamePlataforma();
     }else{
+        numeroPerguntaQuizLabirinto = Number(numeroPerguntaQuizLabirinto)+1;
         var proximaPlataforma = new PlataformaScene();
         cc.director.runScene(proximaPlataforma);
     }
@@ -302,10 +419,12 @@ function passarDeFasePlataforma(id){
 function endGamePlataforma(){
     if (pontuacaoPlataforma>=560){ // 70% do total (800)
         pontuacaoPlataforma = 0;
+        numeroPerguntaQuizLabirinto = 0;
         var fimVerdeplataforma = new FimVerdeScene();
         cc.director.pushScene(new cc.TransitionZoomFlipAngular(2,fimVerdeplataforma));    
     }else{
         pontuacaoPlataforma = 0;
+        numeroPerguntaQuizLabirinto = 0;
         var fimVermelhoplataforma = new FimVermelhoScene();
         cc.director.pushScene(new cc.TransitionZoomFlipAngular(2,fimVermelhoplataforma));    
     }
