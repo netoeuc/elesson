@@ -1,4 +1,4 @@
-@(p : models.Professor)(qntAlunos: Integer)(qntQuestoes: Integer)(listaAluno:List[Aluno])
+@(p : models.Professor)(qntAlunos: Integer)(qntQuestoes: Integer)(listaAluno:List[Aluno])(qntPontuacaoAlunos: Integer)
 @content = {
 
 		 @navbar()
@@ -24,28 +24,28 @@
                         <h4 style="margin-left: 10px;">@p.getNome().</h4>
                       </div>
                       <div class="row center-align">
-                        <div class="col s12 m4">
+                        <!--<div class="col s12 m4">
                           <div class="tag bg-cinza color-cinza">
                             <i class="fa fa-book material-icons" aria-hidden="true"></i> 3 Turmas
                           </div>
-                        </div>
-                        <div class="col s12 m4">
+                        </div>!-->
+                        <div class="col s12">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-graduation-cap material-icons"></i>@if(qntAlunos == 0){Nenhum aluno} @if(qntAlunos == 1){1 Aluno} @if(qntAlunos > 1){@qntAlunos Alunos}
+                            <i class="fa fa-graduation-cap material-icons"></i><a href="@routes.ProfessorController.alunos()">@if(qntAlunos == 0){None student} @if(qntAlunos == 1){1 Student} @if(qntAlunos > 1){@qntAlunos Students}</a>
                           </div>
                         </div>
-                        <div class="col s12 m4">
+                        <div class="col s12">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-question material-icons"></i>@if(qntQuestoes == 0){Nenhuma questao} @if(qntQuestoes == 1){1 Questao} @if(qntQuestoes > 1){@qntQuestoes Questoes}
+                            <i class="fa fa-question material-icons"></i><a href="@routes.ProfessorController.questoes()">@if(qntQuestoes == 0){None question} @if(qntQuestoes == 1){1 Question} @if(qntQuestoes > 1){@qntQuestoes Questions}</a>
                           </div>
                         </div>    
                       </div>
                       <div class="row center-align">
                         <div class="col s6 m6">
-                          <a onclick="movimento('andamentoPorTurma', 90)" class="waves-effect waves-light">andamento por turma</a>
+                          <a onclick="movimento('pontuacaoTotal', 90)" class="waves-effect waves-light">Total question score by total students score</a>
                         </div>
                         <div class="col s6 m6">
-                          <a onclick="movimento('rank', 90)" class="waves-effect waves-light">rank</a>
+                          <a onclick="movimento('rank', 90)" class="waves-effect waves-light">Go to top 10 students</a>
                         </div>
                       </div>
                       <hr>
@@ -54,21 +54,21 @@
 
                   <div class="row">
                     <div class="col s12 offset-m1 m10">
-                      <div id="andamentoPorTurma"><h5>Andamento por turma:</h5></div>
-                      <div id="line-chart"></div>
+                      <div id="pontuacaoTotal"><h5>Total question score by total students score:</h5></div>
+                      <div id="bar-chart"></div>
                       <hr>
                     </div>
                   </div>
 
                   <div class="row">
                     <div class="col s12 offset-m1 m10">
-                      <div id="rank"><h5>Rank:</h5></div>
+                      <div id="rank"><h5>Top 10 students:</h5></div>
                         <table data-sort-name="pos" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="false" data-cache="false" class="students-table">
 	                    <thead>
 	                       <tr>
 	                       	   <th data-field="pos" data-sortable="true">Position</th>
 		                       <th data-field="name" data-sortable="true">Name</th>
-		                       <th data-field="points" data-sortable="true">Points</th>
+		                       <th data-field="score" data-sortable="true">Score</th>
 	                       </tr>
 	                    </thead>
 	                    <tbody>
@@ -96,34 +96,24 @@
 		  $(document).ready(function(){
 		    drawChart();
 		  });
-		
-		    function randomIntFromInterval(){   
-		      var min = 50;
-		      var max = 100;
-		      return Math.floor(Math.random()*(max-min+1)+min);
-		    }
-		
+
 		    function drawChart(){
-		      $('#line-chart').html("loading");
-		      setTimeout(function(){
-		        $('#line-chart').html("");
-		        Morris.Line({
-		          element: 'line-chart',
-		          data: [
-		            { y: 'Desafio 1', a: randomIntFromInterval(), b: randomIntFromInterval(), c: randomIntFromInterval()},
-		            { y: 'Desafio 2', a: randomIntFromInterval(),  b: randomIntFromInterval(), c: randomIntFromInterval()},
-		            { y: 'Desafio 3', a: randomIntFromInterval(),  b: randomIntFromInterval()},
-		            { y: 'Desafio 4', a: randomIntFromInterval()}
-		          ],
-		          parseTime: false,
-		          xkey: 'y',
-		          ykeys: ['a', 'b', 'c'],
-		          labels: ['Turma A', 'Turma B', 'Turma C'],
-		          resize: true
-		
-		        });
-		      }, 1000);
-		    }
+        $('#bar-chart').html("loading");
+        setTimeout(function(){
+          $('#bar-chart').html("");
+          Morris.Bar({
+            element: 'bar-chart',
+            data: [
+              { y: 'Total score', a: @(qntQuestoes*200*qntAlunos), b: @qntPontuacaoAlunos },
+            ],
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['questions', 'students'],
+            barColors: ['#0770E2','#00773C'],
+            resize: true
+          });
+        }, 0);
+    }
 		  </script>
 }
 

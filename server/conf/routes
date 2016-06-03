@@ -67,6 +67,7 @@ POST    /panel/teacher/edit/				controllers.ProfessorController.editar()
 
 GET     /panel/teacher/classrooms			controllers.ProfessorController.salas()
 GET     /panel/teacher/students				controllers.ProfessorController.alunos()
+POST	/panel/teacher/students/show		controllers.ProfessorController.mostrarAluno()
 
 GET     /panel/teacher/questions			controllers.ProfessorController.questoes()
 POST	/panel/teacher/questions/show		controllers.ProfessorController.mostrarQuestao()

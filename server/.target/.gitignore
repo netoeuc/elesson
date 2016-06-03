@@ -1,5 +1,8 @@
 /controllers/
+<<<<<<< HEAD
 /models/
 /database/
 /Global.class
+=======
+>>>>>>> db2ab9d42b75c1ac64f872ebcda9560a9b49ac90
 /views/

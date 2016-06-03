@@ -139,9 +139,10 @@
 	                  <table data-sort-name="pos" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="false" data-cache="false" class="students-table">
 	                    <thead>
 	                       <tr>
-	                       	   <th data-field="pos" data-sortable="true">Position</th>
+	                       	 <th data-field="pos" data-sortable="true">Position</th>
 		                       <th data-field="name" data-sortable="true">Name</th>
-		                       <th data-field="point" data-sortable="true">Point</th>
+		                       <th data-field="score" data-sortable="true">Score</th>
+                           <th data-field="teacher" data-sortable="true">Teacher</th>
 		                       <th data-field="action" data-sortable="false">Action</th>
 	                       </tr>
 	                    </thead>
@@ -152,6 +153,7 @@
 	                      	<td>@(index+1)</td>
 	                      	<td><a id="showDetails" onclick="mostrarAluno('@listaAluno.get(index).getNome()', '@listaAluno.get(index).getId()', '@routes.InstituicaoController.mostrarAluno()')" class="modal-trigger waves-effect waves-light">@listaAluno.get(index).getNome()</a></td>
 	                      	<td>@listaAluno.get(index).getPontuacao()</td>
+                          <td>@listaAluno.get(index).getProfessor().getNome()</td>
 	                      	<td>
                               <i onclick="mostrarEditarAluno('@listaAluno.get(index).getNome()', '@listaAluno.get(index).getIdProfessor()', '@listaAluno.get(index).getId()', '@routes.InstituicaoController.formEditarAluno()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>
                               <i onclick="removerAluno('@listaAluno.get(index).getId()','@routes.InstituicaoController.removerAluno()');" id="rem-@listaAluno.get(index).getId()" class="tiny-small fa fa-trash color-vermelho cursor-pointer" rel="delete"></i>

@@ -1,4 +1,4 @@
-@(q: models.Questao)
+@(q: models.Questao)(pontuacaoTotalQuestao: Integer)
 <div class="row center-align">
 	<h5 style="color:#444;">Level: @q.getLevel()</h5>
 </div>
@@ -16,5 +16,36 @@
 	<h5 style="@if(q.getRespostaCorreta() == 'e'){color:#228800;}else{color:#444444;} font-size: 14px;"><strong>E:</strong> @q.getResposta5()</h5>
 </div>
 <div class="row">
-	<h5 style="color:#444;">Total de respostas: @q.getRespostas().size()</h5>
+	<h5 style="color:#444;">Questions answered: @q.getRespostas().size()</h5>
 </div>
+<div class="row center-align">
+  <div class="col s12 offset-m1 m10">
+    <div id="pontuacaoTotal"><h5 style="color:#444;">Students performance on this question:</h5></div>
+      <div id="bar-chart"></div>                      
+  </div>
+</div>
+
+
+<script type="text/javascript">
+      $(document).ready(function(){
+        drawChart();
+      });
+
+        function drawChart(){
+        $('#bar-chart').html("loading");
+        setTimeout(function(){
+          $('#bar-chart').html("");
+          Morris.Bar({
+            element: 'bar-chart',
+            data: [
+              { y: 'Score', a: @q.getRespostas().size()*200, b: @pontuacaoTotalQuestao },
+            ],
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['question', 'students'],
+            barColors: ['#0770E2','#00773C'],
+            resize: true
+          });
+        }, 0);
+    }    
+</script>

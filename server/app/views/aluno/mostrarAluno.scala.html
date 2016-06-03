@@ -1,12 +1,17 @@
-@(a: models.Aluno)(posicaoRanking: Integer)(pontosLevel1: Integer)(pontosLevel2: Integer)(pontosLevel3: Integer)(pontosLevel4: Integer)
+@(a: models.Aluno)(pontosLevel1: Integer)(pontosLevel2: Integer)(pontosLevel3: Integer)(pontosLevel4: Integer)(qntQuestoes: Integer)
+<div class="row">
+  <h5 style="color:#444; font-size: 18px;"><strong>Teacher:</strong> @a.getProfessor().getNome()</h5>
+</div>
+<hr>
 <div class="row center-align">
-	<h5 style="color:#444;">Andamento:</h5>
+	<h5 style="color:#444;">Student progess:</h5>
 	<div id="bar-line" style="width: 100%; height:200px;"></div>
 </div>
-<div class="row">
-	<h5 style="color:#444; font-size: 18px;"><strong>Professor:</strong> @a.getProfessor().getNome()</h5>
-	<h5 style="color:#444; font-size: 18px;"><strong>Pontuação acumulada:</strong> @a.getPontuacao()</h5>
-	<h5 style="color:#444; font-size: 18px;"><strong>Posição no ranking:</strong> @posicaoRanking</h5>
+<div class="row center-align">
+  <div class="col s12 offset-m1 m10">
+    <div id="pontuacaoTotal"><h5 style="color:#444;">Student performance:</h5></div>
+      <div id="bar-chart"></div>                      
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -36,10 +41,32 @@
           ],
           xkey: 'y',
           ykeys: ['level'],
-          labels: ['Pontos'],
+          labels: ['Score'],
           parseTime: false,
           resize: true,
         });
       }, 0);
     }
+
+      $(document).ready(function(){
+        drawChart();
+      });
+
+        function drawChart(){
+        $('#bar-chart').html("loading");
+        setTimeout(function(){
+          $('#bar-chart').html("");
+          Morris.Bar({
+            element: 'bar-chart',
+            data: [
+              { y: 'Total score', a: @(qntQuestoes*200), b: @a.getPontuacao() },
+            ],
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['questions', 'student'],
+            barColors: ['#0770E2','#00773C'],
+            resize: true
+          });
+        }, 0);
+    }    
 </script>
