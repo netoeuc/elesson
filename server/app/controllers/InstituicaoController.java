@@ -9,10 +9,12 @@ import models.Instituicao;
 import models.Licenca;
 import models.Professor;
 import models.Questao;
+import models.Resposta;
 import database.AlunoDatabase;
 import database.InstituicaoDatabase;
 import database.ProfessorDatabase;
 import database.QuestaoDatabase;
+import database.RespostaDatabase;
 import interceptors.InstituicaoInterceptor;
 import play.Logger;
 import play.data.DynamicForm;
@@ -195,9 +197,10 @@ public class InstituicaoController extends Controller{
 					int pontosLevel2 = 0;
 					int pontosLevel3 = 0;
 					int pontosLevel4 = 0;
-					int posicaoRank = 1;
 					
-					return ok(views.html.aluno.mostrarAluno.render(a,posicaoRank,pontosLevel1,pontosLevel2,pontosLevel3,pontosLevel4));
+					int qntQuestoes = QuestaoDatabase.selectTotalQuestoesByProfessorId(a.getIdProfessor());
+					
+					return ok(views.html.aluno.mostrarAluno.render(a,pontosLevel1,pontosLevel2,pontosLevel3,pontosLevel4,qntQuestoes));
 				}
 			}
 			flash("erro", "Código do professor inválido");
@@ -774,7 +777,15 @@ public class InstituicaoController extends Controller{
 				Logger.error("ERRO - InstituicaoController/mostrarQuestao(): CODE is null");
 			}else{
 				Questao q = QuestaoDatabase.selectQuestaoById(cod);
-				return ok(views.html.instituicao.ajax.mostrarQuestao.render(q));
+				List<Resposta> lr = RespostaDatabase.selectRespostasByQuestao(q.getId());
+				
+				int pontuacaoTotalQuestao = 0;
+				for (Resposta r : lr)
+				{
+					pontuacaoTotalQuestao += r.getPontuacao();
+				}
+				
+				return ok(views.html.instituicao.ajax.mostrarQuestao.render(q,pontuacaoTotalQuestao));
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - InstituicaoController/mostrarQuestao(): "+ e.getMessage());

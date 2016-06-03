@@ -1,4 +1,4 @@
-@(qntAlunos: Integer)(qntQuestoes: Integer)(qntPontuacaoAlunos: Integer)
+@(qntAlunos: Integer)(qntQuestoes: Integer)(qntPontuacaoAlunos: Integer)(listaAluno:List[Aluno])
 				  <div class="row">
                     <div class="col s12 offset-m1 m10">
                       <div class="row center-align">
@@ -20,6 +20,37 @@
                             <div id="bar-chart"></div>                      
                         </div>
                        </div>
+
+                        <!-- RANKING DOS ALUNOS DO PROFESSOR!-->
+
+                       <div class="row">
+                        <div class="col s12 offset-m1 m10">
+                          <div id="rank"><h5>Ranking dos alunos:</h5></div>
+                          <table data-sort-name="pos" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="false" data-cache="false" class="students-table">
+                            <thead>
+                              <tr>
+                                <th data-field="pos" data-sortable="true">Position</th>
+                                <th data-field="name" data-sortable="true">Name</th>
+                                <th data-field="points" data-sortable="true">Points</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            <!-- for a partir daqui { -->
+                              @for(index <- 0 until listaAluno.size()){
+                                <tr>
+                                  <td>@(index+1)</td>
+                                  <td>@listaAluno.get(index).getNome()</td>
+                                  <td>@listaAluno.get(index).getPontuacao()</td>
+                                </tr>
+                              }
+                            <!-- for até aqui } -->
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                    <!-- FIM DO RANKING DOS ALUNOS DO PROFESSOR !-->
+
                     </div>
             </div>
 
@@ -35,7 +66,7 @@
           Morris.Bar({
             element: 'bar-chart',
             data: [
-              { y: 'Pontuação total', a: @(qntQuestoes*200), b: @qntPontuacaoAlunos },
+              { y: 'Pontuação total', a: @(qntQuestoes*200*qntAlunos), b: @qntPontuacaoAlunos },
             ],
             xkey: 'y',
             ykeys: ['a', 'b'],

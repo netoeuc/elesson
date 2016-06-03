@@ -11,10 +11,12 @@ import models.Aluno;
 import models.Instituicao;
 import models.Professor;
 import models.Questao;
+import models.Resposta;
 import database.AlunoDatabase;
 import database.InstituicaoDatabase;
 import database.ProfessorDatabase;
 import database.QuestaoDatabase;
+import database.RespostaDatabase;
 import play.Logger;
 import play.data.DynamicForm;
 import play.db.jpa.JPA;
@@ -446,6 +448,7 @@ public class ProfessorController extends Controller{
 	@With({ ProfessorInterceptor.class })
 	public static Result mostrarQuestao(){
 		try {
+			System.out.println("questao");
 			DynamicForm dynamicForm = form().bindFromRequest();
 			int cod = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
 
@@ -453,7 +456,15 @@ public class ProfessorController extends Controller{
 				Logger.error("ERRO - ProfessorController/mostrarQuestao(): CODE is null");
 			}else{
 				Questao q = QuestaoDatabase.selectQuestaoById(cod);
-				return ok(views.html.instituicao.ajax.mostrarQuestao.render(q));
+				List<Resposta> lr = RespostaDatabase.selectRespostasByQuestao(q.getId());
+				
+				int pontuacaoTotalQuestao = 0;
+				for (Resposta r : lr)
+				{
+					pontuacaoTotalQuestao += r.getPontuacao();
+				}
+				
+				return ok(views.html.instituicao.ajax.mostrarQuestao.render(q,pontuacaoTotalQuestao));
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - ProfessorController/mostrarQuestao(): "+ e.getMessage());
