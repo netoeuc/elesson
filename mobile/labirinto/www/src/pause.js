@@ -84,12 +84,17 @@ var PauseLayer = cc.Layer.extend({
                 if(tentativas===1){ // para ter 3 tentativas, checagem deve ser feita no 1
                     tentativas = 3;
                     status=Number(status)+1;
-                    idLabirintoAtual=Number(idLabirintoAtual)+1;
+//                    idLabirintoAtual=Number(idLabirintoAtual)+1;
+                    
                     // POST (não passou)
                 }else{
                     tentativas-=1;
-                    idLabirintoAtual = Number(idLabirintoAtual)+1;
+//                    idLabirintoAtual = Number(idLabirintoAtual)+1;
                 }
+                idLabirintoAtual = Number(idLabirintoAtual)+1;
+                if(idLabirintoAtual>30){
+                        idLabirintoAtual = 0;
+                    }
                 
                 var sairDoJogoScene = new MiniMapScene1();
                 cc.director.runScene(sairDoJogoScene);

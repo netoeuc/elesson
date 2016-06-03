@@ -17,6 +17,7 @@ var MiniMapLayer1 = cc.Layer.extend({
         numeroPerguntaQuizLabirinto = 0;
         resultadoParaPost = ["codigoDoAluno",[],[]];
         copiaLayerMinimapa = this;
+        conectou = false;
         
         var logoLoading = new cc.Sprite.create(asset.loading_eLeassons_png);
         
@@ -63,13 +64,13 @@ var MiniMapLayer1 = cc.Layer.extend({
         loadingErrorLabel.setLineBreakOnSpace(true);
         loadingErrorLabel.setTextHorizontalAlignment(cc.Text_ALIGNMENT_CENTER);
         loadingErrorLabel.pushBackElement(loadingErrorLabelText);
-        loadingErrorLabel.setPosition(cc.p(-50, 200));
+        loadingErrorLabel.setPosition(cc.p(-100, 220));
 //        this.addChild(loadingErrorLabel, 101);
         
         
         loadingErrorImg = new cc.Sprite.create(asset.loading_error_png);
         loadingErrorImg.setAnchorPoint(cc.p( 0.5, 0.5 ));
-        loadingErrorImg.setPosition(cc.p(240, 400));
+        loadingErrorImg.setPosition(cc.p(235, 420));
 //        this.addChild(loadingErrorImg, 100);
         
         
@@ -78,7 +79,7 @@ var MiniMapLayer1 = cc.Layer.extend({
         loadingErrorButton.setAnchorPoint(cc.p(0,0));   
 
         loadingErrorButton.addTouchEventListener(this.conectarNovamente, this);
-        loadingErrorButton.setPosition(cc.p(200,180));
+        loadingErrorButton.setPosition(cc.p(170,200));
 //        this.addChild(loadingErrorButton, 12);
         
         
@@ -87,47 +88,53 @@ var MiniMapLayer1 = cc.Layer.extend({
         
         var xhr = cc.loader.getXMLHttpRequest();
         
-        xhr.open( "GET", "http://loterias.pe.hu/api/megasena/resultado/1719" );
+        xhr.open( "GET", "http://www.google.com" );
         xhr.setRequestHeader( "Content-Type", "text/plain" );
         xhr.send( );
+        var respostaTemp = xhr.responseText;
+        //cc.log( "resultadoTemp = "+respostaTemp );
+        
         
         
                                       
         xhr.onreadystatechange = function ()
         {
-            cc.log( "Networking away" );
-                                      
+            //cc.log( "Networking away" );
+            //cc.log(xhr.readyState);
+            //cc.log(xhr.status);
+            //cc.log("net = "+semInternet);
+            //cc.log("aqui = "+xhr.readyState);
             if ( xhr.readyState == 4 && ( xhr.status >= 200 && xhr.status <= 207 ) )
             {
                 var httpStatus = xhr.statusText;
-                cc.log( httpStatus );
+                //cc.log( httpStatus );
 
                 var response = xhr.responseText;
-                cc.log( response );
+                //cc.log( response );
+                copiaLayerMinimapa.getChildByTag(99).opacity = 0;
+                
+                //corrigindo bug
+                copiaLayerMinimapa.removeChildByTag(200);
+                copiaLayerMinimapa.removeChildByTag(201);
+                copiaLayerMinimapa.removeChildByTag(202);
+                //corrigindo bug
+                
+                copiaLayerMinimapa.removeChildByTag(100);
+                copiaLayerMinimapa.removeChildByTag(101);
                 conectou = true;
-                if(!semInternet){
-                    copiaLayerMinimapa.removeChildByTag(99);
-                    copiaLayerMinimapa.removeChildByTag(100);
-                    copiaLayerMinimapa.removeChildByTag(101);
-                }
+                checkInternetConnection();
+                
                 
             }else{
-                contagemSemInternet-=1;
-                cc.log(contagemSemInternet);
-                if(contagemSemInternet===0){
-                    semInternet = true;
-                    copiaLayerMinimapa.removeChildByTag(100);
-                    copiaLayerMinimapa.removeChildByTag(101);
-                    copiaLayerMinimapa.addChild(loadingErrorImg);
-                    copiaLayerMinimapa.addChild(loadingErrorLabel);
-                    copiaLayerMinimapa.addChild(loadingErrorButton);
-                    //alert("You have no Internet Connection!");
+                if(xhr.status == 0){
+                    //cc.log("reasyState=0");
+                    checkInternetConnection();
                 }
             }
+            //cc.log(xhr.readyState);
         };
         
-       
-        
+        checkInternetConnectionTimeOut();
         
         //-------- GET --------//
         //getDados();
@@ -397,7 +404,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                 break;
                     
                 case '2':
-                    cc.log('entrou');
+                    //cc.log('entrou');
                     
                     var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
                     sp2.setAnchorPoint(cc.p(0,0));
@@ -1177,12 +1184,15 @@ var MiniMapLayer1 = cc.Layer.extend({
         }
     },
     
-    chamarHistoriaPlataforma: function(sender,type){
+    conectarNovamente: function(sender,type){
         switch(type){
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
+                INITTIALIZED_minimapa = false
+                conectou = false;
                 var cenaTryAgainConnection = new MiniMapScene1();
+                copiaLayerMinimapa = cenaTryAgainConnection;
                 cc.director.runScene(cenaTryAgainConnection);
                 break;
         }
@@ -1192,18 +1202,60 @@ var MiniMapLayer1 = cc.Layer.extend({
 
 
 var pop = function(){
-    cc.log("Foi!");
+    //cc.log("Foi!");
     //cc.director.popScene();
     var voltarScene = new GlobalMapScene();
     cc.director.runScene(voltarScene);
 };
+
+
+
+
+var checkInternetConnection = function(){
+    if(!conectou){
+        semInternet = true;
+        copiaLayerMinimapa.removeChildByTag(100);
+        copiaLayerMinimapa.removeChildByTag(101);
+        copiaLayerMinimapa.getChildByTag(99).opacity = 200;
+        copiaLayerMinimapa.addChild(loadingErrorImg, 100, 200);
+        copiaLayerMinimapa.addChild(loadingErrorLabel, 100, 201);
+        copiaLayerMinimapa.addChild(loadingErrorButton, 100, 202);
+    }
+    
+};
+
+
+
+var checkInternetConnectionTimeOut = function(){
+    //cc.log("pegou timeout");
+    setTimeout(function(){
+        //cc.log("dentroDoTimeoutAntesNaoConectou");
+        //cc.log(conectou);
+    if(!conectou){
+        //cc.log("dentroDoTimeoutNaoConectou");
+        semInternet = true;
+        copiaLayerMinimapa.removeChildByTag(100);
+        copiaLayerMinimapa.removeChildByTag(101);
+        copiaLayerMinimapa.getChildByTag(99).opacity = 200;
+        copiaLayerMinimapa.addChild(loadingErrorImg, 100, 200);
+        copiaLayerMinimapa.addChild(loadingErrorLabel, 100, 201);
+        copiaLayerMinimapa.addChild(loadingErrorButton, 100, 202);
+    }
+    
+}, 20000);
+    
+};
+
+
+
+
 var MiniMapScene1 = cc.Scene.extend({
     onEnter:function () {
             
             this._super();
-        cc.log("foi");
+        //cc.log("foi");
             if (INITTIALIZED_minimapa===false){
-                cc.log("foi2");
+                //cc.log("foi2");
                 this._super();
                 var minimapaLayerlayer = new MiniMapLayer1();
                 layerCopiaExternoMinimapa = minimapaLayerlayer;

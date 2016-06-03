@@ -45,7 +45,9 @@ var FimVerdeLayer = cc.Layer.extend({
                 pause_exit_game = false;
                 var pause_exit_game = false; // Para sair do jogo a partir do pause
                 //var pontuacao = 0;
-                
+                if (idLabirintoAtual===31){
+                    idLabirintoAtual = 0;
+                }
                 INITTIALIZED_Acel = false;
                 INITTIALIZED_histplat = false;
                 INITTIALAZED = false;

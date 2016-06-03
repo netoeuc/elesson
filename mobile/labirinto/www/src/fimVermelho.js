@@ -9,7 +9,7 @@ var FimVermelhoLayer = cc.Layer.extend({
         // reproduzir efeito sonoro (não venceu)
         
         var size = cc.winSize;
-        
+           
         
 
         var backgroundVermelho = new cc.Sprite.create(asset.telaFim_red_png); 
@@ -54,6 +54,12 @@ var FimVermelhoLayer = cc.Layer.extend({
                 var pause_exit_game = false; // Para sair do jogo a partir do pause
                 //var pontuacao = 0;
                 
+                
+                idLabirintoAtual = Number(idLabirintoAtual)+1;
+                if (idLabirintoAtual===31){
+                    idLabirintoAtual = 0;
+                }
+        
                 INITTIALIZED_Acel = false;
                 INITTIALIZED_histplat = false;
                 INITTIALAZED = false;
