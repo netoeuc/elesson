@@ -1,6 +1,8 @@
 package controllers;
 
 import static play.data.Form.form;
+
+import interceptors.InstituicaoInterceptor;
 import interceptors.ProfessorInterceptor;
 
 import java.util.ArrayList;
@@ -135,21 +137,21 @@ public class ProfessorController extends Controller{
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
 
 			if(email == null){
-				flash("erro", "Informe seu email");
+				flash("erro", "Enter your email");
 			}else{
 				Professor p = ProfessorDatabase.selectProfessorByEmail(email);
 				if(p == null){
-					flash("erro", "Email não cadastrado");
+					flash("erro", "Email does not exist");
 				}else if(p.getStatus() == Constantes.STATUS_ATIVO){
 					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(p.getCnpjInst());
 					Mail.sendMail(p.getEmail(), "Você esqueceu a senha?", views.html.professor.email.render(i, p.getNome(),p.getEmail(),"", request().host(), 4).toString());
 					session().put(Constantes.SESSION_COD_INSTTEACFOR, Seguranca.encryptString(p.getId()+""));
-					flash("erro", "Confirme o lembrete no seu email");
+					flash("erro", "Check your email confirmation");
 				}
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - ProfessorController/lembrarSenha(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao enviar. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later.");
 		}
 		return redirect(routes.ProfessorController.esqueceuSenha());
 	}
@@ -163,19 +165,19 @@ public class ProfessorController extends Controller{
 			String senha = dynamicForm.get("password") == null || dynamicForm.get("password").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("password"));
 			
 			if (cnpjInst == null || email == null || senha == null) {
-				flash("erro", "Preencha todos os campos");
+				flash("erro", "Please fill out all the fields");
 
 			} else {
 				Professor p = ProfessorDatabase.selectProfessor(email, cnpjInst);
 
 				if (p == null || p.getStatus() == Constantes.STATUS_REMOVIDO) {
-					flash("erro", "Usuário não cadastrado");
+					flash("erro", "Username doest not exist");
 					
 				}else if(p.getStatus() == Constantes.STATUS_AGUARDANDO){
-					flash("erro", "Confirme seu email no link que te enviamos");
+					flash("erro", "Confirm your email on the link we sent");
 					
 				} else if(!p.getSenha().equals(senha)){
-					flash("erro", "Senha inválida");
+					flash("erro", "Wrong password");
 					
 				}else{
 					session().clear();
@@ -186,7 +188,7 @@ public class ProfessorController extends Controller{
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - ProfessorController/logar(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 
 		}
 		return redirect(routes.ProfessorController.login());
@@ -212,7 +214,7 @@ public class ProfessorController extends Controller{
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - ProfessorController/ativar(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao ativar a conta. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.ProfessorController.index());
 	}
@@ -239,11 +241,11 @@ public class ProfessorController extends Controller{
 			if(p != null){
 				
 				if (nome == null || email == null) {				
-					flash("erro", "Preencha todos os campos");
+					flash("erro", "Please fill out all the fields");
 				}else if(senha != null && senha.length() < 6){
-					flash("erro", "Senha deve conter no mínimo 6 caracteres");
+					flash("erro", "Please specify a password with a minimum of 6 characters");
 				}else if(senha != null && (senhaConfirme == null || !senha.equals(senhaConfirme))){
-					flash("erro", "Senhas não conferem");
+					flash("erro", "Passwords don't match");
 				}else{
 					if(!p.getNome().equals(nome)){
 						p.setNome(nome); 
@@ -260,24 +262,24 @@ public class ProfessorController extends Controller{
 							p.setEmail(email);
 							Mail.sendMail(email, "Alteração de Email", views.html.professor.email.render(i, "","","", request().host(), 1).toString());
 							p.setStatus(Constantes.STATUS_AGUARDANDO);
-							flash("erro", "Confirme a alteração do seu email");
+							flash("erro", "Confirm your email modification");
 							session().clear();
 							isEditado = true;
 						}else{
-							flash("erro", "Email já cadastrado");
+							flash("erro", "Email already exists");
 							isEditado = false;
 						}
 					}
 					
 					if(isEditado){
 						JPA.em().merge(p);
-						flash("ok", nome+" Editado");
+						flash("ok", nome+" Edited");
 					}
 				}
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - ProfessorController/editar(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		
 		return redirect(routes.ProfessorController.configuracao());
@@ -300,6 +302,37 @@ public class ProfessorController extends Controller{
 	
 	@Transactional
 	@With({ ProfessorInterceptor.class })
+	public static Result mostrarAluno(){
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
+			int id = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
+			
+			if(id != -1){
+				Aluno a = AlunoDatabase.selectAlunoById(id);				
+				if(a != null){
+					
+					// TODO definir modelagem da posição das questões
+					int pontosLevel1 = 0;
+					int pontosLevel2 = 0;
+					int pontosLevel3 = 0;
+					int pontosLevel4 = 0;
+					
+					int qntQuestoes = QuestaoDatabase.selectTotalQuestoesByProfessorId(a.getIdProfessor());
+					
+					return ok(views.html.aluno.mostrarAluno.render(a,pontosLevel1,pontosLevel2,pontosLevel3,pontosLevel4,qntQuestoes));
+				}
+			}
+			flash("erro", "Código do professor inválido");
+
+		}catch(Exception e){
+			Logger.error("ERRO - ProfessorController/mostrarAluno(): "+ e.getMessage());
+			flash("erro", "Something wrong happened. Try again later");
+		}
+		return badRequest("erro");
+	}
+	
+	@Transactional
+	@With({ ProfessorInterceptor.class })
 	public static Result cadastrarQuestao(){
 		try{
 			Professor p = ProfessorController.getUsuarioAutenticado();
@@ -315,9 +348,9 @@ public class ProfessorController extends Controller{
 				int nivel = dynamicForm.get("nivel") == null? -1 : Integer.parseInt(dynamicForm.get("nivel"));
 				
 				if(questao == null || resposta1 == null || resposta2 == null || resposta3 == null || resposta4 == null || resposta5 == null || respostaCorreta == null || nivel < 1 || nivel > 4){
-					flash("erro", "Preencha todos os campos");
+					flash("erro", "Please fill out all the fields");
 				}else if (questao.length() > 254){
-					flash("erro", "Texto da questão muito longo");
+					flash("erro", "Question text is too long");
 				}else{
 					char resposta = respostaCorreta.charAt(0);
 					Questao novaQ = new Questao(p.getInstituicao(),p,questao,resposta1,resposta2,resposta3,resposta4,resposta5,resposta,nivel);
@@ -350,7 +383,7 @@ public class ProfessorController extends Controller{
 		} catch (Exception e) {
 			Logger.error("ERRO - ProfessorController/formEditarQuestao(): "+ e.getMessage());
 		}
-		return ok("Ocorreu um erro ao editar. Tente novamente mais tarde");
+		return ok("Something wrong happened. Try again later");
 	}
 	
 	@Transactional
@@ -370,9 +403,9 @@ public class ProfessorController extends Controller{
 			int cod = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
 			
 			if (questao == null || resposta1 == null || resposta2 == null || resposta3 == null ||resposta4 == null || resposta5 == null || respostaCorreta == null || nivel == -1 || cod == -1) {				
-				flash("erro", "Preencha todos os campos");
+				flash("erro", "Please fill out all the fields");
 			}else if (questao.length() > 254){
-				flash("erro", "Texto da questão muito longo");
+				flash("erro", "Question text is too long");
 			}else{
 				Questao q = QuestaoDatabase.selectQuestao(cod, p.getId(), p.getCnpjInst());
 				if(q != null){
@@ -385,12 +418,12 @@ public class ProfessorController extends Controller{
 					q.setRespostaCorreta(respostaCorreta.charAt(0));
 					q.setLevel(nivel);
 					JPA.em().merge(q);
-					flash("ok","questão editada");
+					flash("ok","questão edited");
 					}	
 				}
 		} catch (Exception e) {
 			Logger.error("ERRO - ProfessorController/editarQuestao(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		
 		return redirect(routes.ProfessorController.questoes());
@@ -409,7 +442,7 @@ public class ProfessorController extends Controller{
 				Questao q = QuestaoDatabase.selectQuestaoById(idQuestao);
 				if(q != null && q.getIdProfessor() == p.getId()){
 					QuestaoDatabase.deleteQuestao(q);
-					flash("ok", "questão removida");
+					flash("ok", "question removed");
 				}else{
 					flash("erro", "Nenhuma questão cadastrada com este código");
 				}
@@ -418,7 +451,7 @@ public class ProfessorController extends Controller{
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - ProfessorController/removerQuestao(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao remover. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.ProfessorController.questoes());
 	}
@@ -448,7 +481,6 @@ public class ProfessorController extends Controller{
 	@With({ ProfessorInterceptor.class })
 	public static Result mostrarQuestao(){
 		try {
-			System.out.println("questao");
 			DynamicForm dynamicForm = form().bindFromRequest();
 			int cod = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
 
@@ -464,11 +496,11 @@ public class ProfessorController extends Controller{
 					pontuacaoTotalQuestao += r.getPontuacao();
 				}
 				
-				return ok(views.html.instituicao.ajax.mostrarQuestao.render(q,pontuacaoTotalQuestao));
+				return ok(views.html.professor.ajax.mostrarQuestao.render(q,pontuacaoTotalQuestao));
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - ProfessorController/mostrarQuestao(): "+ e.getMessage());
 		}
-		return ok("Ocorreu um erro ao mostrar questão. Tente novamente mais tarde");
+		return ok("Something wrong happened. Try again later");
 	}
 }

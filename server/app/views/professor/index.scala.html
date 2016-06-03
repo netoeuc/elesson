@@ -31,21 +31,21 @@
                         </div>!-->
                         <div class="col s12">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-graduation-cap material-icons"></i><a href="@routes.ProfessorController.alunos()">@if(qntAlunos == 0){Nenhum aluno} @if(qntAlunos == 1){1 Aluno} @if(qntAlunos > 1){@qntAlunos Alunos}</a>
+                            <i class="fa fa-graduation-cap material-icons"></i><a href="@routes.ProfessorController.alunos()">@if(qntAlunos == 0){None student} @if(qntAlunos == 1){1 Student} @if(qntAlunos > 1){@qntAlunos Students}</a>
                           </div>
                         </div>
                         <div class="col s12">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-question material-icons"></i><a href="@routes.ProfessorController.questoes()">@if(qntQuestoes == 0){Nenhuma questao} @if(qntQuestoes == 1){1 Questao} @if(qntQuestoes > 1){@qntQuestoes Questoes}</a>
+                            <i class="fa fa-question material-icons"></i><a href="@routes.ProfessorController.questoes()">@if(qntQuestoes == 0){None question} @if(qntQuestoes == 1){1 Question} @if(qntQuestoes > 1){@qntQuestoes Questions}</a>
                           </div>
                         </div>    
                       </div>
                       <div class="row center-align">
                         <div class="col s6 m6">
-                          <a onclick="movimento('pontuacaoTotal', 90)" class="waves-effect waves-light">Pontuação total de questões por acertos dos alunos</a>
+                          <a onclick="movimento('pontuacaoTotal', 90)" class="waves-effect waves-light">Total question score by total students score</a>
                         </div>
                         <div class="col s6 m6">
-                          <a onclick="movimento('rank', 90)" class="waves-effect waves-light">Vizualizar ranking dos alunos</a>
+                          <a onclick="movimento('rank', 90)" class="waves-effect waves-light">Go to top 10 students</a>
                         </div>
                       </div>
                       <hr>
@@ -54,7 +54,7 @@
 
                   <div class="row">
                     <div class="col s12 offset-m1 m10">
-                      <div id="pontuacaoTotal"><h5>Pontuação total de questões por acertos dos alunos:</h5></div>
+                      <div id="pontuacaoTotal"><h5>Total question score by total students score:</h5></div>
                       <div id="bar-chart"></div>
                       <hr>
                     </div>
@@ -62,7 +62,7 @@
 
                   <div class="row">
                     <div class="col s12 offset-m1 m10">
-                      <div id="rank"><h5>Ranking dos alunos:</h5></div>
+                      <div id="rank"><h5>Top 10 students:</h5></div>
                         <table data-sort-name="pos" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="false" data-cache="false" class="students-table">
 	                    <thead>
 	                       <tr>
@@ -104,11 +104,11 @@
           Morris.Bar({
             element: 'bar-chart',
             data: [
-              { y: 'Pontuação total', a: @(qntQuestoes*200*qntAlunos), b: @qntPontuacaoAlunos },
+              { y: 'Total score', a: @(qntQuestoes*200*qntAlunos), b: @qntPontuacaoAlunos },
             ],
             xkey: 'y',
             ykeys: ['a', 'b'],
-            labels: ['das questões', 'dos alunos'],
+            labels: ['questions', 'students'],
             barColors: ['#0770E2','#00773C'],
             resize: true
           });

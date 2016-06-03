@@ -1,4 +1,4 @@
-@(q: models.Questao)
+@(q: models.Questao)(pontuacaoTotalQuestao: Integer)
 <div class="row center-align">
 	<h5 style="color:#444;">Level: @q.getLevel()</h5>
 </div>
@@ -18,3 +18,34 @@
 <div class="row">
 	<h5 style="color:#444;">Total de respostas: @q.getRespostas().size()</h5>
 </div>
+<div class="row center-align">
+  <div class="col s12 offset-m1 m10">
+    <div id="pontuacaoTotal"><h5 style="color:#444;">Desempenho dos alunos nessa questão:</h5></div>
+      <div id="bar-chart"></div>                      
+  </div>
+</div>
+
+
+<script type="text/javascript">
+      $(document).ready(function(){
+        drawChart();
+      });
+
+        function drawChart(){
+        $('#bar-chart').html("loading");
+        setTimeout(function(){
+          $('#bar-chart').html("");
+          Morris.Bar({
+            element: 'bar-chart',
+            data: [
+              { y: 'Pontuação', a: @q.getRespostas().size()*200, b: @pontuacaoTotalQuestao },
+            ],
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['máxima da questão', 'dos alunos'],
+            barColors: ['#0770E2','#00773C'],
+            resize: true
+          });
+        }, 0);
+    }    
+</script>

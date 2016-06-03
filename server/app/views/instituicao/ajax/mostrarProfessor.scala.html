@@ -4,19 +4,19 @@
                       <div class="row center-align">
                         <div class="col s12 m6">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="tiny-small fa fa-graduation-cap material-icons" aria-hidden="true"></i> <a href="@routes.InstituicaoController.alunos()">@if(qntAlunos == 0){Nenhum aluno} @if(qntAlunos == 1){1 Aluno} @if(qntAlunos > 1){@qntAlunos Alunos}</a>
+                            <i class="tiny-small fa fa-graduation-cap material-icons" aria-hidden="true"></i> <a href="@routes.InstituicaoController.alunos()">@if(qntAlunos == 0){None student} @if(qntAlunos == 1){1 Student} @if(qntAlunos > 1){@qntAlunos Students}</a>
                           </div>
                         </div>
                         <div class="col s12 m6">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-question material-icons" aria-hidden="true"></i> <a href="@routes.InstituicaoController.questoes()">@if(qntQuestoes == 0){Nenhuma questão} @if(qntQuestoes == 1){1 Questão} @if(qntQuestoes > 1){@qntQuestoes Questões}</a>
+                            <i class="fa fa-question material-icons" aria-hidden="true"></i> <a href="@routes.InstituicaoController.questoes()">@if(qntQuestoes == 0){None question} @if(qntQuestoes == 1){1 Question} @if(qntQuestoes > 1){@qntQuestoes Questions}</a>
                           </div>
                         </div>    
                       </div>
                       <hr>
                       <div class="row">
                         <div class="col s12 offset-m1 m10">
-                          <div id="pontuacaoTotal"><h5>Pontuação total de questões por acertos dos alunos:</h5></div>
+                          <div id="pontuacaoTotal"><h5 style="color:#444">Questions total score by students total score:</h5></div>
                             <div id="bar-chart"></div>                      
                         </div>
                        </div>
@@ -25,7 +25,7 @@
 
                        <div class="row">
                         <div class="col s12 offset-m1 m10">
-                          <div id="rank"><h5>Ranking dos alunos:</h5></div>
+                          <div id="rank"><h5 style="color:#444">Top 10 students:</h5></div>
                           <table data-sort-name="pos" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="false" data-cache="false" class="students-table">
                             <thead>
                               <tr>
@@ -66,11 +66,11 @@
           Morris.Bar({
             element: 'bar-chart',
             data: [
-              { y: 'Pontuação total', a: @(qntQuestoes*200*qntAlunos), b: @qntPontuacaoAlunos },
+              { y: 'Total score', a: @(qntQuestoes*200*qntAlunos), b: @qntPontuacaoAlunos },
             ],
             xkey: 'y',
             ykeys: ['a', 'b'],
-            labels: ['das questões', 'dos alunos'],
+            labels: ['questions', 'students'],
             barColors: ['#0770E2','#00773C'],
             resize: true
           });
