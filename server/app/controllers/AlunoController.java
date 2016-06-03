@@ -10,9 +10,10 @@ import models.AlunoRanking;
 import models.Instituicao;
 import models.Questao;
 import models.Resposta;
-import database.AlunoDatabase;
-import database.InstituicaoDatabase;
-import database.QuestaoDatabase;
+
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
+
 import play.Logger;
 import play.data.DynamicForm;
 import play.db.jpa.JPA;
@@ -23,6 +24,9 @@ import util.AdminJson;
 import util.Constantes;
 import util.Mail;
 import util.Seguranca;
+import database.AlunoDatabase;
+import database.InstituicaoDatabase;
+import database.QuestaoDatabase;
 
 public class AlunoController extends Controller {
 
@@ -129,11 +133,16 @@ public class AlunoController extends Controller {
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
 			String senha = dynamicForm.get("senha") == null || dynamicForm.get("senha").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("senha"));
+			String sessao = dynamicForm.get("sessao") == null || dynamicForm.get("sessao").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("sessao"));
+			boolean isNovaSessao = dynamicForm.get("isNSessao") == null || dynamicForm.get("isNSessao").trim().isEmpty()? false : Boolean.getBoolean(dynamicForm.get("isNSessao"));
 
-			if(email != null && senha != null){
+			if(email != null && senha != null && sessao != null){
 				Aluno a = AlunoDatabase.selectAlunoByEmail(email);
 		
 				if (a != null && a.getStatus() != Constantes.STATUS_REMOVIDO) {
+					if(!isNovaSessao && a.isLogado() && !a.getSessao().equals(sessao)){
+						return ok(AdminJson.getMensagem("Você já está logado em outro dispositivo. Deseja iniciar uma nova sessão para este dispositivo?"));
+					}
 					if(a.getStatus() == Constantes.STATUS_ATIVO){
 						if (a.getSenha().equals(senha)) {
 							HashMap<String, Object> map = new HashMap<String, Object>();
@@ -144,6 +153,7 @@ public class AlunoController extends Controller {
 								map.put("primeiroAcesso", false);
 							}
 							a.setLogado(true);
+							a.setSessao(sessao);
 							JPA.em().merge(a);
 							
 							return ok(AdminJson.getObject(map));
@@ -174,10 +184,11 @@ public class AlunoController extends Controller {
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
 			int idAluno = dynamicForm.get("ca") == null || dynamicForm.get("ca").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("ca"));
+			String sessao = dynamicForm.get("se") == null || dynamicForm.get("se").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("se"));
 
-			if(idAluno != -1){
+			if(idAluno != -1 && sessao != null){
 				Aluno a = AlunoDatabase.selectAlunoById(idAluno);
-				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado()) {
+				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado() && a.getSessao().equals(sessao)) {
 					return ok(Aluno.isLogado(true));
 				}else{
 					return ok(Aluno.isLogado(false));
@@ -200,11 +211,12 @@ public class AlunoController extends Controller {
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
 			int idAluno = dynamicForm.get("ca") == null || dynamicForm.get("ca").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("ca"));
-			
-			if(idAluno != -1){
+			String sessao = dynamicForm.get("se") == null || dynamicForm.get("se").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("se"));
+
+			if(idAluno != -1 && sessao != null){
 				Aluno a = AlunoDatabase.selectAlunoById(idAluno);
 
-				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado()) {
+				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado() && a.getSessao().equals(sessao)) {
 					List<Questao> lq = QuestaoDatabase.selectQuestoesByAluno(a.getCnpjInst(), a.getIdProfessor(), a.getId(), a.getLevel());
 					return ok(AdminJson.getObject(lq, "listaQuestoes"));
 				}else{
@@ -219,8 +231,9 @@ public class AlunoController extends Controller {
 		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
 	}
 	
-	@Transactional
-	public static Result responderQuestao(){
+	/******** NAO APAGAR ********/
+/*	@Transactional 
+	public static Result responderQuestaoUmaPorVez(){
 		response().setContentType("application/json; charset=utf-8");
 		response().setHeader("Access-Control-Allow-Origin","*");
 		response().setHeader("Access-Control-Allow-Methods", "GET, POST");
@@ -258,6 +271,74 @@ public class AlunoController extends Controller {
 			Logger.error("ERRO - AlunoController/responderQuestao(): "+ e.getMessage());
 		}
 		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
+	}*/
+	
+	@Transactional
+	public static Result responderQuestaoCincoPorVez(){
+		response().setContentType("application/json; charset=utf-8");
+		response().setHeader("Access-Control-Allow-Origin","*");
+		response().setHeader("Access-Control-Allow-Methods", "GET, POST");
+		
+		try{
+			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
+			String json = dynamicForm.get("jra") == null || dynamicForm.get("jra").trim().isEmpty()? null : dynamicForm.get("jra");
+			String sessao = dynamicForm.get("se") == null || dynamicForm.get("se").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("se"));
+
+			if(json != null && sessao != null){
+								
+				// cria um objeto a partir dos dados em JSON  
+			    JSONObject jsonObject = new JSONObject( json );
+			    JSONObject jResultado = jsonObject.getJSONObject("resultado");
+				Aluno a = AlunoDatabase.selectAlunoById(jResultado.getInt("idAluno"));
+				int pontuacaoTotal = 0;
+				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado() && a.getSessao().equals(sessao)) {
+									
+				    JSONArray jListaRespostas = jResultado.getJSONArray("respostas");
+				    
+				    Questao q = null;
+				    Resposta r = null;
+				    JSONObject jResposta = null;
+				    
+				    try{
+				    	JPA.em().getTransaction().begin();
+					    for (int i = 0; i < jListaRespostas.length(); i++) {
+					    	
+					    	jResposta = jListaRespostas.getJSONObject(i);    	
+							q = QuestaoDatabase.selectQuestaoById(jResposta.getInt("idQuestao"));
+							
+							if(q == null){
+								throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao nao cadastrada. idQuestao: "+jResposta.getInt("idQuestao"));
+							}
+							
+					    	r = new Resposta(a.getProfessor(), q, a, jResposta.getInt("pontuacao"));
+					    	pontuacaoTotal += jResposta.getInt("pontuacao");
+					    	
+					    	JPA.em().persist(r);
+						}
+					    a.setPontuacao(a.getPontuacao() + pontuacaoTotal);
+					    a.setLevel((a.getLevel()+1));
+					  
+					    JPA.em().merge(a);	
+					    JPA.em().getTransaction().commit();
+					    
+					    List<Questao> lq = QuestaoDatabase.selectQuestoesByAluno(a.getCnpjInst(), a.getIdProfessor(), a.getId(), a.getLevel());
+						return ok(AdminJson.getObject(lq, "listaQuestoes"));
+				    
+				    }catch(Exception e){
+				    	Logger.error(e.getMessage());
+				    	JPA.em().getTransaction().rollback();
+				    }
+				    return ok(Questao.isRespondida(false));
+				}else{
+					return ok(Aluno.isLogado(false));
+				}
+			}else{
+				return badRequest(AdminJson.getMensagem(AdminJson.msgConsulteAPI));
+			}
+		}catch(Exception e){
+			Logger.error("ERRO - AlunoController/responderQuestao(): "+ e.getMessage());
+		}
+		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
 	}
 	
 	@Transactional
@@ -269,11 +350,12 @@ public class AlunoController extends Controller {
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
 			int idAluno = dynamicForm.get("ca") == null || dynamicForm.get("ca").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("ca"));
+			String sessao = dynamicForm.get("se") == null || dynamicForm.get("se").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("se"));
 
-			if(idAluno != -1){
+			if(idAluno != -1 && sessao != null){
 				Aluno a = AlunoDatabase.selectAlunoById(idAluno);
 
-				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado()) {
+				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado() && a.getSessao().equals(sessao)) {
 					List<AlunoRanking> lar = AlunoDatabase.selectAlunosRankingByProfessor(a.getIdProfessor());
 					return ok(AdminJson.getObject(lar, "rankingPorProfessor"));
 				}else{
@@ -297,11 +379,12 @@ public class AlunoController extends Controller {
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
 			int idAluno = dynamicForm.get("ca") == null || dynamicForm.get("ca").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("ca"));
+			String sessao = dynamicForm.get("se") == null || dynamicForm.get("se").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("se"));
 
-			if(idAluno != -1){
+			if(idAluno != -1 && sessao != null){
 				Aluno a = AlunoDatabase.selectAlunoById(idAluno);
 
-				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado()) {
+				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado() && a.getSessao().equals(sessao)) {
 					List<AlunoRanking> lar = AlunoDatabase.selectAlunosRankingByInstituicao(a.getCnpjInst());
 					return ok(AdminJson.getObject(lar, "rankingPorInstituicao"));
 				}else{

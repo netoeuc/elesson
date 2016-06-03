@@ -58,6 +58,9 @@ private static final long serialVersionUID = 1L;
 	@Column(nullable = false)
 	private boolean isLogado;
 	
+	@Column(nullable = false, length = 75)
+	private String sessao;
+	
 	@ManyToOne
 	@JoinColumn(name="cnpjInst")
 	@JsonIgnore
@@ -86,6 +89,7 @@ private static final long serialVersionUID = 1L;
 		this.pontuacao = 0;
 		this.username = null;
 		this.isLogado = false;
+		this.sessao = "";
 	}
 	
 	public Aluno(int id, Instituicao instituicao, Professor professor, String email, String nome, String senha, int status) throws Exception {
@@ -100,6 +104,7 @@ private static final long serialVersionUID = 1L;
 		this.pontuacao = 0;
 		this.username = null;
 		this.isLogado = false;
+		this.sessao = "";
 	}
 	
 	public static ObjectNode isLogado(boolean isLogado) {
@@ -188,5 +193,13 @@ private static final long serialVersionUID = 1L;
 
 	public List<Resposta> getRespostas() {
 		return respostas;
+	}
+
+	public String getSessao() {
+		return sessao;
+	}
+
+	public void setSessao(String sessao) {
+		this.sessao = sessao;
 	}
 }

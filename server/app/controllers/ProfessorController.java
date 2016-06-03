@@ -3,7 +3,6 @@ package controllers;
 import static play.data.Form.form;
 import interceptors.ProfessorInterceptor;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

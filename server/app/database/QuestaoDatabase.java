@@ -42,13 +42,24 @@ public class QuestaoDatabase {
 
 	@Transactional
 	public static List<Questao> selectQuestoesByAluno(String cnpjInst, int idProfessor, int idAluno, int level) {
-		String query = "SELECT * FROM Questao q "
+		if(level >= 1 && level <= 5){
+			level = 1;
+		}else if(level >= 6 && level <= 10){
+			level = 2;
+		}else if(level >= 11 && level <= 15){
+			level = 3;
+		}else{
+			level = 4;
+		}
+		String query = "SELECT DISTINCT * FROM Questao q "
 				+ "WHERE q.cnpjInst = :cnpjInst "
 				+ "AND q.idProfessor = :idProfessor "
 				+ "AND q.level = :level "
 				+ "AND q.idQuestao NOT IN ("
 				+ "SELECT r.idQuestao FROM Resposta r WHERE r.idAluno = :idAluno"
-				+ ")";
+				+ ") "
+				+ "ORDER BY RAND() LIMIT 5";
+		
 		List<Object> lo = JPA.em().createNativeQuery(query)
 								.setParameter("cnpjInst", cnpjInst)
 								.setParameter("idProfessor", idProfessor)

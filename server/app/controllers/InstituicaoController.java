@@ -476,8 +476,6 @@ public class InstituicaoController extends Controller{
 						}
 					}
 				}
-			}else{
-				return redirect(routes.InstituicaoController.login());
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/cadastrarAluno(): "+ e.getMessage());
