@@ -1,4 +1,11 @@
 var INITTIALIZED_minimapa = false;
+var conectou = false;
+var copiaLayerMinimapa;
+var loadingErrorLabel;
+var loadingErrorImg;
+var loadingErrorButton;
+var semInternet = false;
+var contagemSemInternet = 100;
 var MiniMapLayer1 = cc.Layer.extend({
     sprite:null,
     ctor:function () {
@@ -9,58 +16,312 @@ var MiniMapLayer1 = cc.Layer.extend({
         var size = cc.winSize;
         numeroPerguntaQuizLabirinto = 0;
         resultadoParaPost = ["codigoDoAluno",[],[]];
+        copiaLayerMinimapa = this;
+        
+        var logoLoading = new cc.Sprite.create(asset.loading_eLeassons_png);
+        
+        logoLoading.setAnchorPoint(cc.p( 0.5, 0.5 ));
+        logoLoading.setPosition(cc.p(240, 400));
+        this.addChild(logoLoading, 100, 100); //tag = 100
+        
+         var backgroundLoading = new cc.Sprite.create(asset.loading_background_png);
+        
+        backgroundLoading.setAnchorPoint(cc.p( 0, 0 ));
+        backgroundLoading.setPosition(cc.p(0, 0));
+        backgroundLoading.opacity = 100;
+        this.addChild(backgroundLoading, 99, 99); // tag = 99
+        
+       
+        
+        
+        
+        var labelLoadingYourData = new ccui.RichText();
+        labelLoadingYourData.setAnchorPoint(cc.p(0,0));
+        labelLoadingYourData.ignoreContentAdaptWithSize(false);
+        labelLoadingYourData.width = size.width-80;
+        labelLoadingYourData.height = 65;
+        var labelLoadingYourDataText = new ccui.RichElementText(1, cc.color.WHITE, 255,"Getting new questions...", "Helvetica", 20);
+        labelLoadingYourData.setLineBreakOnSpace(true);
+        labelLoadingYourData.setTextHorizontalAlignment(cc.Text_ALIGNMENT_CENTER);
+        labelLoadingYourData.pushBackElement(labelLoadingYourDataText);
+        labelLoadingYourData.setPosition(cc.p(-50, 200));
+        this.addChild(labelLoadingYourData, 101, 101); // tag = 101
+        
+        
+        
+        
+        
+        
+        
+        
+        loadingErrorLabel = new ccui.RichText();
+        loadingErrorLabel.setAnchorPoint(cc.p(0,0));
+        loadingErrorLabel.ignoreContentAdaptWithSize(false);
+        loadingErrorLabel.width = size.width-80;
+        loadingErrorLabel.height = 65;
+        var loadingErrorLabelText = new ccui.RichElementText(1, cc.color.WHITE, 255,"You have no Internet Connection...", "Helvetica", 20);
+        loadingErrorLabel.setLineBreakOnSpace(true);
+        loadingErrorLabel.setTextHorizontalAlignment(cc.Text_ALIGNMENT_CENTER);
+        loadingErrorLabel.pushBackElement(loadingErrorLabelText);
+        loadingErrorLabel.setPosition(cc.p(-50, 200));
+//        this.addChild(loadingErrorLabel, 101);
+        
+        
+        loadingErrorImg = new cc.Sprite.create(asset.loading_error_png);
+        loadingErrorImg.setAnchorPoint(cc.p( 0.5, 0.5 ));
+        loadingErrorImg.setPosition(cc.p(240, 400));
+//        this.addChild(loadingErrorImg, 100);
+        
+        
+        loadingErrorButton= new ccui.Button();
+        loadingErrorButton.loadTextures(asset.loading_tryAgain_png);
+        loadingErrorButton.setAnchorPoint(cc.p(0,0));   
+
+        loadingErrorButton.addTouchEventListener(this.conectarNovamente, this);
+        loadingErrorButton.setPosition(cc.p(200,180));
+//        this.addChild(loadingErrorButton, 12);
+        
+        
+        
+        
+        
+        var xhr = cc.loader.getXMLHttpRequest();
+        
+        xhr.open( "GET", "http://loterias.pe.hu/api/megasena/resultado/1719" );
+        xhr.setRequestHeader( "Content-Type", "text/plain" );
+        xhr.send( );
+        
+        
+                                      
+        xhr.onreadystatechange = function ()
+        {
+            cc.log( "Networking away" );
+                                      
+            if ( xhr.readyState == 4 && ( xhr.status >= 200 && xhr.status <= 207 ) )
+            {
+                var httpStatus = xhr.statusText;
+                cc.log( httpStatus );
+
+                var response = xhr.responseText;
+                cc.log( response );
+                conectou = true;
+                if(!semInternet){
+                    copiaLayerMinimapa.removeChildByTag(99);
+                    copiaLayerMinimapa.removeChildByTag(100);
+                    copiaLayerMinimapa.removeChildByTag(101);
+                }
+                
+            }else{
+                contagemSemInternet-=1;
+                cc.log(contagemSemInternet);
+                if(contagemSemInternet===0){
+                    semInternet = true;
+                    copiaLayerMinimapa.removeChildByTag(100);
+                    copiaLayerMinimapa.removeChildByTag(101);
+                    copiaLayerMinimapa.addChild(loadingErrorImg);
+                    copiaLayerMinimapa.addChild(loadingErrorLabel);
+                    copiaLayerMinimapa.addChild(loadingErrorButton);
+                    //alert("You have no Internet Connection!");
+                }
+            }
+        };
+        
+       
+        
         
         //-------- GET --------//
         //getDados();
         
-        
-        userInfo.setItem("pergunta1", "To learn English, you _____ to work very hard, but just _____ practicing and you will learn it!");
-        userInfo.setItem("pergunta1_alternativa1", "have/keep");
-        userInfo.setItem("pergunta1_alternativa2", "have/still");
-        userInfo.setItem("pergunta1_alternativa3", "has/keep");
-        userInfo.setItem("pergunta1_alternativa4", "have/kept");
-        userInfo.setItem("pergunta1_alternativa5", "had/keep");
-        userInfo.setItem("pergunta1_respostaCerta", 'a');
-        userInfo.setItem("pergunta1_idQuestao", 0);
-        
-        userInfo.setItem("pergunta2", "You are _____ than you think!");
-        userInfo.setItem("pergunta2_alternativa1", "more smart");
-        userInfo.setItem("pergunta2_alternativa2", "smater");
-        userInfo.setItem("pergunta2_alternativa3", "still");
-        userInfo.setItem("pergunta2_alternativa4", "also");
-        userInfo.setItem("pergunta2_alternativa5", "being");
-        userInfo.setItem("pergunta2_respostaCerta", 'b');
-        userInfo.setItem("pergunta2_idQuestao", 1);
-        
+        var retornoGetQuestoes = 
+            {"listaQuestoes":[
+                {
+                    "id":1,
+                    "questao": "To learn English, you _____ to work very hard, but just _____ practicing"+
+                                "and you will learn it!",
+                    "resposta1": "have/keep" ,
+                    "resposta2": "have/still",
+                    "resposta3": "has/keep",
+                    "resposta4": "have/kept",
+                    "resposta5": "had/keep",
+                    "respostaCorreta": 'a',
+                    "level":1
+                },
+                
+                {
+                    "id":2,
+                    "questao": "You are _____ than you think!",
+                    "resposta1": "more smart" ,
+                    "resposta2": "smater",
+                    "resposta3": "still",
+                    "resposta4": "also",
+                    "resposta5": "being",
+                    "respostaCorreta": 'b',
+                    "level":1
+                    
+                },
+                
+                {
+                    "id":3,
+                    "questao": "You _______ such a good student!",
+                    "resposta1": "are" ,
+                    "resposta2": "am",
+                    "resposta3": "is",
+                    "resposta4": "have",
+                    "resposta5": "has",
+                    "respostaCorreta": 'a',
+                    "level":1
+                    
+                },
+                
+                {
+                    "id":4,
+                    "questao": "Pergunta de teste 4",
+                    "resposta1": "Resposta A" ,
+                    "resposta2": "Resposta B",
+                    "resposta3": "Resposta C",
+                    "resposta4": "Resposta D (certa)",
+                    "resposta5": "Resposta E",
+                    "respostaCorreta": 'd',
+                    "level":1
+                    
+                },
+                
+                {
+                    "id":5,
+                    "questao": "Pergunta de teste 5",
+                    "resposta1": "Resposta A" ,
+                    "resposta2": "Resposta B (certa)",
+                    "resposta3": "Resposta C",
+                    "resposta4": "Resposta D",
+                    "resposta5": "Resposta E",
+                    "respostaCorreta": 'b',
+                    "level":1
+                    
+                    
+                },
+                
+                
+                
+                
+            ]
+                
+            };
 
         
-        userInfo.setItem("pergunta3", "You _______ such a good student!");
-        userInfo.setItem("pergunta3_alternativa1", "are");
-        userInfo.setItem("pergunta3_alternativa2", "am");
-        userInfo.setItem("pergunta3_alternativa3", "is");
-        userInfo.setItem("pergunta3_alternativa4", "have");
-        userInfo.setItem("pergunta3_alternativa5", "has");
-        userInfo.setItem("pergunta3_respostaCerta", 'a');
-        userInfo.setItem("pergunta3_idQuestao", 2);
+        
+//        
+//        userInfo.setItem("pergunta1", "To learn English, you _____ to work very hard, but just _____ practicing and you will learn it!");
+//        userInfo.setItem("pergunta1_alternativa1", "have/keep");
+//        userInfo.setItem("pergunta1_alternativa2", "have/still");
+//        userInfo.setItem("pergunta1_alternativa3", "has/keep");
+//        userInfo.setItem("pergunta1_alternativa4", "have/kept");
+//        userInfo.setItem("pergunta1_alternativa5", "had/keep");
+//        userInfo.setItem("pergunta1_respostaCerta", 'a');
+//        userInfo.setItem("pergunta1_idQuestao", 0);
+//        
+//        userInfo.setItem("pergunta2", "You are _____ than you think!");
+//        userInfo.setItem("pergunta2_alternativa1", "more smart");
+//        userInfo.setItem("pergunta2_alternativa2", "smater");
+//        userInfo.setItem("pergunta2_alternativa3", "still");
+//        userInfo.setItem("pergunta2_alternativa4", "also");
+//        userInfo.setItem("pergunta2_alternativa5", "being");
+//        userInfo.setItem("pergunta2_respostaCerta", 'b');
+//        userInfo.setItem("pergunta2_idQuestao", 1);
+//        
+//
+//        
+//        userInfo.setItem("pergunta3", "You _______ such a good student!");
+//        userInfo.setItem("pergunta3_alternativa1", "are");
+//        userInfo.setItem("pergunta3_alternativa2", "am");
+//        userInfo.setItem("pergunta3_alternativa3", "is");
+//        userInfo.setItem("pergunta3_alternativa4", "have");
+//        userInfo.setItem("pergunta3_alternativa5", "has");
+//        userInfo.setItem("pergunta3_respostaCerta", 'a');
+//        userInfo.setItem("pergunta3_idQuestao", 2);
+//        
+//        
+//        userInfo.setItem("pergunta4", "Pergunta de teste 4");
+//        userInfo.setItem("pergunta4_alternativa1", "Resposta A");
+//        userInfo.setItem("pergunta4_alternativa2", "Resposta B");
+//        userInfo.setItem("pergunta4_alternativa3", "Resposta C");
+//        userInfo.setItem("pergunta4_alternativa4", "Resposta D (certa)");
+//        userInfo.setItem("pergunta4_alternativa5", "Resposta E");
+//        userInfo.setItem("pergunta4_respostaCerta", 'd');
+//        userInfo.setItem("pergunta4_idQuestao", 3);
+//        
+//        userInfo.setItem("pergunta5", "Pergunta de teste 5");
+//        userInfo.setItem("pergunta5_alternativa1", "Resposta A");
+//        userInfo.setItem("pergunta5_alternativa2", "Resposta B (certa)");
+//        userInfo.setItem("pergunta5_alternativa3", "Resposta C");
+//        userInfo.setItem("pergunta5_alternativa4", "Resposta D");
+//        userInfo.setItem("pergunta5_alternativa5", "Resposta E");
+//        userInfo.setItem("pergunta5_respostaCerta", "b");
+//        userInfo.setItem("pergunta5_idQuestao", 4);
+//        
+//        
+//        
+//        resultadoParaPost[1] = 
+//            [userInfo.getItem("pergunta1_idQuestao"),
+//            userInfo.getItem("pergunta2_idQuestao"),
+//            userInfo.getItem("pergunta3_idQuestao"),
+//            userInfo.getItem("pergunta4_idQuestao"),
+//            userInfo.getItem("pergunta5_idQuestao")];
+//        
         
         
-        userInfo.setItem("pergunta4", "Pergunta de teste 4");
-        userInfo.setItem("pergunta4_alternativa1", "Resposta A");
-        userInfo.setItem("pergunta4_alternativa2", "Resposta B");
-        userInfo.setItem("pergunta4_alternativa3", "Resposta C");
-        userInfo.setItem("pergunta4_alternativa4", "Resposta D (certa)");
-        userInfo.setItem("pergunta4_alternativa5", "Resposta E");
-        userInfo.setItem("pergunta4_respostaCerta", 'd');
-        userInfo.setItem("pergunta4_idQuestao", 3);
         
-        userInfo.setItem("pergunta5", "Pergunta de teste 5");
-        userInfo.setItem("pergunta5_alternativa1", "Resposta A");
-        userInfo.setItem("pergunta5_alternativa2", "Resposta B (certa)");
-        userInfo.setItem("pergunta5_alternativa3", "Resposta C");
-        userInfo.setItem("pergunta5_alternativa4", "Resposta D");
-        userInfo.setItem("pergunta5_alternativa5", "Resposta E");
-        userInfo.setItem("pergunta5_respostaCerta", "b");
-        userInfo.setItem("pergunta5_idQuestao", 4);
+        
+        userInfo.setItem("pergunta1", retornoGetQuestoes.listaQuestoes[0].questao);
+        userInfo.setItem("pergunta1_alternativa1", retornoGetQuestoes.listaQuestoes[0].resposta1);
+        userInfo.setItem("pergunta1_alternativa2", retornoGetQuestoes.listaQuestoes[0].resposta2);
+        userInfo.setItem("pergunta1_alternativa3", retornoGetQuestoes.listaQuestoes[0].resposta3);
+        userInfo.setItem("pergunta1_alternativa4", retornoGetQuestoes.listaQuestoes[0].resposta4);
+        userInfo.setItem("pergunta1_alternativa5", retornoGetQuestoes.listaQuestoes[0].resposta5);
+        userInfo.setItem("pergunta1_respostaCerta", retornoGetQuestoes.listaQuestoes[0].respostaCorreta);
+        userInfo.setItem("pergunta1_idQuestao", retornoGetQuestoes.listaQuestoes[0].id);
+        
+        
+        
+        userInfo.setItem("pergunta2", retornoGetQuestoes.listaQuestoes[1].questao);
+        userInfo.setItem("pergunta2_alternativa1", retornoGetQuestoes.listaQuestoes[1].resposta1);
+        userInfo.setItem("pergunta2_alternativa2", retornoGetQuestoes.listaQuestoes[1].resposta2);
+        userInfo.setItem("pergunta2_alternativa3", retornoGetQuestoes.listaQuestoes[1].resposta3);
+        userInfo.setItem("pergunta2_alternativa4", retornoGetQuestoes.listaQuestoes[1].resposta4);
+        userInfo.setItem("pergunta2_alternativa5", retornoGetQuestoes.listaQuestoes[1].resposta5);
+        userInfo.setItem("pergunta2_respostaCerta", retornoGetQuestoes.listaQuestoes[1].respostaCorreta);
+        userInfo.setItem("pergunta2_idQuestao", retornoGetQuestoes.listaQuestoes[1].id);
+        
+        
+        
+        userInfo.setItem("pergunta3", retornoGetQuestoes.listaQuestoes[2].questao);
+        userInfo.setItem("pergunta3_alternativa1", retornoGetQuestoes.listaQuestoes[2].resposta1);
+        userInfo.setItem("pergunta3_alternativa2", retornoGetQuestoes.listaQuestoes[2].resposta2);
+        userInfo.setItem("pergunta3_alternativa3", retornoGetQuestoes.listaQuestoes[2].resposta3);
+        userInfo.setItem("pergunta3_alternativa4", retornoGetQuestoes.listaQuestoes[2].resposta4);
+        userInfo.setItem("pergunta3_alternativa5", retornoGetQuestoes.listaQuestoes[2].resposta5);
+        userInfo.setItem("pergunta3_respostaCerta", retornoGetQuestoes.listaQuestoes[2].respostaCorreta);
+        userInfo.setItem("pergunta3_idQuestao", retornoGetQuestoes.listaQuestoes[2].id);
+        
+        userInfo.setItem("pergunta4", retornoGetQuestoes.listaQuestoes[3].questao);
+        userInfo.setItem("pergunta4_alternativa1", retornoGetQuestoes.listaQuestoes[3].resposta1);
+        userInfo.setItem("pergunta4_alternativa2", retornoGetQuestoes.listaQuestoes[3].resposta2);
+        userInfo.setItem("pergunta4_alternativa3", retornoGetQuestoes.listaQuestoes[3].resposta3);
+        userInfo.setItem("pergunta4_alternativa4", retornoGetQuestoes.listaQuestoes[3].resposta4);
+        userInfo.setItem("pergunta4_alternativa5", retornoGetQuestoes.listaQuestoes[3].resposta5);
+        userInfo.setItem("pergunta4_respostaCerta", retornoGetQuestoes.listaQuestoes[3].respostaCorreta);
+        userInfo.setItem("pergunta4_idQuestao", retornoGetQuestoes.listaQuestoes[3].id);
+        
+        
+        userInfo.setItem("pergunta5", retornoGetQuestoes.listaQuestoes[4].questao);
+        userInfo.setItem("pergunta5_alternativa1", retornoGetQuestoes.listaQuestoes[4].resposta1);
+        userInfo.setItem("pergunta5_alternativa2", retornoGetQuestoes.listaQuestoes[4].resposta2);
+        userInfo.setItem("pergunta5_alternativa3", retornoGetQuestoes.listaQuestoes[4].resposta3);
+        userInfo.setItem("pergunta5_alternativa4", retornoGetQuestoes.listaQuestoes[4].resposta4);
+        userInfo.setItem("pergunta5_alternativa5", retornoGetQuestoes.listaQuestoes[4].resposta5);
+        userInfo.setItem("pergunta5_respostaCerta", retornoGetQuestoes.listaQuestoes[4].respostaCorreta);
+        userInfo.setItem("pergunta5_idQuestao", retornoGetQuestoes.listaQuestoes[4].id);
+        
+        
         
         
         
@@ -70,6 +331,8 @@ var MiniMapLayer1 = cc.Layer.extend({
             userInfo.getItem("pergunta3_idQuestao"),
             userInfo.getItem("pergunta4_idQuestao"),
             userInfo.getItem("pergunta5_idQuestao")];
+        
+        
         //-------- GET --------//
         
         
@@ -856,8 +1119,10 @@ var MiniMapLayer1 = cc.Layer.extend({
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                var cenaLabirintoMiniMap = new HistoriaLabirintoScene();
-                cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaLabirintoMiniMap));
+                if(conectou){
+                    var cenaLabirintoMiniMap = new HistoriaLabirintoScene();
+                    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaLabirintoMiniMap));
+                }
                 break;
         }
     },
@@ -867,8 +1132,10 @@ var MiniMapLayer1 = cc.Layer.extend({
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                var cenaPlataformaMiniMap = new HistoriaPlataformaScene();
-                cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaPlataformaMiniMap));
+                if(conectou){
+                    var cenaPlataformaMiniMap = new HistoriaPlataformaScene();
+                    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaPlataformaMiniMap));
+                }
                 break;
         }
     },
@@ -878,8 +1145,10 @@ var MiniMapLayer1 = cc.Layer.extend({
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                var cenaLabirintoMiniMap = new LabirintoScene();
-                cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaLabirintoMiniMap));
+                if(conectou){
+                    var cenaLabirintoMiniMap = new LabirintoScene();
+                    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaLabirintoMiniMap));
+                }
                 break;
         }
     },
@@ -889,9 +1158,11 @@ var MiniMapLayer1 = cc.Layer.extend({
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                var cenaPlataformaMiniMap = new PlataformaScene();
-                //cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaPlataformaMiniMap));
-                cc.director.runScene(cenaPlataformaMiniMap)
+                if(conectou){
+                    var cenaPlataformaMiniMap = new PlataformaScene();
+                    //cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaPlataformaMiniMap));
+                    cc.director.runScene(cenaPlataformaMiniMap)
+                }
                 break;
         }
     },
@@ -905,6 +1176,18 @@ var MiniMapLayer1 = cc.Layer.extend({
                 break;
         }
     },
+    
+    chamarHistoriaPlataforma: function(sender,type){
+        switch(type){
+            case ccui.Widget.TOUCH_BEGAN:
+                break;
+            case ccui.Widget.TOUCH_ENDED:
+                var cenaTryAgainConnection = new MiniMapScene1();
+                cc.director.runScene(cenaTryAgainConnection);
+                break;
+        }
+    },
+    
 });
 
 

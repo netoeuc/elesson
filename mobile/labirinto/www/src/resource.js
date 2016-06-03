@@ -16,6 +16,9 @@ var asset = {
     loading_blue_background_jpg: "asset/loading/blue_background.jpg",
     loading_bar_jpg : "asset/loading/loadingBar.jpg",
     loading_eLeassons_png : "asset/loading/eLessons.png",
+    loading_background_png : "asset/loading/loadingBackground.png",
+    loading_error_png : "asset/loading/loadingError.png",
+    loading_tryAgain_png : "asset/loading/tryAgain.png",
     
     
     
