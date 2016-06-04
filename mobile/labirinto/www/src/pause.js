@@ -81,23 +81,28 @@ var PauseLayer = cc.Layer.extend({
                 //cc.director.popToSceneStackLevel(2);
                 INITTIALIZED_minimapa=false;
                 
-                if(tentativas===1){ // para ter 3 tentativas, checagem deve ser feita no 1
-                    tentativas = 3;
-                    status=Number(status)+1;
-//                    idLabirintoAtual=Number(idLabirintoAtual)+1;
-                    
-                    // POST (não passou)
-                }else{
-                    tentativas-=1;
-//                    idLabirintoAtual = Number(idLabirintoAtual)+1;
-                }
                 idLabirintoAtual = Number(idLabirintoAtual)+1;
                 if(idLabirintoAtual>30){
                         idLabirintoAtual = 0;
                     }
                 
-                var sairDoJogoScene = new MiniMapScene1();
-                cc.director.runScene(sairDoJogoScene);
+                if(tentativas===1){ // para ter 3 tentativas, checagem deve ser feita no 1
+                    tentativas = 3;
+                    status=Number(status)+1;
+//                    idLabirintoAtual=Number(idLabirintoAtual)+1;
+                    cc.log("pausePOST");
+                    var sairDoJogoScene = new PausePOSTScene();
+                    cc.director.runScene(sairDoJogoScene);
+                    // POST (não passou)
+                }else{
+                    tentativas-=1;
+                    var sairDoJogoScene = new MiniMapScene1();
+                    cc.director.runScene(sairDoJogoScene);
+//                    idLabirintoAtual = Number(idLabirintoAtual)+1;
+                }
+                
+                
+                
                 //pop();
                 break;
         }
@@ -107,7 +112,7 @@ var PauseLayer = cc.Layer.extend({
 
     
 
-var pop = function(){
+var popPause = function(){
 //    if (pause_exit_game===true){
 //        cc.log(pause_exit_game);
 //        cc.audioEngine.end();
@@ -130,4 +135,3 @@ var PauseScene = cc.Scene.extend({
             this.addChild(pauselayer);
     }
 });
-

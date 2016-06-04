@@ -1179,7 +1179,7 @@ var MiniMapLayer1 = cc.Layer.extend({
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                pop();
+                popMiniMapa1();
                 break;
         }
     },
@@ -1189,7 +1189,7 @@ var MiniMapLayer1 = cc.Layer.extend({
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                INITTIALIZED_minimapa = false
+                INITTIALIZED_minimapa = false;
                 conectou = false;
                 var cenaTryAgainConnection = new MiniMapScene1();
                 copiaLayerMinimapa = cenaTryAgainConnection;
@@ -1201,7 +1201,7 @@ var MiniMapLayer1 = cc.Layer.extend({
 });
 
 
-var pop = function(){
+var popMiniMapa1 = function(){
     //cc.log("Foi!");
     //cc.director.popScene();
     var voltarScene = new GlobalMapScene();

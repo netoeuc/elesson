@@ -28,7 +28,8 @@
         "src/desafioPlataforma.js",
         "src/escolher.js",
         "src/minimapa1.js",
-        "src/mapaGlobal.js"
+        "src/mapaGlobal.js",
+        "src/pausePOST.js"
         
     ]
 }
