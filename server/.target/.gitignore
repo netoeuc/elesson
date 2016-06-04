@@ -1,8 +1,10 @@
-/controllers/
-<<<<<<< HEAD
-/models/
-/database/
+/ApplicationTest.class
 /Global.class
-=======
->>>>>>> db2ab9d42b75c1ac64f872ebcda9560a9b49ac90
+/IntegrationTest$1.class
+/IntegrationTest.class
+/controllers/
+/database/
+/interceptors/
+/models/
+/util/
 /views/

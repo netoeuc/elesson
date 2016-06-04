@@ -42,17 +42,18 @@ function gerarMascaras(){
 }
 
 /* ALUNO JS */
-function mostrarAluno(nome, codigo, action){    
-	var modal = $('#modal #namestudent');
-	modal.html(nome);
-
-	$("#modal #data-callback").html("loading");
-	$('#modal').openModal();
+function mostrarAluno(nome, codigo, action){   
+	$("#sidenav-overlay").css("display", "block");
+	
+	$('#modal #namestudent').html(nome);
 	
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal #data-callback").html(data);
 	}).fail(function() {
-		$("#modal #data-callback").html("error");
+		$("#modal #data-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+	}).always(function(){
+		$("#sidenav-overlay").css("display", "none");
+		$('#modal').openModal();
 	});
 }
 
@@ -62,14 +63,17 @@ function mostrarNovoAluno(){
 }
 
 function mostrarEditarAluno(nome, codigoProfessor, codigoAluno, action){
+	$("#sidenav-overlay").css("display", "block");
+	
 	$('#modal-fields-edit #namestudent').html(nome);
-	$("#modal-fields-edit #form-callback").html("loading");
-	$('#modal-fields-edit').openModal();
 	
 	$.post(action, {codA: codigoAluno, codP: codigoProfessor}, function(data) {
 		$("#modal-fields-edit #form-callback").html(data);
 	}).fail(function() {
-		$("#modal-fields-edit #form-callback").html("error");
+		$("#modal-fields-edit #form-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+	}).always(function(){
+		$("#sidenav-overlay").css("display", "none");
+		$('#modal-fields-edit').openModal();
 	});
 }
 
@@ -88,16 +92,17 @@ function removerAluno(codigo,action){
 
 /* INSTITUICAO JS */
 function mostrarInstituicao(nome, codigo, action){ 
-	var modal = $('#modal #namebusiness');
-	modal.html(nome);
+	$("#sidenav-overlay").css("display", "block");
 
-	$("#modal #data-callback").html("loading");
-	$('#modal').openModal();
+	$('#modal #namebusiness').html(nome);
 	
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal #data-callback").html(data);
 	}).fail(function() {
-		$("#modal #data-callback").html("error");
+		$("#modal #data-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+	}).always(function(){
+		$("#sidenav-overlay").css("display", "none");
+		$('#modal').openModal();
 	});
 }
 
@@ -107,16 +112,20 @@ function mostrarNovaInstituicao(){
 }
 
 function mostrarEditarInstituicao(nome, codigo, action){
+	$("#sidenav-overlay").css("display", "block");
+	
 	$('#modal-fields-edit #namebusiness').html(nome);
-	$("#modal-fields-edit #form-callback").html("loading");
-	$('#modal-fields-edit').openModal();
 	
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal-fields-edit #form-callback").html(data);
 		gerarMascaras();
 	}).fail(function() {
-		$("#modal-fields-edit #form-callback").html("error");
+		$("#modal-fields-edit #form-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+	}).always(function(){
+		$("#sidenav-overlay").css("display", "none");
+		$('#modal-fields-edit').openModal();
 	});
+	
 }
 
 function removerInstituicao(codigo, action){
@@ -145,16 +154,18 @@ function editarProfessorAlunos(codigo, action){
 
 /* PROFESSOR JS */
 function mostrarProfessor(nome, codigo, action){
-	var modal = $('#modal #nameteacher');
-	modal.html(nome);
-
-	$("#modal #data-callback").html("loading");
-	$('#modal').openModal();
+	
+	$("#sidenav-overlay").css("display", "block");
+	
+	$('#modal #nameteacher').html(nome);
 	
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal #data-callback").html(data);
 	}).fail(function() {
-		$("#modal #data-callback").html("error");
+		$("#modal #data-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+	}).always(function(){
+		$("#sidenav-overlay").css("display", "none");
+		$('#modal').openModal();
 	});
 }
 
@@ -165,14 +176,17 @@ function mostrarNovoProfessor(action){
 }
 
 function mostrarEditarProfessor(nome, codigo, action){
+	$("#sidenav-overlay").css("display", "block");
+	
 	$('#modal-fields-edit #nameteacher').html(nome);
-	$("#modal-fields-edit #form-callback").html("loading");
-	$('#modal-fields-edit').openModal();
 	
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal-fields-edit #form-callback").html(data);
 	}).fail(function() {
-		$("#modal-fields-edit #form-callback").html("error");
+		$("#modal-fields-edit #form-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+	}).always(function(){
+		$("#sidenav-overlay").css("display", "none");
+		$('#modal-fields-edit').openModal();
 	});
 }
 
@@ -191,13 +205,15 @@ function removerProfessor(codigo,action){
 
 /* QUESTAO JS */
 function mostrarQuestao(codigo, action){
-	$('#modal #data-callback').html("loading");
-    $('#modal').openModal();
-	
+	$("#sidenav-overlay").css("display", "block");
+		
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal #data-callback").html(data);
 	}).fail(function() {
-		$("#modal #data-callback").html("error");
+		$("#modal #data-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+	}).always(function(){
+		$("#sidenav-overlay").css("display", "none");
+		$('#modal').openModal();
 	});
 }
 
@@ -207,13 +223,15 @@ function mostrarNovaQuestao(){
 }
 
 function mostrarEditarQuestao(codigo, action){
-	$("#modal-fields-edit #form-callback").html("loading");
-	$('#modal-fields-edit').openModal();
+	$("#sidenav-overlay").css("display", "block");
 	
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal-fields-edit #form-callback").html(data);
 	}).fail(function() {
-		$("#modal-fields-edit #form-callback").html("error");
+		$("#modal-fields-edit #form-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+	}).always(function(){
+		$("#sidenav-overlay").css("display", "none");
+		$('#modal-fields-edit').openModal();
 	});
 }
 
