@@ -2,7 +2,6 @@ package controllers;
 
 import static play.data.Form.form;
 
-import interceptors.InstituicaoInterceptor;
 import interceptors.ProfessorInterceptor;
 
 import java.util.HashMap;
@@ -349,7 +348,9 @@ public class ProfessorController extends Controller{
 				if(questao == null || resposta1 == null || resposta2 == null || resposta3 == null || resposta4 == null || resposta5 == null || respostaCorreta == null || nivel < 1 || nivel > 4){
 					flash("erro", "Please fill out all the fields");
 				}else if (questao.length() > 254){
-					flash("erro", "Question text is too long");
+					flash("erro", "Question text is too long, only 255 ");
+				}else if (resposta1.length() > 254 && resposta2.length() > 254 && resposta3.length() > 254 && resposta4.length() > 254 && resposta5.length() > 254){
+					flash("erro", "Answer text is too long");
 				}else{
 					char resposta = respostaCorreta.charAt(0);
 					Questao novaQ = new Questao(p.getInstituicao(),p,questao,resposta1,resposta2,resposta3,resposta4,resposta5,resposta,nivel);
@@ -407,6 +408,8 @@ public class ProfessorController extends Controller{
 				flash("erro", "Please fill out all the fields");
 			}else if (questao.length() > 254){
 				flash("erro", "Question text is too long");
+			}else if (resposta1.length() > 254 && resposta2.length() > 254 && resposta3.length() > 254 && resposta4.length() > 254 && resposta5.length() > 254){
+				flash("erro", "Answer text is too long");
 			}else{
 				Questao q = QuestaoDatabase.selectQuestao(cod, p.getId(), p.getCnpjInst());
 				if(q != null){
