@@ -1,12 +1,12 @@
 @(template: Integer)
-@views.html.cssimports()
+@*@views.html.cssimports()*@
 
-<div id="sidenav-overlay" rel="" style="display: block; opacity: 1;">
+<div id="sidenav-overlay" rel="" style="display: none; opacity: 1;">
 
 @if(template == 0){
 	<!-- CARD LOADING -->
-    <div id="loading" class="row" style="width: 110px; position:absolute; top:75; right:0; bottom:0; left:0; margin:auto; max-width:100%; max-height:100%; overflow:auto;">
-    	<div class="col s12 m12">
+    <div id="loading" class="row" style="width: 110px; position:absolute; top:0; right:0; bottom:0; left:0; margin:auto; max-width:100%; max-height:100%; overflow:auto;">
+    	<div class="col s12 m12" style="margin-top:100%;">
         	<div class="card defaultCard default-page-margin-top">
             	<div class="card-content">
                 
@@ -74,7 +74,7 @@
 }
 
 </div>
-
+@*
 <script>
 function showHideAlert(titulo, mensagem) {
     var loader = document.getElementById("sidenav-overlay");
@@ -94,4 +94,4 @@ function showHideLoader() {
     	loader.style.display="none";
     }
 }
-</script>
+</script>*@
