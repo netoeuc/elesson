@@ -4,9 +4,8 @@ var GlobalMapLayer = cc.Layer.extend({
     ctor:function () {
         //////////////////////////////
         // 1. super init first
+        status = 16;
         this._super();
-        status = userInfo.getItem("status");
-        cc.log(userInfo.getItem("idAluno"));
         cc.audioEngine.end();
         cc.audioEngine.playMusic(asset.mapa_musica_mp3, true);
         

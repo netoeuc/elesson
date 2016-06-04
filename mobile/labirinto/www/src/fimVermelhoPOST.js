@@ -1,150 +1,154 @@
 /* globals cc, asset */
 
-var INITTIALIZED_vermelho = false;
-var FimVermelhoLayer = cc.Layer.extend({
+var INITTIALIZED_fimvermelhorPOST = false;
+var INITTIALIZED_fimVermelhoPOST = false;
+var conectoufimVermelhoPOST = false;
+var copiaLayerfimVermelhoPOST;
+var loadingErrorLabelfimVermelhoPOST;
+var loadingErrorImgfimVermelhoPOST;
+var loadingErrorButtonfimVermelhoPOST;
+var size;
+var FimVermelhoPOSTLayer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
         this._super();
         
-        // reproduzir efeito sonoro (não venceu)
+        // reproduzir efeito sonoro (venceu)
         
         var size = cc.winSize;
-           
         
-
-        var backgroundVermelho = new cc.Sprite.create(asset.telaFim_red_png); 
-        backgroundVermelho.setAnchorPoint(cc.p( 0, 0 ));
-        backgroundVermelho.setPosition(cc.p(0, 0));
-        this.addChild(backgroundVermelho, -1);
+        copiaLayerfimVermelhoPOST = this;
         
+        var backgroundVermelhoPOST = new cc.Sprite.create(asset.telaFim_red_png); 
+        backgroundVermelhoPOST.setAnchorPoint(cc.p( 0, 0 ));
+        backgroundVermelhoPOST.setPosition(cc.p(0, 0));
+        this.addChild(backgroundVermelhoPOST, -1);
         
-        var backToMap1 = new ccui.Button();
-        backToMap1.loadTextures(asset.telaFim_buttonMap_png);
-        backToMap1.setAnchorPoint(cc.p(0,0));  
-        backToMap1.setPosition(cc.p(100, 100));
-        backToMap1.addTouchEventListener(this.sairDoJogo3, this);
-        this.addChild(backToMap1);
-        
-        
-        
+        var backToMap2POST = new ccui.Button();
+        backToMap2POST.loadTextures(asset.telaFim_buttonMap_png);
+        backToMap2POST.setAnchorPoint(cc.p(0,0));  
+        backToMap2POST.setPosition(cc.p(100, 100));
+//        backToMap2POST.addTouchEventListener(this.sairDoJogo2, this);
+        this.addChild(backToMap2POST);
         
         
 //         para o POST
         
-            conectoufimVermelhoPOSTPOST = false;
+            conectoufimVermelhoPOST = false;
 
-            var logoLoadingfimVermelhoPOSTPOST = new cc.Sprite.create(asset.loading_eLeassons_png);
+            var logoLoadingfimVermelhoPOST = new cc.Sprite.create(asset.loading_eLeassons_png);
 
-            logoLoadingfimVermelhoPOSTPOST.setAnchorPoint(cc.p( 0.5, 0.5 ));
-            logoLoadingfimVermelhoPOSTPOST.setPosition(cc.p(240, 400));
-            this.addChild(logoLoadingfimVermelhoPOSTPOST, 100, 100); //tag = 100
+            logoLoadingfimVermelhoPOST.setAnchorPoint(cc.p( 0.5, 0.5 ));
+            logoLoadingfimVermelhoPOST.setPosition(cc.p(240, 400));
+            this.addChild(logoLoadingfimVermelhoPOST, 100, 100); //tag = 100
 
-             var backgroundLoadingfimVermelhoPOSTPOST = new cc.Sprite.create(asset.loading_background_png);
+             var backgroundLoadingfimVermelhoPOST = new cc.Sprite.create(asset.loading_background_png);
 
-            backgroundLoadingfimVermelhoPOSTPOST.setAnchorPoint(cc.p( 0, 0 ));
-            backgroundLoadingfimVermelhoPOSTPOST.setPosition(cc.p(0, 0));
-            backgroundLoadingfimVermelhoPOSTPOST.opacity = 100;
-            this.addChild(backgroundLoadingfimVermelhoPOSTPOST, 99, 99); // tag = 99
-
-
+            backgroundLoadingfimVermelhoPOST.setAnchorPoint(cc.p( 0, 0 ));
+            backgroundLoadingfimVermelhoPOST.setPosition(cc.p(0, 0));
+            backgroundLoadingfimVermelhoPOST.opacity = 100;
+            this.addChild(backgroundLoadingfimVermelhoPOST, 99, 99); // tag = 99
 
 
 
-            var labelLoadingYourDatafimVermelhoPOSTPOST = new ccui.RichText();
-            labelLoadingYourDatafimVermelhoPOSTPOST.setAnchorPoint(cc.p(0,0));
-            labelLoadingYourDatafimVermelhoPOSTPOST.ignoreContentAdaptWithSize(false);
-            labelLoadingYourDatafimVermelhoPOSTPOST.width = size.width-80;
-            labelLoadingYourDatafimVermelhoPOSTPOST.height = 65;
-            var labelLoadingYourDataTextfimVermelhoPOSTPOST = new ccui.RichElementText(1, cc.color.WHITE, 255,"Sending your results... ", "Helvetica", 20);
-            labelLoadingYourDatafimVermelhoPOSTPOST.setLineBreakOnSpace(true);
-            labelLoadingYourDatafimVermelhoPOSTPOST.setTextHorizontalAlignment(cc.Text_ALIGNMENT_CENTER);
-            labelLoadingYourDatafimVermelhoPOSTPOST.pushBackElement(labelLoadingYourDataTextfimVermelhoPOSTPOST);
-            labelLoadingYourDatafimVermelhoPOSTPOST.setPosition(cc.p(-50, 200));
-            this.addChild(labelLoadingYourDatafimVermelhoPOSTPOST, 101, 101); // tag = 101
 
 
-            loadingErrorLabelfimVermelhoPOSTPOST = new ccui.RichText();
-            loadingErrorLabelfimVermelhoPOSTPOST.setAnchorPoint(cc.p(0,0));
-            loadingErrorLabelfimVermelhoPOSTPOST.ignoreContentAdaptWithSize(false);
-            loadingErrorLabelfimVermelhoPOSTPOST.width = size.width-80;
-            loadingErrorLabelfimVermelhoPOSTPOST.height = 65;
-            var loadingErrorLabelTextfimVermelhoPOSTPOST = new ccui.RichElementText(1, cc.color.WHITE, 255,"You have no Internet Connection...", "Helvetica", 20);
-            loadingErrorLabelfimVermelhoPOSTPOST.setLineBreakOnSpace(true);
-            loadingErrorLabelfimVermelhoPOSTPOST.setTextHorizontalAlignment(cc.Text_ALIGNMENT_CENTER);
-            loadingErrorLabelfimVermelhoPOSTPOST.pushBackElement(loadingErrorLabelTextfimVermelhoPOSTPOST);
-            loadingErrorLabelfimVermelhoPOSTPOST.setPosition(cc.p(-100, 220));
+            var labelLoadingYourDatafimVermelhoPOST = new ccui.RichText();
+            labelLoadingYourDatafimVermelhoPOST.setAnchorPoint(cc.p(0,0));
+            labelLoadingYourDatafimVermelhoPOST.ignoreContentAdaptWithSize(false);
+            labelLoadingYourDatafimVermelhoPOST.width = size.width-80;
+            labelLoadingYourDatafimVermelhoPOST.height = 65;
+            var labelLoadingYourDataTextfimVermelhoPOST = new ccui.RichElementText(1, cc.color.WHITE, 255,"Sending your results... ", "Helvetica", 20);
+            labelLoadingYourDatafimVermelhoPOST.setLineBreakOnSpace(true);
+            labelLoadingYourDatafimVermelhoPOST.setTextHorizontalAlignment(cc.Text_ALIGNMENT_CENTER);
+            labelLoadingYourDatafimVermelhoPOST.pushBackElement(labelLoadingYourDataTextfimVermelhoPOST);
+            labelLoadingYourDatafimVermelhoPOST.setPosition(cc.p(-50, 200));
+            this.addChild(labelLoadingYourDatafimVermelhoPOST, 101, 101); // tag = 101
+
+
+            loadingErrorLabelfimVermelhoPOST = new ccui.RichText();
+            loadingErrorLabelfimVermelhoPOST.setAnchorPoint(cc.p(0,0));
+            loadingErrorLabelfimVermelhoPOST.ignoreContentAdaptWithSize(false);
+            loadingErrorLabelfimVermelhoPOST.width = size.width-80;
+            loadingErrorLabelfimVermelhoPOST.height = 65;
+            var loadingErrorLabelTextfimVermelhoPOST = new ccui.RichElementText(1, cc.color.WHITE, 255,"You have no Internet Connection...", "Helvetica", 20);
+            loadingErrorLabelfimVermelhoPOST.setLineBreakOnSpace(true);
+            loadingErrorLabelfimVermelhoPOST.setTextHorizontalAlignment(cc.Text_ALIGNMENT_CENTER);
+            loadingErrorLabelfimVermelhoPOST.pushBackElement(loadingErrorLabelTextfimVermelhoPOST);
+            loadingErrorLabelfimVermelhoPOST.setPosition(cc.p(-100, 220));
 //            this.addChild(loadingErrorLabel, 101);
 
 
-            loadingErrorImgfimVermelhoPOSTPOST = new cc.Sprite.create(asset.loading_error_png);
-            loadingErrorImgfimVermelhoPOSTPOST.setAnchorPoint(cc.p( 0.5, 0.5 ));
-            loadingErrorImgfimVermelhoPOSTPOST.setPosition(cc.p(235, 420));
+            loadingErrorImgfimVermelhoPOST = new cc.Sprite.create(asset.loading_error_png);
+            loadingErrorImgfimVermelhoPOST.setAnchorPoint(cc.p( 0.5, 0.5 ));
+            loadingErrorImgfimVermelhoPOST.setPosition(cc.p(235, 420));
 //            this.addChild(loadingErrorImg, 100);
 
 
-            loadingErrorButtonfimVermelhoPOSTPOST= new ccui.Button();
-            loadingErrorButtonfimVermelhoPOSTPOST.loadTextures(asset.loading_tryAgain_png);
-            loadingErrorButtonfimVermelhoPOSTPOST.setAnchorPoint(cc.p(0,0));   
+            loadingErrorButtonfimVermelhoPOST= new ccui.Button();
+            loadingErrorButtonfimVermelhoPOST.loadTextures(asset.loading_tryAgain_png);
+            loadingErrorButtonfimVermelhoPOST.setAnchorPoint(cc.p(0,0));   
 
-            loadingErrorButtonfimVermelhoPOSTPOST.addTouchEventListener(this.conectarNovamentefimVermelhoPOSTPOST, this);
-            loadingErrorButtonfimVermelhoPOSTPOST.setPosition(cc.p(170,200));
+            loadingErrorButtonfimVermelhoPOST.addTouchEventListener(this.conectarNovamentefimVermelhoPOST, this);
+            loadingErrorButtonfimVermelhoPOST.setPosition(cc.p(170,200));
 //            this.addChild(loadingErrorButton, 12);
 
 
             
-            var xhrfimVermelhoPOSTPOST = cc.loader.getXMLHttpRequest();
+            var xhrfimVermelhoPOST = cc.loader.getXMLHttpRequest();
         
             
             var xhr = cc.loader.getXMLHttpRequest();    
-            xhrfimVermelhoPOSTPOST.open( "POST", "http://requestb.in/1ghmdn31" );
-            xhrfimVermelhoPOSTPOST.setRequestHeader( "Content-Type", "text/plain" );
-//            var arguementsfimVermelhoPOSTPOST = "Olha o POST funcionando!";
-            xhrfimVermelhoPOSTPOST.send( resultadoParaPost );
-            var respostaTempfimVermelhoPOSTPOST = xhrfimVermelhoPOSTPOST.responseText;
+            xhrfimVermelhoPOST.open( "POST", "http://requestb.in/1ghmdn31" );
+            xhrfimVermelhoPOST.setRequestHeader( "Content-Type", "text/plain" );
+//            var arguementsfimVermelhoPOST = "Olha o POST funcionando!";
+            xhrfimVermelhoPOST.send( resultadoParaPost );
+            var respostaTempfimVermelhoPOST = xhrfimVermelhoPOST.responseText;
             //cc.log( "resultadoTemp = "+respostaTemp );
 
 
 
 
-            xhrfimVermelhoPOSTPOST.onreadystatechange = function ()
+            xhrfimVermelhoPOST.onreadystatechange = function ()
             {
                 //cc.log( "Networking away" );
                 //cc.log(xhr.readyState);
                 //cc.log(xhr.status);
                 //cc.log("net = "+semInternet);
                 //cc.log("aqui = "+xhr.readyState);
-                if ( xhrfimVermelhoPOSTPOST.readyState == 4 && ( xhrfimVermelhoPOSTPOST.status >= 200 && xhrfimVermelhoPOSTPOST.status <= 207 ) )
+                if ( xhrfimVermelhoPOST.readyState == 4 && ( xhrfimVermelhoPOST.status >= 200 && xhrfimVermelhoPOST.status <= 207 ) )
                 {
-                    var httpStatusfimVermelhoPOSTPOST = xhrfimVermelhoPOSTPOST.statusText;
+                    var httpStatusfimVermelhoPOST = xhrfimVermelhoPOST.statusText;
                     //cc.log( httpStatus );
 
-                    var responsefimVermelhoPOSTPOST = xhrfimVermelhoPOSTPOST.responseText;
+                    var responsefimVermelhoPOST = xhrfimVermelhoPOST.responseText;
                     //cc.log( response );
-                    copiaLayerfimVermelhoPOSTPOST.getChildByTag(99).opacity = 0;
+                    copiaLayerfimVermelhoPOST.getChildByTag(99).opacity = 0;
 
                     //corrigindo bug
-                    copiaLayerfimVermelhoPOSTPOST.removeChildByTag(200);
-                    copiaLayerfimVermelhoPOSTPOST.removeChildByTag(201);
-                    copiaLayerfimVermelhoPOSTPOST.removeChildByTag(202);
+                    copiaLayerfimVermelhoPOST.removeChildByTag(200);
+                    copiaLayerfimVermelhoPOST.removeChildByTag(201);
+                    copiaLayerfimVermelhoPOST.removeChildByTag(202);
                     //corrigindo bug
 
-                    copiaLayerfimVermelhoPOSTPOST.removeChildByTag(100);
-                    copiaLayerfimVermelhoPOSTPOST.removeChildByTag(101);
-                    conectoufimVermelhoPOSTPOST = true;
-                    checkInternetConnectionfimVermelhoPOSTPOST();
+                    copiaLayerfimVermelhoPOST.removeChildByTag(100);
+                    copiaLayerfimVermelhoPOST.removeChildByTag(101);
+                    conectoufimVermelhoPOST = true;
+                    checkInternetConnectionfimVermelhoPOST();
                     
 
 
                 }else{
-                    if(xhrfimVermelhoPOSTPOST.status == 0){
+                    if(xhrfimVermelhoPOST.status === 0){
                         //cc.log("reasyState=0");
-                        checkInternetConnectionfimVermelhoPOSTPOST();
+                        
+                        checkInternetConnectionfimVermelhoPOST();
                     }
                 }
                 //cc.log(xhr.readyState);
             };
 
-            checkInternetConnectionTimeOutfimVermelhoPOSTPOST();
+            checkInternetConnectionTimeOutfimVermelhoPOST();
             
             
             
@@ -154,77 +158,101 @@ var FimVermelhoLayer = cc.Layer.extend({
         
         
         
-        // APLICAR AS MUDANCAS NO ARQUIVO/BANCO AQUI
         
-        
-        if(tentativas===1){ // para ter 3 tentativas, checagem deve ser feita no 1
-            tentativas = 3;
-            status=Number(status)+1;
-            idLabirintoAtual=Number(idLabirintoAtual)+1;
-            // POST(resultadoParaPost);
-            // POST (não passou);
-        }else{
-            tentativas-=1;
-            idLabirintoAtual = Number(idLabirintoAtual)+1;
-        }
         
         
         return true;
     },
     
-    sairDoJogo3: function(sender, type){
+    conectarNovamentefimVermelhoPOST: function(sender,type){
         switch(type){
             case ccui.Widget.TOUCH_BEGAN:
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                fimVermelhoPOST_exit_game = false;
-                var fimVermelhoPOST_exit_game = false; // Para sair do jogo a partir do fimVermelhoPOST
-                //var pontuacao = 0;
-                
-                
-                idLabirintoAtual = Number(idLabirintoAtual)+1;
-                if (idLabirintoAtual===31){
-                    idLabirintoAtual = 0;
-                }
-        
-                INITTIALIZED_Acel = false;
-                INITTIALIZED_histplat = false;
-                INITTIALAZED = false;
-                cc.audioEngine.end();
-                //cc.director.popToSceneStackLevel(2);
-                INITTIALIZED_minimapa = false;
-                var minimapa = new MiniMapScene1();
-                cc.director.runScene(minimapa);
-                //pop();
+                INITTIALIZED_fimVermelhoPOST = false;
+                conectoufimVermelhoPOST = false;
+                var cenaTryAgainConnectionfimVermelhoPOST = new FimVermelhoPOSTScene();
+                copiaLayerfimVermelhoPOST = cenaTryAgainConnectionfimVermelhoPOST;
+                cc.director.runScene(cenaTryAgainConnectionfimVermelhoPOST);
                 break;
         }
     },
-    
-    selectedStateEvent: function(sender, type){
-        switch(type){
-                case ccui.CheckBox.EVENT_UNSELECTED:
-                    //////cc.log("Not Selected");
-                    //////cc.log(sender.isSelected());
-                    break;
-                 case ccui.CheckBox.EVENT_SELECTED:
-                    //////cc.log("Selected");
-                    break;
-        }
-    },
-    
-    
     
 });
 
     
 
+var popfimVermelhoPOST = function(){
+//    if (fimVermelhoPOST_exit_game===true){
+//        cc.log(fimVermelhoPOST_exit_game);
+//        cc.audioEngine.end();
+//        cc.director.popToSceneStackLevel(0);
+//    }else{
+//        cc.log("else");
+//        // substituir
+//        //cc.director.popScene();
+//        cc.director.pushScene(); // 1 -> mapa, 2 -> minimapa, 3 -> labirinto/plataforma, 4 -> fimVermelhoPOST     
+//    }
+    cc.director.popScene();
+    
+    
+};
 
-var FimVermelhoScene = cc.Scene.extend({
+var checkInternetConnectionfimVermelhoPOST = function(){
+    cc.log("checando conexão...:");
+    if(!conectoufimVermelhoPOST){
+        copiaLayerfimVermelhoPOST.removeChildByTag(100);
+        copiaLayerfimVermelhoPOST.removeChildByTag(101);
+        copiaLayerfimVermelhoPOST.getChildByTag(99).opacity = 200;
+        copiaLayerfimVermelhoPOST.addChild(loadingErrorImgfimVermelhoPOST, 100, 200);
+        copiaLayerfimVermelhoPOST.addChild(loadingErrorLabelfimVermelhoPOST, 100, 201);
+        copiaLayerfimVermelhoPOST.addChild(loadingErrorButtonfimVermelhoPOST, 100, 202);
+    }else{
+        cc.log("voltando pelo fimVermelhoPOST");
+        
+        
+        INITTIALIZED_Acel = false;
+        INITTIALIZED_histplat = false;
+        INITTIALIZED_plat = false;
+        INITTIALIZED_histplat = false;
+        INITTIALIZED_toque = false;
+        INITTIALAZED = false;
+        cc.audioEngine.end();
+        //cc.director.popToSceneStackLevel(2);
+        INITTIALIZED_minimapa=false;
+        INITTIALIZED_fimVermelhoPOST=false;
+        
+        
+        var sairDoJogoScene = new MiniMapScene1();
+        cc.director.runScene(sairDoJogoScene);
+    }
+    
+};
+
+
+
+var checkInternetConnectionTimeOutfimVermelhoPOST = function(){
+    setTimeout(function(){
+    if(!conectoufimVermelhoPOST){
+        copiaLayerfimVermelhoPOST.removeChildByTag(100);
+        copiaLayerfimVermelhoPOST.removeChildByTag(101);
+        copiaLayerfimVermelhoPOST.getChildByTag(99).opacity = 200;
+        copiaLayerfimVermelhoPOST.addChild(loadingErrorImgfimVermelhoPOST, 100, 200);
+        copiaLayerfimVermelhoPOST.addChild(loadingErrorLabelfimVermelhoPOST, 100, 201);
+        copiaLayerfimVermelhoPOST.addChild(loadingErrorButtonfimVermelhoPOST, 100, 202);
+    }
+    
+}, 20000);};
+
+    
+
+
+var FimVermelhoPOSTScene = cc.Scene.extend({
     onEnter:function () {
-            INITTIALIZED_vermelho = true;
+            INITTIALIZED_fimvermelhorPOST = true;
             this._super();
-            var fimvermelholayer = new FimVermelhoLayer();
-            this.addChild(fimvermelholayer);
+            var fimvermelhorPOSTlayer = new FimVermelhoPOSTLayer();
+            this.addChild(fimvermelhorPOSTlayer);
     }
 });
 

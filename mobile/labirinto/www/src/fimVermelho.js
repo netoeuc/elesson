@@ -33,6 +33,7 @@ var FimVermelhoLayer = cc.Layer.extend({
         if(tentativas===1){ // para ter 3 tentativas, checagem deve ser feita no 1
             tentativas = 3;
             status=Number(status)+1;
+            userInfo.setItem("status",Number(userInfo.getItem("status"))+1);
             idLabirintoAtual=Number(idLabirintoAtual)+1;
             // POST(resultadoParaPost);
             // POST (não passou);
@@ -66,8 +67,10 @@ var FimVermelhoLayer = cc.Layer.extend({
                 cc.audioEngine.end();
                 //cc.director.popToSceneStackLevel(2);
                 INITTIALIZED_minimapa = false;
-                var minimapa = new MiniMapScene1();
-                cc.director.runScene(minimapa);
+//                var minimapa = new MiniMapScene1();
+//                cc.director.runScene(minimapa);
+                var sairDoJogoSceneFimVermelho = new FimVermelhoPOSTScene();
+                cc.director.runScene(sairDoJogoSceneFimVermelho);
                 //pop();
                 break;
         }
