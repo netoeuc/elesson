@@ -140,7 +140,7 @@ public class AlunoController extends Controller {
 				Aluno a = AlunoDatabase.selectAlunoByEmail(email);
 		
 				if (a != null && a.getStatus() != Constantes.STATUS_REMOVIDO) {
-					if(!isNovaSessao && a.isLogado() && !a.getSessao().equals(sessao)){
+					if(isNovaSessao && a.isLogado() && !a.getSessao().equals(sessao)){
 						return ok(AdminJson.getMensagem("Você já está logado em outro dispositivo. Deseja iniciar uma nova sessão para este dispositivo?"));
 					}
 					if(a.getStatus() == Constantes.STATUS_ATIVO){
@@ -156,7 +156,7 @@ public class AlunoController extends Controller {
 							a.setSessao(sessao);
 							JPA.em().merge(a);
 							
-							return ok(AdminJson.getObject(map));
+							return ok(AdminJson.getObject(map, "auth"));
 						}else{
 							return ok(AdminJson.getMensagem("senha inválida"));
 						}
