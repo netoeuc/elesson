@@ -156,7 +156,7 @@ public class AlunoController extends Controller {
 							a.setSessao(sessao);
 							JPA.em().merge(a);
 							
-							return ok(AdminJson.getObject(map, "auth"));
+							return ok(AdminJson.getObject(map));
 						}else{
 							return ok(AdminJson.getMensagem("senha inválida"));
 						}
