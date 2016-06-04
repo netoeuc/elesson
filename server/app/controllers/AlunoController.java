@@ -134,8 +134,8 @@ public class AlunoController extends Controller {
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
 			String senha = dynamicForm.get("senha") == null || dynamicForm.get("senha").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("senha"));
 			String sessao = dynamicForm.get("sessao") == null || dynamicForm.get("sessao").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("sessao"));
-			boolean isNovaSessao = dynamicForm.get("isNSessao") == null || dynamicForm.get("isNSessao").trim().isEmpty()? false : Boolean.getBoolean(dynamicForm.get("isNSessao"));
-
+			boolean isNovaSessao = dynamicForm.get("isNSessao") == null || dynamicForm.get("isNSessao").trim().isEmpty()? false : Boolean.parseBoolean(dynamicForm.get("isNSessao"));
+			
 			if(email != null && senha != null && sessao != null){
 				Aluno a = AlunoDatabase.selectAlunoByEmail(email);
 		
@@ -145,18 +145,18 @@ public class AlunoController extends Controller {
 					}
 					if(a.getStatus() == Constantes.STATUS_ATIVO){
 						if (a.getSenha().equals(senha)) {
-							HashMap<String, Object> map = new HashMap<String, Object>();
-							map.put("aluno", a);
-							if(a.getUsername() == null){
-								map.put("primeiroAcesso", true);
-							}else{
-								map.put("primeiroAcesso", false);
-							}
+//							HashMap<String, Object> map = new HashMap<String, Object>();
+//							map.put("aluno", a);
+//							if(a.getUsername() == null){
+//								map.put("primeiroAcesso", true);
+//							}else{
+//								map.put("primeiroAcesso", false);
+//							}
 							a.setLogado(true);
 							a.setSessao(sessao);
 							JPA.em().merge(a);
 							
-							return ok(AdminJson.getObject(map));
+							return ok(AdminJson.getObject(a, "aluno"));
 						}else{
 							return ok(AdminJson.getMensagem("senha inválida"));
 						}
