@@ -2,7 +2,6 @@ package controllers;
 
 import static play.data.Form.form;
 
-import interceptors.InstituicaoInterceptor;
 import interceptors.ProfessorInterceptor;
 
 import java.util.HashMap;
