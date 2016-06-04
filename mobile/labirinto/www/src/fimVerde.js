@@ -31,6 +31,9 @@ var FimVerdeLayer = cc.Layer.extend({
         status=Number(status)+1;
         idLabirinto = Number(idLabirintoAtual)+1;
         // POST(resultadoParaPost);
+//        var sairDoJogoSceneFimVerde = new FimVerdePOSTScene();
+//        cc.director.runScene(sairDoJogoSceneFimVerde);
+        
         // POST (passou de fase!)
         
         
@@ -54,8 +57,12 @@ var FimVerdeLayer = cc.Layer.extend({
                 cc.audioEngine.end();
                 //cc.director.popToSceneStackLevel(2);
                 INITTIALIZED_minimapa = false;
-                var minimapa = new MiniMapScene1();
-                cc.director.runScene(minimapa);
+                //var minimapa = new MiniMapScene1();
+                //cc.director.runScene(minimapa);
+                
+                var sairDoJogoSceneFimVerde = new FimVerdePOSTScene();
+                cc.director.runScene(sairDoJogoSceneFimVerde);
+        
                 //pop();
                 break;
         }

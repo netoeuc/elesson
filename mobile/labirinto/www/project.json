@@ -29,7 +29,9 @@
         "src/escolher.js",
         "src/minimapa1.js",
         "src/mapaGlobal.js",
-        "src/pausePOST.js"
+        "src/pausePOST.js",
+        "src/fimVerdePOST.js"
+        
         
     ]
 }

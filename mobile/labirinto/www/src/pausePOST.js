@@ -113,8 +113,8 @@ var PausePOSTLayer = cc.Layer.extend({
             var xhr = cc.loader.getXMLHttpRequest();    
             xhrpausePOST.open( "POST", "http://requestb.in/1ghmdn31" );
             xhrpausePOST.setRequestHeader( "Content-Type", "text/plain" );
-            var arguementspausePOST = "Olha o POST funcionando!";
-            xhrpausePOST.send( arguementspausePOST );
+//            var arguementspausePOST = "Olha o POST funcionando!";
+            xhrpausePOST.send( resultadoParaPost );
             var respostaTemppausePOST = xhrpausePOST.responseText;
             //cc.log( "resultadoTemp = "+respostaTemp );
 
@@ -151,7 +151,7 @@ var PausePOSTLayer = cc.Layer.extend({
 
 
                 }else{
-                    if(xhrpausePOST.status == 0){
+                    if(xhrpausePOST.status === 0){
                         //cc.log("reasyState=0");
                         checkInternetConnectionpausePOST();
                     }
