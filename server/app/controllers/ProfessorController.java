@@ -348,8 +348,8 @@ public class ProfessorController extends Controller{
 				if(questao == null || resposta1 == null || resposta2 == null || resposta3 == null || resposta4 == null || resposta5 == null || respostaCorreta == null || nivel < 1 || nivel > 4){
 					flash("erro", "Please fill out all the fields");
 				}else if (questao.length() > 254){
-					flash("erro", "Question text is too long, only 255 ");
-				}else if (resposta1.length() > 254 && resposta2.length() > 254 && resposta3.length() > 254 && resposta4.length() > 254 && resposta5.length() > 254){
+					flash("erro", "Question text is too long");
+				}else if (resposta1.length() > 75 && resposta2.length() > 75 && resposta3.length() > 75 && resposta4.length() > 75 && resposta5.length() > 75){
 					flash("erro", "Answer text is too long");
 				}else{
 					char resposta = respostaCorreta.charAt(0);
@@ -408,7 +408,7 @@ public class ProfessorController extends Controller{
 				flash("erro", "Please fill out all the fields");
 			}else if (questao.length() > 254){
 				flash("erro", "Question text is too long");
-			}else if (resposta1.length() > 254 && resposta2.length() > 254 && resposta3.length() > 254 && resposta4.length() > 254 && resposta5.length() > 254){
+			}else if (resposta1.length() > 75 && resposta2.length() > 75 && resposta3.length() > 75 && resposta4.length() > 75 && resposta5.length() > 75){
 				flash("erro", "Answer text is too long");
 			}else{
 				Questao q = QuestaoDatabase.selectQuestao(cod, p.getId(), p.getCnpjInst());
