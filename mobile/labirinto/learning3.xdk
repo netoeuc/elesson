@@ -4,9 +4,9 @@
     "creationData": {
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-cocos2d-3x-portrait/sample.zip",
-      "projectGuid": "8181ac7e-6992-42db-a69d-a11f2f23e28b",
-      "lastModifiedDate": 1461132727854,
-      "creationDate": 1461132721752
+      "projectGuid": "1b45e7e3-4bfc-4be0-b503-3580f0281308",
+      "lastModifiedDate": 1465071304537,
+      "creationDate": 1461273574497
     },
     "sourceDirectory": "www",
     "startFile": "index.html",
@@ -98,7 +98,7 @@
           "Orientation": "portrait"
         },
         "isActive_": true,
-        "appName_": "labirinto",
+        "appName_": "eLessons",
         "appID_": "xdk.intel.cocos2d.js.portrait.project",
         "appAccess_": {
           "mode": "legacy",
@@ -113,10 +113,10 @@
         "addlPermissions_": "",
         "excludedLibraries_": "",
         "cordovaCLIVersion_": "5.1.1",
-        "crosswalkVersion_": "14",
+        "crosswalkVersion_": "15",
         "appVersion_": "0.0.1",
-        "appDescription_": "Use this template to start with a blank portrait Game from Cocos2d-js 3.x",
-        "appAuthor_": "Intel XDK",
+        "appDescription_": "Learn English playing games!",
+        "appAuthor_": "Smart Educ",
         "appVersionCode_": "1"
       },
       "Android": {
@@ -131,7 +131,7 @@
           "Orientation": "portrait"
         },
         "isActive_": true,
-        "appName_": "labirinto",
+        "appName_": "eLessons",
         "appID_": "xdk.intel.cocos2d.js.portrait.project",
         "appAccess_": {
           "mode": "legacy",
@@ -143,13 +143,13 @@
         },
         "icons_": [],
         "splashes_": [],
-        "addlPermissions_": "",
+        "addlPermissions_": "<preference;name=\"android.permission.ACCESS_WIFI_STATE\";value=\"<PERMISSION\">;/>",
         "excludedLibraries_": "",
         "cordovaCLIVersion_": "5.1.1",
         "crosswalkVersion_": "14",
         "appVersion_": "0.0.1",
-        "appDescription_": "Use this template to start with a blank portrait Game from Cocos2d-js 3.x",
-        "appAuthor_": "Intel XDK",
+        "appDescription_": "Learn English playing games!",
+        "appAuthor_": "Smart Educ",
         "appVersionCode_": "1"
       },
       "iOS": {
@@ -163,7 +163,7 @@
           "Orientation": "portrait"
         },
         "isActive_": true,
-        "appName_": "labirinto",
+        "appName_": "eLessons",
         "appID_": "xdk.intel.cocos2d.js.portrait.project",
         "appAccess_": {
           "mode": "legacy",
@@ -181,8 +181,8 @@
         "cordovaCLIVersion_": "5.1.1",
         "crosswalkVersion_": "14",
         "appVersion_": "0.0.1",
-        "appDescription_": "Use this template to start with a blank portrait Game from Cocos2d-js 3.x",
-        "appAuthor_": "Intel XDK"
+        "appDescription_": "Learn English playing games!",
+        "appAuthor_": "Smart Educ"
       },
       "Windows8": {
         "platform_": "windows8",
@@ -195,7 +195,7 @@
           "Orientation": "portrait"
         },
         "isActive_": true,
-        "appName_": "labirinto",
+        "appName_": "eLessons",
         "appID_": "xdk.intel.cocos2d.js.portrait.project",
         "appAccess_": {
           "mode": "legacy",
@@ -212,8 +212,8 @@
         "cordovaCLIVersion_": "5.1.1",
         "crosswalkVersion_": "14",
         "appVersion_": "0.0.0.1",
-        "appDescription_": "Use this template to start with a blank portrait Game from Cocos2d-js 3.x",
-        "appAuthor_": "Intel XDK"
+        "appDescription_": "Learn English playing games!",
+        "appAuthor_": "Smart Educ"
       },
       "WebApp": {
         "platform_": "webapp",
@@ -221,7 +221,7 @@
         "name_": "WebApp",
         "preferences_": {},
         "isActive_": false,
-        "appName_": "labirinto",
+        "appName_": "learning3",
         "appID_": "not.yet.specified",
         "appAccess_": {
           "mode": "legacy",
@@ -244,7 +244,7 @@
         "name_": "Firefox",
         "preferences_": {},
         "isActive_": false,
-        "appName_": "labirinto",
+        "appName_": "learning3",
         "appID_": "not.yet.specified",
         "appAccess_": {
           "mode": "legacy",
@@ -267,7 +267,7 @@
         "name_": "Chrome",
         "preferences_": {},
         "isActive_": false,
-        "appName_": "labirinto",
+        "appName_": "learning3",
         "appID_": "not.yet.specified",
         "appAccess_": {
           "mode": "legacy",
@@ -290,7 +290,7 @@
         "name_": "Facebook",
         "preferences_": {},
         "isActive_": false,
-        "appName_": "labirinto",
+        "appName_": "learning3",
         "appID_": "not.yet.specified",
         "appAccess_": {
           "mode": "legacy",
@@ -313,7 +313,7 @@
         "name_": "WP81",
         "preferences_": {},
         "isActive_": true,
-        "appName_": "labirinto",
+        "appName_": "learning3",
         "appID_": "not.yet.specified",
         "appAccess_": {
           "mode": "legacy",
