@@ -2,7 +2,6 @@ package controllers;
 
 import static play.data.Form.form;
 
-import java.util.HashMap;
 import java.util.List;
 
 import models.Aluno;
@@ -140,11 +139,12 @@ public class AlunoController extends Controller {
 				Aluno a = AlunoDatabase.selectAlunoByEmail(email);
 		
 				if (a != null && a.getStatus() != Constantes.STATUS_REMOVIDO) {
-					if(!isNovaSessao && a.isLogado() && !a.getSessao().equals(sessao)){
-						return ok(AdminJson.getMensagem("Você já está logado em outro dispositivo. Deseja iniciar uma nova sessão para este dispositivo?"));
-					}
+
 					if(a.getStatus() == Constantes.STATUS_ATIVO){
 						if (a.getSenha().equals(senha)) {
+							if(!isNovaSessao && a.isLogado() && !a.getSessao().equals(sessao)){
+								return ok(AdminJson.getMensagem("Você já está logado em outro dispositivo. Deseja iniciar uma nova sessão para este dispositivo?"));
+							}
 //							HashMap<String, Object> map = new HashMap<String, Object>();
 //							map.put("aluno", a);
 //							if(a.getUsername() == null){
@@ -290,6 +290,8 @@ public class AlunoController extends Controller {
 			    JSONObject jsonObject = new JSONObject( json );
 			    JSONObject jResultado = jsonObject.getJSONObject("resultado");
 				Aluno a = AlunoDatabase.selectAlunoById(jResultado.getInt("idAluno"));
+				int level = jResultado.getInt("level");
+				
 				int pontuacaoTotal = 0;
 				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado() && a.getSessao().equals(sessao)) {
 									
@@ -310,7 +312,7 @@ public class AlunoController extends Controller {
 								throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao nao cadastrada. idQuestao: "+jResposta.getInt("idQuestao"));
 							}
 							
-					    	r = new Resposta(a.getProfessor(), q, a, jResposta.getInt("pontuacao"));
+					    	r = new Resposta(a.getProfessor(), q, a, jResposta.getInt("pontuacao"), level);
 					    	pontuacaoTotal += jResposta.getInt("pontuacao");
 					    	
 					    	JPA.em().persist(r);

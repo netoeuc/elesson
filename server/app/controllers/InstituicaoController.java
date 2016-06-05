@@ -189,18 +189,15 @@ public class InstituicaoController extends Controller{
 			int id = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
 			
 			if(id != -1){
+				Instituicao i = getUsuarioAutenticado();
 				Aluno a = AlunoDatabase.selectAlunoById(id);				
-				if(a != null){
+				if(a != null || a.getCnpjInst().equals(i.getCnpj())){
 					
-					// TODO definir modelagem da posição das questões
-					int pontosLevel1 = 0;
-					int pontosLevel2 = 0;
-					int pontosLevel3 = 0;
-					int pontosLevel4 = 0;
+					int[] pontosPorLevel = AlunoDatabase.selectSomaPontuacaoPorLevelByAluno(id);
 					
-					int qntQuestoes = QuestaoDatabase.selectTotalQuestoesByProfessorId(a.getIdProfessor());
+					int qntQuestoes = a.getProfessor().getQuestoes().size();
 					
-					return ok(views.html.aluno.mostrarAluno.render(a,pontosLevel1,pontosLevel2,pontosLevel3,pontosLevel4,qntQuestoes));
+					return ok(views.html.aluno.mostrarAluno.render(a,pontosPorLevel[0],pontosPorLevel[1],pontosPorLevel[2],pontosPorLevel[3],qntQuestoes));
 				}
 			}
 			flash("erro", "Código do professor inválido");

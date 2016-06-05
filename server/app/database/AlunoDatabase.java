@@ -265,4 +265,26 @@ public class AlunoDatabase {
 		}
 		return 0;
 	}
+	
+	public static int[] selectSomaPontuacaoPorLevelByAluno(int idAluno) {
+		int[] pontuacaoPorLevel = {0,0,0,0};
+		
+		String query = "SELECT SUM(r.pontuacao) as pontuacao FROM ("
+				+ "SELECT CASE "
+				+ "	WHEN level BETWEEN 1 AND 5 THEN 1 "
+				+ "	WHEN level BETWEEN 5 AND 10 THEN 2 "
+				+ "	WHEN level BETWEEN 11 AND 15 THEN 3 "
+				+ "	WHEN level BETWEEN 16 AND 20 THEN 4 "
+				+ "	ELSE 21 END as level, pontuacao "
+				+ "	FROM Resposta WHERE idAluno = :idAluno) r "
+				+ "GROUP BY r.level ORDER BY r.level ASC";
+		List<Object> lo = JPA.em().createNativeQuery(query)
+								.setParameter("idAluno", idAluno)
+								.getResultList();
+		
+		for (int i=0; i<lo.size(); i++) {	
+			pontuacaoPorLevel[i] = Integer.parseInt(lo.get(0)+"");
+		}
+		return pontuacaoPorLevel;
+	}
 }
