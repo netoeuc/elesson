@@ -84,7 +84,7 @@ function removerAluno(codigo,action){
 		rem.attr("title", "Click to confirm removal");
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
-		if (confirm('All data from this student will be remove. Do you want to continue?')) {
+		if (confirm('All data from this student will be removed. Do you want to continue?')) {
 			window.location.href = action+"?cod="+codigo;
 		}
 	}
@@ -242,7 +242,7 @@ function removerQuestao(codigo,action){
 		rem.attr("title", "Click to confirm removal");
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
-		if (confirm('All answers from students will be remove. Do you want to continue?')) {
+		if (confirm('All answers from students will be removed. Do you want to continue?')) {
 			window.location.href = action+"?cod="+codigo;
 		}
 	}
