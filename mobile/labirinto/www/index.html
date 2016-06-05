@@ -70,7 +70,7 @@
                                    
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <button id="btnGo" disabled type="button" onclick="go();" class="btn btn-medium bg-vermelho">go</button>
+                                    <button id="btnGo" type="button" onclick="go();" class="btn btn-medium bg-vermelho">go</button>
                                 </div>
                             </div>
        
@@ -141,7 +141,7 @@
                 var sessao = userInfo.getItem("sessao");
                 var idAluno = userInfo.getItem("idAluno");
                 var isCancelar = false;
- 
+                
                 if(sessao != null && idAluno != null){
                    while(checkConnection() == Connection.NONE){ // enquanto estiver sem internet
                        if(!confirm("Você está sem conexão. Conecte tente novamente?")){
@@ -162,7 +162,8 @@
                         requestApiIsAuth(sessao, idAluno);
                     }
                 }else{
-                    document.getElementById('btnGo').removeAttribute('disabled');
+                    //document.getElementById('btnGo').removeAttribute('disabled');
+                    document.getElementById('sidenav-overlay').style.display = "none";
                 }
             }, 0);
         });
@@ -233,7 +234,14 @@
            }).done(function(response) {    
                
                if(response.hasOwnProperty('mensagem')){
-                   alert(response.mensagem);
+                   if(response.mensagem == "Você já está logado em outro dispositivo. Deseja iniciar uma nova sessão para este dispositivo?"){
+                       if(confirm(response.mensagem)){
+                           // fara uma nova requisicao
+                           requestApiAuth(email, senha, sessao, true);
+                        }
+                    }else{
+                        alert(response.mensagem);
+                    }
                    
                 }else if(response.hasOwnProperty('isLogado') && response.isLogado){
                    status = userInfo.getItem("status");
