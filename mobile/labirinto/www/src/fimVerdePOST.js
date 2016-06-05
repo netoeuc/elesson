@@ -99,10 +99,11 @@ var FimVerdePOSTLayer = cc.Layer.extend({
         
             
             var xhr = cc.loader.getXMLHttpRequest();    
-            xhrfimVerdePOST.open( "POST", "http://requestb.in/1ghmdn31" );
+            xhrfimVerdePOST.open( "POST", "http://requestb.in/ukb4gauk" );
             xhrfimVerdePOST.setRequestHeader( "Content-Type", "text/plain" );
 //            var arguementsfimVerdePOST = "Olha o POST funcionando!";
             xhrfimVerdePOST.send( resultadoParaPost );
+            cc.log(resultadoParaPost);
             var respostaTempfimVerdePOST = xhrfimVerdePOST.responseText;
             //cc.log( "resultadoTemp = "+respostaTemp );
 

@@ -15,9 +15,10 @@ var MiniMapLayer1 = cc.Layer.extend({
         INITTIALIZED_minimapa = true;
         var size = cc.winSize;
         numeroPerguntaQuizLabirinto = 0;
-        resultadoParaPost = ["codigoDoAluno",[],[]];
+//        resultadoParaPost = ["codigoDoAluno",[],[]];
         copiaLayerMinimapa = this;
         conectou = false;
+        
         
         var logoLoading = new cc.Sprite.create(asset.loading_eLeassons_png);
         
@@ -126,7 +127,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                 
                 
             }else{
-                if(xhr.status == 0){
+                if(xhr.status === 0){
                     //cc.log("reasyState=0");
                     checkInternetConnection();
                 }
@@ -214,6 +215,19 @@ var MiniMapLayer1 = cc.Layer.extend({
                 
             };
 
+        
+        
+        resultadoParaPost = zerarResultadoParaPost;
+        resultadoParaPost.resultado.respostas[0].idQuestao = retornoGetQuestoes.listaQuestoes[0].id;
+        resultadoParaPost.resultado.respostas[1].idQuestao = retornoGetQuestoes.listaQuestoes[1].id;
+        resultadoParaPost.resultado.respostas[2].idQuestao = retornoGetQuestoes.listaQuestoes[2].id;
+        resultadoParaPost.resultado.respostas[3].idQuestao = retornoGetQuestoes.listaQuestoes[3].id;
+        resultadoParaPost.resultado.respostas[4].idQuestao = retornoGetQuestoes.listaQuestoes[4].id;
+//        resultadoParaPost.resultado.idAluno = userInfo.getItem("idAluno");
+        resultadoParaPost.resultado.idAluno = 10;
+
+        
+        
         
         
 //        
@@ -332,12 +346,6 @@ var MiniMapLayer1 = cc.Layer.extend({
         
         
         
-        resultadoParaPost[1] = 
-            [userInfo.getItem("pergunta1_idQuestao"),
-            userInfo.getItem("pergunta2_idQuestao"),
-            userInfo.getItem("pergunta3_idQuestao"),
-            userInfo.getItem("pergunta4_idQuestao"),
-            userInfo.getItem("pergunta5_idQuestao")];
         
         
         //-------- GET --------//
@@ -740,14 +748,14 @@ var MiniMapLayer1 = cc.Layer.extend({
                 break;
             }
         }
-        if(status >= 11 && status <= 15){
+        if(status >=16 && status <= 20){
             var sp2 = new cc.Sprite.create(asset.Mini_mapa3_png);
             sp2.setAnchorPoint(cc.p(0,0));
             sp2.setPosition(cc.p(0,0));
             this.addChild(sp2);
             
             switch(status){
-                case '11':
+                case '16':
                     //chamada para o labirinto nivel 11
                     /*var sp2 = new cc.Sprite.create(asset.estagioDisponivel_png);
                     sp2.setAnchorPoint(cc.p(0,0));
@@ -758,7 +766,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                     sp2.loadTextures(asset.estagioDisponivel_png);
                     sp2.setAnchorPoint(cc.p(0,0));
         
-                    sp2.addTouchEventListener(this.chamarHistoriaPlataforma, this);
+                    sp2.addTouchEventListener(this.chamarPlataforma, this);
                     sp2.setPosition(cc.p(150,125));
                     this.addChild(sp2, 12);
 
@@ -783,7 +791,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                     this.addChild(sp2);
                 break;
                     
-                case '12':
+                case '17':
                     var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
                     sp2.setAnchorPoint(cc.p(0,0));
                     sp2.setPosition(cc.p(150,125));
@@ -819,7 +827,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                     this.addChild(sp2);
                 break;
                     
-                case '13':
+                case '18':
                     var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
                     sp2.setAnchorPoint(cc.p(0,0));
                     sp2.setPosition(cc.p(150,125));
@@ -855,7 +863,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                     this.addChild(sp2);
                 break;
                     
-                case '14':
+                case '19':
                     var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
                     sp2.setAnchorPoint(cc.p(0,0));
                     sp2.setPosition(cc.p(150,125));
@@ -891,7 +899,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                     this.addChild(sp2);
                 break;
                 
-                case '15':
+                case '20':
                     var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
                     sp2.setAnchorPoint(cc.p(0,0));
                     sp2.setPosition(cc.p(150,125));
@@ -928,14 +936,15 @@ var MiniMapLayer1 = cc.Layer.extend({
                 break;
             }
         }
-        if(status >=16 && status <= 20){
+//        if(status >=16 && status <= 20){
+        if(status >= 11 && status <= 15){
             var sp2 = new cc.Sprite.create(asset.Mini_mapa4_png);
             sp2.setAnchorPoint(cc.p(0,0));
             sp2.setPosition(cc.p(0,0));
             this.addChild(sp2);
             
             switch(status){
-                case '16':
+                case '11':
                     //chamada para o labirinto nivel 16
                     /*var sp2 = new cc.Sprite.create(asset.estagioDisponivel_png);
                     sp2.setAnchorPoint(cc.p(0,0));
@@ -946,7 +955,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                     sp2.loadTextures(asset.estagioDisponivel_png);
                     sp2.setAnchorPoint(cc.p(0,0));
         
-                    sp2.addTouchEventListener(this.chamarPlataforma, this);
+                    sp2.addTouchEventListener(this.chamarHistoriaPlataforma, this);
                     sp2.setPosition(cc.p(340,90));
                     this.addChild(sp2, 12);
 
@@ -971,7 +980,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                     this.addChild(sp2);
                 break;
                     
-                case '17':
+                case '12':
                     var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
                     sp2.setAnchorPoint(cc.p(0,0));
                     sp2.setPosition(cc.p(340,90));
@@ -1007,7 +1016,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                     this.addChild(sp2);
                 break;
                     
-                case '18':
+                case '13':
                     var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
                     sp2.setAnchorPoint(cc.p(0,0));
                     sp2.setPosition(cc.p(340,90));
@@ -1043,7 +1052,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                     this.addChild(sp2);
                 break;
                     
-                case '19':
+                case '14':
                     var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
                     sp2.setAnchorPoint(cc.p(0,0));
                     sp2.setPosition(cc.p(340,90));
@@ -1079,7 +1088,7 @@ var MiniMapLayer1 = cc.Layer.extend({
                     this.addChild(sp2);
                 break;
                 
-                case '20':
+                case '15':
                     var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
                     sp2.setAnchorPoint(cc.p(0,0));
                     sp2.setPosition(cc.p(340,90));

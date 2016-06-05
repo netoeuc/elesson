@@ -3,23 +3,23 @@
 var arrayPerguntas = ["primeira P", "segunda P"];
 var arrayTipoPergunta = ["tipo 1 (V ou F)", "tipo 2 ( Resposta Correta)"];
 
-var JSON = {
-    
-    "pergunta":[
-        "Corpo primeira pergunta",
-        "Corpo segunda pergunta",
-        "Corpo terceira pergunta",
-        "Corpo quarta pergunta",
-        "Corpo quinta pergunta"
-        ],
-     "resposta":[
-        "Corpo primeira resposta",
-        "Corpo segunda resposta",
-        "Corpo terceira resposta",
-        "Corpo quarta resposta",
-        "Corpo segunda resposta"
-        ],
-};
+//var JSON = {
+//    
+//    "pergunta":[
+//        "Corpo primeira pergunta",
+//        "Corpo segunda pergunta",
+//        "Corpo terceira pergunta",
+//        "Corpo quarta pergunta",
+//        "Corpo quinta pergunta"
+//        ],
+//     "resposta":[
+//        "Corpo primeira resposta",
+//        "Corpo segunda resposta",
+//        "Corpo terceira resposta",
+//        "Corpo quarta resposta",
+//        "Corpo segunda resposta"
+//        ],
+//};
 
 var idPergunta;
 var idQuestaoAtual;
@@ -600,7 +600,12 @@ var popPergunta = function(){
     // Se acertou de terceira, 80 pontos.
     pontuacao+=pontuacaoMaximaNaQuestao;
     acertouDePrimeira = (pontuacaoMaximaNaQuestao===200);
-    resultadoParaPost[1].push([idQuestaoAtual, pontuacaoMaximaNaQuestao]);
+    resultadoParaPost.resultado.respostas[incrementoPost].idQuestao = idQuestaoAtual;
+    resultadoParaPost.resultado.respostas[incrementoPost].pontuacao = pontuacaoMaximaNaQuestao;
+    incrementoPost=Number(incrementoPost)+1;
+    if (incrementoPost===5){
+        incrementoPost = 0;
+    }
     ////cc.log(pontuacaoMaximaNaQuestao);
     ////cc.log(pontuacao);
     pontuacaoMaximaNaQuestao = 200; // para a proxima qeustao

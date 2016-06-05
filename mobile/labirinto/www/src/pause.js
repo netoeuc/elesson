@@ -80,7 +80,7 @@ var PauseLayer = cc.Layer.extend({
                 cc.audioEngine.end();
                 //cc.director.popToSceneStackLevel(2);
                 INITTIALIZED_minimapa=false;
-                
+                incrementoPost = 0;
                 idLabirintoAtual = Number(idLabirintoAtual)+1;
                 if(idLabirintoAtual>30){
                         idLabirintoAtual = 0;

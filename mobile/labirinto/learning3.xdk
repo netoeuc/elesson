@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-cocos2d-3x-portrait/sample.zip",
       "projectGuid": "1b45e7e3-4bfc-4be0-b503-3580f0281308",
-      "lastModifiedDate": 1463840826632,
+      "lastModifiedDate": 1465071304537,
       "creationDate": 1461273574497
     },
     "sourceDirectory": "www",
@@ -143,7 +143,7 @@
         },
         "icons_": [],
         "splashes_": [],
-        "addlPermissions_": "",
+        "addlPermissions_": "<preference;name=\"android.permission.ACCESS_WIFI_STATE\";value=\"<PERMISSION\">;/>",
         "excludedLibraries_": "",
         "cordovaCLIVersion_": "5.1.1",
         "crosswalkVersion_": "14",

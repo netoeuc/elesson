@@ -111,7 +111,7 @@ var PausePOSTLayer = cc.Layer.extend({
         
             
             var xhr = cc.loader.getXMLHttpRequest();    
-            xhrpausePOST.open( "POST", "http://requestb.in/1ghmdn31" );
+            xhrpausePOST.open( "POST", "http://requestb.in/ukb4gauk" );
             xhrpausePOST.setRequestHeader( "Content-Type", "text/plain" );
 //            var arguementspausePOST = "Olha o POST funcionando!";
             xhrpausePOST.send( resultadoParaPost );

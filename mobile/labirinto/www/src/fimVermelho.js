@@ -1,5 +1,5 @@
 /* globals cc, asset */
-
+var perdeu = false;
 var INITTIALIZED_vermelho = false;
 var FimVermelhoLayer = cc.Layer.extend({
     sprite:null,
@@ -9,7 +9,7 @@ var FimVermelhoLayer = cc.Layer.extend({
         // reproduzir efeito sonoro (não venceu)
         
         var size = cc.winSize;
-           
+        perdeu = false;
         
 
         var backgroundVermelho = new cc.Sprite.create(asset.telaFim_red_png); 
@@ -31,6 +31,7 @@ var FimVermelhoLayer = cc.Layer.extend({
         
         
         if(tentativas===1){ // para ter 3 tentativas, checagem deve ser feita no 1
+            perdeu = true;
             tentativas = 3;
             status=Number(status)+1;
             userInfo.setItem("status",Number(userInfo.getItem("status"))+1);
@@ -69,8 +70,13 @@ var FimVermelhoLayer = cc.Layer.extend({
                 INITTIALIZED_minimapa = false;
 //                var minimapa = new MiniMapScene1();
 //                cc.director.runScene(minimapa);
-                var sairDoJogoSceneFimVermelho = new FimVermelhoPOSTScene();
-                cc.director.runScene(sairDoJogoSceneFimVermelho);
+                if (perdeu){
+                    var sairDoJogoSceneFimVermelho = new FimVermelhoPOSTScene();
+                    cc.director.runScene(sairDoJogoSceneFimVermelho);
+                }else{
+                    var minimapa = new MiniMapScene1();
+                    cc.director.runScene(minimapa);
+                }
                 //pop();
                 break;
         }
