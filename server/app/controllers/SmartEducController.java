@@ -88,16 +88,16 @@ public class SmartEducController extends Controller{
 			String senha = dynamicForm.get("password") == null || dynamicForm.get("password").trim().isEmpty()? null : Seguranca.encryptString(dynamicForm.get("password"));
 
 			if (email == null || senha == null) {
-				flash("erro", "Preencha todos os campos");
+				flash("erro", "Please, fill out all the fields");
 
 			} else {
 				UsuarioSmart u = SmartEducDatabase.selectUsuarioSmart(email);
 
 				if (u == null) {
-					flash("erro", "Usuário não cadastrado");
+					flash("erro", "Username does not exist");
 					
 				} else if(!u.getSenha().equals(senha)){
-					flash("erro", "Senha inválida");
+					flash("erro", "Wrong password");
 					
 				}else{
 					session().clear();
@@ -107,7 +107,7 @@ public class SmartEducController extends Controller{
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - SmartEducController/login(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao logar. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.SmartEducController.login());
 	}
@@ -130,10 +130,10 @@ public class SmartEducController extends Controller{
 				
 				return ok(views.html.smarteduc.ajax.mostrarInstituicao.render(i, qntAlunos, qntProfessores, qntQuestoes, statusLicenca, l));
 			}
-			flash("erro", "Informe o cnpj da instituicao");
+			flash("erro", "Enter institution CNPJ");
 		}catch(Exception e){
 			Logger.error("ERRO - SmartEducController/mostrarCliente(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao mostrar cliente. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return badRequest("erro");
 	}
@@ -154,23 +154,23 @@ public class SmartEducController extends Controller{
 			ELicenca eLicenca = ELicencaUtil.getELicenca(licenca);
 			
 			if (nome == null || telefone == null || endereco == null || cnpj == null || email == null || eLicenca == null) {
-				flash("erro", "Preencha todos os campos");
+				flash("erro", "Please, fill out all the fields");
 			}else if(cnpj.length() != 14){
-				flash("erro", "Cnpj deve conter 14 dígitos");
+				flash("erro", "CNPJ must contain 14 digits");
 			}else if(telefone.length() < 10 || telefone.length() > 11){
-				flash("erro", "Telefone deve conter 10 ou 11 dígitos");
+				flash("erro", "Telephone number must contain 10 or 11 digits");
 			}else{
 				Instituicao ic = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
 				Instituicao ie = InstituicaoDatabase.selectInstituicaoByEmail(email);
 				if (ic == null && ie == null){
 					ic = new Instituicao(cnpj, nome, telefone, endereco, email, eLicenca, senha, Constantes.STATUS_AGUARDANDO);
-					Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
+					Mail.sendMail(email, "Welcome, "+nome+"!", 
 							views.html.instituicao.email.render(ic, senha, request().host(), 0).toString());
 					
 					JPA.em().persist(ic);
 					
 				}else if(ic == null && ie != null){
-					flash("erro", "Email já cadastrado");
+					flash("erro", "Email already exists");
 					
 				}else if(ic != null && (ie == null || ie.getEmail().equals(email)) && ic.getStatus() == Constantes.STATUS_REMOVIDO){
 					ic.setNome(nome);
@@ -180,17 +180,17 @@ public class SmartEducController extends Controller{
 					ic.setEmail(email);
 					ic.setSenha(senha);
 					ic.setStatus(Constantes.STATUS_AGUARDANDO);
-					Mail.sendMail(email, "Bem-vindo de volta, "+nome+"!", 
+					Mail.sendMail(email, "Welcome back, "+nome+"!", 
 							views.html.instituicao.email.render(ic, senha, request().host(), 0).toString());
 						
 					JPA.em().merge(ic);
 				}else{
-					flash("erro", "Instituição já cadastrada");
+					flash("erro", "Institution already exists");
 				}
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - SmartEducController/cadastrarCliente(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao cadastrar. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		
 		return redirect(routes.SmartEducController.index());
@@ -211,7 +211,7 @@ public class SmartEducController extends Controller{
 		} catch (Exception e) {
 			Logger.error("ERRO - SmartEducController/formEditarCliente(): "+ e.getMessage());
 		}
-		return ok("Ocorreu um erro ao editar. Tente novamente mais tarde");
+		return ok("Something wrong happened. Try again later");
 	}
 	
 	@Transactional
@@ -236,9 +236,9 @@ public class SmartEducController extends Controller{
 				ELicenca elicenca = ELicencaUtil.getELicenca(licenca);
 				
 				if (nome == null || telefone == null || endereco == null || email == null || elicenca == null) {				
-					flash("erro", "Preencha todos os campos");
+					flash("erro", "Please, fill out all the fields");
 				}else if(telefone.length() < 10 || telefone.length() > 11){
-					flash("erro", "Telefone deve conter 10 ou 11 dígitos");
+					flash("erro", "Telephone number must contain 10 or 11 digits");
 				}else{
 					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
 					if(i != null){
@@ -273,35 +273,35 @@ public class SmartEducController extends Controller{
 								isEditado = true;
 								isEmailAlterado = true;
 							}else{
-								flash("erro", "Email já cadastrado");
+								flash("erro", "Email already exists");
 								isEditado = false;
 								isSenhaAlterada = false;
 								isEmailAlterado = false;
 							}
 						}
 					}else{
-						flash("erro", "Cliente não encontrado");
+						flash("erro", "Client not found");
 					}
 					
 					if(isEmailAlterado && !isSenhaAlterada){
-						Mail.sendMail(email, "Alteração de Email", views.html.instituicao.email.render(i, "", request().host(), 1).toString());
+						Mail.sendMail(email, "Change email", views.html.instituicao.email.render(i, "", request().host(), 1).toString());
 					}else if(!isEmailAlterado && isSenhaAlterada){
-						Mail.sendMail(email, "Alteração de Senha", views.html.instituicao.email.render(i, senha, request().host(), 2).toString());
+						Mail.sendMail(email, "Change password", views.html.instituicao.email.render(i, senha, request().host(), 2).toString());
 					}else if(isEmailAlterado && isSenhaAlterada){
-						Mail.sendMail(email, "Alteração de Email e Senha", views.html.instituicao.email.render(i, senha, request().host(), 3).toString());
+						Mail.sendMail(email, "Change email and password", views.html.instituicao.email.render(i, senha, request().host(), 3).toString());
 					}
 					
 					if(isEditado){
 						JPA.em().merge(i);
-						flash("ok", nome+" Editado");
+						flash("ok", nome+" Edited");
 					}
 				}
 			}else{
-				flash("erro", "Informe o CNPJ do cliente");
+				flash("erro", "Inform client CNPJ");
 			}
 		} catch (Exception e) {
 			Logger.error("ERRO - SmartEducController/editarCliente(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao editar. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		
 		return redirect(routes.SmartEducController.index());
@@ -318,14 +318,14 @@ public class SmartEducController extends Controller{
 				Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(cnpj);
 				if(i != null){
 					InstituicaoDatabase.deleteInstituicao(i);
-					flash("ok", i.getNome()+" Removido");
+					flash("ok", i.getNome()+" Removed");
 				}
 			}else{
-				flash("erro", "Informe o CNPJ do cliente");
+				flash("erro", "Inform client CNPJ");
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - SmartEducController/removerCliente(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao remover. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.SmartEducController.index());
 	}

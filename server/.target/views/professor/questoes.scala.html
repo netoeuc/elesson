@@ -110,7 +110,7 @@
               <h6>&nbsp&nbsp&nbspOnly 254 characters allowed for question text and 75 for answer text</h6>
               <div class="row" id="texto" style="margin-bottom: 50px;">
               <form id="form-fields" action="@routes.ProfessorController.cadastrarQuestao()" method="post" class="col s12">
-                <textarea id="txtEditor" name="questao"></textarea>
+                <textarea id="txtEditor" name="questao" maxlength="254"></textarea>
               </div>
 
               <div class="row" id="answers" style="margin-bottom: -10px;">

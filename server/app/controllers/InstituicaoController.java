@@ -106,7 +106,7 @@ public class InstituicaoController extends Controller{
 						session().get(Constantes.SESSION_COD_INSTTEACFOR).equals(Seguranca.encryptString(i.getCnpj()))){
 
 					String senha = Seguranca.gerarSenha(6);
-					Mail.sendMail(i.getEmail(), "Alteração de Senha", views.html.instituicao.email.render(i, senha, request().host(), 2).toString());
+					Mail.sendMail(i.getEmail(), "Change password", views.html.instituicao.email.render(i, senha, request().host(), 2).toString());
 					i.setSenha(senha);
 					JPA.em().merge(i);
 
@@ -133,7 +133,7 @@ public class InstituicaoController extends Controller{
 				if(i == null){
 					flash("erro", "Email doesn't exist");
 				}else{
-					Mail.sendMail(email, "Você esqueceu a senha?", views.html.instituicao.email.render(i, "", request().host(), 4).toString());
+					Mail.sendMail(email, "Forgot your password?", views.html.instituicao.email.render(i, "", request().host(), 4).toString());
 					session().put(Constantes.SESSION_COD_INSTTEACFOR, Seguranca.encryptString(i.getCnpj()));
 					flash("erro", "Please confirm your email through the email we sent to you");
 				}
@@ -171,7 +171,7 @@ public class InstituicaoController extends Controller{
 					return ok(views.html.instituicao.ajax.mostrarProfessor.render(qntAlunos, qntQuestoes, pontuacaoAlunos, la));
 				}
 			}
-			flash("erro", "Código do professor inválido");
+			flash("erro", "Teacher code is invalid");
 
 		}catch(Exception e){
 			e.printStackTrace();
@@ -200,7 +200,7 @@ public class InstituicaoController extends Controller{
 					return ok(views.html.aluno.mostrarAluno.render(a,pontosPorLevel[0],pontosPorLevel[1],pontosPorLevel[2],pontosPorLevel[3],qntQuestoes));
 				}
 			}
-			flash("erro", "Código do professor inválido");
+			flash("erro", "Teacher code is invalid");
 
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/mostrarAluno(): "+ e.getMessage());
@@ -254,7 +254,7 @@ public class InstituicaoController extends Controller{
 						Instituicao ie = InstituicaoDatabase.selectInstituicaoByEmail(email);
 						if(ie == null){
 							i.setEmail(email);
-							Mail.sendMail(email, "Alteração de Email", views.html.instituicao.email.render(i, "", request().host(), 1).toString());
+							Mail.sendMail(email, "Change password", views.html.instituicao.email.render(i, "", request().host(), 1).toString());
 							i.setStatus(Constantes.STATUS_AGUARDANDO);
 							flash("erro", "Confirm your email modification");
 							session().clear();
@@ -421,7 +421,7 @@ public class InstituicaoController extends Controller{
 						String senha = Seguranca.gerarSenha(6);
 						if(p == null){
 							Professor novoP = new Professor(i, nome, email, senha, Constantes.STATUS_AGUARDANDO);
-							Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
+							Mail.sendMail(email, "Welcome, "+nome+"!", 
 									views.html.professor.email.render(i, nome, email, senha, request().host(), 0).toString());
 							
 							JPA.em().persist(novoP);
@@ -470,11 +470,11 @@ public class InstituicaoController extends Controller{
 							
 							if(a == null){
 								Aluno novoA = new Aluno(i, p, email, nome, senha, Constantes.STATUS_AGUARDANDO);
-								Mail.sendMail(email, "Bem-vindo, "+nome+"!", 
+								Mail.sendMail(email, "Welcome, "+nome+"!", 
 											views.html.aluno.email.render(i, p.getId()+"", nome, email, senha, request().host(), 0).toString());
 									
 								JPA.em().persist(novoA);
-								flash("ok", nome+" cadastrado");
+								flash("ok", nome+" registered");
 							}
 						}
 					}
@@ -506,10 +506,10 @@ public class InstituicaoController extends Controller{
 						flash("erro", "Remove all students of this teacher or move then to another teacher");
 					}
 				}else{
-					flash("erro", "Nenhum professor cadastrado com esse código");
+					flash("erro", "None teacher registered with this code");
 				}
 			}else{
-				flash("erro", "Informe o Id do professor");
+				flash("erro", "Inform teacher Id");
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/removerProfessor(): "+ e.getMessage());
@@ -534,10 +534,10 @@ public class InstituicaoController extends Controller{
 		
 						flash("ok", nome+" Removed");
 					}else{
-						flash("erro", "Nenhum aluno cadastrado com este código");
+						flash("erro", "None student registered with this code");
 					}
 			}else{
-				flash("erro", "Informe o Id do aluno");
+				flash("erro", "Inform student Id");
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/removerAluno(): "+ e.getMessage());
@@ -649,11 +649,11 @@ public class InstituicaoController extends Controller{
 					}
 
 					if(isEmailAlterado && !isSenhaAlterada){
-						Mail.sendMail(email, "Alteração de Email", views.html.professor.email.render(i, nome, email, "", request().host(), 1).toString());
+						Mail.sendMail(email, "Change email", views.html.professor.email.render(i, nome, email, "", request().host(), 1).toString());
 					}else if(!isEmailAlterado && isSenhaAlterada){
-						Mail.sendMail(email, "Alteração de Senha", views.html.professor.email.render(i, nome,"",senha, request().host(), 2).toString());
+						Mail.sendMail(email, "Change password", views.html.professor.email.render(i, nome,"",senha, request().host(), 2).toString());
 					}else if(isEmailAlterado && isSenhaAlterada){
-						Mail.sendMail(email, "Alteração de Email e Senha", views.html.professor.email.render(i, nome,email,senha, request().host(), 3).toString());
+						Mail.sendMail(email, "Change email and password", views.html.professor.email.render(i, nome,email,senha, request().host(), 3).toString());
 					}
 
 					if(isEditado){
@@ -741,11 +741,11 @@ public class InstituicaoController extends Controller{
 					}
 
 					if(isEmailAlterado && !isSenhaAlterada){
-						Mail.sendMail(email, "Alteração de Email", views.html.aluno.email.render(i, codP+"", nome, email, "", request().host(), 1).toString());
+						Mail.sendMail(email, "Change email", views.html.aluno.email.render(i, codP+"", nome, email, "", request().host(), 1).toString());
 					}else if(!isEmailAlterado && isSenhaAlterada){
-						Mail.sendMail(email, "Alteração de Senha", views.html.aluno.email.render(i, codP+"",nome,"",senha, request().host(), 2).toString());
+						Mail.sendMail(email, "Change password", views.html.aluno.email.render(i, codP+"",nome,"",senha, request().host(), 2).toString());
 					}else if(isEmailAlterado && isSenhaAlterada){
-						Mail.sendMail(email, "Alteração de Email e Senha", views.html.aluno.email.render(i, codP+"", nome,email,senha, request().host(), 3).toString());
+						Mail.sendMail(email, "Change email and password", views.html.aluno.email.render(i, codP+"", nome,email,senha, request().host(), 3).toString());
 					}
 
 					if(isEditado){

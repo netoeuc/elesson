@@ -50,7 +50,7 @@ function mostrarAluno(nome, codigo, action){
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal #data-callback").html(data);
 	}).fail(function() {
-		$("#modal #data-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+		$("#modal #data-callback").html("Something wrong happened. Try again later.");
 	}).always(function(){
 		$("#sidenav-overlay").css("display", "none");
 		$('#modal').openModal();
@@ -70,7 +70,7 @@ function mostrarEditarAluno(nome, codigoProfessor, codigoAluno, action){
 	$.post(action, {codA: codigoAluno, codP: codigoProfessor}, function(data) {
 		$("#modal-fields-edit #form-callback").html(data);
 	}).fail(function() {
-		$("#modal-fields-edit #form-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+		$("#modal-fields-edit #form-callback").html("Something wrong happened. Try again later.");
 	}).always(function(){
 		$("#sidenav-overlay").css("display", "none");
 		$('#modal-fields-edit').openModal();
@@ -81,10 +81,10 @@ function removerAluno(codigo,action){
 	var rem = $('td i#rem-'+codigo);
 	if(rem.attr("rel") == "delete"){
 		rem.attr("rel", "done");
-		rem.attr("title", "clique para confirmar a remoção");
+		rem.attr("title", "Click to confirm removal");
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
-		if (confirm('Todos os dados deste aluno serão apagados. Deseja continuar?')) {
+		if (confirm('All data from this student will be remove. Do you want to continue?')) {
 			window.location.href = action+"?cod="+codigo;
 		}
 	}
@@ -99,7 +99,7 @@ function mostrarInstituicao(nome, codigo, action){
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal #data-callback").html(data);
 	}).fail(function() {
-		$("#modal #data-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+		$("#modal #data-callback").html("Something wrong happened. Try again later.");
 	}).always(function(){
 		$("#sidenav-overlay").css("display", "none");
 		$('#modal').openModal();
@@ -120,7 +120,7 @@ function mostrarEditarInstituicao(nome, codigo, action){
 		$("#modal-fields-edit #form-callback").html(data);
 		gerarMascaras();
 	}).fail(function() {
-		$("#modal-fields-edit #form-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+		$("#modal-fields-edit #form-callback").html("Something wrong happened. Try again later.");
 	}).always(function(){
 		$("#sidenav-overlay").css("display", "none");
 		$('#modal-fields-edit').openModal();
@@ -132,10 +132,10 @@ function removerInstituicao(codigo, action){
 	var rem = $('td i#rem-'+codigo);
 	if(rem.attr("rel") == "delete"){
 		rem.attr("rel", "done");
-		rem.attr("title", "clique para confirmar a remoção");
+		rem.attr("title", "Click to confirm removal");
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
-		if (confirm('Todos os dados deste cliente serão apagados. Deseja continuar?')) {
+		if (confirm('All data from this client will be removed. Do you want to continue?')) {
 			window.location.href = action+"?cod="+codigo;
 		}
 	}
@@ -144,7 +144,7 @@ function removerInstituicao(codigo, action){
 function editarProfessorAlunos(codigo, action){
 	var select = $('#select-'+codigo+' #dropdown-teacher-list option:selected');
 	if(select != "null"){
-		if (confirm('Todas as respostas dos alunos serão apagadas. Deseja continuar?')) {
+		if (confirm('All answers from this student will be removed. Do you want to continue?')) {
 			$.post(action, {codP: codigo, codNP:select.val()}, function() {
 			}).fail(function() {});
 			window.location.reload(true);
@@ -162,7 +162,7 @@ function mostrarProfessor(nome, codigo, action){
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal #data-callback").html(data);
 	}).fail(function() {
-		$("#modal #data-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+		$("#modal #data-callback").html("Something wrong happened. Try again later.");
 	}).always(function(){
 		$("#sidenav-overlay").css("display", "none");
 		$('#modal').openModal();
@@ -183,7 +183,7 @@ function mostrarEditarProfessor(nome, codigo, action){
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal-fields-edit #form-callback").html(data);
 	}).fail(function() {
-		$("#modal-fields-edit #form-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+		$("#modal-fields-edit #form-callback").html("Something wrong happened. Try again later.");
 	}).always(function(){
 		$("#sidenav-overlay").css("display", "none");
 		$('#modal-fields-edit').openModal();
@@ -194,10 +194,10 @@ function removerProfessor(codigo,action){
 	var rem = $('td i#rem-'+codigo);
 	if(rem.attr("rel") == "delete"){
 		rem.attr("rel", "done");
-		rem.attr("title", "clique para confirmar a remoção");
+		rem.attr("title", "Click to confirm removal");
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
-		if (confirm('Todas as questões e alunos vinculados serão apagados. Deseja continuar?')) {
+		if (confirm('All questions and students linked will be removed. Do you want to continue?')) {
 			window.location.href = action+"?cod="+codigo;
 		}
 	}
@@ -210,7 +210,7 @@ function mostrarQuestao(codigo, action){
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal #data-callback").html(data);
 	}).fail(function() {
-		$("#modal #data-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+		$("#modal #data-callback").html("Something wrong happened. Try again later.");
 	}).always(function(){
 		$("#sidenav-overlay").css("display", "none");
 		$('#modal').openModal();
@@ -228,7 +228,7 @@ function mostrarEditarQuestao(codigo, action){
 	$.post(action, {cod: codigo}, function(data) {
 		$("#modal-fields-edit #form-callback").html(data);
 	}).fail(function() {
-		$("#modal-fields-edit #form-callback").html("Ocorreu um erro. Tente novamente mais tarde.");
+		$("#modal-fields-edit #form-callback").html("Something wrong happened. Try again later.");
 	}).always(function(){
 		$("#sidenav-overlay").css("display", "none");
 		$('#modal-fields-edit').openModal();
@@ -239,10 +239,10 @@ function removerQuestao(codigo,action){
 	var rem = $('td i#rem-'+codigo);
 	if(rem.attr("rel") == "delete"){
 		rem.attr("rel", "done");
-		rem.attr("title", "clique para confirmar a remoção");
+		rem.attr("title", "Click to confirm removal");
 		rem.attr("class", "tiny-small fa fa-check color-vermelho cursor-pointer");
 	}else if(rem.attr("rel") == "done"){
-		if (confirm('Todas as respostas dos alunos serão apagadas. Deseja continuar?')) {
+		if (confirm('All answers from students will be remove. Do you want to continue?')) {
 			window.location.href = action+"?cod="+codigo;
 		}
 	}
