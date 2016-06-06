@@ -33,6 +33,7 @@ var FimVermelhoLayer = cc.Layer.extend({
         if(tentativas===1){ // para ter 3 tentativas, checagem deve ser feita no 1
             perdeu = true;
             tentativas = 3;
+            resultadoParaPost.resultado.level = status;
             status=Number(status)+1;
             userInfo.setItem("status",Number(userInfo.getItem("status"))+1);
             idLabirintoAtual=Number(idLabirintoAtual)+1;

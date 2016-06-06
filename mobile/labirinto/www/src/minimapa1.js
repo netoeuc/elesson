@@ -6,6 +6,9 @@ var loadingErrorImg;
 var loadingErrorButton;
 var semInternet = false;
 var contagemSemInternet = 100;
+var retornoGetQuestoes;
+var responseGET;
+var xhr;
 var MiniMapLayer1 = cc.Layer.extend({
     sprite:null,
     ctor:function () {
@@ -87,12 +90,22 @@ var MiniMapLayer1 = cc.Layer.extend({
         
         
         
-        var xhr = cc.loader.getXMLHttpRequest();
         
-        xhr.open( "GET", "http://www.google.com" );
-        xhr.setRequestHeader( "Content-Type", "text/plain" );
-        xhr.send( );
+           
+        
+        xhr = cc.loader.getXMLHttpRequest();
+        
+        xhr.open( "POST", "http://54.187.59.145:9000/api/student/questions" );
+        
+        xhr.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded" );
+        var param1GET = userInfo.getItem("idAluno");
+        var param2GET = userInfo.getItem("sessao");
+        var argumentsGET = "ca="+param1GET+"&se="+param2GET;
+        cc.log(argumentsGET);
+        cc.log(param1GET, param2GET);
+        xhr.send( argumentsGET );
         var respostaTemp = xhr.responseText;
+        
         //cc.log( "resultadoTemp = "+respostaTemp );
         
         
@@ -110,8 +123,115 @@ var MiniMapLayer1 = cc.Layer.extend({
                 var httpStatus = xhr.statusText;
                 //cc.log( httpStatus );
 
-                var response = xhr.responseText;
-                //cc.log( response );
+                responseGET = JSON.parse(xhr.responseText);
+                cc.log( responseGET );
+                cc.log("imprimiu resposnse text1");
+//                cc.log(responseGET.[0].id);
+                cc.log(responseGET.listaQuestoes[0].id);
+                try {
+                    cc.log(responseGET.listaQuestoes[0].id);
+                    
+                    retornoGetQuestoes = responseGET;
+
+
+
+                    resultadoParaPost =  {
+                    "resultado": {
+                    "idAluno": -1,
+                    "level": -1,
+                    "respostas":[
+                                {
+                                    "idQuestao": 0,
+                                    "pontuacao": 0
+                                },
+                                {
+                                    "idQuestao": 0,
+                                    "pontuacao": 0
+                                },
+                                {
+                                    "idQuestao": 0,
+                                    "pontuacao": 0
+                                },
+                                {
+                                    "idQuestao": 0,
+                                    "pontuacao": 0
+                                },
+                                {
+                                    "idQuestao": 0,
+                                    "pontuacao": 0
+                                }
+                            ]
+                        }
+                    };
+
+                    resultadoParaPost.resultado.respostas[0].idQuestao = retornoGetQuestoes.listaQuestoes[0].id;
+                    resultadoParaPost.resultado.respostas[1].idQuestao = retornoGetQuestoes.listaQuestoes[1].id;
+                    resultadoParaPost.resultado.respostas[2].idQuestao = retornoGetQuestoes.listaQuestoes[2].id;
+                    resultadoParaPost.resultado.respostas[3].idQuestao = retornoGetQuestoes.listaQuestoes[3].id;
+                    resultadoParaPost.resultado.respostas[4].idQuestao = retornoGetQuestoes.listaQuestoes[4].id;
+                    resultadoParaPost.resultado.idAluno = userInfo.getItem("idAluno");
+
+                    
+                    
+                    userInfo.setItem("pergunta1", retornoGetQuestoes.listaQuestoes[0].questao);
+                    userInfo.setItem("pergunta1_alternativa1", retornoGetQuestoes.listaQuestoes[0].resposta1);
+                    userInfo.setItem("pergunta1_alternativa2", retornoGetQuestoes.listaQuestoes[0].resposta2);
+                    userInfo.setItem("pergunta1_alternativa3", retornoGetQuestoes.listaQuestoes[0].resposta3);
+                    userInfo.setItem("pergunta1_alternativa4", retornoGetQuestoes.listaQuestoes[0].resposta4);
+                    userInfo.setItem("pergunta1_alternativa5", retornoGetQuestoes.listaQuestoes[0].resposta5);
+                    userInfo.setItem("pergunta1_respostaCerta", retornoGetQuestoes.listaQuestoes[0].respostaCorreta);
+                    userInfo.setItem("pergunta1_idQuestao", retornoGetQuestoes.listaQuestoes[0].id);
+
+
+
+                    userInfo.setItem("pergunta2", retornoGetQuestoes.listaQuestoes[1].questao);
+                    userInfo.setItem("pergunta2_alternativa1", retornoGetQuestoes.listaQuestoes[1].resposta1);
+                    userInfo.setItem("pergunta2_alternativa2", retornoGetQuestoes.listaQuestoes[1].resposta2);
+                    userInfo.setItem("pergunta2_alternativa3", retornoGetQuestoes.listaQuestoes[1].resposta3);
+                    userInfo.setItem("pergunta2_alternativa4", retornoGetQuestoes.listaQuestoes[1].resposta4);
+                    userInfo.setItem("pergunta2_alternativa5", retornoGetQuestoes.listaQuestoes[1].resposta5);
+                    userInfo.setItem("pergunta2_respostaCerta", retornoGetQuestoes.listaQuestoes[1].respostaCorreta);
+                    userInfo.setItem("pergunta2_idQuestao", retornoGetQuestoes.listaQuestoes[1].id);
+
+
+
+                    userInfo.setItem("pergunta3", retornoGetQuestoes.listaQuestoes[2].questao);
+                    userInfo.setItem("pergunta3_alternativa1", retornoGetQuestoes.listaQuestoes[2].resposta1);
+                    userInfo.setItem("pergunta3_alternativa2", retornoGetQuestoes.listaQuestoes[2].resposta2);
+                    userInfo.setItem("pergunta3_alternativa3", retornoGetQuestoes.listaQuestoes[2].resposta3);
+                    userInfo.setItem("pergunta3_alternativa4", retornoGetQuestoes.listaQuestoes[2].resposta4);
+                    userInfo.setItem("pergunta3_alternativa5", retornoGetQuestoes.listaQuestoes[2].resposta5);
+                    userInfo.setItem("pergunta3_respostaCerta", retornoGetQuestoes.listaQuestoes[2].respostaCorreta);
+                    userInfo.setItem("pergunta3_idQuestao", retornoGetQuestoes.listaQuestoes[2].id);
+
+                    userInfo.setItem("pergunta4", retornoGetQuestoes.listaQuestoes[3].questao);
+                    userInfo.setItem("pergunta4_alternativa1", retornoGetQuestoes.listaQuestoes[3].resposta1);
+                    userInfo.setItem("pergunta4_alternativa2", retornoGetQuestoes.listaQuestoes[3].resposta2);
+                    userInfo.setItem("pergunta4_alternativa3", retornoGetQuestoes.listaQuestoes[3].resposta3);
+                    userInfo.setItem("pergunta4_alternativa4", retornoGetQuestoes.listaQuestoes[3].resposta4);
+                    userInfo.setItem("pergunta4_alternativa5", retornoGetQuestoes.listaQuestoes[3].resposta5);
+                    userInfo.setItem("pergunta4_respostaCerta", retornoGetQuestoes.listaQuestoes[3].respostaCorreta);
+                    userInfo.setItem("pergunta4_idQuestao", retornoGetQuestoes.listaQuestoes[3].id);
+
+
+                    userInfo.setItem("pergunta5", retornoGetQuestoes.listaQuestoes[4].questao);
+                    userInfo.setItem("pergunta5_alternativa1", retornoGetQuestoes.listaQuestoes[4].resposta1);
+                    userInfo.setItem("pergunta5_alternativa2", retornoGetQuestoes.listaQuestoes[4].resposta2);
+                    userInfo.setItem("pergunta5_alternativa3", retornoGetQuestoes.listaQuestoes[4].resposta3);
+                    userInfo.setItem("pergunta5_alternativa4", retornoGetQuestoes.listaQuestoes[4].resposta4);
+                    userInfo.setItem("pergunta5_alternativa5", retornoGetQuestoes.listaQuestoes[4].resposta5);
+                    userInfo.setItem("pergunta5_respostaCerta", retornoGetQuestoes.listaQuestoes[4].respostaCorreta);
+                    userInfo.setItem("pergunta5_idQuestao", retornoGetQuestoes.listaQuestoes[4].id);
+                    
+                    
+                    
+                    
+                }
+                catch(err) {
+                    alert("Houve um problema no seu login, talvez você tenha logado em um outro dispositivo. Por favor, faça o login novamente.");
+                    window.location.assign("index.html");
+                }
+                
                 copiaLayerMinimapa.getChildByTag(99).opacity = 0;
                 
                 //corrigindo bug
@@ -140,91 +260,54 @@ var MiniMapLayer1 = cc.Layer.extend({
         //-------- GET --------//
         //getDados();
         
-        var retornoGetQuestoes = 
-            {"listaQuestoes":[
-                {
-                    "id":1,
-                    "questao": "To learn English, you _____ to work very hard, but just _____ practicing"+
-                                "and you will learn it!",
-                    "resposta1": "have/keep" ,
-                    "resposta2": "have/still",
-                    "resposta3": "has/keep",
-                    "resposta4": "have/kept",
-                    "resposta5": "had/keep",
-                    "respostaCorreta": 'a',
-                    "level":1
-                },
-                
-                {
-                    "id":2,
-                    "questao": "You are _____ than you think!",
-                    "resposta1": "more smart" ,
-                    "resposta2": "smater",
-                    "resposta3": "still",
-                    "resposta4": "also",
-                    "resposta5": "being",
-                    "respostaCorreta": 'b',
-                    "level":1
-                    
-                },
-                
-                {
-                    "id":3,
-                    "questao": "You _______ such a good student!",
-                    "resposta1": "are" ,
-                    "resposta2": "am",
-                    "resposta3": "is",
-                    "resposta4": "have",
-                    "resposta5": "has",
-                    "respostaCorreta": 'a',
-                    "level":1
-                    
-                },
-                
-                {
-                    "id":4,
-                    "questao": "Pergunta de teste 4",
-                    "resposta1": "Resposta A" ,
-                    "resposta2": "Resposta B",
-                    "resposta3": "Resposta C",
-                    "resposta4": "Resposta D (certa)",
-                    "resposta5": "Resposta E",
-                    "respostaCorreta": 'd',
-                    "level":1
-                    
-                },
-                
-                {
-                    "id":5,
-                    "questao": "Pergunta de teste 5",
-                    "resposta1": "Resposta A" ,
-                    "resposta2": "Resposta B (certa)",
-                    "resposta3": "Resposta C",
-                    "resposta4": "Resposta D",
-                    "resposta5": "Resposta E",
-                    "respostaCorreta": 'b',
-                    "level":1
-                    
-                    
-                },
-                
-                
-                
-                
-            ]
-                
-            };
+        
+        retornoGetQuestoes = responseGET;
 
         
         
-        resultadoParaPost = zerarResultadoParaPost;
-        resultadoParaPost.resultado.respostas[0].idQuestao = retornoGetQuestoes.listaQuestoes[0].id;
-        resultadoParaPost.resultado.respostas[1].idQuestao = retornoGetQuestoes.listaQuestoes[1].id;
-        resultadoParaPost.resultado.respostas[2].idQuestao = retornoGetQuestoes.listaQuestoes[2].id;
-        resultadoParaPost.resultado.respostas[3].idQuestao = retornoGetQuestoes.listaQuestoes[3].id;
-        resultadoParaPost.resultado.respostas[4].idQuestao = retornoGetQuestoes.listaQuestoes[4].id;
-//        resultadoParaPost.resultado.idAluno = userInfo.getItem("idAluno");
-        resultadoParaPost.resultado.idAluno = 10;
+//        resultadoParaPost =  {
+//        "resultado": {
+//        "idAluno": -1,
+//        "level": -1,
+//        "respostas":[
+//            {
+//                "idQuestao": 0,
+//                "pontuacao": 0
+//            },
+//            {
+//                "idQuestao": 0,
+//                "pontuacao": 0
+//            },
+//            {
+//                "idQuestao": 0,
+//                "pontuacao": 0
+//            },
+//            {
+//                "idQuestao": 0,
+//                "pontuacao": 0
+//            },
+//            {
+//                "idQuestao": 0,
+//                "pontuacao": 0
+//            }
+//        ]
+//    }
+//};
+        
+//        try{
+//            resultadoParaPost.resultado.respostas[0].idQuestao = retornoGetQuestoes.listaQuestoes[0].id;
+//            resultadoParaPost.resultado.respostas[1].idQuestao = retornoGetQuestoes.listaQuestoes[1].id;
+//            resultadoParaPost.resultado.respostas[2].idQuestao = retornoGetQuestoes.listaQuestoes[2].id;
+//            resultadoParaPost.resultado.respostas[3].idQuestao = retornoGetQuestoes.listaQuestoes[3].id;
+//            resultadoParaPost.resultado.respostas[4].idQuestao = retornoGetQuestoes.listaQuestoes[4].id;
+//    //        resultadoParaPost.resultado.respostas[0].pontuacao = 0;
+//    //        resultadoParaPost.resultado.respostas[1].pontuacao = 0;
+//    //        resultadoParaPost.resultado.respostas[2].pontuacao = 0;
+//    //        resultadoParaPost.resultado.respostas[3].pontuacao = 0;
+//    //        resultadoParaPost.resultado.respostas[4].pontuacao = 0;
+//    //        resultadoParaPost.resultado.idAluno = userInfo.getItem("idAluno");
+//            resultadoParaPost.resultado.idAluno = 10;
+//        }catch(err) {            }
 
         
         
@@ -291,59 +374,61 @@ var MiniMapLayer1 = cc.Layer.extend({
         
         
         
-        
-        userInfo.setItem("pergunta1", retornoGetQuestoes.listaQuestoes[0].questao);
-        userInfo.setItem("pergunta1_alternativa1", retornoGetQuestoes.listaQuestoes[0].resposta1);
-        userInfo.setItem("pergunta1_alternativa2", retornoGetQuestoes.listaQuestoes[0].resposta2);
-        userInfo.setItem("pergunta1_alternativa3", retornoGetQuestoes.listaQuestoes[0].resposta3);
-        userInfo.setItem("pergunta1_alternativa4", retornoGetQuestoes.listaQuestoes[0].resposta4);
-        userInfo.setItem("pergunta1_alternativa5", retornoGetQuestoes.listaQuestoes[0].resposta5);
-        userInfo.setItem("pergunta1_respostaCerta", retornoGetQuestoes.listaQuestoes[0].respostaCorreta);
-        userInfo.setItem("pergunta1_idQuestao", retornoGetQuestoes.listaQuestoes[0].id);
-        
-        
-        
-        userInfo.setItem("pergunta2", retornoGetQuestoes.listaQuestoes[1].questao);
-        userInfo.setItem("pergunta2_alternativa1", retornoGetQuestoes.listaQuestoes[1].resposta1);
-        userInfo.setItem("pergunta2_alternativa2", retornoGetQuestoes.listaQuestoes[1].resposta2);
-        userInfo.setItem("pergunta2_alternativa3", retornoGetQuestoes.listaQuestoes[1].resposta3);
-        userInfo.setItem("pergunta2_alternativa4", retornoGetQuestoes.listaQuestoes[1].resposta4);
-        userInfo.setItem("pergunta2_alternativa5", retornoGetQuestoes.listaQuestoes[1].resposta5);
-        userInfo.setItem("pergunta2_respostaCerta", retornoGetQuestoes.listaQuestoes[1].respostaCorreta);
-        userInfo.setItem("pergunta2_idQuestao", retornoGetQuestoes.listaQuestoes[1].id);
-        
-        
-        
-        userInfo.setItem("pergunta3", retornoGetQuestoes.listaQuestoes[2].questao);
-        userInfo.setItem("pergunta3_alternativa1", retornoGetQuestoes.listaQuestoes[2].resposta1);
-        userInfo.setItem("pergunta3_alternativa2", retornoGetQuestoes.listaQuestoes[2].resposta2);
-        userInfo.setItem("pergunta3_alternativa3", retornoGetQuestoes.listaQuestoes[2].resposta3);
-        userInfo.setItem("pergunta3_alternativa4", retornoGetQuestoes.listaQuestoes[2].resposta4);
-        userInfo.setItem("pergunta3_alternativa5", retornoGetQuestoes.listaQuestoes[2].resposta5);
-        userInfo.setItem("pergunta3_respostaCerta", retornoGetQuestoes.listaQuestoes[2].respostaCorreta);
-        userInfo.setItem("pergunta3_idQuestao", retornoGetQuestoes.listaQuestoes[2].id);
-        
-        userInfo.setItem("pergunta4", retornoGetQuestoes.listaQuestoes[3].questao);
-        userInfo.setItem("pergunta4_alternativa1", retornoGetQuestoes.listaQuestoes[3].resposta1);
-        userInfo.setItem("pergunta4_alternativa2", retornoGetQuestoes.listaQuestoes[3].resposta2);
-        userInfo.setItem("pergunta4_alternativa3", retornoGetQuestoes.listaQuestoes[3].resposta3);
-        userInfo.setItem("pergunta4_alternativa4", retornoGetQuestoes.listaQuestoes[3].resposta4);
-        userInfo.setItem("pergunta4_alternativa5", retornoGetQuestoes.listaQuestoes[3].resposta5);
-        userInfo.setItem("pergunta4_respostaCerta", retornoGetQuestoes.listaQuestoes[3].respostaCorreta);
-        userInfo.setItem("pergunta4_idQuestao", retornoGetQuestoes.listaQuestoes[3].id);
-        
-        
-        userInfo.setItem("pergunta5", retornoGetQuestoes.listaQuestoes[4].questao);
-        userInfo.setItem("pergunta5_alternativa1", retornoGetQuestoes.listaQuestoes[4].resposta1);
-        userInfo.setItem("pergunta5_alternativa2", retornoGetQuestoes.listaQuestoes[4].resposta2);
-        userInfo.setItem("pergunta5_alternativa3", retornoGetQuestoes.listaQuestoes[4].resposta3);
-        userInfo.setItem("pergunta5_alternativa4", retornoGetQuestoes.listaQuestoes[4].resposta4);
-        userInfo.setItem("pergunta5_alternativa5", retornoGetQuestoes.listaQuestoes[4].resposta5);
-        userInfo.setItem("pergunta5_respostaCerta", retornoGetQuestoes.listaQuestoes[4].respostaCorreta);
-        userInfo.setItem("pergunta5_idQuestao", retornoGetQuestoes.listaQuestoes[4].id);
-        
-        
-        
+//        try{
+//            userInfo.setItem("pergunta1", retornoGetQuestoes.listaQuestoes[0].questao);
+//            userInfo.setItem("pergunta1_alternativa1", retornoGetQuestoes.listaQuestoes[0].resposta1);
+//            userInfo.setItem("pergunta1_alternativa2", retornoGetQuestoes.listaQuestoes[0].resposta2);
+//            userInfo.setItem("pergunta1_alternativa3", retornoGetQuestoes.listaQuestoes[0].resposta3);
+//            userInfo.setItem("pergunta1_alternativa4", retornoGetQuestoes.listaQuestoes[0].resposta4);
+//            userInfo.setItem("pergunta1_alternativa5", retornoGetQuestoes.listaQuestoes[0].resposta5);
+//            userInfo.setItem("pergunta1_respostaCerta", retornoGetQuestoes.listaQuestoes[0].respostaCorreta);
+//            userInfo.setItem("pergunta1_idQuestao", retornoGetQuestoes.listaQuestoes[0].id);
+//
+//
+//
+//            userInfo.setItem("pergunta2", retornoGetQuestoes.listaQuestoes[1].questao);
+//            userInfo.setItem("pergunta2_alternativa1", retornoGetQuestoes.listaQuestoes[1].resposta1);
+//            userInfo.setItem("pergunta2_alternativa2", retornoGetQuestoes.listaQuestoes[1].resposta2);
+//            userInfo.setItem("pergunta2_alternativa3", retornoGetQuestoes.listaQuestoes[1].resposta3);
+//            userInfo.setItem("pergunta2_alternativa4", retornoGetQuestoes.listaQuestoes[1].resposta4);
+//            userInfo.setItem("pergunta2_alternativa5", retornoGetQuestoes.listaQuestoes[1].resposta5);
+//            userInfo.setItem("pergunta2_respostaCerta", retornoGetQuestoes.listaQuestoes[1].respostaCorreta);
+//            userInfo.setItem("pergunta2_idQuestao", retornoGetQuestoes.listaQuestoes[1].id);
+//
+//
+//
+//            userInfo.setItem("pergunta3", retornoGetQuestoes.listaQuestoes[2].questao);
+//            userInfo.setItem("pergunta3_alternativa1", retornoGetQuestoes.listaQuestoes[2].resposta1);
+//            userInfo.setItem("pergunta3_alternativa2", retornoGetQuestoes.listaQuestoes[2].resposta2);
+//            userInfo.setItem("pergunta3_alternativa3", retornoGetQuestoes.listaQuestoes[2].resposta3);
+//            userInfo.setItem("pergunta3_alternativa4", retornoGetQuestoes.listaQuestoes[2].resposta4);
+//            userInfo.setItem("pergunta3_alternativa5", retornoGetQuestoes.listaQuestoes[2].resposta5);
+//            userInfo.setItem("pergunta3_respostaCerta", retornoGetQuestoes.listaQuestoes[2].respostaCorreta);
+//            userInfo.setItem("pergunta3_idQuestao", retornoGetQuestoes.listaQuestoes[2].id);
+//
+//            userInfo.setItem("pergunta4", retornoGetQuestoes.listaQuestoes[3].questao);
+//            userInfo.setItem("pergunta4_alternativa1", retornoGetQuestoes.listaQuestoes[3].resposta1);
+//            userInfo.setItem("pergunta4_alternativa2", retornoGetQuestoes.listaQuestoes[3].resposta2);
+//            userInfo.setItem("pergunta4_alternativa3", retornoGetQuestoes.listaQuestoes[3].resposta3);
+//            userInfo.setItem("pergunta4_alternativa4", retornoGetQuestoes.listaQuestoes[3].resposta4);
+//            userInfo.setItem("pergunta4_alternativa5", retornoGetQuestoes.listaQuestoes[3].resposta5);
+//            userInfo.setItem("pergunta4_respostaCerta", retornoGetQuestoes.listaQuestoes[3].respostaCorreta);
+//            userInfo.setItem("pergunta4_idQuestao", retornoGetQuestoes.listaQuestoes[3].id);
+//
+//
+//            userInfo.setItem("pergunta5", retornoGetQuestoes.listaQuestoes[4].questao);
+//            userInfo.setItem("pergunta5_alternativa1", retornoGetQuestoes.listaQuestoes[4].resposta1);
+//            userInfo.setItem("pergunta5_alternativa2", retornoGetQuestoes.listaQuestoes[4].resposta2);
+//            userInfo.setItem("pergunta5_alternativa3", retornoGetQuestoes.listaQuestoes[4].resposta3);
+//            userInfo.setItem("pergunta5_alternativa4", retornoGetQuestoes.listaQuestoes[4].resposta4);
+//            userInfo.setItem("pergunta5_alternativa5", retornoGetQuestoes.listaQuestoes[4].resposta5);
+//            userInfo.setItem("pergunta5_respostaCerta", retornoGetQuestoes.listaQuestoes[4].respostaCorreta);
+//            userInfo.setItem("pergunta5_idQuestao", retornoGetQuestoes.listaQuestoes[4].id);
+//        
+//    }catch(err){
+//    
+//}
+//        
         
         
         
@@ -1249,6 +1334,7 @@ var checkInternetConnectionTimeOut = function(){
         copiaLayerMinimapa.addChild(loadingErrorImg, 100, 200);
         copiaLayerMinimapa.addChild(loadingErrorLabel, 100, 201);
         copiaLayerMinimapa.addChild(loadingErrorButton, 100, 202);
+        cc.log(xhr.responseText);
     }
     
 }, 20000);

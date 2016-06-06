@@ -112,8 +112,11 @@ var PausePOSTLayer = cc.Layer.extend({
             
             var xhr = cc.loader.getXMLHttpRequest();    
             xhrpausePOST.open( "POST", "http://requestb.in/ukb4gauk" );
-            xhrpausePOST.setRequestHeader( "Content-Type", "text/plain" );
+            xhrpausePOST.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded" );
 //            var arguementspausePOST = "Olha o POST funcionando!";
+            resultadoParaPost.resultado.level = Number(status)-1;
+            idLabirinto = Number(idLabirintoAtual)+1;
+            cc.log(resultadoParaPost);
             xhrpausePOST.send( resultadoParaPost );
             var respostaTemppausePOST = xhrpausePOST.responseText;
             //cc.log( "resultadoTemp = "+respostaTemp );

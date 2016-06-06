@@ -10,6 +10,7 @@ var respostaPlataformaAtual;
 var pontuacaoPlataforma = 0;
 var chances = 3;
 var idQuestaoAtual;
+var idQuestaoAtualPlataforma;
 var PlataformaLayer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
@@ -17,6 +18,8 @@ var PlataformaLayer = cc.Layer.extend({
         
         
         var sizePlataforma = cc.winSize;
+        
+        
         
         var respostaAtual;
         
@@ -390,6 +393,21 @@ function delay(ms) {
         }
 
 function passarDeFasePlataforma(id){
+    
+    resultadoParaPost.resultado.respostas[incrementoPlataforma].idQuestao = resultadoParaPost.resultado.respostas[incrementoPlataforma].idQuestao;
+    if(id==1){
+        resultadoParaPost.resultado.respostas[incrementoPlataforma].pontuacao = ((chances+1)*80);    
+    }else{
+        resultadoParaPost.resultado.respostas[incrementoPlataforma].pontuacao = 0;
+    }
+    
+    cc.log("Incrementou!");
+    cc.log("Questao = "+resultadoParaPost.resultado.respostas[incrementoPlataforma].idQuestao+
+           ", Pontuação = "+resultadoParaPost.resultado.respostas[incrementoPlataforma].pontuacao);
+    incrementoPlataforma = Number(incrementoPlataforma)+1;
+    
+    
+    
     if(id===1){//pontuou
         pontuacaoPlataforma+= ((chances+1)*80);
     }
@@ -404,6 +422,7 @@ function passarDeFasePlataforma(id){
     chances = 3;
     contadorFimPlataforma-=1;
     if(contadorFimPlataforma===0){
+        incrementoPlataforma=0;
         contadorFimPlataforma = 5;
         endGamePlataforma();
     }else{

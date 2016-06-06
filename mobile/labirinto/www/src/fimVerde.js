@@ -28,6 +28,7 @@ var FimVerdeLayer = cc.Layer.extend({
         // ENVIAR PARA O SERVIDOR (POST)
         
         tentativas = 3;
+        resultadoParaPost.resultado.level = status;
         status=Number(status)+1;
         userInfo.setItem("status",Number(userInfo.getItem("status"))+1);
         idLabirinto = Number(idLabirintoAtual)+1;

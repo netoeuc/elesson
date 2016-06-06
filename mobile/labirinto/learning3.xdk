@@ -1,24 +1,16 @@
 {
   "project": {
-    "projectSettingsVersion": "3.0.0",
+    "projectSettingsVersion": "2.0.0",
     "creationData": {
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-cocos2d-3x-portrait/sample.zip",
       "projectGuid": "1b45e7e3-4bfc-4be0-b503-3580f0281308",
-      "lastModifiedDate": 1465098646813,
+      "lastModifiedDate": 1465106063307,
       "creationDate": 1461273574497
     },
     "sourceDirectory": "www",
     "startFile": "index.html",
-    "projectFiles": {
-      "xdk-publish-meta-data.json": {
-        "settings": {
-          "project": {
-            "XDK-not-deployed": "True"
-          }
-        }
-      }
-    },
+    "projectFiles": {},
     "projectDirectories": {
       "www/xdk": {
         "settings": {
@@ -90,23 +82,21 @@
         "gitref": "",
         "name": "Splashscreen",
         "description": "Cordova Splashscreen Plugin",
-        "checksum": "a7fdb6d9",
-        "cordovaVersion": ">=3.1.0"
+        "checksum": "170efb68"
       },
       {
         "id": "cordova-plugin-network-information",
         "name": "Network Information",
-        "version": "1.1.0",
+        "version": "1.0.1",
         "originType": "cordova.io",
         "origin": "cordova-plugin-network-information",
         "gitref": "",
         "paramvals": {},
         "sourceLocation": "plugins/cordova-plugin-network-information",
         "selectedState": "Included",
-        "checksum": "4be25d7c",
+        "checksum": "9ef778d8",
         "dependsOn": [],
         "topLevel": true,
-        "cordovaVersion": ">=3.1.0",
         "permissions": {
           "android:name": [
             "android.permission.ACCESS_NETWORK_STATE"
@@ -115,55 +105,100 @@
         "description": "Cordova Network Information Plugin",
         "data": {},
         "dependedBy": []
-      },
-      {
-        "id": "cordova-plugin-inappbrowser",
-        "name": "InAppBrowser",
-        "version": "1.1.0",
-        "originType": "cordova.io",
-        "origin": "cordova-plugin-inappbrowser",
-        "gitref": "",
-        "paramvals": {},
-        "sourceLocation": "plugins/cordova-plugin-inappbrowser",
-        "selectedState": "Included",
-        "checksum": "20096ffc",
-        "dependsOn": [],
-        "topLevel": true,
-        "cordovaVersion": ">=3.1.0",
-        "permissions": {},
-        "description": "Cordova InAppBrowser Plugin",
-        "data": {},
-        "dependedBy": []
       }
     ],
     "buildConfigurations": {
-      "iOS": {
-        "platform_": "ios",
-        "runtime_": "Cordova 3.x",
-        "name_": "iOS",
+      "Android-Crosswalk": {
+        "platform_": "android",
+        "runtime_": "Crosswalk with Cordova 3.x",
+        "name_": "Android-Crosswalk",
         "preferences_": {
-          "ios-configuration": "adhoc",
+          "android-minSdkVersion": "14",
+          "android-targetSdkVersion": "19",
+          "android-installLocation": "auto",
           "Fullscreen": true,
-          "Orientation": "portrait",
-          "deployment-target": "6"
+          "Orientation": "portrait"
         },
         "isActive_": true,
         "appName_": "eLessons",
         "appID_": "xdk.intel.cocos2d.js.portrait.project",
         "appAccess_": {
-          "mode": "whitelist",
+          "mode": "legacy",
           "network": [
             "*"
           ],
           "intents": [],
-          "navigation": [],
-          "properties": {}
+          "navigation": []
         },
         "icons_": [],
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "certificateId_": "",
+        "cordovaCLIVersion_": "5.1.1",
+        "crosswalkVersion_": "15",
+        "appVersion_": "0.0.1",
+        "appDescription_": "Learn English playing games!",
+        "appAuthor_": "Smart Educ",
+        "appVersionCode_": "1"
+      },
+      "Android": {
+        "platform_": "android",
+        "runtime_": "Cordova 3.x",
+        "name_": "Android",
+        "preferences_": {
+          "android-minSdkVersion": "14",
+          "android-targetSdkVersion": "19",
+          "android-installLocation": "auto",
+          "Fullscreen": true,
+          "Orientation": "portrait"
+        },
+        "isActive_": true,
+        "appName_": "eLessons",
+        "appID_": "xdk.intel.cocos2d.js.portrait.project",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "<preference;name=\"android.permission.ACCESS_WIFI_STATE\";value=\"<PERMISSION\">;/>",
+        "excludedLibraries_": "",
+        "cordovaCLIVersion_": "5.1.1",
+        "crosswalkVersion_": "14",
+        "appVersion_": "0.0.1",
+        "appDescription_": "Learn English playing games!",
+        "appAuthor_": "Smart Educ",
+        "appVersionCode_": "1"
+      },
+      "iOS": {
+        "platform_": "ios",
+        "runtime_": "Cordova 3.x",
+        "name_": "iOS",
+        "preferences_": {
+          "ios-target": "6",
+          "ios-configuration": "adhoc",
+          "Fullscreen": true,
+          "Orientation": "portrait"
+        },
+        "isActive_": true,
+        "appName_": "eLessons",
+        "appID_": "xdk.intel.cocos2d.js.portrait.project",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
         "iosProvs_": [],
         "cordovaCLIVersion_": "5.1.1",
         "crosswalkVersion_": "14",
@@ -185,19 +220,17 @@
         "appName_": "eLessons",
         "appID_": "xdk.intel.cocos2d.js.portrait.project",
         "appAccess_": {
-          "mode": "whitelist",
+          "mode": "legacy",
           "network": [
             "*"
           ],
           "intents": [],
-          "navigation": [],
-          "properties": {}
+          "navigation": []
         },
         "icons_": [],
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "certificateId_": "",
         "cordovaCLIVersion_": "5.1.1",
         "crosswalkVersion_": "14",
         "appVersion_": "0.0.0.1",
@@ -224,7 +257,6 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "certificateId_": "",
         "appAuthor_": "Intel XDK",
         "appVersion_": "0.0.1"
       },
@@ -248,7 +280,6 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "certificateId_": "",
         "appAuthor_": "Intel XDK",
         "appVersion_": "0.0.1"
       },
@@ -272,7 +303,6 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "certificateId_": "",
         "appAuthor_": "Intel XDK",
         "appVersion_": "0.0.1"
       },
@@ -296,7 +326,6 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "certificateId_": "",
         "appAuthor_": "Intel XDK",
         "appVersion_": "0.0.1"
       },
@@ -320,49 +349,9 @@
         "splashes_": [],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "certificateId_": "",
         "appVersion_": "0.0.0.1",
         "cordovaCLIVersion_": "5.1.1",
         "appAuthor_": "Intel XDK"
-      },
-      "Android": {
-        "platform_": "android",
-        "runtime_": "Crosswalk with Cordova 3.x",
-        "name_": "Android",
-        "preferences_": {
-          "android-minSdkVersion": "14",
-          "android-targetSdkVersion": "19",
-          "android-installLocation": "auto",
-          "Fullscreen": true,
-          "Orientation": "portrait"
-        },
-        "isActive_": true,
-        "appName_": "eLessons",
-        "appID_": "xdk.intel.cocos2d.js.portrait.project",
-        "appAccess_": {
-          "mode": "legacy",
-          "network": [
-            "*",
-            "http://*",
-            "http://*/*",
-            "http://*/*/*",
-            "http://*/*/*/*"
-          ],
-          "intents": [],
-          "navigation": [],
-          "properties": {}
-        },
-        "icons_": [],
-        "splashes_": [],
-        "addlPermissions_": "",
-        "excludedLibraries_": "",
-        "certificateId_": "",
-        "cordovaCLIVersion_": "5.1.1",
-        "crosswalkVersion_": "15",
-        "appVersion_": "0.0.1",
-        "appDescription_": "Learn English playing games!",
-        "appAuthor_": "Smart Educ",
-        "appVersionCode_": "1"
       }
     },
     "testDirectory": "test"

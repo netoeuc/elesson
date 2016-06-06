@@ -100,8 +100,10 @@ var FimVermelhoPOSTLayer = cc.Layer.extend({
             
             var xhr = cc.loader.getXMLHttpRequest();    
             xhrfimVermelhoPOST.open( "POST", "http://requestb.in/ukb4gauk" );
-            xhrfimVermelhoPOST.setRequestHeader( "Content-Type", "text/plain" );
+            xhrfimVermelhoPOST.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded" );
 //            var arguementsfimVermelhoPOST = "Olha o POST funcionando!";
+            cc.log(resultadoParaPost);
+            cc.log("foi aqui");
             xhrfimVermelhoPOST.send( resultadoParaPost );
             var respostaTempfimVermelhoPOST = xhrfimVermelhoPOST.responseText;
             //cc.log( "resultadoTemp = "+respostaTemp );

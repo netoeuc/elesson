@@ -71,6 +71,19 @@ var PauseLayer = cc.Layer.extend({
                 var pause_exit_game = false; // Para sair do jogo a partir do pause
                 //var pontuacao = 0;
                 
+                vermelhoJaFoiEscolhido = false;
+                verdeJaFoiEscolhido = false;
+                amareloJaFoiEscolhido = false;
+                azulJaFoiEscolhido = false;
+                INITTIALIZED_plat = false;
+                finished = false;
+                respostaPlataformaAtual;
+                pontuacaoPlataforma = 0;
+                chances = 3;
+                contadorFimPlataforma = 5;
+                incrementoPlataforma = 0;
+
+                
                 INITTIALIZED_Acel = false;
                 INITTIALIZED_histplat = false;
                 INITTIALIZED_plat = false;

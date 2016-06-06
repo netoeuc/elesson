@@ -100,7 +100,7 @@ var FimVerdePOSTLayer = cc.Layer.extend({
             
             var xhr = cc.loader.getXMLHttpRequest();    
             xhrfimVerdePOST.open( "POST", "http://requestb.in/ukb4gauk" );
-            xhrfimVerdePOST.setRequestHeader( "Content-Type", "text/plain" );
+            xhrfimVerdePOST.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded" );
 //            var arguementsfimVerdePOST = "Olha o POST funcionando!";
             xhrfimVerdePOST.send( resultadoParaPost );
             cc.log(resultadoParaPost);
