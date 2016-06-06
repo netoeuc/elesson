@@ -77,6 +77,7 @@ public class InstituicaoController extends Controller{
 			return ok(views.html.instituicao.index.render(i, qntAlunos, qntProfessores, qntQuestoes, statusLicenca, l));
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/index(): "+ e.getMessage());
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.InstituicaoController.logoff());
 	}
@@ -116,6 +117,7 @@ public class InstituicaoController extends Controller{
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/esqueceuSenha(): "+ e.getMessage());
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return ok(views.html.instituicao.esqueceuSenha.render(template));
 	}
@@ -314,6 +316,7 @@ public class InstituicaoController extends Controller{
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/professores(): "+ e.getMessage());
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.InstituicaoController.index());
 	}
@@ -326,6 +329,7 @@ public class InstituicaoController extends Controller{
 			return ok(views.html.instituicao.alunos.render(0,i.getAlunos(),i.getProfessores()));
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/alunos(): "+ e.getMessage());
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.InstituicaoController.index());
 	}
@@ -339,6 +343,7 @@ public class InstituicaoController extends Controller{
 			
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/alunosByTeacher(): "+ e.getMessage());
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.InstituicaoController.alunos());
 	}
@@ -353,6 +358,7 @@ public class InstituicaoController extends Controller{
 			
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/alunosByRanking(): "+ e.getMessage());
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.InstituicaoController.alunos());
 	}
@@ -396,6 +402,7 @@ public class InstituicaoController extends Controller{
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/questoes(): "+ e.getMessage());
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.InstituicaoController.index());
 	}
@@ -434,6 +441,7 @@ public class InstituicaoController extends Controller{
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/cadastrarProfessor(): "+ e.getMessage());
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.InstituicaoController.professores());
 	}
@@ -482,6 +490,7 @@ public class InstituicaoController extends Controller{
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/cadastrarAluno(): "+ e.getMessage());
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.InstituicaoController.alunos());
 	}
