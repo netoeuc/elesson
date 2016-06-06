@@ -4,6 +4,11 @@ import static play.data.Form.form;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+
 import models.Aluno;
 import models.AlunoRanking;
 import models.Instituicao;
@@ -17,6 +22,7 @@ import play.Logger;
 import play.data.DynamicForm;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.libs.F.Function0;
 import play.mvc.Controller;
 import play.mvc.Result;
 import util.AdminJson;
@@ -278,7 +284,7 @@ public class AlunoController extends Controller {
 		response().setContentType("application/json; charset=utf-8");
 		response().setHeader("Access-Control-Allow-Origin","*");
 		response().setHeader("Access-Control-Allow-Methods", "GET, POST");
-		
+
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
 			String json = dynamicForm.get("jra") == null || dynamicForm.get("jra").trim().isEmpty()? null : dynamicForm.get("jra");
@@ -300,9 +306,9 @@ public class AlunoController extends Controller {
 				    Questao q = null;
 				    Resposta r = null;
 				    JSONObject jResposta = null;
-				    
+					
 				    try{
-				    	JPA.em().getTransaction().begin();
+				    	//JPA.em().getTransaction().begin();
 					    for (int i = 0; i < jListaRespostas.length(); i++) {
 					    	
 					    	jResposta = jListaRespostas.getJSONObject(i);    	
@@ -321,14 +327,14 @@ public class AlunoController extends Controller {
 					    a.setLevel((a.getLevel()+1));
 					  
 					    JPA.em().merge(a);	
-					    JPA.em().getTransaction().commit();
+					    //JPA.em().getTransaction().commit();
 					    
 					    List<Questao> lq = QuestaoDatabase.selectQuestoesByAluno(a.getCnpjInst(), a.getIdProfessor(), a.getId(), a.getLevel());
 						return ok(AdminJson.getObject(lq, "listaQuestoes"));
 				    
 				    }catch(Exception e){
 				    	Logger.error(e.getMessage());
-				    	JPA.em().getTransaction().rollback();
+				    	//JPA.em().getTransaction().rollback();
 				    }
 				    return ok(Questao.isRespondida(false));
 				}else{
@@ -339,10 +345,17 @@ public class AlunoController extends Controller {
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - AlunoController/responderQuestao(): "+ e.getMessage());
+		} catch (Throwable e1) {
+			Logger.error("ERRO - AlunoController/responderQuestao(): "+ e1.getMessage());
 		}
 		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
 	}
 	
+	private static Function0 cadastrarQuestoes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Transactional
 	public static Result rankingByProfessor(){
 		response().setContentType("application/json; charset=utf-8");
@@ -400,6 +413,5 @@ public class AlunoController extends Controller {
 			Logger.error("ERRO - AlunoController/rankingByInstituicao(): "+ e.getMessage());
 		}
 		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
-	}
-	
+	}	
 }

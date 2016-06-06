@@ -71,49 +71,53 @@
 	<input name="cod" hidden type="text" value="@q.getId()">
 </form>
 <script type="text/javascript">
-  tinymce.PluginManager.add('charactercount', function (editor) {
-  var self = this;
- 
-  function update() {
-    editor.theme.panel.find('#charactercount').text(['Characters: {0}', self.getCount()]);
-  }
- 
-  editor.on('init', function () {
-    var statusbar = editor.theme.panel && editor.theme.panel.find('#statusbar')[0];
- 
-    if (statusbar) {
-      window.setTimeout(function () {
-        statusbar.insert({
-          type: 'label',
-          name: 'charactercount',
-          text: ['Characters: {0}', self.getCount()],
-          classes: 'charactercount',
-          disabled: editor.settings.readonly
-        }, 0);
- 
-        editor.on('setcontent beforeaddundo', update);
- 
-        editor.on('keyup', function (e) {
-            update();
-        });
-      }, 0);
-    }
-  });
- 
-  self.getCount = function () {
-    var tx = editor.getContent({ format: 'raw' });
-    var decoded = decodeHtml(tx);
-    var decodedStripped = decoded.replace(/(<([^>]+)>)/ig, "").trim();
-    var tc = decodedStripped.length;
-    return tc;
-  };
- 
-  function decodeHtml(html) {
-    var txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-  }
-});
+ 	tinymce.PluginManager.add('charactercount', function (editor) {
+	  var self = this;
+	 
+	  function update() {
+	    editor.theme.panel.find('#charactercount').text(['Characters: {0}', self.getCount()]);
+	  }
+	 
+	  editor.on('init', function () {
+	    var statusbar = editor.theme.panel && editor.theme.panel.find('#statusbar')[0];
+	 
+	    if (statusbar) {
+	      window.setTimeout(function () {
+	        statusbar.insert({
+	          type: 'label',
+	          name: 'charactercount',
+	          text: ['Characters: {0}', self.getCount()],
+	          classes: 'charactercount',
+	          disabled: editor.settings.readonly
+	        }, 0);
+	 
+	        editor.on('setcontent beforeaddundo', update);
+	 
+	        editor.on('keyup', function (e) {
+	            update();
+	        });
+	      }, 0);
+	    }
+	  });
+	 
+	  self.getCount = function () {
+	    var tx = editor.getContent({ format: 'raw' });
+	    var decoded = decodeHtml(tx);
+	    var decodedStripped = decoded.replace(/(<([^>]+)>)/ig, "").trim();
+	    var tc = decodedStripped.length;
+	    return tc;
+	  };
+	 
+	  function decodeHtml(html) {
+	    var txt = document.createElement("textarea");
+	    txt.innerHTML = html;
+	    // limitar caracteres (-7 é da tag <p></p>)
+	    if(txt.value.length > 254){
+	    	txt.innerHTML = txt.value.substring(0,254);
+	    }
+	    return txt.value;
+	  }
+	});
 
 	$(document).ready( function() {
 		tinymce.init({
@@ -123,7 +127,7 @@
 			    'preview',
 			    'fullscreen',
 			    'paste',
-          'charactercount'
+          		'charactercount'
 			  ],
 			  toolbar: 'undo redo'
 		});
