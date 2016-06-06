@@ -70,7 +70,8 @@
 	
 	                          <div class="row">
 	                            <div class="input-field col s12 offset-m1 m10">
-	                             <button type="submit" class="waves-effect waves-light btn bg-azul">submit</button>
+	                             <button id="botao" class="waves-effect waves-light btn bg-azul">submit</button>
+                  				 <button id="botao2" disabled class="waves-effect waves-light btn bg-cinza" style="display:none;">submitting...</button>
 	                            </div>
 	                          </div>
 	
@@ -87,6 +88,13 @@
               </div>
             </div>
           </div><!-- FIM card --> 
+
+           <script type="text/javascript">
+          	$("#botao").on("click",function(){
+    			$("#botao").css("display","none");
+    			$("#botao2").css("display","block");
+   			 });
+           </script>
 		 
 }
 
