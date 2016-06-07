@@ -11,7 +11,7 @@ var DesafioPlataformaLayer = cc.Layer.extend({
         
         var size = cc.winSize;
         
-        var background = new cc.Sprite.create(asset.desafio_background_png);
+        var background = new cc.Sprite.create(asset.backgroundDesafioPlataforma_jpeg);
         background.setAnchorPoint(cc.p( 0, 0 ));
         background.setPosition(cc.p(0, 0));
         this.addChild(background, -1);
@@ -87,7 +87,7 @@ var DesafioPlataformaLayer = cc.Layer.extend({
         text.ignoreContentAdaptWithSize(false);
         text.width = size.width-100;
         text.height = size.height-100;
-        var r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, userInfo.getItem(idPergunta), "Helvetica", 20);
+        var r1 = new ccui.RichElementText(1, cc.color.BLACK, 255, userInfo.getItem(idPergunta), "Helvetica", 20);
         cc.log(userInfo.getItem(idPergunta));
         text.setLineBreakOnSpace(true);
 //        text.setTextHorizontalAlignment(cc.Text_ALIGNMENT_RIGHT);
@@ -112,7 +112,7 @@ var DesafioPlataformaLayer = cc.Layer.extend({
         alternativa1.ignoreContentAdaptWithSize(false);
         alternativa1.width = size.width-80;
         alternativa1.height = 65;
-        var alternativa1_r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, userInfo.getItem(idPergunta+"_alternativa1"), "Helvetica", 20);
+        var alternativa1_r1 = new ccui.RichElementText(1, cc.color.BLACK, 255, userInfo.getItem(idPergunta+"_alternativa1"), "Helvetica", 20);
         cc.log(userInfo.getItem(idPergunta+"_alternativa1"));
         cc.log(userInfo.getItem(idPergunta));
         alternativa1.setLineBreakOnSpace(true);
@@ -133,7 +133,7 @@ var DesafioPlataformaLayer = cc.Layer.extend({
         alternativa2.ignoreContentAdaptWithSize(false);
         alternativa2.width = size.width-80;
         alternativa2.height = 65;
-        var alternativa2_r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, userInfo.getItem(idPergunta+"_alternativa2"), "Helvetica", 20);
+        var alternativa2_r1 = new ccui.RichElementText(1, cc.color.BLACK, 255, userInfo.getItem(idPergunta+"_alternativa2"), "Helvetica", 20);
         cc.log(userInfo.getItem(idPergunta+"_alternativa2"));
         alternativa2.setLineBreakOnSpace(true);
         alternativa2.setTextHorizontalAlignment(cc.Text_ALIGNMENT_CENTER);
@@ -154,7 +154,7 @@ var DesafioPlataformaLayer = cc.Layer.extend({
         alternativa3.ignoreContentAdaptWithSize(false);
         alternativa3.width = size.width-80;
         alternativa3.height = 65;
-        var alternativa3_r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, userInfo.getItem(idPergunta+"_alternativa3"), "Helvetica", 20);
+        var alternativa3_r1 = new ccui.RichElementText(1, cc.color.BLACK, 255, userInfo.getItem(idPergunta+"_alternativa3"), "Helvetica", 20);
         cc.log(userInfo.getItem(idPergunta+"_alternativa3"));
         alternativa3.setLineBreakOnSpace(true);
         alternativa3.setTextHorizontalAlignment(cc.Text_ALIGNMENT_CENTER);
@@ -181,13 +181,13 @@ var DesafioPlataformaLayer = cc.Layer.extend({
         cc.log(respostaTemp2);
         switch (respostaTemp2){
             case 'd':
-                alternativa4_r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, userInfo.getItem(idPergunta+"_alternativa4"), "Helvetica", 20);
+                alternativa4_r1 = new ccui.RichElementText(1, cc.color.BLACK, 255, userInfo.getItem(idPergunta+"_alternativa4"), "Helvetica", 20);
                 break;
             case 'e':
-                alternativa4_r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, userInfo.getItem(idPergunta+"_alternativa5"), "Helvetica", 20);
+                alternativa4_r1 = new ccui.RichElementText(1, cc.color.BLACK, 255, userInfo.getItem(idPergunta+"_alternativa5"), "Helvetica", 20);
                 break;
             default:
-                alternativa4_r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, userInfo.getItem(idPergunta+"_alternativa4"), "Helvetica", 20);
+                alternativa4_r1 = new ccui.RichElementText(1, cc.color.BLACK, 255, userInfo.getItem(idPergunta+"_alternativa4"), "Helvetica", 20);
                 break;
         }
         
@@ -244,8 +244,9 @@ var DesafioPlataformaLayer = cc.Layer.extend({
                 
                 break;
             case ccui.Widget.TOUCH_ENDED:
-                
+                voltandoDaPergunta = true;
                 cc.director.popScene();
+                
                 break;
         }
     }

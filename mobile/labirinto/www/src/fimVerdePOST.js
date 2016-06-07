@@ -99,14 +99,18 @@ var FimVerdePOSTLayer = cc.Layer.extend({
         
             
             var xhr = cc.loader.getXMLHttpRequest();    
-            xhrfimVerdePOST.open( "POST", "http://requestb.in/ukb4gauk" );
+            xhrfimVerdePOST.open( "POST", "http://54.187.59.145:9000/api/student/questions/answers" );
             xhrfimVerdePOST.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded" );
 //            var arguementsfimVerdePOST = "Olha o POST funcionando!";
-            xhrfimVerdePOST.send( resultadoParaPost );
+            var param1POSTverde = JSON.stringify(resultadoParaPost);
+            var param2POSTverde = userInfo.getItem("sessao");
+            var argumentsPOSTverde = "jra="+param1POSTverde+"&se="+param2POSTverde;
+            xhrfimVerdePOST.send( argumentsPOSTverde );
+            cc.log("linha 109");
             cc.log(resultadoParaPost);
             var respostaTempfimVerdePOST = xhrfimVerdePOST.responseText;
             //cc.log( "resultadoTemp = "+respostaTemp );
-
+            cc.log(xhrfimVerdePOST.responseText);
 
 
 
@@ -117,6 +121,7 @@ var FimVerdePOSTLayer = cc.Layer.extend({
                 //cc.log(xhr.status);
                 //cc.log("net = "+semInternet);
                 //cc.log("aqui = "+xhr.readyState);
+                 cc.log(xhrfimVerdePOST.responseText);
                 if ( xhrfimVerdePOST.readyState == 4 && ( xhrfimVerdePOST.status >= 200 && xhrfimVerdePOST.status <= 207 ) )
                 {
                     var httpStatusfimVerdePOST = xhrfimVerdePOST.statusText;

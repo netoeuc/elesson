@@ -1,8 +1,8 @@
 <!--<!DOCTYPE html>-->
 <html>
 <!--
- * Please see the included README.md file for license terms and conditions.
- -->
+* Please see the included README.md file for license terms and conditions.
+-->
 <head>
     <title></title>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -70,7 +70,7 @@
                                    
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <button id="btnGo" type="button" onclick="go();" class="btn btn-medium bg-vermelho">go</button>
+                                    <button id="btnGo" type="button" onclick="go();" class="btn btn-medium bg-vermelho">go</button>                                      <a href="index2.html">aqui</a>
                                 </div>
                             </div>
        
@@ -141,11 +141,11 @@
                 var sessao = userInfo.getItem("sessao");
                 var idAluno = userInfo.getItem("idAluno");
                 var isCancelar = false;
-                
+               
                 if(sessao != null && idAluno != null){
-                   while(checkConnection() == Connection.NONE){ // enquanto estiver sem internet
-                       if(!confirm("Você está sem conexão. Conecte tente novamente?")){
-                           alert("Conecte com a internet para jogar");
+                  while(checkConnection() == Connection.NONE){ // enquanto estiver sem internet
+                      if(!confirm("Você está sem conexão. Conecte tente novamente?")){
+                          alert("Conecte com a internet para jogar");
                             isCancelar = true;
                             break;
                         }
@@ -192,25 +192,25 @@
                 method:'POST',
                 url:"http://54.187.59.145:9000/api/student/auth",
                 data: "email="+email+"&senha="+senha+"&sessao="+sessao+"&isNSessao="+isNovaSessao,
-               timeout: 20000,
+              timeout: 20000,
  
-           }).done(function(response) {    
-               
-               if(response.hasOwnProperty('mensagem')){
-                   if(response.mensagem == "Você já está logado em outro dispositivo. Deseja iniciar uma nova sessão para este dispositivo?"){
-                       if(confirm(response.mensagem)){
-                         
-                           // fara uma nova requisicao
-                           requestApiAuth(email, senha, sessao, true);
+          }).done(function(response) {    
+             
+              if(response.hasOwnProperty('mensagem')){
+                  if(response.mensagem == "You are already logged in another device. Do you want to start a new session?"){
+                      if(confirm(response.mensagem)){
+                       
+                          // fara uma nova requisicao
+                          requestApiAuth(email, senha, sessao, true);
                         }
                     }else{
                         alert(response.mensagem);
                     }
-                }else if(response.hasOwnProperty('aluno') && response.aluno.logado){
-                   userInfo.setItem("idAluno", response.aluno.id);
-                    userInfo.setItem("status", response.aluno.level);
+                }else if(response.hasOwnProperty('student') && response.student.logado){
+                  userInfo.setItem("idAluno", response.student.id);
+                    userInfo.setItem("status", response.student.level);
                     userInfo.setItem("sessao", sessao);
-                    //status = userInfo.getItem("status");
+                    status = userInfo.getItem("status");
  
                     document.getElementById('sidenav-overlay').style.display = "none";
                     window.location.assign("index2.html");
@@ -229,22 +229,22 @@
                 method:'POST',
                 url:"http://54.187.59.145:9000/api/student/isauth",
                 data: "ca="+idAluno+"&se="+sessao,
-               timeout: 20000,
+              timeout: 20000,
  
-           }).done(function(response) {    
-               
-               if(response.hasOwnProperty('mensagem')){
-                   if(response.mensagem == "Você já está logado em outro dispositivo. Deseja iniciar uma nova sessão para este dispositivo?"){
-                       if(confirm(response.mensagem)){
-                           // fara uma nova requisicao
-                           requestApiAuth(email, senha, sessao, true);
+          }).done(function(response) {    
+             
+              if(response.hasOwnProperty('mensagem')){
+                  if(response.mensagem == "You are already logged in another device. Do you want to start a new session?"){
+                      if(confirm(response.mensagem)){
+                          // fara uma nova requisicao
+                          requestApiAuth(email, senha, sessao, true);
                         }
                     }else{
                         alert(response.mensagem);
                     }
                    
                 }else if(response.hasOwnProperty('isLogado') && response.isLogado){
-                   status = userInfo.getItem("status");
+                  status = userInfo.getItem("status");
  
                     document.getElementById('sidenav-overlay').style.display = "none";
                     window.location.assign("index2.html");

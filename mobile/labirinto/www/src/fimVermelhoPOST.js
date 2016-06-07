@@ -99,12 +99,15 @@ var FimVermelhoPOSTLayer = cc.Layer.extend({
         
             
             var xhr = cc.loader.getXMLHttpRequest();    
-            xhrfimVermelhoPOST.open( "POST", "http://requestb.in/ukb4gauk" );
+            xhrfimVermelhoPOST.open( "POST", "http://54.187.59.145:9000/api/student/questions/answers" );
             xhrfimVermelhoPOST.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded" );
 //            var arguementsfimVermelhoPOST = "Olha o POST funcionando!";
             cc.log(resultadoParaPost);
             cc.log("foi aqui");
-            xhrfimVermelhoPOST.send( resultadoParaPost );
+            var param1POSTvermelho = JSON.stringify(resultadoParaPost);
+            var param2POSTvermelho = userInfo.getItem("sessao");
+            var argumentsPOSTvermelho = "jra="+param1POSTvermelho+"&se="+param2POSTvermelho;
+            xhrfimVermelhoPOST.send( argumentsPOSTvermelho );
             var respostaTempfimVermelhoPOST = xhrfimVermelhoPOST.responseText;
             //cc.log( "resultadoTemp = "+respostaTemp );
 

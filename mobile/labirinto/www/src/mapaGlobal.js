@@ -11,7 +11,7 @@ var GlobalMapLayer = cc.Layer.extend({
         
         var size = cc.winSize;
         
-        // status = 1;
+        status = userInfo.getItem("status");
         // usando o status definido em variaveis.js
         
         if(status >= 1 && status <=5){

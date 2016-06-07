@@ -601,7 +601,7 @@ var popPergunta = function(){
     pontuacao+=pontuacaoMaximaNaQuestao;
     acertouDePrimeira = (pontuacaoMaximaNaQuestao===200);
 //    resultadoParaPost.resultado.respostas[incrementoPost].idQuestao = idQuestaoAtual;
-    resultadoParaPost.resultado.respostas[incrementoPost].idQuestao = resultadoParaPost.resultado.respostas[0].idQuestao;
+    resultadoParaPost.resultado.respostas[incrementoPost].idQuestao = resultadoParaPost.resultado.respostas[incrementoPost].idQuestao;
     resultadoParaPost.resultado.respostas[incrementoPost].pontuacao = pontuacaoMaximaNaQuestao;
     incrementoPost=Number(incrementoPost)+1;
     if (incrementoPost===5){

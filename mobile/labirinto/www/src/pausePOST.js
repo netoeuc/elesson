@@ -111,13 +111,17 @@ var PausePOSTLayer = cc.Layer.extend({
         
             
             var xhr = cc.loader.getXMLHttpRequest();    
-            xhrpausePOST.open( "POST", "http://requestb.in/ukb4gauk" );
+            xhrpausePOST.open( "POST", "http://54.187.59.145:9000/api/student/questions/answers" );
             xhrpausePOST.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded" );
 //            var arguementspausePOST = "Olha o POST funcionando!";
             resultadoParaPost.resultado.level = Number(status)-1;
             idLabirinto = Number(idLabirintoAtual)+1;
             cc.log(resultadoParaPost);
-            xhrpausePOST.send( resultadoParaPost );
+            var param1POSTpause = JSON.stringify(resultadoParaPost);
+            var param2POSTpause = userInfo.getItem("sessao");
+            var argumentsPOSTpause = "jra="+param1POSTpause+"&se="+param2POSTpause;
+            cc.log(argumentsPOSTpause);
+            xhrpausePOST.send( argumentsPOSTpause );
             var respostaTemppausePOST = xhrpausePOST.responseText;
             //cc.log( "resultadoTemp = "+respostaTemp );
 
@@ -126,6 +130,9 @@ var PausePOSTLayer = cc.Layer.extend({
 
             xhrpausePOST.onreadystatechange = function ()
             {
+                cc.log("- - - - - - -  --  - -- - ");
+                cc.log(xhrpausePOST.responseText);
+                cc.log("- - - - - - -  --  - -- - ");
                 //cc.log( "Networking away" );
                 //cc.log(xhr.readyState);
                 //cc.log(xhr.status);

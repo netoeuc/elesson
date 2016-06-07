@@ -9,6 +9,7 @@ var contagemSemInternet = 100;
 var retornoGetQuestoes;
 var responseGET;
 var xhr;
+var alertaProfessor;
 var MiniMapLayer1 = cc.Layer.extend({
     sprite:null,
     ctor:function () {
@@ -21,7 +22,7 @@ var MiniMapLayer1 = cc.Layer.extend({
 //        resultadoParaPost = ["codigoDoAluno",[],[]];
         copiaLayerMinimapa = this;
         conectou = false;
-        
+        alertaProfessor=false;
         
         var logoLoading = new cc.Sprite.create(asset.loading_eLeassons_png);
         
@@ -127,12 +128,19 @@ var MiniMapLayer1 = cc.Layer.extend({
                 cc.log( responseGET );
                 cc.log("imprimiu resposnse text1");
 //                cc.log(responseGET.[0].id);
-                cc.log(responseGET.listaQuestoes[0].id);
+//                cc.log(responseGET.listaQuestoes[0].id);
                 try {
-                    cc.log(responseGET.listaQuestoes[0].id);
+//                    cc.log(responseGET.listaQuestoes[0].id);
                     
                     retornoGetQuestoes = responseGET;
-
+                    
+                    cc.log(responseGET);
+                    if(responseGET.listaQuestoes.length<5){
+                        var cenaFaltouQuestoes = new GlobalMapScene();
+                        cc.director.runScene(cenaFaltouQuestoes);
+                        alert("O professor precisa cadastrar mais questões para que você possa continuar.");
+                        alertaProfessor=true;
+                    }
 
 
                     resultadoParaPost =  {
@@ -228,8 +236,10 @@ var MiniMapLayer1 = cc.Layer.extend({
                     
                 }
                 catch(err) {
-                    alert("Houve um problema no seu login, talvez você tenha logado em um outro dispositivo. Por favor, faça o login novamente.");
-                    window.location.assign("index.html");
+                    if(!alertaProfessor){
+                        alert("Houve um problema no seu login, talvez você tenha logado em um outro dispositivo. Por favor, faça o login novamente.");
+                        window.location.assign("index.html");
+                    }
                 }
                 
                 copiaLayerMinimapa.getChildByTag(99).opacity = 0;
@@ -443,7 +453,7 @@ var MiniMapLayer1 = cc.Layer.extend({
         var topMenu = new cc.Sprite.create(asset.mapa_barraTopo_png); // Adicionando a barra superior para o menu
         topMenu.setAnchorPoint(cc.p( 0, 0 ));
         topMenu.setPosition(cc.p(0, size.height-40));
-        this.addChild(topMenu, 11);
+        this.addChild(topMenu, 11, 8888); //tag = 8888
         
         //adicionando o botão de voltar ao mapa global
         var btnVoltar = new ccui.Button();
@@ -451,7 +461,7 @@ var MiniMapLayer1 = cc.Layer.extend({
         btnVoltar.setAnchorPoint(cc.p(0,0));
         btnVoltar.addTouchEventListener(this.voltar, this); //pop
         btnVoltar.setPosition(cc.p(size.width-40, size.height-40));
-        this.addChild(btnVoltar,12);
+        this.addChild(btnVoltar,12, 888); //tag = 888
         
         if(status >=1 && status <=5){
             var sp2 = new cc.Sprite.create(asset.Mini_mapa1_png);
@@ -833,8 +843,11 @@ var MiniMapLayer1 = cc.Layer.extend({
                 break;
             }
         }
-        if(status >=16 && status <= 20){
-            var sp2 = new cc.Sprite.create(asset.Mini_mapa3_png);
+        if(status >=16 && status <= 21){
+//            var sp2 = new cc.Sprite.create(asset.Mini_mapa3_png); 
+            var sp2 = new cc.Sprite.create(asset.Mini_mapa3_jpeg); 
+            
+                
             sp2.setAnchorPoint(cc.p(0,0));
             sp2.setPosition(cc.p(0,0));
             this.addChild(sp2);
@@ -1019,6 +1032,44 @@ var MiniMapLayer1 = cc.Layer.extend({
                     sp2.setPosition(cc.p(270,540));
                     this.addChild(sp2, 12);
                 break;
+                    
+                case '21':
+                    
+                    var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
+                    sp2.setAnchorPoint(cc.p(0,0));
+                    sp2.setPosition(cc.p(150,125));
+                    this.addChild(sp2);                
+
+                    var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
+                    sp2.setAnchorPoint(cc.p(0,0));
+                    sp2.setPosition(cc.p(345,180));
+                    this.addChild(sp2);
+
+                    var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
+                    sp2.setAnchorPoint(cc.p(0,0));
+                    sp2.setPosition(cc.p(280,390));
+                    this.addChild(sp2);
+
+                    var sp2 = new cc.Sprite.create(asset.estagioConcluido_png);
+                    sp2.setAnchorPoint(cc.p(0,0));
+                    sp2.setPosition(cc.p(70,480));
+                    this.addChild(sp2);
+
+                    //chamada para o labirinto nivel 15
+                    /*var sp2 = new cc.Sprite.create(asset.estagioDisponivel_png);
+                    sp2.setAnchorPoint(cc.p(0,0));
+                    sp2.setPosition(cc.p(270,540));
+                    this.addChild(sp2);*/
+                    
+                    var sp2= new ccui.Button();
+                    sp2.loadTextures(asset.estagioConcluido_png);
+                    sp2.setAnchorPoint(cc.p(0,0));
+                    sp2.setPosition(cc.p(270,540));
+                    this.addChild(sp2, 12);
+
+                   
+                break;
+                    
             }
         }
 //        if(status >=16 && status <= 20){
@@ -1222,7 +1273,7 @@ var MiniMapLayer1 = cc.Layer.extend({
             case ccui.Widget.TOUCH_ENDED:
                 if(conectou){
                     var cenaLabirintoMiniMap = new HistoriaLabirintoScene();
-                    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaLabirintoMiniMap));
+                    cc.director.pushScene(new cc.TransitionMoveInR(0.5,cenaLabirintoMiniMap));
                 }
                 break;
         }
@@ -1235,7 +1286,7 @@ var MiniMapLayer1 = cc.Layer.extend({
             case ccui.Widget.TOUCH_ENDED:
                 if(conectou){
                     var cenaPlataformaMiniMap = new HistoriaPlataformaScene();
-                    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaPlataformaMiniMap));
+                    cc.director.pushScene(new cc.TransitionMoveInR(0.5,cenaPlataformaMiniMap));
                 }
                 break;
         }
@@ -1248,7 +1299,7 @@ var MiniMapLayer1 = cc.Layer.extend({
             case ccui.Widget.TOUCH_ENDED:
                 if(conectou){
                     var cenaLabirintoMiniMap = new LabirintoScene();
-                    cc.director.pushScene(new cc.TransitionZoomFlipAngular(0.5,cenaLabirintoMiniMap));
+                    cc.director.pushScene(new cc.TransitionMoveInR(0.5,cenaLabirintoMiniMap));
                 }
                 break;
         }

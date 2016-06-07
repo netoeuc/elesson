@@ -11,6 +11,7 @@ var pontuacaoPlataforma = 0;
 var chances = 3;
 var idQuestaoAtual;
 var idQuestaoAtualPlataforma;
+var voltandoDaPergunta;
 var PlataformaLayer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
@@ -137,9 +138,16 @@ var PlataformaLayer = cc.Layer.extend({
         }
         
         
+//        if(contadorFimPlataforma===5){
+//            alert("Welcome to the colors challenge!");
+//        }else{
+//            
+//        }
         
-        
-        var pontuacaoLabel = new cc.LabelTTF("Worth: "+ ((chances)*80) +" points","Arial");
+        var pontuacaoLabel = new cc.LabelTTF("Worth: "+ (((chances)*60)+20) +" points","Arial");
+        if (status>=16){
+            pontuacaoLabel.setFontFillColor(cc.color.BLACK);
+        }
         pontuacaoLabel.setFontSize(15);
         pontuacaoLabel.setPosition(cc.p(sizePlataforma.width-70, sizePlataforma.height-60));
         this.addChild(pontuacaoLabel, 1, 2); //zOrder = 1, Tag = 2
@@ -149,7 +157,12 @@ var PlataformaLayer = cc.Layer.extend({
         questionLabelPlataforma.width = sizePlataforma.width-100;
         questionLabelPlataforma.height = sizePlataforma.height-100;
         cc.log((6-contadorFimPlataforma));
-        var questionLabel_r1Plataforma = new ccui.RichElementText(1, cc.color.WHITE, 255, "Question "+ (6-contadorFimPlataforma) +":", "Helvetica", 30);
+        var questionLabel_r1Plataforma;
+        if (status>=16){
+            questionLabel_r1Plataforma = new ccui.RichElementText(1, cc.color.BLACK, 255, "Question "+ (6-contadorFimPlataforma) +":", "Helvetica", 30);
+        }else{
+            questionLabel_r1Plataforma = new ccui.RichElementText(1, cc.color.WHITE, 255, "Question "+ (6-contadorFimPlataforma) +":", "Helvetica", 30);
+        }
         questionLabelPlataforma.setLineBreakOnSpace(true);
         questionLabelPlataforma.setTextHorizontalAlignment(cc.Text_ALIGNMENT_RIGHT);
         questionLabelPlataforma.pushBackElement(questionLabel_r1Plataforma);
@@ -182,7 +195,13 @@ var PlataformaLayer = cc.Layer.extend({
         
         
         
-        var backgroundHistoriaPlataforma2 = new cc.Sprite.create(asset.plataforma_background_png); 
+        var backgroundHistoriaPlataforma2;
+        if(status>=16){
+            backgroundHistoriaPlataforma2 = new cc.Sprite.create(asset.plataforma_backgroundNeve_png); 
+        }else{
+            backgroundHistoriaPlataforma2 = new cc.Sprite.create(asset.plataforma_backgroundPraia_png); 
+            
+        }
         backgroundHistoriaPlataforma2.setAnchorPoint(cc.p( 0, 0 ));
         backgroundHistoriaPlataforma2.setPosition(cc.p(0, 0));
         this.addChild(backgroundHistoriaPlataforma2, -1);
@@ -258,7 +277,7 @@ var PlataformaLayer = cc.Layer.extend({
                 }else{
                     cc.log("wrong");
                     cc.audioEngine.playEffect(asset.plataforma_wrong_mp3);
-                    this.getChildByTag(2).setString("Worth: "+ ((chances)*80) +" points");
+                    this.getChildByTag(2).setString("Worth: "+ (((chances)*60)+20) +" points");
                 }
                 break;
         }
@@ -288,7 +307,7 @@ var PlataformaLayer = cc.Layer.extend({
                 }else{
                     cc.log("wrong");
                     cc.audioEngine.playEffect(asset.plataforma_wrong_mp3);
-                    this.getChildByTag(2).setString("Worth: "+ ((chances)*80) +" points");
+                    this.getChildByTag(2).setString("Worth: "+ (((chances)*60)+20) +" points");
                 }
                 break;
             }
@@ -319,7 +338,7 @@ var PlataformaLayer = cc.Layer.extend({
                 }else{
                     cc.log("wrong");
                     cc.audioEngine.playEffect(asset.plataforma_wrong_mp3);
-                    this.getChildByTag(2).setString("Worth: "+ ((chances)*80) +" points");
+                    this.getChildByTag(2).setString("Worth: "+ (((chances)*60)+20) +" points");
                 }
                 break;
         }
@@ -348,7 +367,7 @@ var PlataformaLayer = cc.Layer.extend({
                 }else{
                     cc.log("wrong");
                     cc.audioEngine.playEffect(asset.plataforma_wrong_mp3);
-                    this.getChildByTag(2).setString("Worth: "+ ((chances)*80) +" points");
+                    this.getChildByTag(2).setString("Worth: "+ (((chances)*60)+20) +" points");
                 }
                 break;
         }
@@ -396,7 +415,7 @@ function passarDeFasePlataforma(id){
     
     resultadoParaPost.resultado.respostas[incrementoPlataforma].idQuestao = resultadoParaPost.resultado.respostas[incrementoPlataforma].idQuestao;
     if(id==1){
-        resultadoParaPost.resultado.respostas[incrementoPlataforma].pontuacao = ((chances+1)*80);    
+        resultadoParaPost.resultado.respostas[incrementoPlataforma].pontuacao = ((chances+1)*60)+20;    
     }else{
         resultadoParaPost.resultado.respostas[incrementoPlataforma].pontuacao = 0;
     }
@@ -409,7 +428,7 @@ function passarDeFasePlataforma(id){
     
     
     if(id===1){//pontuou
-        pontuacaoPlataforma+= ((chances+1)*80);
+        pontuacaoPlataforma+= (((chances+1)*60)+20);
     }
     stopGame = false;
     vermelhoJaFoiEscolhido = false;
@@ -428,6 +447,7 @@ function passarDeFasePlataforma(id){
     }else{
         numeroPerguntaQuizLabirinto = Number(numeroPerguntaQuizLabirinto)+1;
         var proximaPlataforma = new PlataformaScene();
+        alert("Let's go to the next question!");
         cc.director.runScene(proximaPlataforma);
     }
     
@@ -436,7 +456,7 @@ function passarDeFasePlataforma(id){
 
 
 function endGamePlataforma(){
-    if (pontuacaoPlataforma>=560){ // 70% do total (800)
+    if (pontuacaoPlataforma>=700){ // 70% do total (1000)
         pontuacaoPlataforma = 0;
         numeroPerguntaQuizLabirinto = 0;
         var fimVerdeplataforma = new FimVerdeScene();
@@ -455,6 +475,7 @@ function endGamePlataforma(){
 
 var PlataformaScene = cc.Scene.extend({
     onEnter:function () {
+            voltandoDaPergunta = false;
             INITTIALIZED_plat = true;
             this._super();
             var plataformalayer = new PlataformaLayer();

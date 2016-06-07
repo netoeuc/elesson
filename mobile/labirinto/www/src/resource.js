@@ -37,6 +37,8 @@ var asset = {
     labirinto_escola_saida_png : "asset/labirinto/labirinto_escola_saida.png",
     labirinto_parede_png : "asset/labirinto/labirinto_parede.png",
     labirinto_pause_png : "asset/labirinto/pause.png",
+    labirinto_areia_png : "asset/labirinto/labirinto_areia.jpeg",
+    
     
     
     // ------------ Desafio -------------- //
@@ -48,6 +50,8 @@ var asset = {
     boxVerde_png : "asset/desafio/boxVerde.png",
     boxAzul_png : "asset/desafio/boxAzul.png",
     boxAmarelo_png : "asset/desafio/boxAmarelo.png",
+    backgroundDesafioPlataforma_jpeg : "asset/desafio/backgroundDesafioPlataforma.jpeg",
+    
     
     
     // ------------ Pause -------------- //
@@ -75,6 +79,8 @@ var asset = {
     plataforma_wrong_mp3 : "asset/plataforma/wrong.mp3",
     plataforma_botao_seeQuestion_png : "asset/plataforma/plataforma_botao_seeQuestion.png",
     plataforma_background_png : "asset/plataforma/plataforma_background.png",
+    plataforma_backgroundNeve_png : "asset/plataforma/plataforma_backgroundNeve.png",
+    plataforma_backgroundPraia_png : "asset/plataforma/plataforma_backgroundPraia.png",
     
     
     // ------------ TelaFim -------------- //
@@ -86,6 +92,8 @@ var asset = {
     telaInicio_acelerometroLabirinto_png : "asset/telaInicio/telaInicio_acelerometroLabirinto.png",
     telaInicio_historiaPlataforma_png : "asset/telaInicio/telaInicio_historiaPlataforma.png",
     telaInicio_touchPlataforma_png : "asset/telaInicio/telaInicio_touchPlataforma.png",
+    tela_fim_jogo_png: "asset/telaFim/tela_fim_jogo.png",
+    
     
     
     
@@ -97,6 +105,7 @@ var asset = {
     Mini_mapa1_png : "asset/mapa/Mini_mapa1.png",
     Mini_mapa2_png : "asset/mapa/Mini_mapa2.png",
     Mini_mapa3_png : "asset/mapa/Mini_mapa3.png",
+    Mini_mapa3_jpeg : "asset/mapa/Mini_mapa3.jpeg",
     Mini_mapa4_png : "asset/mapa/Mini_mapa4.png",
     unidade01_png : "asset/mapa/unidade01.png",
     unidade02_png : "asset/mapa/unidade02.png",
@@ -108,6 +117,10 @@ var asset = {
     mapa_barraTopo_png : "asset/mapa/mapa_barraTopo.png",
     mapa_pause_png : "asset/mapa/mapa_pause.png",
     mapa_musica_mp3 : "asset/mapa/MusicaMapa.mp3",
+    
+    
+    
+    
     
     
     

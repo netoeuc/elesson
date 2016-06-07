@@ -911,7 +911,13 @@ var LabirintoLayer = cc.Layer.extend({
         var s = 0;
         for (var linha in string) {
             for ( var elemento in string[linha]) {
-                    var back = new cc.Sprite.create(asset.labirinto_grama_png);
+                    var back;
+                    if(status>=6){
+                        back = new cc.Sprite.create(asset.labirinto_areia_png);
+                    }else{
+                        back = new cc.Sprite.create(asset.labirinto_grama_png);
+                    }
+                    
                     back.setAnchorPoint( cc.p( 0, 0 ) );
                     back.setPosition(cc.p(elemento * 40, linha * 40));
                     back.zPosition = -1;
@@ -952,7 +958,7 @@ var LabirintoLayer = cc.Layer.extend({
                                     sprite.setPosition(cc.p(elemento*40, linha*40));
                                     this.addChild(sprite, 10);
                                     sombra.setPosition(cc.p(elemento*40, linha*40));
-//                                    this.addChild(sombra, 10, 0); // zOrder = 10, Tag = 0
+                                    this.addChild(sombra, 10, 0); // zOrder = 10, Tag = 0
                                 }
                                 
                             }
@@ -980,7 +986,12 @@ var LabirintoLayer = cc.Layer.extend({
         
         function removeObjectSprite(HelloWorldLayer){
             ////cc.log("Entrou");
-            var newBackgroundTile = new cc.Sprite.create(asset.labirinto_grama_png); // Adicionando background
+            var newBackgroundTile;
+            if(status>=6){
+                newBackgroundTile = new cc.Sprite.create(asset.labirinto_areia_png); // Adicionando background
+            }else{
+                newBackgroundTile = new cc.Sprite.create(asset.labirinto_grama_png); // Adicionando background
+            }
             newBackgroundTile.setAnchorPoint(cc.p( 0, 0 ));
             newBackgroundTile.setPosition(cc.p(currentSpritePosition[0]*40, currentSpritePosition[1]*40));
             HelloWorldLayer.addChild(newBackgroundTile, 2);    
@@ -1076,7 +1087,13 @@ var LabirintoLayer = cc.Layer.extend({
                                         sombra.runAction(sequenceSombraMoveLeft);
                                         isFirstMovement = moveLeft(); // Move left in the string
                                         if(isFirstMovement===false){
-                                            novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                            if(status>=6){
+                                                novoBackground = cc.Sprite.create(asset.labirinto_areia_png);
+                                            }else{
+                                                novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                            }
+                                            
+//                                            novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
                                             novoBackground.setAnchorPoint(cc.p(0,0));
                                             novoBackground.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
                                             (sprite.parent).addChild(novoBackground,5);
@@ -1102,7 +1119,12 @@ var LabirintoLayer = cc.Layer.extend({
                                             sombra.runAction(sequenceSombraMoveRight);  
                                             isFirstMovement = moveRight(); // Move right in the string
                                             if(isFirstMovement===false){
-                                                novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                                if(status>=6){
+                                                    novoBackground = cc.Sprite.create(asset.labirinto_areia_png);
+                                                }else{
+                                                    novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                                }
+//                                                novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
                                                 novoBackground.setAnchorPoint(cc.p(0,0));
                                                 novoBackground.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
                                                 (sprite.parent).addChild(novoBackground,5);
@@ -1132,7 +1154,12 @@ var LabirintoLayer = cc.Layer.extend({
                                     sombra.runAction(sequenceSombraMoveDown);
                                     isFirstMovement = moveDown(); // Move down in the string
                                     if(isFirstMovement===false){
-                                            novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                            if(status>=6){
+                                                novoBackground = cc.Sprite.create(asset.labirinto_areia_png);
+                                            }else{
+                                                novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                            }
+//                                            novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
                                             novoBackground.setAnchorPoint(cc.p(0,0));
                                             novoBackground.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
                                             (sprite.parent).addChild(novoBackground,5);
@@ -1163,7 +1190,12 @@ var LabirintoLayer = cc.Layer.extend({
                                         sombra.runAction(sequenceSombraMoveUp);
                                         isFirstMovement = moveUp(); // Move up in the string
                                 if(isFirstMovement===false){
-                                            novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                            if(status>=6){
+                                                novoBackground = cc.Sprite.create(asset.labirinto_areia_png);
+                                            }else{
+                                                novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
+                                            }
+//                                            novoBackground = cc.Sprite.create(asset.labirinto_grama_png);
                                             novoBackground.setAnchorPoint(cc.p(0,0));
                                             novoBackground.setPosition(cc.p(40*currentSpritePosition[1],                                                                                                     40*currentSpritePosition[0]));
                                             (sprite.parent).addChild(novoBackground,5);
@@ -1234,11 +1266,11 @@ function endGame(){
     if (pontuacao>=700){
         pontuacao = 0;
         var fimVerde = new FimVerdeScene();
-        cc.director.pushScene(new cc.TransitionZoomFlipAngular(2,fimVerde));    
+        cc.director.pushScene(new cc.TransitionMoveInR(2,fimVerde));    
     }else{
         pontuacao = 0;
         var fimVermelho = new FimVermelhoScene();
-        cc.director.pushScene(new cc.TransitionZoomFlipAngular(2,fimVermelho));    
+        cc.director.pushScene(new cc.TransitionMoveInR(2,fimVermelho));    
     }
 //    alert("End game!");
     
