@@ -32,6 +32,7 @@ import util.Seguranca;
 import database.AlunoDatabase;
 import database.InstituicaoDatabase;
 import database.QuestaoDatabase;
+import database.RespostaDatabase;
 
 public class AlunoController extends Controller {
 
@@ -311,18 +312,26 @@ public class AlunoController extends Controller {
 				    	//JPA.em().getTransaction().begin();
 					    for (int i = 0; i < jListaRespostas.length(); i++) {
 					    	
-					    	jResposta = jListaRespostas.getJSONObject(i);    	
+					    	jResposta = jListaRespostas.getJSONObject(i);   
+					    	
 							q = QuestaoDatabase.selectQuestaoById(jResposta.getInt("idQuestao"));
-							
 							if(q == null){
 								throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao nao cadastrada. idQuestao: "+jResposta.getInt("idQuestao"));
 							}
 							
+							r = RespostaDatabase.selectRespostaByQuestaoAndAluno(jResposta.getInt("idQuestao"),a.getId());
+							if(r != null){
+								throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao ja respondida. idQuestao: "+jResposta.getInt("idQuestao")+" / idAluno: "+a.getId());
+							}
+						}
+					    
+					    for (int i = 0; i < jListaRespostas.length(); i++) {
+					    	jResposta = jListaRespostas.getJSONObject(i);
 					    	r = new Resposta(a.getProfessor(), q, a, jResposta.getInt("pontuacao"), level);
 					    	pontuacaoTotal += jResposta.getInt("pontuacao");
-					    	
 					    	JPA.em().persist(r);
 						}
+					    
 					    a.setPontuacao(a.getPontuacao() + pontuacaoTotal);
 					    a.setLevel((a.getLevel()+1));
 					  
