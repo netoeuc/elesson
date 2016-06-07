@@ -114,7 +114,7 @@ public class ProfessorController extends Controller{
 					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(p.getCnpjInst());
 					
 					String senha = Seguranca.gerarSenha(6);
-					Mail.sendMail(p.getEmail(), "Alteração de Senha", views.html.professor.email.render(i, p.getNome(),p.getEmail(),senha, request().host(), 2).toString());
+					Mail.sendMail(p.getEmail(), "Change password", views.html.professor.email.render(i, p.getNome(),p.getEmail(),senha, request().host(), 2).toString());
 					p.setSenha(senha);
 					JPA.em().merge(p);
 					
@@ -142,7 +142,7 @@ public class ProfessorController extends Controller{
 					flash("erro", "Email does not exist");
 				}else if(p.getStatus() == Constantes.STATUS_ATIVO){
 					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(p.getCnpjInst());
-					Mail.sendMail(p.getEmail(), "Você esqueceu a senha?", views.html.professor.email.render(i, p.getNome(),p.getEmail(),"", request().host(), 4).toString());
+					Mail.sendMail(p.getEmail(), "Forgot your password?", views.html.professor.email.render(i, p.getNome(),p.getEmail(),"", request().host(), 4).toString());
 					session().put(Constantes.SESSION_COD_INSTTEACFOR, Seguranca.encryptString(p.getId()+""));
 					flash("erro", "Check your email confirmation");
 				}
@@ -172,7 +172,7 @@ public class ProfessorController extends Controller{
 					flash("erro", "Username doest not exist");
 					
 				}else if(p.getStatus() == Constantes.STATUS_AGUARDANDO){
-					flash("erro", "Confirm your email on the link we sent");
+					flash("erro", "Confirm your email on the link we sent to you");
 					
 				} else if(!p.getSenha().equals(senha)){
 					flash("erro", "Wrong password");
@@ -258,7 +258,7 @@ public class ProfessorController extends Controller{
 						Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(p.getCnpjInst());
 						if(pe == null){
 							p.setEmail(email);
-							Mail.sendMail(email, "Alteração de Email", views.html.professor.email.render(i, "","","", request().host(), 1).toString());
+							Mail.sendMail(email, "Change email", views.html.professor.email.render(i, "","","", request().host(), 1).toString());
 							p.setStatus(Constantes.STATUS_AGUARDANDO);
 							flash("erro", "Confirm your email modification");
 							session().clear();
@@ -317,7 +317,7 @@ public class ProfessorController extends Controller{
 					return ok(views.html.aluno.mostrarAluno.render(a,pontosPorLevel[0],pontosPorLevel[1],pontosPorLevel[2],pontosPorLevel[3],qntQuestoes));
 				}
 			}
-			flash("erro", "Código do aluno inválido");
+			flash("erro", "Student code is invalid");
 
 		}catch(Exception e){
 			Logger.error("ERRO - ProfessorController/mostrarAluno(): "+ e.getMessage());
@@ -353,14 +353,14 @@ public class ProfessorController extends Controller{
 					Questao novaQ = new Questao(p.getInstituicao(),p,questao,resposta1,resposta2,resposta3,resposta4,resposta5,resposta,nivel);
 						
 					JPA.em().persist(novaQ);
-					flash("ok", "Questão cadastrada");
+					flash("ok", "Question registered");
 				}
 			}else{
 				return redirect(routes.ProfessorController.login());
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - ProfessorController/cadastrarQuestao(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao cadastrar. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.ProfessorController.questoes());
 	}
@@ -419,7 +419,7 @@ public class ProfessorController extends Controller{
 					q.setRespostaCorreta(respostaCorreta.charAt(0));
 					q.setLevel(nivel);
 					JPA.em().merge(q);
-					flash("ok","questão edited");
+					flash("ok","question edited");
 					}	
 				}
 		} catch (Exception e) {
@@ -445,10 +445,10 @@ public class ProfessorController extends Controller{
 					QuestaoDatabase.deleteQuestao(q);
 					flash("ok", "question removed");
 				}else{
-					flash("erro", "Nenhuma questão cadastrada com este código");
+					flash("erro", "None question registered with this code");
 				}
 			}else{
-				flash("erro", "Informe o Id da questão");
+				flash("erro", "Inform question Id");
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - ProfessorController/removerQuestao(): "+ e.getMessage());

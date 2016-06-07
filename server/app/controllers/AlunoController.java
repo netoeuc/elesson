@@ -53,13 +53,13 @@ public class AlunoController extends Controller {
 					JPA.em().merge(a);
 					
 					nome = "Hello, "+a.getNome();
-					mensagem = "Sua conta foi ativada. Você já pode começar a jogar!";
+					mensagem = "Your account is activated. You can now play, have fun!";
 					return ok(views.html.aluno.index.render(nome, mensagem));
 				}
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - AlunoController/ativar(): "+ e.getMessage());
-			mensagem = "Ocorreu um erro ao ativar a conta. Tente novamente mais tarde";
+			mensagem = "Something wrong happened. Try again later";
 			nome = "Ops";
 			return ok(views.html.aluno.index.render(nome, mensagem));
 		}
@@ -83,7 +83,7 @@ public class AlunoController extends Controller {
 					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(a.getCnpjInst());
 
 					String senha = Seguranca.gerarSenha(6);
-					Mail.sendMail(a.getEmail(), "Alteração de Senha", views.html.aluno.email.render(i, a.getIdProfessor()+"", a.getNome(), a.getEmail(), senha, request().host(), 2).toString());
+					Mail.sendMail(a.getEmail(), "Change password", views.html.aluno.email.render(i, a.getIdProfessor()+"", a.getNome(), a.getEmail(), senha, request().host(), 2).toString());
 					a.setSenha(senha);
 					a.setLogado(false);
 					JPA.em().merge(a);
@@ -105,22 +105,22 @@ public class AlunoController extends Controller {
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
 
 			if(email == null){
-				flash("erro", "Informe seu email");
+				flash("erro", "Enter your email");
 			}else{
 				Aluno a = AlunoDatabase.selectAlunoByEmail(email);
 				if(a == null){
-					flash("erro", "Email não cadastrado");
+					flash("erro", "Email does not exist");
 				}else{
 					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(a.getEmail());
 
-					Mail.sendMail(a.getEmail(), "Você esqueceu a senha?", views.html.aluno.email.render(i, a.getIdProfessor()+"", a.getNome(), a.getEmail(), "", request().host(), 4).toString());
+					Mail.sendMail(a.getEmail(), "Forgot your password?", views.html.aluno.email.render(i, a.getIdProfessor()+"", a.getNome(), a.getEmail(), "", request().host(), 4).toString());
 					session().put(Constantes.SESSION_COD_INSTTEACFOR, Seguranca.encryptString(i.getCnpj()));
-					flash("erro", "Confirme o lembrete no seu email");
+					flash("erro", "Confirm your email on the link we sent to you");
 				}
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - AlunoController/lembrarSenha(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao enviar. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.AlunoController.esqueceuSenha());
 	}
@@ -149,7 +149,7 @@ public class AlunoController extends Controller {
 					if(a.getStatus() == Constantes.STATUS_ATIVO){
 						if (a.getSenha().equals(senha)) {
 							if(!isNovaSessao && a.isLogado() && !a.getSessao().equals(sessao)){
-								return ok(AdminJson.getMensagem("Você já está logado em outro dispositivo. Deseja iniciar uma nova sessão para este dispositivo?"));
+								return ok(AdminJson.getMensagem("You are already logged in another device. Do you want to start a new session?"));
 							}
 //							HashMap<String, Object> map = new HashMap<String, Object>();
 //							map.put("aluno", a);
@@ -162,15 +162,15 @@ public class AlunoController extends Controller {
 							a.setSessao(sessao);
 							JPA.em().merge(a);
 							
-							return ok(AdminJson.getObject(a, "aluno"));
+							return ok(AdminJson.getObject(a, "student"));
 						}else{
-							return ok(AdminJson.getMensagem("senha inválida"));
+							return ok(AdminJson.getMensagem("wrong password"));
 						}
 					}else{
-						return ok(AdminJson.getMensagem("confirme sua conta no email que te enviamos"));
+						return ok(AdminJson.getMensagem("confirme your email on the link we sent to you"));
 					}
 				}else{
-					return ok(AdminJson.getMensagem("usuário não cadastrado"));
+					return ok(AdminJson.getMensagem("username does not exist"));
 				}
 			}else{
 				return badRequest(AdminJson.getMensagem(AdminJson.msgConsulteAPI));
@@ -349,11 +349,6 @@ public class AlunoController extends Controller {
 			Logger.error("ERRO - AlunoController/responderQuestao(): "+ e1.getMessage());
 		}
 		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
-	}
-	
-	private static Function0 cadastrarQuestoes() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Transactional
