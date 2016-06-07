@@ -65,7 +65,7 @@ public class Questao implements Serializable {
 	@JsonIgnore
 	private Professor professor;
 	
-	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval=true)
+	@OneToMany(orphanRemoval=false)
 	@JoinColumn(name="idQuestao")
 	@JsonIgnore
 	private List<Resposta> respostas;

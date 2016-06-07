@@ -3,6 +3,7 @@ package controllers;
 import static play.data.Form.form;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -26,6 +27,7 @@ import play.db.jpa.Transactional;
 import play.libs.F.Function0;
 import play.mvc.Controller;
 import play.mvc.Result;
+import scala.collection.immutable.Stream.Cons;
 import util.AdminJson;
 import util.Constantes;
 import util.Mail;
@@ -135,6 +137,7 @@ public class AlunoController extends Controller {
 		response().setContentType("application/json; charset=utf-8");
 		response().setHeader("Access-Control-Allow-Origin","*");
 		response().setHeader("Access-Control-Allow-Methods", "GET, POST");
+		HashMap<String, Object> mp = new HashMap<String, Object>();
 		
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
@@ -151,36 +154,46 @@ public class AlunoController extends Controller {
 					if(a.getStatus() == Constantes.STATUS_ATIVO){
 						if (a.getSenha().equals(senha)) {
 							if(!isNovaSessao && a.isLogado() && !a.getSessao().equals(sessao)){
-								return ok(AdminJson.getMensagem("You are already logged in another device. Do you want to start a new session?"));
+								mp.put("texto", "You are already logged in another device. Do you want to start a new session?");
+								mp.put("codigo", 5);
+								return ok(AdminJson.getObject(mp, "mensagem"));
 							}
-//							HashMap<String, Object> map = new HashMap<String, Object>();
-//							map.put("aluno", a);
-//							if(a.getUsername() == null){
-//								map.put("primeiroAcesso", true);
-//							}else{
-//								map.put("primeiroAcesso", false);
-//							}
+							mp.put("aluno", a);
+							
+							if(a.getUsername() == null){
+								mp.put("primeiroAcesso", true);
+							}else{
+								mp.put("primeiroAcesso", false);
+							}
+							a.setUsername(Constantes.USERNAME_MASCULINO1);
+							
 							a.setLogado(true);
 							a.setSessao(sessao);
 							JPA.em().merge(a);
 							
-							return ok(AdminJson.getObject(a, "student"));
+							return ok(AdminJson.getObject(a, "aluno"));
 						}else{
-							return ok(AdminJson.getMensagem("wrong password"));
+							mp.put("texto", "Wrong password");
+							mp.put("codigo", 4);
 						}
 					}else{
-						return ok(AdminJson.getMensagem("confirme your email on the link we sent to you"));
+						mp.put("texto", "Confirme your email on the link we sent to you");
+						mp.put("codigo", 3);
 					}
 				}else{
-					return ok(AdminJson.getMensagem("username does not exist"));
+					mp.put("texto", "Username does not exist");
+					mp.put("codigo", 2);
 				}
 			}else{
-				return badRequest(AdminJson.getMensagem(AdminJson.msgConsulteAPI));
+				mp.put("texto", AdminJson.msgConsulteAPI);
+				mp.put("codigo", 1);
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - AlunoController/logar(): "+ e.getMessage());
-		}
-		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
+			mp.put("texto", AdminJson.msgErroRequest);
+			mp.put("codigo", 0);
+		}		
+		return ok(AdminJson.getObject(mp, "mensagem"));
 	}
 	
 	@Transactional
