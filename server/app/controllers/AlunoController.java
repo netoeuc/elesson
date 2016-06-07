@@ -2,6 +2,7 @@ package controllers;
 
 import static play.data.Form.form;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -304,43 +305,46 @@ public class AlunoController extends Controller {
 									
 				    JSONArray jListaRespostas = jResultado.getJSONArray("respostas");
 				    
+				    List<Questao> lq = new ArrayList<Questao>();
 				    Questao q = null;
 				    Resposta r = null;
 				    JSONObject jResposta = null;
 					
 				    try{
 				    	//JPA.em().getTransaction().begin();
-					    for (int i = 0; i < jListaRespostas.length(); i++) {
-					    	
-					    	jResposta = jListaRespostas.getJSONObject(i);   
-					    	
-							q = QuestaoDatabase.selectQuestaoById(jResposta.getInt("idQuestao"));
-							if(q == null){
-								throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao nao cadastrada. idQuestao: "+jResposta.getInt("idQuestao"));
+				    	if(jListaRespostas.length() == 5){
+						    for (int i = 0; i < jListaRespostas.length(); i++) {
+						    	
+						    	jResposta = jListaRespostas.getJSONObject(i);   
+						    	
+								q = QuestaoDatabase.selectQuestaoById(jResposta.getInt("idQuestao"));
+								if(q == null){
+									throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao nao cadastrada. idQuestao: "+jResposta.getInt("idQuestao"));
+								}
+								
+								r = RespostaDatabase.selectRespostaByQuestaoAndAluno(jResposta.getInt("idQuestao"),a.getId());
+								if(r != null){
+									throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao ja respondida. idQuestao: "+jResposta.getInt("idQuestao")+" / idAluno: "+a.getId());
+								}
+								lq.add(q);
 							}
-							
-							r = RespostaDatabase.selectRespostaByQuestaoAndAluno(jResposta.getInt("idQuestao"),a.getId());
-							if(r != null){
-								throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao ja respondida. idQuestao: "+jResposta.getInt("idQuestao")+" / idAluno: "+a.getId());
+						    
+						    for (int i = 0; i < jListaRespostas.length(); i++) {
+						    	jResposta = jListaRespostas.getJSONObject(i);
+						    	r = new Resposta(a.getProfessor(), lq.get(i), a, jResposta.getInt("pontuacao"), level);
+						    	pontuacaoTotal += jResposta.getInt("pontuacao");
+						    	JPA.em().persist(r);
 							}
-						}
-					    
-					    for (int i = 0; i < jListaRespostas.length(); i++) {
-					    	jResposta = jListaRespostas.getJSONObject(i);
-					    	r = new Resposta(a.getProfessor(), q, a, jResposta.getInt("pontuacao"), level);
-					    	pontuacaoTotal += jResposta.getInt("pontuacao");
-					    	JPA.em().persist(r);
-						}
-					    
-					    a.setPontuacao(a.getPontuacao() + pontuacaoTotal);
-					    a.setLevel((a.getLevel()+1));
-					  
-					    JPA.em().merge(a);	
-					    //JPA.em().getTransaction().commit();
-					    
-					    List<Questao> lq = QuestaoDatabase.selectQuestoesByAluno(a.getCnpjInst(), a.getIdProfessor(), a.getId(), a.getLevel());
-						return ok(AdminJson.getObject(lq, "listaQuestoes"));
-				    
+						    
+						    a.setPontuacao(a.getPontuacao() + pontuacaoTotal);
+						    a.setLevel((a.getLevel()+1));
+						  
+						    JPA.em().merge(a);	
+						    //JPA.em().getTransaction().commit();
+						    
+						    lq = QuestaoDatabase.selectQuestoesByAluno(a.getCnpjInst(), a.getIdProfessor(), a.getId(), a.getLevel());
+							return ok(AdminJson.getObject(lq, "listaQuestoes"));
+				    	}
 				    }catch(Exception e){
 				    	Logger.error(e.getMessage());
 				    	//JPA.em().getTransaction().rollback();
