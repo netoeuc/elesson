@@ -2,6 +2,8 @@ package controllers;
 
 import static play.data.Form.form;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -25,6 +27,7 @@ import play.db.jpa.Transactional;
 import play.libs.F.Function0;
 import play.mvc.Controller;
 import play.mvc.Result;
+import scala.collection.immutable.Stream.Cons;
 import util.AdminJson;
 import util.Constantes;
 import util.Mail;
@@ -134,6 +137,7 @@ public class AlunoController extends Controller {
 		response().setContentType("application/json; charset=utf-8");
 		response().setHeader("Access-Control-Allow-Origin","*");
 		response().setHeader("Access-Control-Allow-Methods", "GET, POST");
+		HashMap<String, Object> mp = new HashMap<String, Object>();
 		
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
@@ -150,36 +154,46 @@ public class AlunoController extends Controller {
 					if(a.getStatus() == Constantes.STATUS_ATIVO){
 						if (a.getSenha().equals(senha)) {
 							if(!isNovaSessao && a.isLogado() && !a.getSessao().equals(sessao)){
-								return ok(AdminJson.getMensagem("You are already logged in another device. Do you want to start a new session?"));
+								mp.put("texto", "You are already logged in another device. Do you want to start a new session?");
+								mp.put("codigo", 5);
+								return ok(AdminJson.getObject(mp, "mensagem"));
 							}
-//							HashMap<String, Object> map = new HashMap<String, Object>();
-//							map.put("aluno", a);
-//							if(a.getUsername() == null){
-//								map.put("primeiroAcesso", true);
-//							}else{
-//								map.put("primeiroAcesso", false);
-//							}
+							mp.put("aluno", a);
+							
+							if(a.getUsername() == null){
+								mp.put("primeiroAcesso", true);
+							}else{
+								mp.put("primeiroAcesso", false);
+							}
+							a.setUsername(Constantes.USERNAME_MASCULINO1);
+							
 							a.setLogado(true);
 							a.setSessao(sessao);
 							JPA.em().merge(a);
 							
-							return ok(AdminJson.getObject(a, "student"));
+							return ok(AdminJson.getObject(a, "aluno"));
 						}else{
-							return ok(AdminJson.getMensagem("wrong password"));
+							mp.put("texto", "Wrong password");
+							mp.put("codigo", 4);
 						}
 					}else{
-						return ok(AdminJson.getMensagem("confirme your email on the link we sent to you"));
+						mp.put("texto", "Confirme your email on the link we sent to you");
+						mp.put("codigo", 3);
 					}
 				}else{
-					return ok(AdminJson.getMensagem("username does not exist"));
+					mp.put("texto", "Username does not exist");
+					mp.put("codigo", 2);
 				}
 			}else{
-				return badRequest(AdminJson.getMensagem(AdminJson.msgConsulteAPI));
+				mp.put("texto", AdminJson.msgConsulteAPI);
+				mp.put("codigo", 1);
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - AlunoController/logar(): "+ e.getMessage());
-		}
-		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
+			mp.put("texto", AdminJson.msgErroRequest);
+			mp.put("codigo", 0);
+		}		
+		return ok(AdminJson.getObject(mp, "mensagem"));
 	}
 	
 	@Transactional
@@ -304,43 +318,46 @@ public class AlunoController extends Controller {
 									
 				    JSONArray jListaRespostas = jResultado.getJSONArray("respostas");
 				    
+				    List<Questao> lq = new ArrayList<Questao>();
 				    Questao q = null;
 				    Resposta r = null;
 				    JSONObject jResposta = null;
 					
 				    try{
 				    	//JPA.em().getTransaction().begin();
-					    for (int i = 0; i < jListaRespostas.length(); i++) {
-					    	
-					    	jResposta = jListaRespostas.getJSONObject(i);   
-					    	
-							q = QuestaoDatabase.selectQuestaoById(jResposta.getInt("idQuestao"));
-							if(q == null){
-								throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao nao cadastrada. idQuestao: "+jResposta.getInt("idQuestao"));
+				    	if(jListaRespostas.length() == 5){
+						    for (int i = 0; i < jListaRespostas.length(); i++) {
+						    	
+						    	jResposta = jListaRespostas.getJSONObject(i);   
+						    	
+								q = QuestaoDatabase.selectQuestaoById(jResposta.getInt("idQuestao"));
+								if(q == null){
+									throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao nao cadastrada. idQuestao: "+jResposta.getInt("idQuestao"));
+								}
+								
+								r = RespostaDatabase.selectRespostaByQuestaoAndAluno(jResposta.getInt("idQuestao"),a.getId());
+								if(r != null){
+									throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao ja respondida. idQuestao: "+jResposta.getInt("idQuestao")+" / idAluno: "+a.getId());
+								}
+								lq.add(q);
 							}
-							
-							r = RespostaDatabase.selectRespostaByQuestaoAndAluno(jResposta.getInt("idQuestao"),a.getId());
-							if(r != null){
-								throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao ja respondida. idQuestao: "+jResposta.getInt("idQuestao")+" / idAluno: "+a.getId());
+						    
+						    for (int i = 0; i < jListaRespostas.length(); i++) {
+						    	jResposta = jListaRespostas.getJSONObject(i);
+						    	r = new Resposta(a.getProfessor(), lq.get(i), a, jResposta.getInt("pontuacao"), level);
+						    	pontuacaoTotal += jResposta.getInt("pontuacao");
+						    	JPA.em().persist(r);
 							}
-						}
-					    
-					    for (int i = 0; i < jListaRespostas.length(); i++) {
-					    	jResposta = jListaRespostas.getJSONObject(i);
-					    	r = new Resposta(a.getProfessor(), q, a, jResposta.getInt("pontuacao"), level);
-					    	pontuacaoTotal += jResposta.getInt("pontuacao");
-					    	JPA.em().persist(r);
-						}
-					    
-					    a.setPontuacao(a.getPontuacao() + pontuacaoTotal);
-					    a.setLevel((a.getLevel()+1));
-					  
-					    JPA.em().merge(a);	
-					    //JPA.em().getTransaction().commit();
-					    
-					    List<Questao> lq = QuestaoDatabase.selectQuestoesByAluno(a.getCnpjInst(), a.getIdProfessor(), a.getId(), a.getLevel());
-						return ok(AdminJson.getObject(lq, "listaQuestoes"));
-				    
+						    
+						    a.setPontuacao(a.getPontuacao() + pontuacaoTotal);
+						    a.setLevel((a.getLevel()+1));
+						  
+						    JPA.em().merge(a);	
+						    //JPA.em().getTransaction().commit();
+						    
+						    lq = QuestaoDatabase.selectQuestoesByAluno(a.getCnpjInst(), a.getIdProfessor(), a.getId(), a.getLevel());
+							return ok(AdminJson.getObject(lq, "listaQuestoes"));
+				    	}
 				    }catch(Exception e){
 				    	Logger.error(e.getMessage());
 				    	//JPA.em().getTransaction().rollback();

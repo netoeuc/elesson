@@ -72,6 +72,9 @@
 	<input name="cod" hidden type="text" value="@q.getId()">
 </form>
 <script type="text/javascript">
+	$("form").on("submit",function(){
+  	});
+  
   $("#botao").on("click",function(){
       $("#botao").css("display","none");
       $("#botao2").css("display","block");
@@ -137,6 +140,8 @@
 			    'paste',
           'charactercount'
 			  ],
+			  apply_source_formatting : false,
+		      verify_html : false,                            
 			  toolbar: 'undo redo'
 		});
 	});

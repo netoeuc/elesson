@@ -56,6 +56,14 @@
                     <div class="col s12 offset-m1 m10">
                       <div id="pontuacaoTotal"><h5>Total question score by total students score:</h5></div>
                       <div id="bar-chart"></div>
+
+                            <!-- Chart captions !-->
+                            <ul>
+                            <li><i class="tiny-small fa fa-stop material-icons" style="color:#0770E2"></i><a style="color:#444">&nbspNumber of questions answered from this teacher * Maximum score of a question(200)</a></li>
+                            <li><i class="tiny-small fa fa-stop material-icons" style="color:#00773C"></i><a style="color:#444">&nbspTotal score of all answered questions from the students of this teacher</a></li>
+                            </ul>
+                            <!-- End Chart captions !--> 
+
                       <hr>
                     </div>
                   </div>
@@ -104,7 +112,7 @@
           Morris.Bar({
             element: 'bar-chart',
             data: [
-              { y: 'Total score', a: @(qntQuestoes*200*qntAlunos), b: @qntPontuacaoAlunos },
+              { y: 'Total score', a: @(qntQuestoes*200), b: @qntPontuacaoAlunos },
             ],
             xkey: 'y',
             ykeys: ['a', 'b'],
