@@ -1,6 +1,5 @@
 package database;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import models.AlunoRanking;
 import models.Professor;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
-import scala.math.BigInt;
 import util.Constantes;
 
 public class AlunoDatabase {
@@ -254,6 +252,7 @@ public class AlunoDatabase {
 		}
 	}
 
+	@Transactional
 	public static int selectSomaPontuacaoByProfessorId(int id) {
 		String query = "SELECT SUM(pontuacao) FROM Aluno WHERE idProfessor = :idProfessor";
 		List<Object> lo = JPA.em().createNativeQuery(query)
@@ -266,13 +265,14 @@ public class AlunoDatabase {
 		return 0;
 	}
 	
+	@Transactional
 	public static int[] selectSomaPontuacaoPorLevelByAluno(int idAluno) {
 		int[] pontuacaoPorLevel = {0,0,0,0};
 		
 		String query = "SELECT SUM(r.pontuacao) as pontuacao FROM ("
 				+ "SELECT CASE "
 				+ "	WHEN level BETWEEN 1 AND 5 THEN 1 "
-				+ "	WHEN level BETWEEN 5 AND 10 THEN 2 "
+				+ "	WHEN level BETWEEN 6 AND 10 THEN 2 "
 				+ "	WHEN level BETWEEN 11 AND 15 THEN 3 "
 				+ "	WHEN level BETWEEN 16 AND 20 THEN 4 "
 				+ "	ELSE 21 END as level, pontuacao "

@@ -39,10 +39,10 @@
           element: 'bar-line',
           data: [
 			@for(i <- 1 until a.getLevel + 1){
-            	@if(i == 1 && i != a.getLevel()){{ y: 'Level @i', level: @pontosLevel1},}
-            	@if(i == 2 && i != a.getLevel()){{ y: 'Level @i', level: @pontosLevel2},}
-            	@if(i == 3 && i != a.getLevel()){{ y: 'Level @i', level: @pontosLevel3},}
-            	@if(i == 4 && i != a.getLevel()){{ y: 'Level @i', level: @pontosLevel4}}
+            	@if(i >= 1 && i <= 5){{ y: 'Level @i', level: @pontosLevel1},}
+            	@if(i >= 6 && i <= 10){{ y: 'Level @i', level: @pontosLevel2},}
+            	@if(i >= 11 && i <= 15){{ y: 'Level @i', level: @pontosLevel3},}
+            	@if(i >= 16 && i <= 20){{ y: 'Level @i', level: @pontosLevel4}}
 			}
           ],
           xkey: 'y',

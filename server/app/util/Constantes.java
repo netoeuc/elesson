@@ -14,7 +14,7 @@ public class Constantes {
 	public static final int STATUS_ATIVO = 1;
 	public static final int STATUS_REMOVIDO = 2;
 	
-	public static final String USERNAME_MASCULINO1 = "Oliver";
+	public static final String USERNAME_MASCULINO1 = "Chris";
 	public static final String USERNAME_MASCULINO2 = "Johnny";
 	public static final String USERNAME_FEMININO1 = "Beatrice";
 	public static final String USERNAME_FEMININO2 = "Yasmin";
