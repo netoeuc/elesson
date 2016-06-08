@@ -1,13 +1,10 @@
-/ApplicationTest.class
-/Global.class
-/IntegrationTest$1.class
-/IntegrationTest.class
+/views/
 /controllers/
 /database/
 /interceptors/
 /models/
-/views/
-<<<<<<< HEAD
 /util/
-=======
->>>>>>> 2639854cf25cc55f6eba32022f9d00fa4ed03736
+/ApplicationTest.class
+/Global.class
+/IntegrationTest$1.class
+/IntegrationTest.class

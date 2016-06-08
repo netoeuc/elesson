@@ -79,9 +79,15 @@
 
   tinymce.PluginManager.add('charactercount', function (editor) {
   var self = this;
- 
+  
   function update() {
-    editor.theme.panel.find('#charactercount').text(['Characters: {0}', self.getCount()]);
+    if (self.getCount() > 254){
+      $('.mce-charactercount').css("color","red");
+      editor.theme.panel.find('#charactercount').text(['Characters: {0}', self.getCount()]);
+    }else{
+      editor.theme.panel.find('#charactercount').text(['Characters: {0}', self.getCount()]);
+      $('.mce-charactercount').css("color","black");
+    }
   }
  
   editor.on('init', function () {
@@ -117,10 +123,6 @@
   function decodeHtml(html) {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;
- 	// limitar caracteres (-7 é da tag <p></p>)
-    if(txt.value.length > 254){
-    	txt.innerHTML = txt.value.substring(0,254);
-    }
     return txt.value;
   }
 });
@@ -133,7 +135,7 @@
 			    'preview',
 			    'fullscreen',
 			    'paste',
-          		'charactercount'
+          'charactercount'
 			  ],
 			  toolbar: 'undo redo'
 		});

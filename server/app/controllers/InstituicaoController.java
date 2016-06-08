@@ -166,7 +166,7 @@ public class InstituicaoController extends Controller{
 				
 				if(p != null){
 					int qntAlunos = ProfessorDatabase.selectCountAlunos(p.getId());
-					int qntQuestoes = ProfessorDatabase.selectCountQuestoes(p.getId());
+					int qntQuestoes = RespostaDatabase.selectTotalRespostasByProfessor(p.getId());
 					int pontuacaoAlunos = AlunoDatabase.selectSomaPontuacaoByProfessorId(p.getId());
 					List<Aluno> la = AlunoDatabase.selectAlunosOrderPontuacaoByProfessor(p.getId());
 					
@@ -197,7 +197,7 @@ public class InstituicaoController extends Controller{
 					
 					int[] pontosPorLevel = AlunoDatabase.selectSomaPontuacaoPorLevelByAluno(id);
 					
-					int qntQuestoes = a.getProfessor().getQuestoes().size();
+					int qntQuestoes = RespostaDatabase.selectTotalRespostasByAluno(a.getId());
 					
 					return ok(views.html.aluno.mostrarAluno.render(a,pontosPorLevel[0],pontosPorLevel[1],pontosPorLevel[2],pontosPorLevel[3],qntQuestoes));
 				}

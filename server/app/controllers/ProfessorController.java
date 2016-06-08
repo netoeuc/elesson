@@ -75,7 +75,7 @@ public class ProfessorController extends Controller{
 		try {
 			Professor p = getUsuarioAutenticado();
 			int qntAlunos = AlunoDatabase.selectTotalAlunosByProfessorId(p.getId());
-			int qntQuestoes = QuestaoDatabase.selectTotalQuestoesByProfessorId(p.getId());
+			int qntQuestoes = RespostaDatabase.selectTotalRespostasByProfessor(p.getId());
 			int pontuacaoAlunos = AlunoDatabase.selectSomaPontuacaoByProfessorId(p.getId());
 			
 			List<Aluno> al = AlunoDatabase.selectAlunosOrderPontuacaoByProfessor(p.getId());
@@ -312,7 +312,7 @@ public class ProfessorController extends Controller{
 					
 					int[] pontosPorLevel = AlunoDatabase.selectSomaPontuacaoPorLevelByAluno(id);
 					
-					int qntQuestoes = a.getProfessor().getQuestoes().size();
+					int qntQuestoes = RespostaDatabase.selectTotalRespostasByAluno(a.getId());
 					
 					return ok(views.html.aluno.mostrarAluno.render(a,pontosPorLevel[0],pontosPorLevel[1],pontosPorLevel[2],pontosPorLevel[3],qntQuestoes));
 				}

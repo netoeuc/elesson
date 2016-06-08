@@ -1,5 +1,6 @@
 package database;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import models.Resposta;
@@ -24,6 +25,26 @@ public class RespostaDatabase {
 								.setParameter("idAluno", idAluno)
 								.getResultList();
 		return lr;
+	}
+	
+	@Transactional
+	public static int selectTotalRespostasByAluno(int idAluno) {
+		String query = "SELECT COUNT(*) FROM Resposta WHERE idAluno = :idAluno";
+		List<BigInteger> bi = JPA.em().createNativeQuery(query)
+				.setParameter("idAluno", idAluno)
+				.getResultList();
+
+		return bi.get(0).intValue();
+	}
+	
+	@Transactional
+	public static int selectTotalRespostasByProfessor(int idProfessor) {
+		String query = "SELECT COUNT(*) FROM Resposta WHERE idProfessor = :idProfessor";
+		List<BigInteger> bi = JPA.em().createNativeQuery(query)
+				.setParameter("idProfessor", idProfessor)
+				.getResultList();
+
+		return bi.get(0).intValue();
 	}
 	
 	@Transactional

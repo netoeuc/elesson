@@ -59,7 +59,7 @@
                           
                           <div class="row">
                         <div class="col s12 m12">
-                          <a onclick="mostrarNovaQuestao();" class="col s12 offset-m3 m6 waves-effect waves-light btn bg-azul">new question<a>
+                          <a id="btnNewQuestion" onclick="mostrarNovaQuestao();" class="col s12 offset-m3 m6 waves-effect waves-light btn bg-azul">new question<a>
                         </div>
                       </div>
 
@@ -184,6 +184,15 @@
               
   
   <script type="text/javascript">
+  	var count = 0;
+
+  	$("#btnNewQuestion").on("click",function(){
+  		if(count > 254){
+  			$('.mce-charactercount').css("color","red");
+  		}else{
+  			$('.mce-charactercount').css("color","black");
+  		}
+    });
 
     $("#botao").on("click",function(){
     	$("#botao").css("display","none");
@@ -194,7 +203,14 @@
   var self = this;
  
   function update() {
-    editor.theme.panel.find('#charactercount').text(['Characters: {0}', self.getCount()]);
+  	if (self.getCount() > 254){
+  		$('.mce-charactercount').css("color","red");
+  		editor.theme.panel.find('#charactercount').text(['Characters: {0}', self.getCount()]);
+  	}else{
+  		editor.theme.panel.find('#charactercount').text(['Characters: {0}', self.getCount()]);
+  		$('.mce-charactercount').css("color","black");
+  	}
+  	count = self.getCount();
   }
  
   editor.on('init', function () {
@@ -233,7 +249,6 @@
     return txt.value;
   }
 });
-
 
 
   $(document).ready( function() {
