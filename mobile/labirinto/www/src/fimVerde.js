@@ -31,7 +31,7 @@ var FimVerdeLayer = cc.Layer.extend({
         resultadoParaPost.resultado.level = status;
         status=Number(status)+1;
         userInfo.setItem("status",Number(userInfo.getItem("status"))+1);
-        idLabirinto = Number(idLabirintoAtual)+1;
+        idLabirintoAtual = Number(idLabirintoAtual)+1;
         // POST(resultadoParaPost);
 //        var sairDoJogoSceneFimVerde = new FimVerdePOSTScene();
 //        cc.director.runScene(sairDoJogoSceneFimVerde);

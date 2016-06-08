@@ -85,7 +85,8 @@ var QuestionLayer = cc.Layer.extend({
                 text.width = size.width-100;
                 text.height = size.height-100;
                // var r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, JSON.pergunta[indice], "Helvetica", 20);
-                 var r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, resposta[0].getItem("pergunta1"), "Helvetica", 20);
+//                 var r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, resposta[0].getItem("pergunta1"), "Helvetica", 20);
+                var r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, "Did you like the film?\nNo, I _____\n______ was wrong with it?\nThe actors weregood but the story was too sentimental.", "Helvetica", 20);
                 text.setLineBreakOnSpace(true);
         //        text.setTextHorizontalAlignment(cc.Text_ALIGNMENT_RIGHT);
                 text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
@@ -268,7 +269,7 @@ var QuestionLayer = cc.Layer.extend({
                 text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
                 text.pushBackElement(r1);
                 text.x = (size.width/2);
-                text.y = (size.height/2)-50;
+                text.y = (size.height/2)-30;
 
         //        scrollView.addChild(text);
                 this.addChild(text);

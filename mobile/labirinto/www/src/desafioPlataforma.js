@@ -88,13 +88,14 @@ var DesafioPlataformaLayer = cc.Layer.extend({
         text.width = size.width-100;
         text.height = size.height-100;
         var r1 = new ccui.RichElementText(1, cc.color.BLACK, 255, userInfo.getItem(idPergunta), "Helvetica", 20);
+        
         cc.log(userInfo.getItem(idPergunta));
         text.setLineBreakOnSpace(true);
 //        text.setTextHorizontalAlignment(cc.Text_ALIGNMENT_RIGHT);
         text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
         text.pushBackElement(r1);
         text.x = (size.width/2);
-        text.y = (size.height/2)-50;
+        text.y = (size.height/2)-30;
         
 //        scrollView.addChild(text);
         this.addChild(text);
