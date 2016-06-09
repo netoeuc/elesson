@@ -59,7 +59,7 @@
 
                             <!-- Chart captions !-->
                             <ul>
-                            <li><i class="tiny-small fa fa-stop material-icons" style="color:#0770E2"></i><a style="color:#444">&nbspNumber of questions answered from this teacher * Maximum score of a question(200)</a></li>
+                            <li><i class="tiny-small fa fa-stop material-icons" style="color:#0770E2"></i><a style="color:#444">&nbspNumber of questions answered from this teacher x Maximum score of a question(200)</a></li>
                             <li><i class="tiny-small fa fa-stop material-icons" style="color:#00773C"></i><a style="color:#444">&nbspTotal score of all answered questions from the students of this teacher</a></li>
                             </ul>
                             <!-- End Chart captions !--> 
@@ -74,9 +74,10 @@
                         <table data-sort-name="pos" data-sort-order="asc" data-toggle="table" data-page-size="10" data-search="true" data-pagination="false" data-cache="false" class="students-table">
 	                    <thead>
 	                       <tr>
-	                       	 <th data-field="pos" data-sortable="true">Position</th>
-		                       <th data-field="name" data-sortable="true">Name</th>
-		                       <th data-field="score" data-sortable="true">Score</th>
+	                       		<th data-field="pos" data-sortable="true">Position</th>
+		                       	<th data-field="name" data-sortable="true">Name</th>
+		                       	<th data-field="level" data-sortable="true">Level</th>
+		                       	<th data-field="score" data-sortable="true">Score</th>
 	                       </tr>
 	                    </thead>
 	                    <tbody>
@@ -85,13 +86,13 @@
 		                      <tr>
 		                      	<td>@(index+1)</td>
 		                      	<td>@listaAluno.get(index).getNome()</td>
+		                      	<td>@listaAluno.get(index).getLevel()</td>
 		                      	<td>@listaAluno.get(index).getPontuacao()</td>
 		                      </tr>
 	                        }
 	                      	<!-- for até aqui } -->
 	                    </tbody>
 	                  </table>
-                      <hr>
                     </div>
                   </div>
 

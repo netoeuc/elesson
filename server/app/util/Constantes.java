@@ -19,6 +19,9 @@ public class Constantes {
 	public static final String USERNAME_FEMININO1 = "Beatrice";
 	public static final String USERNAME_FEMININO2 = "Yasmin";
 	
+	public static final int LIMITE_CARACTERES_QUESTAO = 200;
+	public static final int LIMITE_CARACTERES_ALTERNATIVA = 20;
+	
 	public static String formatString(String value, String pattern) {
         MaskFormatter mf;
         try {

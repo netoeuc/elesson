@@ -1,9 +1,9 @@
 package controllers;
 
 import static play.data.Form.form;
-
 import interceptors.ProfessorInterceptor;
 
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 
@@ -326,6 +326,22 @@ public class ProfessorController extends Controller{
 		return badRequest("erro");
 	}
 	
+	public static String removeHtmlTags(String str){
+		if(str == null){
+			return null;
+		}
+		return str.replaceAll("<(\\S+)[^>]+?mso-[^>]*>.*?</\\1>", "")
+				.replaceAll("<[^>]*>", "")
+				.replaceAll("\\<.*?\\>", "")
+				.replace("&nbsp", " ")
+				.replace("&ldquo;", "\"")
+				.replace("&rdquo;", "\"")
+				.replace("&quot;", "\"")
+				.replace("&lsquo;", "'")
+				.replace("&rsquo;", "'")
+				.replace("&sbquo;", ",");
+	}
+	
 	@Transactional
 	@With({ ProfessorInterceptor.class })
 	public static Result cadastrarQuestao(){
@@ -333,7 +349,8 @@ public class ProfessorController extends Controller{
 			Professor p = ProfessorController.getUsuarioAutenticado();
 			if(p != null){
 				DynamicForm dynamicForm = form().bindFromRequest();
-				String questao = dynamicForm.get("questao") == null || dynamicForm.get("questao").replace("<p>", "").replace("</p>", "").trim().isEmpty()? null : dynamicForm.get("questao").replace("<p>", "").replace("</p>", "");
+				String questao = removeHtmlTags(dynamicForm.get("questao"));
+				questao = (questao == null || questao.trim().isEmpty()? null : questao);
 				String resposta1 = dynamicForm.get("resposta1") == null || dynamicForm.get("resposta1").trim().isEmpty()? null : dynamicForm.get("resposta1");
 				String resposta2 = dynamicForm.get("resposta2") == null || dynamicForm.get("resposta2").trim().isEmpty()? null : dynamicForm.get("resposta2");
 				String resposta3 = dynamicForm.get("resposta3") == null || dynamicForm.get("resposta3").trim().isEmpty()? null : dynamicForm.get("resposta3");
@@ -344,9 +361,13 @@ public class ProfessorController extends Controller{
 				
 				if(questao == null || resposta1 == null || resposta2 == null || resposta3 == null || resposta4 == null || resposta5 == null || respostaCorreta == null || nivel < 1 || nivel > 4){
 					flash("erro", "Please fill out all the fields");
-				}else if (questao.length() > 254){
+				}else if (questao.length() > Constantes.LIMITE_CARACTERES_QUESTAO){
 					flash("erro", "Question text is too long");
-				}else if (resposta1.length() > 75 && resposta2.length() > 75 && resposta3.length() > 75 && resposta4.length() > 75 && resposta5.length() > 75){
+				}else if (resposta1.length() > Constantes.LIMITE_CARACTERES_ALTERNATIVA && 
+						resposta2.length() > Constantes.LIMITE_CARACTERES_ALTERNATIVA &&
+						resposta3.length() > Constantes.LIMITE_CARACTERES_ALTERNATIVA && 
+						resposta4.length() > Constantes.LIMITE_CARACTERES_ALTERNATIVA && 
+						resposta5.length() > Constantes.LIMITE_CARACTERES_ALTERNATIVA){
 					flash("erro", "Answer text is too long");
 				}else{
 					char resposta = respostaCorreta.charAt(0);
@@ -391,7 +412,8 @@ public class ProfessorController extends Controller{
 		try {
 			Professor p = getUsuarioAutenticado();
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos do HTML
-			String questao = dynamicForm.get("questao") == null || dynamicForm.get("questao").replace("<p>", "").replace("</p>", "").trim().isEmpty()? null : dynamicForm.get("questao").replace("<p>", "").replace("</p>", "");
+			String questao = removeHtmlTags(dynamicForm.get("questao"));
+			questao = (questao == null || questao.trim().isEmpty()? null : questao);
 			String resposta1 = dynamicForm.get("resposta1") == null || dynamicForm.get("resposta1").trim().isEmpty()? null : dynamicForm.get("resposta1");
 			String resposta2 = dynamicForm.get("resposta2") == null || dynamicForm.get("resposta2").trim().isEmpty()? null : dynamicForm.get("resposta2");
 			String resposta3 = dynamicForm.get("resposta3") == null || dynamicForm.get("resposta3").trim().isEmpty()? null : dynamicForm.get("resposta3");
