@@ -162,11 +162,11 @@ public class AlunoController extends Controller {
 							
 							if(a.getUsername() == null){
 								mp.put("primeiroAcesso", true);
+								a.setUsername(Constantes.USERNAME_MASCULINO1);
 							}else{
 								mp.put("primeiroAcesso", false);
 							}
-							a.setUsername(Constantes.USERNAME_MASCULINO1);
-							
+
 							a.setLogado(true);
 							a.setSessao(sessao);
 							JPA.em().merge(a);

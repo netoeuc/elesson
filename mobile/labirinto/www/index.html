@@ -210,6 +210,7 @@
                     userInfo.setItem("status", response.aluno.level);
                     userInfo.setItem("sessao", sessao);
                     status = userInfo.getItem("status");
+					ehPrimeiroAcesso = response.primeiroAcesso;
 
                     document.getElementById('sidenav-overlay').style.display = "none";
                     window.location.assign("index2.html");
