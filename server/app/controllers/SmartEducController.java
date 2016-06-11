@@ -148,7 +148,8 @@ public class SmartEducController extends Controller{
 			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address");
 			String cnpj = dynamicForm.get("cnpj") == null || dynamicForm.get("cnpj").replace(".", "").replace("/", "").replace("-", "").trim().isEmpty()? null : dynamicForm.get("cnpj").trim().replace(" ", "").replace(".", "").replace("/", "").replace("-", "");
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
-			int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
+			//int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
+			int licenca = 4;
 			
 			String senha = Seguranca.gerarSenha(6);
 			ELicenca eLicenca = ELicencaUtil.getELicenca(licenca);
@@ -224,8 +225,10 @@ public class SmartEducController extends Controller{
 			String telefone = dynamicForm.get("phone") == null || dynamicForm.get("phone").replace(")", "").replace("(", "").replace("-", "").trim().isEmpty()? null : dynamicForm.get("phone").replace(")", "").replace("(", "").replace("-", "").trim();
 			String endereco = dynamicForm.get("address") == null || dynamicForm.get("address").trim().isEmpty()? null : dynamicForm.get("address");
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
-			int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
+			//int licenca = dynamicForm.get("license") == null || Integer.parseInt(dynamicForm.get("license")) == -1? -1 : Integer.parseInt(dynamicForm.get("license"));
+			int licenca = 4;
 			boolean generate = dynamicForm.get("generate") == null || dynamicForm.get("generate").trim().isEmpty()? false : true;
+			
 
 			boolean isEditado = false;
 			boolean isSenhaAlterada = false;

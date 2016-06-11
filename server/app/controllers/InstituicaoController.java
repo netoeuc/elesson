@@ -451,16 +451,16 @@ public class InstituicaoController extends Controller{
 	public static Result cadastrarAluno(){
 		try{
 			Instituicao i = InstituicaoController.getUsuarioAutenticado();
-			int qntAlunos = AlunoDatabase.selectTotalAlunosByCnpjInst(i.getCnpj());
+			//int qntAlunos = AlunoDatabase.selectTotalAlunosByCnpjInst(i.getCnpj());
 			if(i != null){
-				if((i.getLicenca().name().equals("TEST") && qntAlunos == 5) || 
-						(i.getLicenca().name().equals("BRONZE") && qntAlunos == 20) || 
-						(i.getLicenca().name().equals("SILVER") && qntAlunos == 40) || 
-						(i.getLicenca().name().equals("GOLD") && qntAlunos == 70) || 
-						(i.getLicenca().name().equals("PREMIUM") && qntAlunos == 120)){
-					
-					flash("erro", "Institution has reached the limit of students for this license!");
-				}else{
+//				if((i.getLicenca().name().equals("TEST") && qntAlunos == 5) || 
+//						(i.getLicenca().name().equals("BRONZE") && qntAlunos == 20) || 
+//						(i.getLicenca().name().equals("SILVER") && qntAlunos == 40) || 
+//						(i.getLicenca().name().equals("GOLD") && qntAlunos == 70) || 
+//						(i.getLicenca().name().equals("PREMIUM") && qntAlunos == 120)){
+//					
+//					flash("erro", "Institution has reached the limit of students for this license!");
+//				}else{
 					DynamicForm dynamicForm = form().bindFromRequest();
 					String nome = dynamicForm.get("nome") == null || dynamicForm.get("nome").trim().isEmpty()? null : dynamicForm.get("nome");
 					String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email");
@@ -486,7 +486,7 @@ public class InstituicaoController extends Controller{
 							}
 						}
 					}
-				}
+				//}
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - InstituicaoController/cadastrarAluno(): "+ e.getMessage());

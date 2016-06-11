@@ -39,7 +39,7 @@
                             <thead>
                               <tr>
                                 <th data-field="name" data-sortable="true">Name</th>
-                                <th data-field="license" data-sortable="true">License</th>
+                                <!--<th data-field="license" data-sortable="true">License</th>!-->
                                 <th data-field="status" data-sortable="true">Status</th>
                                 <th data-field="actions" data-sortable="false">Actions</th>
                               </tr>
@@ -49,7 +49,7 @@
                             @for(i<-listaInstituicao){
                               <tr>
                                 <td><a id="showDetails" onclick="mostrarInstituicao('@i.getNome()', '@i.getCnpj()', '@routes.SmartEducController.mostrarCliente()')" class="modal-trigger waves-effect waves-light">@i.getNome()</a></td>
-                                <td>@i.getLicenca().toString()</td>
+                                <!--<td>@i.getLicenca().toString()</td>!-->
                                 <td>
                                 	@if(i.getStatus() == util.Constantes.STATUS_AGUARDANDO){Waiting}
                                 	@if(i.getStatus() == util.Constantes.STATUS_ATIVO){Active}
@@ -161,18 +161,19 @@
                             </div>
                           </div>
 
+                          <!--
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
                               <select class="browser-default color-vermelho" id="license" name="license">
                                 <option disabled selected>Choose one license</option>
-                                <option value="0">Test</option>
+                                <<option value="0">Test</option>
                                 <option value="1">Bronze</option>
                                 <option value="2">Silver</option>
                                 <option value="3">Gold</option>
                                 <option value="4">Premium</option>
                               </select>
                             </div>
-                          </div>
+                          </div>!-->
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
