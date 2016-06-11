@@ -241,7 +241,7 @@ var QuestionLayer = cc.Layer.extend({
                 questionLabel.setTextHorizontalAlignment(cc.Text_ALIGNMENT_RIGHT);
                 questionLabel.pushBackElement(questionLabel_r1);
                 questionLabel.x = size.width/2;
-                questionLabel.y = size.height/2;
+                questionLabel.y = (size.height/2)+25;
 
                 this.addChild(questionLabel);
 

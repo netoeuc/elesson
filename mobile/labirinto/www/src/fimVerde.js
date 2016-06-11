@@ -31,7 +31,8 @@ var FimVerdeLayer = cc.Layer.extend({
         resultadoParaPost.resultado.level = status;
         status=Number(status)+1;
         userInfo.setItem("status",Number(userInfo.getItem("status"))+1);
-        idLabirintoAtual = Number(idLabirintoAtual)+1;
+//        idLabirintoAtual = Number(idLabirintoAtual)+1;
+        idLabirintoAtual = Math.floor((Math.random() * 100) + 1)%31;;
         // POST(resultadoParaPost);
 //        var sairDoJogoSceneFimVerde = new FimVerdePOSTScene();
 //        cc.director.runScene(sairDoJogoSceneFimVerde);
@@ -50,8 +51,10 @@ var FimVerdeLayer = cc.Layer.extend({
                 pause_exit_game = false;
                 var pause_exit_game = false; // Para sair do jogo a partir do pause
                 //var pontuacao = 0;
+                //idLabirintoAtual = Number(idLabirintoAtual)+1;
                 if (idLabirintoAtual===31){
-                    idLabirintoAtual = 0;
+//                    idLabirintoAtual = 0;
+                    idLabirintoAtual = Math.floor((Math.random() * 100) + 1)%31;;
                 }
                 INITTIALIZED_Acel = false;
                 INITTIALIZED_histplat = false;

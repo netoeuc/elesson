@@ -111,7 +111,7 @@ var LabirintoLayer = cc.Layer.extend({
         
         var currentSpritePosition;
 //        = [0,0];
-        
+        cc.log("id = "+idLabirintoAtual);
         switch (idLabirintoAtual){
             case 0:
                 string = 

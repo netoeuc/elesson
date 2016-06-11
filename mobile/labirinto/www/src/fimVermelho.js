@@ -36,12 +36,14 @@ var FimVermelhoLayer = cc.Layer.extend({
             resultadoParaPost.resultado.level = status;
             status=Number(status)+1;
             userInfo.setItem("status",Number(userInfo.getItem("status"))+1);
-            idLabirintoAtual=Number(idLabirintoAtual)+1;
+//            idLabirintoAtual=Number(idLabirintoAtual)+1;
+            idLabirintoAtual = Math.floor((Math.random() * 100) + 1)%31;
             // POST(resultadoParaPost);
             // POST (não passou);
         }else{
             tentativas-=1;
-            idLabirintoAtual = Number(idLabirintoAtual)+1;
+//            idLabirintoAtual = Number(idLabirintoAtual)+1;
+            idLabirintoAtual = Math.floor((Math.random() * 100) + 1)%31;
         }
         
         
@@ -58,9 +60,9 @@ var FimVermelhoLayer = cc.Layer.extend({
                 //var pontuacao = 0;
                 
                 
-                idLabirintoAtual = Number(idLabirintoAtual)+1;
+                idLabirintoAtual = Math.floor((Math.random() * 100) + 1)%31;
                 if (idLabirintoAtual===31){
-                    idLabirintoAtual = 0;
+                    idLabirintoAtual = Math.floor((Math.random() * 100) + 1)%31;
                 }
         
                 INITTIALIZED_Acel = false;

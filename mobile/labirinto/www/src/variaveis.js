@@ -1,12 +1,13 @@
 var pontuacaoLabirinto = 0;
 var userInfo = cc.sys.localStorage;
+//var primeiraVez = false;
 var perguntasDatabase  = [cc.sys.localStorage,cc.sys.localStorage,cc.sys.localStorage,cc.sys.localStorage,cc.sys.localStorage];
 var pontuacaoPlataforma = 0;
 var respostaDesafioPlataforma = 0;
 var contadorFimPlataforma = 5;
 var tentativas = 3;
 var status;
-var idLabirintoAtual = 0;
+var idLabirintoAtual = Math.floor((Math.random() * 100) + 1)%31;
 var numeroPerguntaQuizLabirinto = 0;
 var incrementoPost = 0;
 var incrementoPlataforma = 0;

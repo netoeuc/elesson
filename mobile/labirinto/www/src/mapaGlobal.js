@@ -1,4 +1,5 @@
 /* globals cc, asset */
+var primeiraVez;
 var GlobalMapLayer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
@@ -10,6 +11,21 @@ var GlobalMapLayer = cc.Layer.extend({
         cc.audioEngine.playMusic(asset.mapa_musica_mp3, true);
         
         var size = cc.winSize;
+        try{
+            if(userInfo.getItem("primeiraVez")){
+                cc.log("nfoiProElse");
+            }else{
+                cc.log("foiProElse");
+                cc.log("foiProCatch");
+                userInfo.setItem("primeiraVez", true)
+                var sceneHistoriaApp = new HistoriaApp1Scene();
+                cc.director.runScene(sceneHistoriaApp);
+                    
+            }
+            
+        }catch (err){
+            
+        }
         
         status = userInfo.getItem("status");
         // usando o status definido em variaveis.js
