@@ -3,6 +3,12 @@
 var arrayPerguntas = ["primeira P", "segunda P"];
 var arrayTipoPergunta = ["tipo 1 (V ou F)", "tipo 2 ( Resposta Correta)"];
 
+var check1 = false;
+var check2 = false;
+var check3 = false;
+var check4 = false;
+var check5 = false;
+
 //var JSON = {
 //    
 //    "pergunta":[
@@ -85,8 +91,7 @@ var QuestionLayer = cc.Layer.extend({
                 text.width = size.width-100;
                 text.height = size.height-100;
                // var r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, JSON.pergunta[indice], "Helvetica", 20);
-//                 var r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, resposta[0].getItem("pergunta1"), "Helvetica", 20);
-                var r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, "Did you like the film?\nNo, I _____\n______ was wrong with it?\nThe actors weregood but the story was too sentimental.", "Helvetica", 20);
+                 var r1 = new ccui.RichElementText(1, cc.color.WHITE, 255, resposta[0].getItem("pergunta1"), "Helvetica", 20);
                 text.setLineBreakOnSpace(true);
         //        text.setTextHorizontalAlignment(cc.Text_ALIGNMENT_RIGHT);
                 text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
@@ -241,7 +246,7 @@ var QuestionLayer = cc.Layer.extend({
                 questionLabel.setTextHorizontalAlignment(cc.Text_ALIGNMENT_RIGHT);
                 questionLabel.pushBackElement(questionLabel_r1);
                 questionLabel.x = size.width/2;
-                questionLabel.y = (size.height/2)+25;
+                questionLabel.y = size.height/2;
 
                 this.addChild(questionLabel);
 
@@ -269,7 +274,7 @@ var QuestionLayer = cc.Layer.extend({
                 text.setTextHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
                 text.pushBackElement(r1);
                 text.x = (size.width/2);
-                text.y = (size.height/2)-30;
+                text.y = (size.height/2)-50;
 
         //        scrollView.addChild(text);
                 this.addChild(text);
@@ -400,6 +405,9 @@ var QuestionLayer = cc.Layer.extend({
     },
     
     selectedcheckBox1: function(sender, type){
+        
+        check1 = !check1;
+        
         switch(type){
                 case ccui.CheckBox.EVENT_UNSELECTED:
                    //fazer nada
@@ -418,6 +426,9 @@ var QuestionLayer = cc.Layer.extend({
     },
     
     selectedcheckBox2: function(sender, type){
+        
+        check2 = !check2;
+        
         switch(type){
                 case ccui.CheckBox.EVENT_UNSELECTED:
                    //fazer nada
@@ -436,6 +447,9 @@ var QuestionLayer = cc.Layer.extend({
     },
 
     selectedcheckBox3: function(sender, type){
+        
+        check3 = !check3;
+        
         switch(type){
                 case ccui.CheckBox.EVENT_UNSELECTED:
                    //fazer nada
@@ -454,6 +468,9 @@ var QuestionLayer = cc.Layer.extend({
     },
     
     selectedcheckBox4: function(sender, type){
+        
+        check4 = !check4;
+        
         switch(type){
                 case ccui.CheckBox.EVENT_UNSELECTED:
                    //fazer nada
@@ -472,7 +489,11 @@ var QuestionLayer = cc.Layer.extend({
     },
     
      selectedcheckBox5: function(sender, type){
-        switch(type){
+        
+         check5 = !check5;
+         
+         
+         switch(type){
                 case ccui.CheckBox.EVENT_UNSELECTED:
                    //fazer nada
                     break;
@@ -490,8 +511,12 @@ var QuestionLayer = cc.Layer.extend({
     },
     
     touchEvent: function(sender,type){
-         
-        switch(type){
+        
+        
+        if( check1 || check2 || check3 || check4 || check5){
+            
+            
+            switch(type){
             case ccui.Widget.TOUCH_BEGAN:
                 //////cc.log("Pressionou");
                 //Mudar o sprite do "answerButton" aqui
@@ -591,6 +616,13 @@ var QuestionLayer = cc.Layer.extend({
 
                 break;
         } 
+            
+            
+        }
+        
+        
+        
+        
     
     }
 });   
@@ -601,8 +633,7 @@ var popPergunta = function(){
     // Se acertou de terceira, 80 pontos.
     pontuacao+=pontuacaoMaximaNaQuestao;
     acertouDePrimeira = (pontuacaoMaximaNaQuestao===200);
-//    resultadoParaPost.resultado.respostas[incrementoPost].idQuestao = idQuestaoAtual;
-    resultadoParaPost.resultado.respostas[incrementoPost].idQuestao = resultadoParaPost.resultado.respostas[incrementoPost].idQuestao;
+    resultadoParaPost.resultado.respostas[incrementoPost].idQuestao = idQuestaoAtual;
     resultadoParaPost.resultado.respostas[incrementoPost].pontuacao = pontuacaoMaximaNaQuestao;
     incrementoPost=Number(incrementoPost)+1;
     if (incrementoPost===5){

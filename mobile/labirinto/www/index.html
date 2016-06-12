@@ -205,13 +205,13 @@
                     }else{
                         alert(response.mensagem.texto);
                     }
-                }else if(response.hasOwnProperty('aluno') && response.aluno.logado){
-                  userInfo.setItem("idAluno", response.aluno.id);
-                    userInfo.setItem("status", response.aluno.level);
+                }else if(response.hasOwnProperty('auth') && response.auth.aluno.logado){
+                  userInfo.setItem("idAluno", response.auth.aluno.id);
+                    userInfo.setItem("status", response.auth.aluno.level);
                     userInfo.setItem("sessao", sessao);
                     status = userInfo.getItem("status");
                     document.getElementById('sidenav-overlay').style.display = "none";
-                    if(response.primeiroAcesso){
+                    if(response.auth.primeiroAcesso){
                         window.location.assign("story.html");
                     }else{
                         window.location.assign("index2.html");
