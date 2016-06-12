@@ -75,12 +75,12 @@ public class ProfessorController extends Controller{
 		try {
 			Professor p = getUsuarioAutenticado();
 			int qntAlunos = AlunoDatabase.selectTotalAlunosByProfessorId(p.getId());
-			int qntQuestoes = RespostaDatabase.selectTotalRespostasByProfessor(p.getId());
+			int qntQuestoesRespondidas = RespostaDatabase.selectTotalRespostasByProfessor(p.getId());
 			int pontuacaoAlunos = AlunoDatabase.selectSomaPontuacaoByProfessorId(p.getId());
 			
 			List<Aluno> al = AlunoDatabase.selectAlunosOrderPontuacaoByProfessor(p.getId());
 			
-			return ok(views.html.professor.index.render(p,qntAlunos,qntQuestoes,al,pontuacaoAlunos));
+			return ok(views.html.professor.index.render(p,qntAlunos,qntQuestoesRespondidas,al,pontuacaoAlunos));
 		}catch (Exception e){
 			Logger.error("ERRO - ProfessorController/index(): "+ e.getMessage());
 		}

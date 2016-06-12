@@ -36,7 +36,7 @@
                         </div>
                         <div class="col s12">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-question material-icons"></i><a href="@routes.ProfessorController.questoes()">@if(qntQuestoes == 0){None question} @if(qntQuestoes == 1){1 Question} @if(qntQuestoes > 1){@qntQuestoes Questions}</a>
+                            <i class="fa fa-question material-icons"></i><a href="@routes.ProfessorController.questoes()">@if(p.getQuestoes().size() == 0){None question} @if(p.getQuestoes().size() == 1){1 Question} @if(p.getQuestoes().size() > 1){@p.getQuestoes().size() Questions}</a>
                           </div>
                         </div>    
                       </div>

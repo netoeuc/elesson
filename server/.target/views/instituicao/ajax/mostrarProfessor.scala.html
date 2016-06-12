@@ -1,4 +1,4 @@
-@(qntAlunos: Integer)(qntQuestoes: Integer)(qntPontuacaoAlunos: Integer)(listaAluno:List[Aluno])
+@(p: models.Professor)(qntAlunos: Integer)(qntQuestoes: Integer)(qntPontuacaoAlunos: Integer)(listaAluno:List[Aluno])
 @views.html.jsextraimports()
 				  <div class="row">
                     <div class="col s12 offset-m1 m10">
@@ -10,7 +10,7 @@
                         </div>
                         <div class="col s12 m6">
                           <div class="tag bg-cinza color-cinza">
-                            <i class="fa fa-question material-icons" aria-hidden="true"></i> <a href="@routes.InstituicaoController.questoes()">@if(qntQuestoes == 0){None question} @if(qntQuestoes == 1){1 Question} @if(qntQuestoes > 1){@qntQuestoes Questions}</a>
+                            <i class="fa fa-question material-icons" aria-hidden="true"></i> <a href="@routes.InstituicaoController.questoes()">@if(p.getQuestoes().size() == 0){None question} @if(p.getQuestoes().size() == 1){1 Question} @if(p.getQuestoes().size() > 1){@p.getQuestoes().size() Questions}</a>
                           </div>
                         </div>    
                       </div>

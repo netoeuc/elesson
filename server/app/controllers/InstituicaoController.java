@@ -170,7 +170,7 @@ public class InstituicaoController extends Controller{
 					int pontuacaoAlunos = AlunoDatabase.selectSomaPontuacaoByProfessorId(p.getId());
 					List<Aluno> la = AlunoDatabase.selectAlunosOrderPontuacaoByProfessor(p.getId());
 					
-					return ok(views.html.instituicao.ajax.mostrarProfessor.render(qntAlunos, qntQuestoes, pontuacaoAlunos, la));
+					return ok(views.html.instituicao.ajax.mostrarProfessor.render(p, qntAlunos, qntQuestoes, pontuacaoAlunos, la));
 				}
 			}
 			flash("erro", "Teacher code is invalid");
