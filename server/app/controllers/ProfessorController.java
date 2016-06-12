@@ -114,7 +114,7 @@ public class ProfessorController extends Controller{
 					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(p.getCnpjInst());
 					
 					String senha = Seguranca.gerarSenha(6);
-					Mail.sendMail(p.getEmail(), "Alteração de Senha", views.html.professor.email.render(i, p.getNome(),p.getEmail(),senha, request().host(), 2).toString());
+					Mail.sendMail(p.getEmail(), "Change password", views.html.professor.email.render(i, p.getNome(),p.getEmail(),senha, request().host(), 2).toString());
 					p.setSenha(senha);
 					JPA.em().merge(p);
 					
@@ -142,7 +142,7 @@ public class ProfessorController extends Controller{
 					flash("erro", "Email does not exist");
 				}else if(p.getStatus() == Constantes.STATUS_ATIVO){
 					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(p.getCnpjInst());
-					Mail.sendMail(p.getEmail(), "Você esqueceu a senha?", views.html.professor.email.render(i, p.getNome(),p.getEmail(),"", request().host(), 4).toString());
+					Mail.sendMail(p.getEmail(), "Forgot your password?", views.html.professor.email.render(i, p.getNome(),p.getEmail(),"", request().host(), 4).toString());
 					session().put(Constantes.SESSION_COD_INSTTEACFOR, Seguranca.encryptString(p.getId()+""));
 					flash("erro", "Check your email confirmation");
 				}
@@ -172,7 +172,7 @@ public class ProfessorController extends Controller{
 					flash("erro", "Username doest not exist");
 					
 				}else if(p.getStatus() == Constantes.STATUS_AGUARDANDO){
-					flash("erro", "Confirm your email on the link we sent");
+					flash("erro", "Confirm your email on the link we sent to you");
 					
 				} else if(!p.getSenha().equals(senha)){
 					flash("erro", "Wrong password");
@@ -258,7 +258,7 @@ public class ProfessorController extends Controller{
 						Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(p.getCnpjInst());
 						if(pe == null){
 							p.setEmail(email);
-							Mail.sendMail(email, "Alteração de Email", views.html.professor.email.render(i, "","","", request().host(), 1).toString());
+							Mail.sendMail(email, "Change email", views.html.professor.email.render(i, "","","", request().host(), 1).toString());
 							p.setStatus(Constantes.STATUS_AGUARDANDO);
 							flash("erro", "Confirm your email modification");
 							session().clear();
@@ -306,21 +306,18 @@ public class ProfessorController extends Controller{
 			int id = dynamicForm.get("cod") == null || dynamicForm.get("cod").trim().isEmpty()? -1 : Integer.parseInt(dynamicForm.get("cod"));
 			
 			if(id != -1){
+				Professor p = getUsuarioAutenticado();
 				Aluno a = AlunoDatabase.selectAlunoById(id);				
-				if(a != null){
+				if(a != null || a.getIdProfessor() == p.getId()){
 					
-					// TODO definir modelagem da posição das questões
-					int pontosLevel1 = 0;
-					int pontosLevel2 = 0;
-					int pontosLevel3 = 0;
-					int pontosLevel4 = 0;
+					int[] pontosPorLevel = AlunoDatabase.selectSomaPontuacaoPorLevelByAluno(id);
 					
-					int qntQuestoes = QuestaoDatabase.selectTotalQuestoesByProfessorId(a.getIdProfessor());
+					int qntQuestoes = a.getProfessor().getQuestoes().size();
 					
-					return ok(views.html.aluno.mostrarAluno.render(a,pontosLevel1,pontosLevel2,pontosLevel3,pontosLevel4,qntQuestoes));
+					return ok(views.html.aluno.mostrarAluno.render(a,pontosPorLevel[0],pontosPorLevel[1],pontosPorLevel[2],pontosPorLevel[3],qntQuestoes));
 				}
 			}
-			flash("erro", "Código do professor inválido");
+			flash("erro", "Student code is invalid");
 
 		}catch(Exception e){
 			Logger.error("ERRO - ProfessorController/mostrarAluno(): "+ e.getMessage());
@@ -348,22 +345,22 @@ public class ProfessorController extends Controller{
 				if(questao == null || resposta1 == null || resposta2 == null || resposta3 == null || resposta4 == null || resposta5 == null || respostaCorreta == null || nivel < 1 || nivel > 4){
 					flash("erro", "Please fill out all the fields");
 				}else if (questao.length() > 254){
-					flash("erro", "Question text is too long, only 255 ");
-				}else if (resposta1.length() > 254 && resposta2.length() > 254 && resposta3.length() > 254 && resposta4.length() > 254 && resposta5.length() > 254){
+					flash("erro", "Question text is too long");
+				}else if (resposta1.length() > 75 && resposta2.length() > 75 && resposta3.length() > 75 && resposta4.length() > 75 && resposta5.length() > 75){
 					flash("erro", "Answer text is too long");
 				}else{
 					char resposta = respostaCorreta.charAt(0);
 					Questao novaQ = new Questao(p.getInstituicao(),p,questao,resposta1,resposta2,resposta3,resposta4,resposta5,resposta,nivel);
 						
 					JPA.em().persist(novaQ);
-					flash("ok", "Questão cadastrada");
+					flash("ok", "Question registered");
 				}
 			}else{
 				return redirect(routes.ProfessorController.login());
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - ProfessorController/cadastrarQuestao(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao cadastrar. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.ProfessorController.questoes());
 	}
@@ -408,7 +405,7 @@ public class ProfessorController extends Controller{
 				flash("erro", "Please fill out all the fields");
 			}else if (questao.length() > 254){
 				flash("erro", "Question text is too long");
-			}else if (resposta1.length() > 254 && resposta2.length() > 254 && resposta3.length() > 254 && resposta4.length() > 254 && resposta5.length() > 254){
+			}else if (resposta1.length() > 75 && resposta2.length() > 75 && resposta3.length() > 75 && resposta4.length() > 75 && resposta5.length() > 75){
 				flash("erro", "Answer text is too long");
 			}else{
 				Questao q = QuestaoDatabase.selectQuestao(cod, p.getId(), p.getCnpjInst());
@@ -422,7 +419,7 @@ public class ProfessorController extends Controller{
 					q.setRespostaCorreta(respostaCorreta.charAt(0));
 					q.setLevel(nivel);
 					JPA.em().merge(q);
-					flash("ok","questão edited");
+					flash("ok","question edited");
 					}	
 				}
 		} catch (Exception e) {
@@ -448,10 +445,10 @@ public class ProfessorController extends Controller{
 					QuestaoDatabase.deleteQuestao(q);
 					flash("ok", "question removed");
 				}else{
-					flash("erro", "Nenhuma questão cadastrada com este código");
+					flash("erro", "None question registered with this code");
 				}
 			}else{
-				flash("erro", "Informe o Id da questão");
+				flash("erro", "Inform question Id");
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - ProfessorController/removerQuestao(): "+ e.getMessage());

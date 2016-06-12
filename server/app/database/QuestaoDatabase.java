@@ -42,6 +42,7 @@ public class QuestaoDatabase {
 
 	@Transactional
 	public static List<Questao> selectQuestoesByAluno(String cnpjInst, int idProfessor, int idAluno, int level) {
+
 		if(level >= 1 && level <= 5){
 			level = 1;
 		}else if(level >= 6 && level <= 10){
@@ -51,6 +52,7 @@ public class QuestaoDatabase {
 		}else{
 			level = 4;
 		}
+
 		String query = "SELECT DISTINCT * FROM Questao q "
 				+ "WHERE q.cnpjInst = :cnpjInst "
 				+ "AND q.idProfessor = :idProfessor "

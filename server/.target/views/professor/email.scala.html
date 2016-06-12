@@ -6,16 +6,16 @@
 </head>
 <body>
 <strong>
-	<h1>Olá, @nome</h1>
+	<h1>Hello, @nome</h1>
 </strong>
 
 @*Mensagem de cadastro*@
 @if(tipo == 0){ 
-<p>A @i.getNome() cadastrou você como um professor da instituição.<br/>
-Você só precisa confirmar seu email através do link abaixo para finalizar o cadastro.</p>
+<p>@i.getNome() registered your as a teacher from it institution.<br/>
+All you have to do now is confirm your email on the link below.</p>
 
 <strong>
-	<h2>Confirme sua Conta:</h2>
+	<h2>Confirm your account:</h2>
 </strong>	
 <a href="http://@host@routes.ProfessorController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&e=@util.Seguranca.encryptString(email)" target="_blank">
 	http://@host@routes.ProfessorController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&e=@util.Seguranca.encryptString(email)
@@ -23,15 +23,15 @@ Você só precisa confirmar seu email através do link abaixo para finalizar o c
 <br/><br/>
 
 <strong>
-	<h2>Senha de Acesso:</h2>
+	<h2>Access password:</h2>
 </strong>
-<p>Este é seu código de acesso, guarde-a com segurança.<br/>
-Você poderá trocá-la nas configurações do seu painel de controle.</p>
+<p>This is your access code, keep it safely.<br/>
+You can change it on configuration page of your control panel.</p>
 
 <h3>@senha</h3>
 <br/>
 
-<p>Se você não autorizou o cadastro ignore este email e desculpe-nos pelo incômodo.<br>
+<p>If you did not authorize this registration, please ignore this email.<br>
 Smart Educ</p>
 }
 
@@ -40,10 +40,10 @@ Smart Educ</p>
 
 @*Mensagem de alteracao*@
 @if(tipo == 1){
-<p>Você precisa confirmar seu email através do link abaixo para finalizar a alteração do cadastro.</p>
+<p>You have to confirm your email on the link below.</p>
 
 <strong>
-	<h2>Confirme sua alteração:</h2>
+	<h2>Confirm your modification:</h2>
 </strong>	
 <a href="http://@host@routes.ProfessorController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&e=@util.Seguranca.encryptString(email)" target="_blank">
 	http://@host@routes.ProfessorController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&e=@util.Seguranca.encryptString(email)
@@ -58,13 +58,13 @@ Smart Educ</p>
 
 @*Mensagem de alteracao*@
 @if(tipo == 2){
-<p>Foi gerada uma nova senha para você.</p>
+<p>New password generated for you.</p>
 
 <strong>
-	<h2>Senha de Acesso:</h2>
+	<h2>Access password:</h2>
 </strong>
-<p>Este é seu novo código de acesso, guarde-a com segurança.<br/>
-Você poderá trocá-la nas configurações do seu painel de controle.</p>
+<p>This is your new access code, keep it safely.<br/>
+You can change it on the configuration page of your control panel.</p>
 
 <h3>@senha</h3>
 <br/><br/>
@@ -77,9 +77,9 @@ Você poderá trocá-la nas configurações do seu painel de controle.</p>
 
 @*Mensagem de alteracao*@
 @if(tipo == 3){
-<p>A @i.getNome() alterou seu email e você precisa confirmá-lo através do link abaixo para finalizar a alteração do cadastro.</p>
+<p>@i.getNome() has changed your email and you have to confirm it on the link below.</p>
 <strong>
-	<h2>Confirme sua alteração:</h2>
+	<h2>Confirm your modification:</h2>
 </strong>	
 <a href="http://@host@routes.ProfessorController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&e=@util.Seguranca.encryptString(email)" target="_blank">
 	http://@host@routes.ProfessorController.ativar()?i=@util.Seguranca.encryptString(i.getCnpj())&e=@util.Seguranca.encryptString(email)
@@ -87,10 +87,10 @@ Você poderá trocá-la nas configurações do seu painel de controle.</p>
 <br/><br/>
 
 <strong>
-	<h2>Senha de Acesso:</h2>
+	<h2>Access password:</h2>
 </strong>
-<p>Este é seu novo código de acesso, guarde-a com segurança.<br/>
-Você poderá trocá-la nas configurações do seu painel de controle.</p>
+<p>This is your new access code, keep it safely.<br/>
+You can change it on the configuration page of your control panel.</p>
 
 <h3>@senha</h3>
 <br/><br/>
@@ -103,9 +103,9 @@ Você poderá trocá-la nas configurações do seu painel de controle.</p>
 
 @*Mensagem de Lembrete Senha*@
 @if(tipo == 4){
-<p>Nós precisamos gerar uma nova senha para você, então clique no link abaixo.</p>
+<p>We need to generate a new password for you, click on the link below.</p>
 <strong>
-	<h2>Link para gerar sua nova senha:</h2>
+	<h2>Link to generate your new password:</h2>
 </strong>	
 <a href="http://@host@routes.ProfessorController.esqueceuSenha()?i=@util.Seguranca.encryptString(i.getCnpj())&e=@util.Seguranca.encryptString(email)" target="_blank">
 	http://@host@routes.ProfessorController.esqueceuSenha()?i=@util.Seguranca.encryptString(i.getCnpj())&e=@util.Seguranca.encryptString(email)

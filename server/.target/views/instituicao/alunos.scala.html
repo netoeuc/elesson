@@ -256,7 +256,8 @@
 
                           <div class="row">
                             <div class="input-field col s12 offset-m1 m10">
-                             <button type="submit"class="waves-effect waves-light btn bg-azul">submit</button>
+                             <button id="botao" class="waves-effect waves-light btn bg-azul">submit</button>
+                  			 <button id="botao2" disabled class="waves-effect waves-light btn bg-cinza" style="display:none;">submitting...</button>
                             </div>
                           </div>
 
@@ -270,7 +271,16 @@
             <div class="modal-footer">
               <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">close</a>
             </div>
-          </div> 
+          </div>
+
+          <script type="text/javascript">
+
+    		$("#botao").on("click",function(){
+    			$("#botao").css("display","none");
+    			$("#botao2").css("display","block");
+   			});
+
+    	   </script> 
 }
 
 @main("Business, e-Lessons")(content)

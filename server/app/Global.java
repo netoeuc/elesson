@@ -7,12 +7,12 @@ public class Global extends GlobalSettings {
 
 	@Override
 	public Result onHandlerNotFound(RequestHeader request) {
-		return Results.notFound(views.html.error404.render("Página não encontrada", request.uri()));
+		return Results.notFound(views.html.error404.render("Page not found", request.uri()));
 	}
 	
 	@Override
 	public Result onError(RequestHeader request, Throwable throwable) {
 		throwable.printStackTrace();
-		return Results.notFound(views.html.error404.render("Desculpe, ocorreu um erro inesperado", request.uri()));
+		return Results.notFound(views.html.error404.render("Sorry, something wrong happened", request.uri()));
 	}
 }

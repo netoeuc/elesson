@@ -31,8 +31,7 @@
         "src/mapaGlobal.js",
         "src/pausePOST.js",
         "src/fimVerdePOST.js",
-        "src/fimVermelhoPOST.js",
-        
+        "src/fimVermelhoPOST.js"
         
         
     ]

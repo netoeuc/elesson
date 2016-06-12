@@ -51,8 +51,8 @@
                                 <td><a id="showDetails" onclick="mostrarInstituicao('@i.getNome()', '@i.getCnpj()', '@routes.SmartEducController.mostrarCliente()')" class="modal-trigger waves-effect waves-light">@i.getNome()</a></td>
                                 <td>@i.getLicenca().toString()</td>
                                 <td>
-                                	@if(i.getStatus() == util.Constantes.STATUS_AGUARDANDO){Aguardando}
-                                	@if(i.getStatus() == util.Constantes.STATUS_ATIVO){Ativo}
+                                	@if(i.getStatus() == util.Constantes.STATUS_AGUARDANDO){Waiting}
+                                	@if(i.getStatus() == util.Constantes.STATUS_ATIVO){Active}
                                 </td>
                                 <td>
                                   <i onclick="mostrarEditarInstituicao('@i.getNome()', '@i.getCnpj()', '@routes.SmartEducController.formEditarCliente()');" class="tiny-small fa fa-pencil color-amarelo cursor-pointer" style="margin-right: 7px;"></i>

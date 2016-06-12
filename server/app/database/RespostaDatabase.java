@@ -38,5 +38,18 @@ public class RespostaDatabase {
 			.setParameter("idProfessor", idProfessor)
 			.executeUpdate();
 	}
+
+	public static Resposta selectRespostaByQuestaoAndAluno(int idQuestao, int idAluno) {
+		String query = "FROM Resposta WHERE idQuestao = :idQuestao AND idAluno = :idAluno";
+		List<Resposta> lr = JPA.em().createQuery(query)
+								.setParameter("idQuestao", idQuestao)
+								.setParameter("idAluno", idAluno)
+								.getResultList();
+		
+		if(lr == null || lr.isEmpty()){
+			return null;
+		}
+		return lr.get(0);
+	}
 		
 }

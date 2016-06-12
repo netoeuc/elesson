@@ -2,8 +2,13 @@ package controllers;
 
 import static play.data.Form.form;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 
 import models.Aluno;
 import models.AlunoRanking;
@@ -18,6 +23,7 @@ import play.Logger;
 import play.data.DynamicForm;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.libs.F.Function0;
 import play.mvc.Controller;
 import play.mvc.Result;
 import util.AdminJson;
@@ -27,6 +33,7 @@ import util.Seguranca;
 import database.AlunoDatabase;
 import database.InstituicaoDatabase;
 import database.QuestaoDatabase;
+import database.RespostaDatabase;
 
 public class AlunoController extends Controller {
 
@@ -48,13 +55,13 @@ public class AlunoController extends Controller {
 					JPA.em().merge(a);
 					
 					nome = "Hello, "+a.getNome();
-					mensagem = "Sua conta foi ativada. Você já pode começar a jogar!";
+					mensagem = "Your account is activated. You can now play, have fun!";
 					return ok(views.html.aluno.index.render(nome, mensagem));
 				}
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - AlunoController/ativar(): "+ e.getMessage());
-			mensagem = "Ocorreu um erro ao ativar a conta. Tente novamente mais tarde";
+			mensagem = "Something wrong happened. Try again later";
 			nome = "Ops";
 			return ok(views.html.aluno.index.render(nome, mensagem));
 		}
@@ -78,7 +85,7 @@ public class AlunoController extends Controller {
 					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(a.getCnpjInst());
 
 					String senha = Seguranca.gerarSenha(6);
-					Mail.sendMail(a.getEmail(), "Alteração de Senha", views.html.aluno.email.render(i, a.getIdProfessor()+"", a.getNome(), a.getEmail(), senha, request().host(), 2).toString());
+					Mail.sendMail(a.getEmail(), "Change password", views.html.aluno.email.render(i, a.getIdProfessor()+"", a.getNome(), a.getEmail(), senha, request().host(), 2).toString());
 					a.setSenha(senha);
 					a.setLogado(false);
 					JPA.em().merge(a);
@@ -100,22 +107,22 @@ public class AlunoController extends Controller {
 			String email = dynamicForm.get("email") == null || dynamicForm.get("email").trim().isEmpty()? null : dynamicForm.get("email").toLowerCase();
 
 			if(email == null){
-				flash("erro", "Informe seu email");
+				flash("erro", "Enter your email");
 			}else{
 				Aluno a = AlunoDatabase.selectAlunoByEmail(email);
 				if(a == null){
-					flash("erro", "Email não cadastrado");
+					flash("erro", "Email does not exist");
 				}else{
 					Instituicao i = InstituicaoDatabase.selectInstituicaoByCnpj(a.getEmail());
 
-					Mail.sendMail(a.getEmail(), "Você esqueceu a senha?", views.html.aluno.email.render(i, a.getIdProfessor()+"", a.getNome(), a.getEmail(), "", request().host(), 4).toString());
+					Mail.sendMail(a.getEmail(), "Forgot your password?", views.html.aluno.email.render(i, a.getIdProfessor()+"", a.getNome(), a.getEmail(), "", request().host(), 4).toString());
 					session().put(Constantes.SESSION_COD_INSTTEACFOR, Seguranca.encryptString(i.getCnpj()));
-					flash("erro", "Confirme o lembrete no seu email");
+					flash("erro", "Confirm your email on the link we sent to you");
 				}
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - AlunoController/lembrarSenha(): "+ e.getMessage());
-			flash("erro", "Ocorreu um erro ao enviar. Tente novamente mais tarde");
+			flash("erro", "Something wrong happened. Try again later");
 		}
 		return redirect(routes.AlunoController.esqueceuSenha());
 	}
@@ -140,11 +147,12 @@ public class AlunoController extends Controller {
 				Aluno a = AlunoDatabase.selectAlunoByEmail(email);
 		
 				if (a != null && a.getStatus() != Constantes.STATUS_REMOVIDO) {
-					if(!isNovaSessao && a.isLogado() && !a.getSessao().equals(sessao)){
-						return ok(AdminJson.getMensagem("Você já está logado em outro dispositivo. Deseja iniciar uma nova sessão para este dispositivo?"));
-					}
+
 					if(a.getStatus() == Constantes.STATUS_ATIVO){
 						if (a.getSenha().equals(senha)) {
+							if(!isNovaSessao && a.isLogado() && !a.getSessao().equals(sessao)){
+								return ok(AdminJson.getMensagem("You are already logged in another device. Do you want to start a new session?"));
+							}
 //							HashMap<String, Object> map = new HashMap<String, Object>();
 //							map.put("aluno", a);
 //							if(a.getUsername() == null){
@@ -156,15 +164,15 @@ public class AlunoController extends Controller {
 							a.setSessao(sessao);
 							JPA.em().merge(a);
 							
-							return ok(AdminJson.getObject(a, "aluno"));
+							return ok(AdminJson.getObject(a, "student"));
 						}else{
-							return ok(AdminJson.getMensagem("senha inválida"));
+							return ok(AdminJson.getMensagem("wrong password"));
 						}
 					}else{
-						return ok(AdminJson.getMensagem("confirme sua conta no email que te enviamos"));
+						return ok(AdminJson.getMensagem("confirme your email on the link we sent to you"));
 					}
 				}else{
-					return ok(AdminJson.getMensagem("usuário não cadastrado"));
+					return ok(AdminJson.getMensagem("username does not exist"));
 				}
 			}else{
 				return badRequest(AdminJson.getMensagem(AdminJson.msgConsulteAPI));
@@ -278,7 +286,7 @@ public class AlunoController extends Controller {
 		response().setContentType("application/json; charset=utf-8");
 		response().setHeader("Access-Control-Allow-Origin","*");
 		response().setHeader("Access-Control-Allow-Methods", "GET, POST");
-		
+
 		try{
 			DynamicForm dynamicForm = form().bindFromRequest(); //receber campos da requisicao
 			String json = dynamicForm.get("jra") == null || dynamicForm.get("jra").trim().isEmpty()? null : dynamicForm.get("jra");
@@ -290,43 +298,56 @@ public class AlunoController extends Controller {
 			    JSONObject jsonObject = new JSONObject( json );
 			    JSONObject jResultado = jsonObject.getJSONObject("resultado");
 				Aluno a = AlunoDatabase.selectAlunoById(jResultado.getInt("idAluno"));
+				int level = jResultado.getInt("level");
+				
 				int pontuacaoTotal = 0;
 				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado() && a.getSessao().equals(sessao)) {
 									
 				    JSONArray jListaRespostas = jResultado.getJSONArray("respostas");
 				    
+				    List<Questao> lq = new ArrayList<Questao>();
 				    Questao q = null;
 				    Resposta r = null;
 				    JSONObject jResposta = null;
-				    
+					
 				    try{
-				    	JPA.em().getTransaction().begin();
-					    for (int i = 0; i < jListaRespostas.length(); i++) {
-					    	
-					    	jResposta = jListaRespostas.getJSONObject(i);    	
-							q = QuestaoDatabase.selectQuestaoById(jResposta.getInt("idQuestao"));
-							
-							if(q == null){
-								throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao nao cadastrada. idQuestao: "+jResposta.getInt("idQuestao"));
+				    	//JPA.em().getTransaction().begin();
+				    	if(jListaRespostas.length() == 5){
+						    for (int i = 0; i < jListaRespostas.length(); i++) {
+						    	
+						    	jResposta = jListaRespostas.getJSONObject(i);   
+						    	
+								q = QuestaoDatabase.selectQuestaoById(jResposta.getInt("idQuestao"));
+								if(q == null){
+									throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao nao cadastrada. idQuestao: "+jResposta.getInt("idQuestao"));
+								}
+								
+								r = RespostaDatabase.selectRespostaByQuestaoAndAluno(jResposta.getInt("idQuestao"),a.getId());
+								if(r != null){
+									throw new Exception("ERRO - AlunoController/responderQuestaoCincoPorVez(): Questao ja respondida. idQuestao: "+jResposta.getInt("idQuestao")+" / idAluno: "+a.getId());
+								}
+								lq.add(q);
 							}
-							
-					    	r = new Resposta(a.getProfessor(), q, a, jResposta.getInt("pontuacao"));
-					    	pontuacaoTotal += jResposta.getInt("pontuacao");
-					    	
-					    	JPA.em().persist(r);
-						}
-					    a.setPontuacao(a.getPontuacao() + pontuacaoTotal);
-					    a.setLevel((a.getLevel()+1));
-					  
-					    JPA.em().merge(a);	
-					    JPA.em().getTransaction().commit();
-					    
-					    List<Questao> lq = QuestaoDatabase.selectQuestoesByAluno(a.getCnpjInst(), a.getIdProfessor(), a.getId(), a.getLevel());
-						return ok(AdminJson.getObject(lq, "listaQuestoes"));
-				    
+						    
+						    for (int i = 0; i < jListaRespostas.length(); i++) {
+						    	jResposta = jListaRespostas.getJSONObject(i);
+						    	r = new Resposta(a.getProfessor(), lq.get(i), a, jResposta.getInt("pontuacao"), level);
+						    	pontuacaoTotal += jResposta.getInt("pontuacao");
+						    	JPA.em().persist(r);
+							}
+						    
+						    a.setPontuacao(a.getPontuacao() + pontuacaoTotal);
+						    a.setLevel((a.getLevel()+1));
+						  
+						    JPA.em().merge(a);	
+						    //JPA.em().getTransaction().commit();
+						    
+						    lq = QuestaoDatabase.selectQuestoesByAluno(a.getCnpjInst(), a.getIdProfessor(), a.getId(), a.getLevel());
+							return ok(AdminJson.getObject(lq, "listaQuestoes"));
+				    	}
 				    }catch(Exception e){
 				    	Logger.error(e.getMessage());
-				    	JPA.em().getTransaction().rollback();
+				    	//JPA.em().getTransaction().rollback();
 				    }
 				    return ok(Questao.isRespondida(false));
 				}else{
@@ -337,10 +358,12 @@ public class AlunoController extends Controller {
 			}
 		}catch(Exception e){
 			Logger.error("ERRO - AlunoController/responderQuestao(): "+ e.getMessage());
+		} catch (Throwable e1) {
+			Logger.error("ERRO - AlunoController/responderQuestao(): "+ e1.getMessage());
 		}
 		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
 	}
-	
+
 	@Transactional
 	public static Result rankingByProfessor(){
 		response().setContentType("application/json; charset=utf-8");
@@ -398,6 +421,5 @@ public class AlunoController extends Controller {
 			Logger.error("ERRO - AlunoController/rankingByInstituicao(): "+ e.getMessage());
 		}
 		return badRequest(AdminJson.getMensagem(AdminJson.msgErroRequest));
-	}
-	
+	}	
 }

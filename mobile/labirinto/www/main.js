@@ -77,7 +77,6 @@ cc.game.onStart = function(){
         // see www/src/app.js for definition
 //        cc.director.runScene(new HelloWorldScene());
         cc.director.runScene(new GlobalMapScene());
-//        cc.director.runScene(new DesafioPlataformaScene());
 //                cc.director.runScene(new HistoriaPlataformaScene());
         
         
