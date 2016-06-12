@@ -16,10 +16,11 @@ public class Application extends Controller {
         return new Date().getTime();
     }
 	
-	public static Result load() {
-		int template = 1;
-        return ok(views.html.loading.render(template));
-    }
+//	public static Result load() {
+//		//int template = 1;
+//        //return ok(views.html.loading.render(template));
+//        return ok(views.html.historia.main.render());
+//    }
 	  
     public static Result index() {
         return ok(views.html.index.render());

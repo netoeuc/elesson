@@ -92,7 +92,7 @@ POST    /api/student/ranking/business		controllers.AlunoController.rankingByInst
 POST    /api/student/ranking/teacher		controllers.AlunoController.rankingByProfessor()
 
 
-GET		/load								controllers.Application.load()
+#GET		/load								controllers.Application.load()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

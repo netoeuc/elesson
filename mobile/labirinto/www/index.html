@@ -37,7 +37,7 @@
  
 </head>
  
-<body class="bg-aula" onload="onload();">
+<body class="bg-azul" onload="onload();">
  
  
             <div class="container">            
@@ -210,10 +210,12 @@
                     userInfo.setItem("status", response.aluno.level);
                     userInfo.setItem("sessao", sessao);
                     status = userInfo.getItem("status");
-					ehPrimeiroAcesso = response.primeiroAcesso;
-
-                    document.getElementById('sidenav-overlay').style.display = "none";
-                    window.location.assign("index2.html");
+					document.getElementById('sidenav-overlay').style.display = "none";
+					if(response.primeiroAcesso){
+						window.location.assign("story.html");
+					}else{
+						window.location.assign("index2.html");
+					} 
                 }            
             }).fail(function() {
                 alert("Ocorreu um erro na autenticação. Tente novamente.");
