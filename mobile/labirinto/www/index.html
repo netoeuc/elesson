@@ -37,7 +37,7 @@
  
 </head>
  
-<body class="bg-aula" onload="onload();">
+<body class="bg-azul" onload="onload();">
  
  
             <div class="container">            
@@ -70,7 +70,7 @@
                                    
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <button id="btnGo" type="button" onclick="go();" class="btn btn-medium bg-vermelho">go</button>                                      
+                                    <button id="btnGo" type="button" onclick="go();" class="btn btn-medium bg-vermelho">go</button>
                                 </div>
                             </div>
        
@@ -134,7 +134,6 @@
        
         // verifica se existe algum usuario no banco assim que abra o app
         $(document).ready(function(){
-//        $(document).load(function(){
             setTimeout(function(){ // executa bloco em paralalelo
                 $.support.cors = true;
                 document.getElementById('sidenav-overlay').style.display = "block";
@@ -195,26 +194,28 @@
                 data: "email="+email+"&senha="+senha+"&sessao="+sessao+"&isNSessao="+isNovaSessao,
               timeout: 20000,
  
-          }).done(function(response) {    
-             
+          }).done(function(response) {                
               if(response.hasOwnProperty('mensagem')){
-                  if(response.mensagem == "You are already logged in another device. Do you want to start a new session?"){
-                      if(confirm(response.mensagem)){
+                  if(response.mensagem.codigo == 5){
+                      if(confirm(response.mensagem.texto)){
                        
                           // fara uma nova requisicao
                           requestApiAuth(email, senha, sessao, true);
                         }
                     }else{
-                        alert(response.mensagem);
+                        alert(response.mensagem.texto);
                     }
-                }else if(response.hasOwnProperty('student') && response.student.logado){
-                  userInfo.setItem("idAluno", response.student.id);
-                    userInfo.setItem("status", response.student.level);
+                }else if(response.hasOwnProperty('aluno') && response.aluno.logado){
+                  userInfo.setItem("idAluno", response.aluno.id);
+                    userInfo.setItem("status", response.aluno.level);
                     userInfo.setItem("sessao", sessao);
                     status = userInfo.getItem("status");
- 
                     document.getElementById('sidenav-overlay').style.display = "none";
-                    window.location.assign("index2.html");
+                    if(response.primeiroAcesso){
+                        window.location.assign("story.html");
+                    }else{
+                        window.location.assign("index2.html");
+                    }
                 }            
             }).fail(function() {
                 alert("Ocorreu um erro na autenticação. Tente novamente.");
@@ -233,20 +234,19 @@
               timeout: 20000,
  
           }).done(function(response) {    
-             
               if(response.hasOwnProperty('mensagem')){
-                  if(response.mensagem == "You are already logged in another device. Do you want to start a new session?"){
-                      if(confirm(response.mensagem)){
+                  if(response.mensagem.codigo == 5){
+                      if(confirm(response.mensagem.texto)){
                           // fara uma nova requisicao
                           requestApiAuth(email, senha, sessao, true);
                         }
                     }else{
-                        alert(response.mensagem);
+                        alert(response.mensagem.texto);
                     }
                    
                 }else if(response.hasOwnProperty('isLogado') && response.isLogado){
-                  status = userInfo.getItem("status");
- 
+                   status = userInfo.getItem("status");
+                   
                     document.getElementById('sidenav-overlay').style.display = "none";
                     window.location.assign("index2.html");
                 }
