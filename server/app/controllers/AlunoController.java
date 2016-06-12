@@ -171,7 +171,7 @@ public class AlunoController extends Controller {
 							a.setSessao(sessao);
 							JPA.em().merge(a);
 							
-							return ok(AdminJson.getObject(a, "aluno"));
+							return ok(AdminJson.getObject(mp, "auth"));
 						}else{
 							mp.put("texto", "Wrong password");
 							mp.put("codigo", 4);
