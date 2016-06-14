@@ -17,8 +17,10 @@ import models.Instituicao;
 import models.Questao;
 import models.Resposta;
 
+import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
+import org.h2.constant.SysProperties;
 
 import play.Logger;
 import play.data.DynamicForm;
@@ -312,7 +314,7 @@ public class AlunoController extends Controller {
 			    JSONObject jResultado = jsonObject.getJSONObject("resultado");
 				Aluno a = AlunoDatabase.selectAlunoById(jResultado.getInt("idAluno"));
 				int level = jResultado.getInt("level");
-				
+								
 				int pontuacaoTotal = 0;
 				if (a != null && a.getStatus() == Constantes.STATUS_ATIVO && a.isLogado() && a.getSessao().equals(sessao)) {
 									
@@ -328,7 +330,7 @@ public class AlunoController extends Controller {
 				    	if(jListaRespostas.length() == 5){
 						    for (int i = 0; i < jListaRespostas.length(); i++) {
 						    	
-						    	jResposta = jListaRespostas.getJSONObject(i);   
+						    jResposta = jListaRespostas.getJSONObject(i);   
 						    	
 								q = QuestaoDatabase.selectQuestaoById(jResposta.getInt("idQuestao"));
 								if(q == null){
