@@ -32,7 +32,7 @@
                                 <td>
                                   <a id="showDetails" onclick="mostrarAluno('@a.getNome()','@a.getId()','@routes.ProfessorController.mostrarAluno()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a>
                                 </td>
-                                <td>@a.getLevel</td>
+                                <td>@if(a.getLevel() < 21){@a.getLevel()}else{20}</td>
                                 <td>@a.getPontuacao</td>
                               </tr>
                               }

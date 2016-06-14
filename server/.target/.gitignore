@@ -1,10 +1,10 @@
 /views/
+/Global.class
 /controllers/
 /database/
 /interceptors/
 /models/
 /util/
 /ApplicationTest.class
-/Global.class
 /IntegrationTest$1.class
 /IntegrationTest.class
