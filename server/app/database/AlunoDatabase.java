@@ -283,7 +283,7 @@ public class AlunoDatabase {
 								.getResultList();
 		
 		for (int i=0; i<lo.size(); i++) {	
-			pontuacaoPorLevel[i] = Integer.parseInt(lo.get(0)+"");
+			pontuacaoPorLevel[i] = Integer.parseInt(lo.get(i)+"");
 		}
 		return pontuacaoPorLevel;
 	}

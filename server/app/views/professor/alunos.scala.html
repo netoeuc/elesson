@@ -32,7 +32,13 @@
                                 <td>
                                   <a id="showDetails" onclick="mostrarAluno('@a.getNome()','@a.getId()','@routes.ProfessorController.mostrarAluno()')" class="modal-trigger waves-effect waves-light">@a.getNome()</a>
                                 </td>
-                                <td>@a.getLevel</td>
+                                <td>
+									@if(a.getLevel() >= 1 && a.getLevel() <= 5){1}
+									@if(a.getLevel() >= 6 && a.getLevel() <= 10){2}
+									@if(a.getLevel() >= 11 && a.getLevel() <= 15){3}
+									@if(a.getLevel() >= 16 && a.getLevel() <= 20){4}
+									@if(a.getLevel() > 20){4}
+								</td>
                                 <td>@a.getPontuacao</td>
                               </tr>
                               }

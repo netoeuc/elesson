@@ -43,6 +43,7 @@
             	@if(a.getLevel() >= 6 && a.getLevel() <= 10){{ y: 'Level 1', level: @pontosLevel1},{ y: 'Level 2', level: @pontosLevel2}}
             	@if(a.getLevel() >= 11 && a.getLevel() <= 15){{ y: 'Level 1', level: @pontosLevel1},{ y: 'Level 2', level: @pontosLevel2},{ y: 'Level 3', level: @pontosLevel3}}
             	@if(a.getLevel() >= 16 && a.getLevel() <= 20){{ y: 'Level 1', level: @pontosLevel1},{ y: 'Level 2', level: @pontosLevel2},{ y: 'Level 3', level: @pontosLevel3},{ y: 'Level 4', level: @pontosLevel4}}
+            	@if(a.getLevel() > 20){{ y: 'Level 1', level: @pontosLevel1},{ y: 'Level 2', level: @pontosLevel2},{ y: 'Level 3', level: @pontosLevel3},{ y: 'Level 4', level: @pontosLevel4}}
           ],
           xkey: 'y',
           ykeys: ['level'],
