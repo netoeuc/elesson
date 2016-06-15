@@ -86,7 +86,13 @@
 		                      <tr>
 		                      	<td>@(index+1)</td>
 		                      	<td>@listaAluno.get(index).getNome()</td>
-		                      	<td>@listaAluno.get(index).getLevel()</td>
+		                      	<td>
+									@if(listaAluno.get(index).getLevel() >= 1 && listaAluno.get(index).getLevel() <= 5){1}
+									@if(listaAluno.get(index).getLevel() >= 6 && listaAluno.get(index).getLevel() <= 10){2}
+									@if(listaAluno.get(index).getLevel() >= 11 && listaAluno.get(index).getLevel() <= 15){3}
+									@if(listaAluno.get(index).getLevel() >= 16 && listaAluno.get(index).getLevel() <= 20){4}
+									@if(listaAluno.get(index).getLevel() > 20){4}
+								</td>
 		                      	<td>@listaAluno.get(index).getPontuacao()</td>
 		                      </tr>
 	                        }
